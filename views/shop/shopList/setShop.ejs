@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+        	margin-top: 8px;
+        }
+    	.top_bar{
+        	position: fixed;
+        	top: 0;
+        	left: 0;
+        	width: 100%;
+        	height: 94px;
+        	background: #ffffff;
+        	border-top: 1px solid #f7f6f9;
+        	display: flex;
+        	flex-wrap: nowrap;
+        	justify-content: center;
+        	z-index: 10;
+        }
+        .bar_w{
+        	position: relative;
+        	float: left;
+        	width: 35%;
+        	height: 94px;
+        	line-height: 94px;
+        	text-align: center;
+			font-size: 30px;
+			color: #797A7A;
+        }
+		.bar_w.active {
+			color: #2C2C2C;
+		}
+        .bar_w.active::before{
+			content: "";
+        	position: absolute;
+        	bottom: 0px;
+        	left: 46%;
+        	width: 33px;
+        	height: 4px;
+        	background: #3086DE;
+        }
+        .commodity{
+        	margin-top: 96px;
+        	height:calc(100vh - 100px);
+        }
+        .shop_left{
+        	position: fixed;
+        	top: 96px;
+        	left: 0px;
+        	width: 162px;
+        	background: #F5F7F9;
+        	height: 100%;
+        }
+        .shop_class{
+        	height: 120px;
+        	line-height: 30px;
+        	display: flex;
+        	align-items: center;
+        	justify-content: center;
+        	text-align: center;
+        	font-size: 24px;
+        	color: #797A7A;
+        }
+        .add{
+        	color: #3086DE;
+        }
+        .f_write{
+        	background: #FFFFFF;
+        	color: #2C2C2C;
+        }
+        .f_gray{
+        	color: #797A7A;	
+        }
+        .shop_icon{
+        	margin-right: 7px;
+        	width: 46px;
+        }
+        .shop_con{
+        	float: right;
+        	width: calc(100% - 162px);
+        	background: #FFFFFF;
+        	min-height: 100%;
+        }
+        .shop_con_top{
+        	position: fixed;
+        	top: 95px;
+        	right: 0px;
+        	width: calc(100% - 162px);
+        	background: #FFFFFF;
+        	display: flex;
+        	flex-wrap: nowrap;
+        	z-index: 10;
+        }
+        .shop_meu{
+        	width: 50%;
+        	color: #3086DE;
+        }
+        .shop_list{
+        	margin-top: 120px;
+        	padding: 28px 28px;
+        	display: flex;
+        	flex-wrap: wrap;
+        	justify-content: space-between;
+        }
+        .shop_box{
+        	width: 252px;
+        	margin-bottom: 38px;
+        }
+        .shop_box_img{
+        	position: relative;
+        	width: 252px;
+			height: 252px;
+			border: 1px solid #f2f2f2;
+        }
+        .shop_box_img img{
+			width: 252px;
+			height: 252px;
+			border-radius: 3px;
+        }
+        .shop_box_img label{
+        	position: absolute;
+        	bottom: 0px;
+        	left: 0px;
+        	padding: 0px 5px;
+        	max-width: 242px;
+        	height: 30px;
+        	line-height: 30px;
+        	text-align: center;
+        	background: #31C649;
+        	font-size: 19px;
+        	color: #FFFFFF;
+        	overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+			border-radius: 2px;
+        }
+        .shop_tit{
+        	margin-top: 12px;
+        	width: 252px;
+        	height: 66px;
+        	line-height: 33px;
+        	font-size: 25px;
+        	color: #2C2C2C;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .shop_ope{
+        	margin-top: 10px;
+        	line-height: 46px;
+        }
+        .shop_ope img{
+        	float: right;
+        	width: 46px;
+        }
+        .shop_price{
+        	float: left;
+        	color: #ff6612;
+        }
+        .shop_price label{
+        	font-size: 26px;
+        }
+        .shop_price span{
+        	font-size: 38px;
+        	font-weight: bold;
+        }
+        .shop_null{
+        	margin-top: 80%;
+        	text-align: center;
+        	font-size: 25px;
+        	color: #C8CACD;
+        }
+        /*店铺设置*/
+       .commodity2{
+        	margin-top: 105px;
+        	height:calc(100vh - 100px);
+			overflow-y: auto;
+        }
+       .comm_box{
+			background: #ffffff;
+			display: block;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+			justify-content: space-between;
+			align-items: center;
+        }
+        .comm_pic{
+        	width: 36px;
+        	height: 36px;
+        }
+        .comm_inf_box{
+        	width: 83%;
+        	margin-left: 12px;	
+        }
+        .comm_tit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	height: 72px;
+        	line-height: 36px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .comm_num{
+        	margin-top: 20px;	
+        	font-size: 26px;
+        	color: #6A6C72;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	width: 46px;
+        	height: 46px;
+        }
+        .comm_regu2{
+        	margin-left: 26px;
+        	width: 46px;
+        	height: 46px;
+		}
+		.comm_regu3{
+        	margin-left: 26px;
+        	width: 49px;
+        	height: 49px;
+        }
+        .shop_pic{
+        	width: 36px;
+        	height: 36px;
+        }
+        .shoppic_inf_box{
+        	width: 94%;
+        	margin-left: 12px;	
+        }
+        .comm_ustit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	height: 36px;
+        	line-height: 36px;	
+        	overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+        }
+        .shop_pic_box{
+        	position: relative;
+        	float: left;
+        	width: 141px;
+        	height: 108px;
+        	margin-right: 21px;
+        	margin-top: 22px;
+        }
+        .shop_pic_img{
+        	width: 141px;
+			height: 108px;
+			border-radius: 3px;
+        }
+        .pic_close{
+			position: absolute;
+			top: -15px;
+			right: -13px;
+			width: 40px;
+		}
+		.shop_pic_box input {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+            width: 141px;
+            height: 108px;
+            z-index: 10;
+            opacity: 0;
+        }
+        .t2{
+        	
+        }
+        .no_gray{
+        	 color: #C8CACD;
+        }
+        .stat_inf_box{
+        	width: 77%;
+        	margin-left: 12px;	
+        }
+        .status{
+        	float: right;
+        	color: #6AC46E;
+        }
+        .stat_orage{
+        	color: #F8AC34;
+		}
+		.checkbox {
+			position: relative;
+			width:90px;
+            height: 54px;
+            line-height: 54px;
+            margin-left: 26px;
+		}
+		.checkbox .mark {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+        /*开关*/
+       .checke{
+            position: relative;
+            -webkit-appearance: none;
+            width:90px;
+            height: 54px;
+            line-height: 54px;
+            background: #eee;
+            border-radius: 30px;
+            outline: none;
+        }
+        .checke:before{
+            position: absolute;
+            top: 5px;
+            left: 4px;
+            content: '';
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 5px #ddd;
+            transition: all 0.2s linear;
+        }
+ 
+        .checke:checked{
+           background: #3086DE;
+        }
+        .checke:checked:before{
+            left: 40px;
+            transition: all 0.2s linear;
+        }
+        /*选择弹框*/
+       .weui-mask {
+		    position: fixed;
+		    z-index: 1000;
+		    top: 0;
+		    right: 0;
+		    left: 0;
+		    bottom: 0;
+		    background: rgba(0,0,0,0.6);
+		}
+		.weui-actionsheet {
+		    position: fixed;
+		    left: 0;
+		    bottom: 0;
+		    z-index: 5000;
+		    width: 100%;
+		    background-color: #f7f7f7;
+		    -webkit-transition: -webkit-transform 0.3s;
+		    transition: -webkit-transform 0.3s;
+		    transition: transform 0.3s;
+		    transition: transform 0.3s,-webkit-transform 0.3s;
+		    overflow: hidden;
+		}
+		.weui-actionsheet__menu {
+		    color: rgba(0,0,0,0.9);
+		    background-color: #fff;
+		}
+		.weui-actionsheet__cell {
+		    position: relative;
+		    padding:0 16px;
+		    text-align: center;
+		    font-size: 36px;
+		    color: #2C2C2C;
+		    line-height: 114px;
+		}
+		.weui-actionsheet__cell.bor {
+			border-bottom: 1px solid #f2f2f2;
+		}
+		.weui-actionsheet__action {
+		    margin-top: 8px;
+		    background-color: #fff;
+		    padding-bottom: constant(safe-area-inset-bottom);
+		    padding-bottom: env(safe-area-inset-bottom);
+		}
+		/*修改排序*/
+		.weui-dialog2 {
+			width: 680px;
+			left: 35px;
+		    right: 35px;    
+		}
+		.weui-dialog__con{
+			position: relative;
+			padding: 36px;
+		}
+		.weui_close{
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			width: 30px;
+		}
+		.top_tit{
+			text-align: left;
+			font-size: 32px;
+			color: #2C2C2C;
+		}
+		.top_hint{
+			padding-top: 20px;
+			text-align: left;
+			font-size: 22px;
+			color: #B0B1B6;
+		}
+		.weui_con{
+			display: flex;
+			flex-wrap:wrap;
+			margin-top: 30px;
+		}
+		.weui_set_input{
+        	width: 240px;
+        	height: 64px;
+        	line-height: 64px;
+        	font-size: 24px;
+        	text-align: center;
+        	background: #ECEDED;
+        	border: none;
+        	margin: 20px 28px 0px 28px;
+        }
+        .weui_edit{
+        	margin-bottom: 46px;
+        	width: 100%;
+        	text-align: center;
+        }
+        .weui-dialog__btn2{
+        	color: #3086DE;
+		}
+		weui-dialog__btn2 {
+			display: block;
+			-webkit-box-flex: 1;
+			-webkit-flex: 1;
+			flex: 1;
+			line-height: 69px;
+			font-size: 30px;
+			text-align: center;
+			color: #3086DE;
+			font-weight: 700;
+			text-decoration: none;
+			-webkit-box-direction: normal;
+			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			position: relative;
+		}
+		
+		.weui-dialog__btn2:after {
+			content: " ";
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 1px;
+			bottom: 0;
+			border-left: 1px solid rgba(0, 0, 0, 0.1);
+			color: rgba(0, 0, 0, 0.1);
+			-webkit-transform-origin: 0 0;
+			transform-origin: 0 0;
+			-webkit-transform: scaleX(0.5);
+			transform: scaleX(0.5);
+		}
+		.weui-actionsheet {
+		    position: fixed;
+		    left: 0;
+		    bottom: 0;
+		    z-index: 5000;
+		    width: 100%;
+		    background-color: #f7f7f7;
+		    -webkit-transition: -webkit-transform 0.3s;
+		    transition: -webkit-transform 0.3s;
+		    transition: transform 0.3s;
+		    transition: transform 0.3s,-webkit-transform 0.3s;
+		    overflow: hidden;
+		}
+		.weui-actionsheet__menu {
+		    color: rgba(0,0,0,0.9);
+		    background-color: #fff;
+		}
+		.weui-actionsheet__cell {
+		    position: relative;
+		    padding:0 16px;
+		    text-align: center;
+		    font-size: 36px;
+		    color: #2C2C2C;
+		    line-height: 114px;
+		}
+		.weui-actionsheet__action {
+		    margin-top: 8px;
+		    background-color: #fff;
+		    padding-bottom: constant(safe-area-inset-bottom);
+		    padding-bottom: env(safe-area-inset-bottom);
+		}
+		.weui-dialog__bd {
+			padding: 70px 40px;
+			font-size: 28px;
+			text-align: left;
+		}
+		.weui-dialog__btn {
+			font-weight: 400;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content" v-cloak>
+                    <div class="top_bar">
+                		<div class="top_bar_at bar_w" :class="{active: currentTab == 0}" @click="changeTab(0)">商品展示</div>
+                		<div class="top_bar_no bar_w" :class="{active: currentTab == 1}" @click="changeTab(1)">店铺信息</div>
+                	</div>
+                	<div class="commodity" v-if="currentTab == 0">
+                		<div class="shop_left">
+                			<a :href="'/shop/shopList/addClassify?shopId='+shopId+'&shelfId=' + shelfId" class="shop_class add"><img class="shop_icon" src="/images/shop_add.png" />添加分类</a>
+							<div class="shop_class" :class="{f_write: cindex == index}" v-cloak v-for="(item, index) in shelfModelList" :key="index" @click="getShelfModelWithGoods(item.id, item.shopId, item.shelfId, index, 1)">{{item.modelName}}</div>
+                		</div>
+                		<div class="shop_con">
+                			<div class="shop_con_top">
+                				<div class="shop_class shop_meu" @click="editClassify"><img class="shop_icon" src="/images/shop_edi.png" />编辑本分类</div>
+                				<div class="shop_class shop_meu" @click="accessAddGoods"><img class="shop_icon" src="/images/shop_rele.png" />关联商品</div>
+                			</div>
+							<!--无信息提示-->
+							<template v-if="goodsData.length == 0">
+								<div class="shop_null">本分类暂未关联商品</div>
+							</template>
+                			<template v-if="goodsData.length != 0">
+								<!--店铺商品部展示-->
+								<div class="shop_list">
+									<div class="shop_box" v-for="(item, index) in goodsData" :key="index">
+										<div class="shop_box_img">
+											<img :src="item.mainImageUrl + '!/both/252x252'" />
+											<label>脉粒最多抵扣 {{item.maxMailiCount}}元</label>
+										</div>
+										<p class="shop_tit">{{item.goodsName}}</p>
+										<div class="shop_ope">
+											<div class="shop_price"><label>￥</label><span>{{item.goodsPriceLow}}</span></div>
+											<img @click="openGoodsSet(item, index)" src="/images/shop_edi.png" />
+										</div>
+									</div>
+								</div>
+							</template>
+                			
+                		</div>
+                	</div>
+                	<div class="commodity2" v-if="currentTab == 1">
+                		<div @click="toPage('/shop/shopList/setContact?shopId=' + shopId)" class="comm_box">
+	                    	<div class="comm_inf">
+	                    		<img class="comm_pic" src="/images/shop_icon1.png" />
+	                    		<div class="comm_inf_box">
+	                    			<p class="comm_tit">门店地址：{{shopInfo.province}}{{shopInfo.city}}{{shopInfo.area}}{{shopInfo.detailAddress}}</p>
+	                    			<p class="comm_num">{{shopInfo.mobile}}</p>
+	                    		</div>
+	                    		<img class="comm_regu" src="/images/shop_edi.png" />
+	                    	</div>
+	                    </div>
+	                    <div class="comm_box top">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic" src="/images/shop_icon2.png" />
+	                    		<div class="shoppic_inf_box">
+	                    			<p class="comm_ustit">门店环境照片（{{imgLen}}/6）：</p>
+	                    			<div class="shop_pic_list">
+										<template v-if="imgList.length > 0">
+											<div class="shop_pic_box" v-for="(item, index) in imgList" :key="index">
+												<img class="shop_pic_img" :src="item"/>
+												<img class="pic_close" src="/images/icon_img_delb.png" @click="delImg(index)" />
+											</div>
+										</template>
+										<template v-if="imgList.length < 6">
+											<div class="shop_pic_box">
+												<img class="shop_pic_img" src="/images/shop_uoload.png"/>
+												<input type="file" accept="image/*" multiple ref="imginput" @change="handleImage($event)">	
+											</div>
+										</template>
+	                    				
+	                    			</div>
+	                    		</div>
+	                    	</div>
+	                    </div>
+	                    <div class="comm_box top" @click="toPage('/mall/infos?photoFiles=' + businessLicencesImg)">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic t2" src="/images/shop_icon3.png" />
+	                    		<div class="comm_inf_box t2">
+	                    			<p class="comm_ustit">商家资质公示</p>
+	                    		</div>
+	                    		<img class="comm_regu3" src="/images/ico_arrow.png" />
+	                    	</div>
+	                    </div>
+	                    <div @click="toPage('/shop/shopList/deliveryType?shelfId=' + shelfId + '&postFee=' + shopInfo.postFee + '&deliveryType=' + shopInfo.deliveryType)" class="comm_box top">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic t2" src="/images/shop_icon4.png" />
+	                    		<div class="comm_inf_box t2">
+	                    			<p class="comm_ustit">发货方式：<span>{{shopInfo.deliveryTypeDesc}}</span></p>
+	                    		</div>
+	                    		<img class="comm_regu2" src="/images/shop_edi.png" />
+	                    	</div>
+	                    </div>
+	                    <div @click="toPage('/shop/shopList/setExtract/'+ shelfId)" class="comm_box">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic t2" src="/images/shop_icon5.png" />
+	                    		<div class="comm_inf_box t2">
+	                    			<p class="comm_ustit">自提地址：<span v-if="shopInfo.sendPickAddressDetail != ''">{{shopInfo.sendPickAddressDetail}}</span><span v-else class="no_gray">暂未填写</span></p>
+	                    		</div>
+	                    		<img class="comm_regu2" src="/images/shop_edi.png" />
+	                    	</div>
+	                    </div>
+	                    <div @click="toPage('/shop/shopList/refundAddress/' + shelfId)" class="comm_box">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic t2" src="/images/shop_icon6.png" />
+	                    		<div class="comm_inf_box t2">
+	                    			<p class="comm_ustit">退货地址：<span v-if="shopInfo.receivePickAddressDetail != ''">{{shopInfo.receivePickAddressDetail}}</span><span v-else class="no_gray">暂未填写</span></p>
+	                    		</div>
+	                    		<img class="comm_regu2" src="/images/shop_edi.png" />
+	                    	</div>
+	                    </div>
+	                    <div @click="toPage('/shop/shopList/openingHours?openTime=' + shopInfo.openTime)" class="comm_box top">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic t2" src="/images/shop_icon7.png" />
+	                    		<div class="comm_inf_box t2">
+	                    			<p class="comm_ustit">营业时间：<span>{{shopInfo.openTime}}</span></p>
+	                    		</div>
+	                    		<img class="comm_regu2" src="/images/shop_edi.png" />
+	                    	</div>
+	                    </div>
+	                    <div class="comm_box">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic top" src="/images/shop_icon8.png" />
+	                    		<div class="stat_inf_box top">
+	                    			<p class="comm_ustit" >营业状态<span class="status stat_orage" v-if="!isSuspend">已打烊</span><span v-if="isSuspend" class="status">营业中</span></p>
+								</div>
+								<div class="checkbox">
+									<input type="checkbox" v-model="isSuspend" disabled class="checke">
+									<div class="mark" @click="openSuspendDialog"></div>
+								</div>
+	                    	</div>
+	                    </div>
+	                    <div @click="toPage('/shop/shopList/setNotice?notice=' + shopInfo.shelfNotice)" class="comm_box top">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic t2" src="/images/shop_icon9.png" />
+	                    		<div class="comm_inf_box t2">
+									<template v-if="shopInfo.shelfNotice == ''">
+										<p class="comm_ustit">公告：<span class="no_gray">暂未填写</span></p>
+									</template>
+	                    			<template v-if="shopInfo.shelfNotice != ''">
+										<p class="comm_ustit">公告：{{shopInfo.shelfNotice}}</p>
+									</template>
+	                    		</div>
+	                    		<img class="comm_regu2" src="/images/shop_edi.png" />
+	                    	</div>
+	                    </div>
+	                    <div @click="toPage('/shop/shopList/setServe/' + shopInfo.isIssuedInvoice)" class="comm_box top">
+	                    	<div class="comm_inf">
+	                    		<img class="shop_pic t2" src="/images/shop_icon10.png" />
+	                    		<div class="comm_inf_box t2">
+	                    			<p class="comm_ustit">商家服务：<span>{{shopInfo.isIssuedInvoice == 0 && "不可开发票" || shopInfo.isIssuedInvoice == 1 && "可开发票" || shopInfo.isIssuedInvoice == 2 && "可开发票" }}</span></p>
+	                    		</div>
+	                    		<img class="comm_regu2" src="/images/shop_edi.png" />
+	                    	</div>
+	                    </div>
+                	</div>
+                </main>
+            </div>
+		</div>
+
+		<template v-if="isSuspendDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd" style="text-align: center;">确定要暂停营业吗？</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="closeSuspendDialog">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="changeSuspend">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+		
+		<template v-if="isAccessDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">确定要将该商品与该分类取消关联吗？</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="closeAccessDialog">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary font_orage" @click="delAccess">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+		<!--修改排序-->
+		<template v-if="isGoodsSort">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog weui-dialog2">
+					<div class="weui-dialog__con">
+						<img class="weui_close" @click="closeSortDialog" src="/images/close.png">
+						<div class="weui_top">
+							<p class="top_tit">修改排序</p>
+							<p class="top_hint">提示：序号越小，排列越靠前。</p>
+						</div>
+						<div class="weui_con">
+							<div class="weui_edit">
+								<input class="weui_set_input" type="number" v-model="goodsItem.sort" />
+							</div>
+						</div>
+					</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn2 weui-dialog__btn_primary" @click="editSort">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template v-if="isGoodsOption">
+			<div class="weui-mask">
+				<div class="weui-actionsheet">
+					<div class="weui-actionsheet__menu">
+						<div class="weui-actionsheet__cell bor" @click="openAccessDialog">取消关联</div>
+						<div class="weui-actionsheet__cell" @click="changeEditSort">修改排序({{goodsItem.sort}})</div>
+					</div>
+					<div class="weui-actionsheet__action">
+						<div class="weui-actionsheet__cell" @click="closeGoodsSet">取消</div>
+					</div>
+				</div>
+			</div>
+		</template>
+    </div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					currentTab: 0,
+					shopId: `<%- shopId %>`,
+					information: {},
+					shelfModelWithGoods: {},
+					shelfId: "",
+					shelfModelId: 0,
+					cindex: 0,
+					shelfModelList: [],
+					shopInfo: {},
+					goodsList: [],
+					goodsData: {},
+					goodsItem: {},
+					businessLicencesImg: [],
+					isSuspend: true,
+					isSuspendDialog: false,
+					imgLen: 0,
+					picSign: [],
+					imgList: [],
+					isGoodsOption: false,
+					isGoodsSort: false,
+					isAccessDialog: false
+				}
+			},
+			created() {
+				if(window.name != "bencalie"){
+					window.name = "bencalie";
+				}
+				else{
+					window.name = "";
+					location.reload();
+				}
+				this.initData();
+			},
+			methods: {
+				initData() {
+					axios.get("/shop/shopList/getShelfIndex?shopId=" + this.shopId).then(res => {
+						let data = res.data.data;
+						// 获取货架详情里面的商家信息
+						this.getShelfDetail(data.id);
+
+						this.shelfModelWithGoods = data.shelfModelWithGoods;
+						this.shelfModelList = this.shelfModelWithGoods.shelfModelList;
+						let goodsList = this.goodsList;
+						for(let i = 0; i<this.shelfModelList.length; i++) {
+							goodsList.push({id: this.shelfModelList[i].id, goodsData: []});
+						}
+						this.shelfId = data.id;
+						sessionStorage.setItem("shelfId", data.id);
+
+						if(sessionStorage.getItem("currentTab")) {
+							this.currentTab = sessionStorage.getItem("currentTab");
+							sessionStorage.removeItem("currentTab");
+						}
+
+						if(sessionStorage.getItem("cindex")) {
+							this.cindex = sessionStorage.getItem("cindex");
+							sessionStorage.removeItem("cindex");
+							let shelfModelId = this.shelfModelWithGoods.shelfModelList[this.cindex].id;
+							this.getShelfModelWithGoods(shelfModelId, this.shopId, this.shelfId, this.cindex);
+						}else {
+							let shelfModelId = this.shelfModelWithGoods.shelfModelList[0].id;
+							this.getShelfModelWithGoods(shelfModelId, this.shopId, this.shelfId, 0);
+						}
+					})
+				},
+				// 货架详情里面的商家信息
+				getShelfDetail(shelfId) {
+					let url = "/shop/shopList/getShelfDetail?shelfId=" + shelfId;
+					axios.get(url).then(res => {
+						let data = res.data.data;
+						this.shopInfo = data;
+						if(this.shopInfo.shopAroundImg) {
+							this.imgList = this.shopInfo.shopAroundImg.split(",");
+							this.imgLen = this.imgList.length;
+						}
+						let businessLicencesImg, permitImg;
+                        if(data.businessLicencesImg) {
+                            businessLicencesImg = data.businessLicencesImg.split(",");
+                        }else {
+                            businessLicencesImg = [];
+                        }
+                        if(data.permitImg) {
+                            permitImg = data.permitImg.split(",");
+                        }else {
+                            permitImg = [];
+                        }
+						this.businessLicencesImg = businessLicencesImg.concat(permitImg);
+						console.log(this.businessLicencesImg);
+						if(this.shopInfo.suspendOpen == 0) this.isSuspend = true;
+						if(this.shopInfo.suspendOpen == 1) this.isSuspend = false;
+						sessionStorage.setItem("province", data.province);
+						sessionStorage.setItem("city", data.city);
+						sessionStorage.setItem("area", data.area);
+						sessionStorage.setItem("detailAddress", data.detailAddress);
+						sessionStorage.setItem("shelfLng", data.shelfLng);
+						sessionStorage.setItem("shelfLat", data.shelfLat);
+						sessionStorage.setItem("mobile", data.mobile);
+					})
+				},
+				changeTab(e) {
+					if(e == this.currentTab) {return};
+					this.currentTab = e;
+				},
+				// 货架分类下的商品
+				getShelfModelWithGoods(shelfModelId, shopId, shelfId, index, type) {
+					this.cindex = index;
+					this.shelfModelId = shelfModelId;
+					if(type == 1 && this.goodsList[index].goodsData.length != 0) {
+						return this.goodsData = this.goodsList[index].goodsData;
+					}
+					let url = "/shop/shopList/getShelfModelWithGoods?shopId=" + shopId + "&shelfId=" + shelfId + "&shelfModelId=" + shelfModelId;
+					axios.get(url).then(res => {
+						if(res.data.errorCode == 0) {
+							this.goodsList[index].goodsData = res.data.data;
+							this.goodsData = this.goodsList[index].goodsData;
+						}else {
+							return poper(res.data.message);
+						}
+					})
+				},
+				// 编辑本分类
+				editClassify() {
+					let index = this.cindex;
+					let shopId = this.shopId;
+					let id = this.shelfModelWithGoods.shelfModelList[index].id;
+					let shelfId = this.shelfModelWithGoods.shelfModelList[index].shelfId;
+					let modelName = this.shelfModelWithGoods.shelfModelList[index].modelName;
+					let sort = this.shelfModelWithGoods.shelfModelList[index].sort;
+					window.location.href = `/shop/shopList/editClassify?shopId=${shopId}&modelName=${modelName}&shelfId=${shelfId}&id=${id}&sort=${sort}`;
+				},
+				// 关联商品
+				accessAddGoods() {
+					let index = this.cindex;
+					let shelfModelId = this.shelfModelWithGoods.shelfModelList[index].id;
+					let shopId = this.shelfModelWithGoods.shelfModelList[index].shopId;
+					let shelfId = this.shelfModelWithGoods.shelfModelList[index].shelfId;
+					window.location.href = `/shop/shopList/relevance?shopId=${shopId}&shelfId=${shelfId}&shelfModelId=${shelfModelId}`;
+				},
+				openSuspendDialog() {
+					if(this.isSuspend == true) {
+						this.isSuspendDialog = true;
+					}else {
+						this.changeSuspend();
+					}
+					
+				},
+				closeSuspendDialog() {
+					this.isSuspendDialog = false;
+				},
+				// 暂停/开启营业
+				changeSuspend() {
+					this.isSuspendDialog = false;
+					let suspendOpen;
+					if(this.isSuspend == true) {
+						suspendOpen = 1;
+					}else {
+						suspendOpen = 0;
+					}
+					let config = {
+                        id: this.shelfId,
+                        suspendOpen: suspendOpen
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/shopList/updateShelf",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+                    axios(opt).then(res => {
+                        if (res.data.errorCode == 0) {
+                            this.isSuspend == true ? this.isSuspend = false : this.isSuspend = true;
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+				},
+
+				toPage(page) {
+					sessionStorage.setItem("currentTab", this.currentTab);
+					sessionStorage.setItem("cindex", this.cindex);
+					window.location.href = page;
+				},
+				handleImage() {
+                    let files = this.$refs.imginput.files;
+                    this.handleImageUpload(files);
+				},
+				handleImageUpload(files) {
+                    let imgLen = this.imgLen;
+                    let len = files.length + imgLen;
+                    if(len > 6) {
+                        return poper("门店环境照片数量最多6张");
+                    }
+                    for(let i=0; i < files.length; i++) {
+                        let isImg = files[i].type == "image/jpeg" || files[i].type == "image/png" || files[i].type == "image/jpg";
+                        if(!isImg) {
+                            return poper("只能上传jpg/jpeg/png文件");
+                        }
+                        if(files[i].size > (limitNum*1024*1024)) {
+                            return poper(`请选择${limitNum}M以内的图片！`);
+                        }
+                    }
+                    for(let i=0; i < files.length; i++) {
+                        this.imgLen++;
+                        let size = files[i].size;
+                        let imgType = files[i].type.substring(6);
+                        let timestamp = new Date().getTime();
+                        let randomStr = randomString(10);
+                        let item = {
+							length: size,
+							shopId: this.shopId,
+                            type: "/shop/manger",
+                            uri: timestamp + randomStr + "." + imgType
+                        }
+                        this.picSign.push(item);
+					}
+					this.getPicSign(files, this.picSign);
+				},
+				// 获取图片参数
+                getPicSign(files, picSign) {
+                    let config = picSign;
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        console.log(res);
+                        let data = res.data.data;
+                        if(data.length == 0) return;
+                        let forbody = Promise.resolve();
+                        for(let i = 0; i<data.length; i++) {
+                            forbody = forbody.then(res=>{
+                                return this.uploadImgs(i, data, files);
+                            })
+                        }
+                    })
+				},
+				// 上传图片
+                uploadImgs(i, data, files) {
+                    let formData = new FormData();
+                    formData.append("policy", data[i].policy);
+                    formData.append("signature", data[i].signature);
+                    formData.append("file", files[i]);
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+							this.imgList.push(data[i].host + data[i].uri);
+							formData.delete("policy");
+							formData.delete("signature");
+							formData.delete("file");
+                            if(i == data.length-1) {
+                                this.picSign = [];
+                                console.log("上传完毕");
+								console.log(this.imgList);
+								this.updateShelfImgs();
+                            }
+                            resolve('ok:'+i);
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+				},
+				updateShelfImgs() {
+					let config = {
+						id: this.shelfId,
+						shopAroundImg: String(this.imgList)
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/shopList/updateShelf",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+                    axios(opt).then(res => {
+                        if (res.data.errorCode == 0) {
+
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+				},
+				delImg(index) {
+                    this.imgList.splice(index, 1);
+					this.imgLen = this.imgLen - 1;
+					this.updateShelfImgs();
+				},
+				openGoodsSet(item, index) {
+					this.goodsItem = {
+						shelfModelId: this.shelfModelId,
+						modelGoodsStatus: 1,
+						sort: item.sort,
+						goodsCode: item.goodsCode
+					};
+					this.isGoodsOption = true;
+				},
+				closeGoodsSet() {
+					this.isGoodsOption = false;
+				},
+
+				openAccessDialog(){
+					this.isGoodsOption = false;
+					this.isAccessDialog = true;
+				},
+
+				closeAccessDialog(){
+					this.isAccessDialog = false;
+				},
+
+				// 取消关联
+				delAccess() {
+					this.goodsItem.modelGoodsStatus = 0;
+					console.log(this.goodsItem);
+					this.updateShelfModelGoods(this.goodsItem);
+				},
+				changeEditSort() {
+					this.goodsItem.modelGoodsStatus = 1;
+					console.log(this.goodsItem);
+					this.isGoodsOption = false;
+					this.isGoodsSort = true;
+				},
+				// 修改排序
+				editSort() {
+					console.log(this.goodsItem);
+					this.updateShelfModelGoods(this.goodsItem);
+				},
+
+				closeSortDialog(){
+					this.isGoodsSort = false;
+				},
+
+				updateShelfModelGoods(config) {
+					let opt = {
+						method: "POST",
+						url: "/shop/shopList/updateShelfModelGoods",
+						data: config,
+						headers: {
+							'Content-Type': 'application/json',
+						}
+					}
+					axios(opt).then(res => {
+						this.isGoodsOption = false;
+						this.isGoodsSort = false;
+						this.isAccessDialog = false;
+                        if (res.data.errorCode == 0) {
+							this.getShelfModelWithGoods(this.shelfModelId, this.shopId, this.shelfId, this.cindex, 2);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+				}
+			}
+		})
+	</script>
+</body>
+</html>

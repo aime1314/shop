@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body,html{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            background: #fff;
+            height: 100%;
+        }
+        .correlation_box{
+            width:100%;
+            height: 100%;
+            clear: both;
+            overflow: hidden;
+        }
+        .qm_logobox{
+            width:1.44rem;
+            height:2.33rem;
+            margin: 0 auto;
+        }
+        .qm_logobox img{
+            margin-top: 1.78rem;
+            display: block;
+            width:100%;
+            height:100%;
+        }
+        .versions{
+            height:0.24rem;
+            line-height: 0.24rem;
+            font-size:0.23rem;
+            color:rgba(152,158,171,1);
+            margin-top: 1.35rem;
+            text-align: center;
+        }
+        .gd-box{
+            width: 100%;
+            position: fixed;
+            bottom: 0.84rem;
+            left: 0;
+            right: 0;
+            margin: auto;
+            text-align: center;
+            margin: 0 auto; 
+        }
+        .clause{
+            margin-bottom:0.57rem;
+            text-align: center;
+            height:0.26rem;
+            font-size:0.26rem;
+            color:rgba(0,0,0,1);
+        }
+        .privacy-ZC{
+            margin: 0 auto;
+            margin-bottom:1.02rem;
+            text-align: center;
+            height:0.26rem;
+            font-size:0.26rem;
+            color:rgba(0,0,0,1);
+        }
+        #copyright{
+            height:0.39rem;
+            font-size:0.15rem;  
+            color:rgba(152,158,171,1);
+            line-height:0.39rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="correlation_box">
+        <div class="qm_logobox">
+            <img src="/images/qm_logo.png" alt="">
+        </div>
+        <% if (information) {%>
+            <p class="versions">当前版本：<%= information %></p>
+        <% }else{ %>
+            <p class="versions">当前版本：</p>
+        <% } %>
+        <div class="gd-box">
+            <p class="clause" onclick="clauseBtn()">使用条款</p>
+            <p class="privacy-ZC" onclick="privacyZC()">隐私政策</p>
+            <div id="copyright">Copyright©2018-2019 </br>米大卫数据科技MIDAVY.COM 版权所有</div>  
+        </div>
+        <p class="MIDAVY"></p>
+    </div>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        function clauseBtn(){
+            window.location.href = "/appCorrelation/correlationPage/agreement";
+        }
+        function privacyZC(){
+            window.location.href = "/appCorrelation/correlationPage/privacy";
+        }
+        
+    </script>
+</body>
+</html>

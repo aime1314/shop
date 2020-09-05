@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.detail_top{
+			height: 100px;
+			background: #3086DE;
+			text-align: center;
+			display: flex;
+			flex-wrap: wrap;
+			align-content: center;
+			align-items: center;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+		.detail_top_two{
+			line-height: 30px;
+			font-size: 28px;
+			font-weight: bold;
+			color: #FFFFFF;
+		}
+		.detail_top_two span{
+			font-size: 22px;
+			font-weight: normal;
+		}
+		.detail_top .desc {
+			font-size: 22px;
+			color: #fff;
+			width: 100%;
+			margin-top: 10px;
+		}
+		.detail_amount{
+			padding: 24px 24px;
+			background: #FFFFFF;
+			border-bottom: 1px solid #f7f6f9;
+			display: flex;
+			justify-content: space-between;
+		}
+		.detail_gray{
+			font-size: 30px;
+			color: #2c2c2c;
+		}
+		.detail_orage{
+			font-size: 30px;
+			color: #FF6A29;
+		}
+		.order_ope{
+			padding: 21px 24px;
+			background: #FFFFFF;
+			display: flex;
+			flex-direction: row-reverse;
+		}
+		.order_btn{
+			margin-left:22px;
+			padding: 0px 20px;
+			height: 54px;
+			line-height: 54px;
+			font-size: 24px;
+			color: #6A6C72;
+			border: 1px solid #B6B6BD;
+			border-radius: 27px
+		}
+		.blue{
+			color: #3086DE;
+			border: 1px solid #3086DE;
+		}
+		.refund_infor_tit{
+			margin-top: 12px;
+			padding: 24px;
+			background: #FFFFFF;
+			font-size: 30px;
+			color: #2C2C2C;
+		}
+		.comm_inf {
+			padding: 14px 24px;
+			border-bottom: 1px solid #f7f6f9;
+			display: flex;
+		}
+		
+		.comm_pic {
+			width: 120px;
+			height: 120px;
+		}
+		
+		.comm_inf_box {
+			width: 81%;
+			margin-left: 15px;
+		}
+		
+		.order_box {
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+		}
+		
+		.comm_tit {
+			font-size: 28px;
+			color: #2C2C2C;
+			height: 30px;
+			line-height: 30px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		
+		.comm_num {
+			line-height: 30px;
+			font-size: 24px;
+			color: #2C2C2C;
+		}
+		
+		.comm_num span {
+			font-size: 22px;
+		}
+		
+		.comm_num2 {
+			margin-top: 15px;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+		}
+		
+		.comm_num_box {
+			font-size: 26px;
+			color: #AFAFB2;
+		}
+		
+		.deduction_num {
+			margin-top: 10px;
+			text-align: right;
+			font-size: 23px;
+			color: #A5A8B2;
+		}
+		.order_info{
+			padding: 15px 24px;
+			border-bottom: 1px solid #F5F7F9;
+		}
+		.order_info p{
+			margin: 15px 0px;
+			height: 32px;
+			line-height: 32px;
+			font-size: 24px;
+			color: #2C2C2C;
+		}
+		.order_info p span{
+			color: #3086DE;
+		}
+		.comm_box {
+			/*margin-top: 12px;*/
+			margin-bottom: 109px;
+			background: #ffffff;
+		}
+		.detail_contact{
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 96px;
+			background: #FFFFFF;
+			border-top: 1px solid #e9ecee;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.detail_con_box{
+			width: 50%;
+			text-align: center;
+			font-size: 28px;
+			color: #6A6C72;
+		}
+		.bord{
+			border-right: 2px solid #F5F7F9;
+		}
+		.detail_con_box img{
+			margin-right: 10px;
+			width: 42px;
+			height: 42px;
+		}
+		.weui-dialogw{
+			text-align: left;
+			position: fixed;
+		    z-index: 5000;
+		    top: 50%;
+		    left: 125px;
+		    right: 125px;
+		    -webkit-transform: translate(0, -50%);
+		    transform: translate(0, -50%);
+		    background-color: #fff;
+		    background-color: #FFFFFF;
+		    border-radius: 3px;
+		    overflow: hidden;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-flex-direction: column;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    flex-direction: column;
+		    max-height: 90%;
+			
+		}
+		.weui-dialog__bdw{
+			padding: 51px 24px 42px 24px;
+			overflow-y: auto;
+		    -webkit-overflow-scrolling: touch;
+		    font-size: 34px;
+		    line-height: 1.4;
+		    word-wrap: break-word;
+		    -webkit-hyphens: auto;
+		    hyphens: auto;
+		    color: #2C2C2C;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page"  v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="detail_top">
+						<template v-if="orderDetail.refundStatus">
+							<div class="detail_top_two">{{
+								orderDetail.refundStatus == 101 && "待处理" || 
+								orderDetail.refundStatus == 201 && "退款处理中"||
+								orderDetail.refundStatus == 301 && "已拒绝"|| 
+								orderDetail.refundStatus == 302 && "买家已撤销"|| 
+								orderDetail.refundStatus == 401 && "退款成功"}}
+							</div>
+							<template v-if="orderDetail.refundStatus == 101">
+								<div class="desc">还剩{{days}}天{{hour}}小时{{minutes}}分</div>
+							</template>
+							<template v-if="orderDetail.refundStatus == 201 && handelTime != ''">
+								<div class="desc">{{handelTime | formatDate}}</div>
+							</template>
+							<template v-if="orderDetail.refundStatus == 301 && handelTime != ''">
+								<div class="desc">{{handelTime | formatDate}}</div>
+							</template>
+							<template v-if="orderDetail.refundStatus == 302 && handelTime != ''">
+								<div class="desc">{{handelTime | formatDate}}</div>
+							</template>
+							<template v-if="orderDetail.refundStatus == 401 && handelTime != ''">
+								<div class="desc">{{handelTime | formatDate}}</div>
+							</template>
+						</template>
+                	</div>
+                	<div class="detail_amount">
+							<span class="detail_gray" v-if="orderDetail.refundStatus != 401">退款总金额</span>
+						<span class="detail_gray" v-else>成功退款总金额</span>
+						<span class="detail_orage">¥ {{orderDetail.refundAmount}}</span>
+					</div>
+					<template v-if="orderDetail.refundStatus == 101">
+						<div class="order_ope">
+							<div class="order_btn blue" @click="agreeOrderDialog">同意退款</div>
+							<div class="order_btn" @click="refusedOrderDialog">拒绝退款</div>
+						</div>
+					</template>
+					<!--退款信息-->
+					<div class="refund_infor_tit">退款信息</div>
+					<template v-for="(item, index) in orderRefundDetailList" :key="index">
+						<div class="comm_inf" >
+							<img class="comm_pic" :src="item.pic" />
+							<div class="comm_inf_box">
+								<div class="order_box">
+									<div class="comm_tit">{{item.skuName}}</div>
+									<div class="comm_num"><span>￥</span>{{item.goodsPrice}}</div>
+								</div>
+								<div class="comm_num2">
+									<div class="comm_num_box">{{item.goodsAttr}}</div>
+									<div class="comm_num_box">x{{item.goodsCount}}</div>
+								 </div>
+								<p class="deduction_num">脉粒抵扣:- ¥{{item.maiLiCount}}</p>
+							</div>
+						</div>
+					</template>
+                    
+					<div class="comm_box mar_bottom" v-if="Object.keys(orderDetail).length >0">
+						<div class="order_info">
+							<p>售后类型：{{orderDetail.refundType == 1 && '仅退款' || orderDetail.refundType == 2 && '退货退款'}}</p>
+							<p>退款原因：{{orderDetail.reason}}</p>
+							<p>退款金额：¥ {{orderDetail.refundAmount}}</p>
+							<p>退还脉粒：{{orderDetail.refundMaiLi}}脉粒</p>
+							<p>退款说明：{{orderDetail.buyerMsg}}<template v-if="orderDetail.photoFiles.length != 0"><span @click="toPage('/mall/refundImgDetail?photoFiles=' + orderDetail.photoFiles)">查看凭证</span></template></p>
+							<p>退款编号：{{orderDetail.refundCode}}</p>
+							<p>申请时间：{{orderDetail.creatTime | formatDate2}}</p>
+						</div>
+					</div>
+					<div class="detail_contact">
+						<div class="detail_con_box bord"><img src="/images/shop_wx.png">联系买家</div>
+						<div class="detail_con_box" @click="openCallDialog"><img src="/images/shop_tel.png">拨打电话</div>
+					</div>
+                </main>
+            </div>
+		</div>
+		<!--操作提示-->
+		<template v-if="isShowCallSeller">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__bd">确定要拨打买家电话吗？</div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default"  @click="isShowCallSeller=false">取消</a>
+                        <a href="javascript:"  class="weui-dialog__btn weui-dialog__btn_primary" @click="callSeller">确定</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+		<!--拒绝退款-->
+        <template v-if="isRefusedOrderDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">确定要拒绝意退款吗？</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="refusedOrderDialog">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="refundUpdate(0)">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+		
+		<!--同意退款-->
+		<template v-if="isAgreeOrderDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialogw">
+					<div class="weui-dialog__bdw">同意退款后，钱款将退回买家账户，确定要同意退款吗？</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="agreeOrderDialog">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="refundUpdate(1)">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					refundCode: `<%- refundCode %>`,
+					orderDetail: {},
+					orderRefundDetailList: [],
+                    isRefusedOrderDialog: false,
+					isAgreeOrderDialog: false,
+					isShowCallSeller: false,
+					handelTime: ""
+				}
+			},
+			created() {
+				this.initData();
+			},
+			filters: {
+				formatDate(value) {
+					let date = new Date(value * 1000);
+					let y = date.getFullYear();
+					let MM = date.getMonth() + 1;
+					MM = MM < 10 ? ('0' + MM) : MM;
+					let d = date.getDate();
+					d = d < 10 ? ('0' + d) : d;
+					let h = date.getHours();
+					h = h < 10 ? ('0' + h) : h;
+					let m = date.getMinutes();
+					m = m < 10 ? ('0' + m) : m;
+					let s = date.getSeconds();
+					s = s < 10 ? ('0' + s) : s;
+					return y + '年' + MM + '月' + d + '日 ' + h + ':' + m;
+				},
+				formatDate2(value) {
+					let date = new Date(value * 1000);
+					let y = date.getFullYear();
+					let MM = date.getMonth() + 1;
+					MM = MM < 10 ? ('0' + MM) : MM;
+					let d = date.getDate();
+					d = d < 10 ? ('0' + d) : d;
+					let h = date.getHours();
+					h = h < 10 ? ('0' + h) : h;
+					let m = date.getMinutes();
+					m = m < 10 ? ('0' + m) : m;
+					let s = date.getSeconds();
+					s = s < 10 ? ('0' + s) : s;
+					return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+				}
+			},
+			methods: {
+				initData() {
+					axios.get("/shop/orderManage/getRefundDetail?refundCode=" + this.refundCode).then(res => {
+						console.log(res);
+						this.orderDetail = res.data.data;
+						this.orderRefundDetailList = res.data.data.orderRefundDetailList;
+						this.handelTime = this.orderDetail.handelTime;
+						let leftTime = this.orderDetail.remainTime * 1000;
+						this.days = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+						this.hour = Math.floor(leftTime / 1000 / 60 / 60 % 24);
+						this.minutes = Math.floor(leftTime / 1000 / 60 % 60);
+						this.seconds = Math.floor(leftTime / 1000 % 60);
+					});
+				},
+				// 拒绝退款申请弹窗
+                refusedOrderDialog() {
+                    this.isRefusedOrderDialog ? this.isRefusedOrderDialog = false : this.isRefusedOrderDialog = true;
+                },
+                // 同意退款申请弹窗
+                agreeOrderDialog() {
+                    this.isAgreeOrderDialog ? this.isAgreeOrderDialog = false : this.isAgreeOrderDialog = true;
+				},
+				openCallDialog() {
+                    this.isShowCallSeller = true;
+                },
+                //拨打电话
+				callSeller(){
+                    this.isShowCallSeller = false;
+					window.location.href = `tel:${this.orderDetail.userPhone}`;
+                },
+				toPage(page) {
+					window.location.href = page;
+				},
+				refundUpdate(type) {
+					let config = {
+                        refundCodes: [this.refundCode],
+                        remark: "",
+                        type: type
+                    }
+					let opt = {
+                        method: "POST",
+                        url: "/shop/orderManage/refundUpdate",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+                    }
+					axios(opt).then(res => {
+						this.isRefusedOrderDialog = false;
+                        this.isAgreeOrderDialog = false;
+						if(res.data.errorCode == 0) {
+							this.initData();
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				}
+			}
+		});
+	</script>
+</body>
+</html>

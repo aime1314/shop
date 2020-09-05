@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/mall.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.commodity{
+        	margin-top: 343px;
+        	height:calc(100vh - 343px) ;
+        	width: 100%;
+        	z-index: 1;
+        }
+        .shop_left{
+        	position: fixed;
+        	top: 343px;
+        	left: 0px;
+        	width: 162px;
+        	background: #F5F7F9;
+        	height: 100%;
+        	overflow-y: scroll;
+        }
+        .shop_class{
+        	height: 120px;
+        	line-height: 30px;
+        	display: flex;
+        	align-items: center;
+        	justify-content: center;
+        	text-align: center;
+        	font-size: 24px;
+        	color: #797a7a;
+        }
+        .add{
+        	color: #3086DE;
+        }
+        .f_write{
+        	background: #FFFFFF;
+        	color: #2C2C2C;
+        }
+        .f_gray{
+        	color: #797A7A;	
+        }
+        .shop_icon{
+        	margin-right: 7px;
+        	width: 46px;
+        }
+        .shop_con{
+        	float: right;
+        	width: calc(100% - 162px);
+        	background: #FFFFFF;
+        	min-height: 100%;
+        }
+        .shop_list{
+        	padding: 28px 28px;
+        	margin-bottom: 90px;
+        	display: flex;
+        	flex-wrap: wrap;
+        	justify-content: space-between;
+        }
+        .shop_box{
+        	width: 252px;
+        	margin-bottom: 38px;
+        }
+        .shop_box_img{
+        	position: relative;
+        	width: 252px;
+            height: 252px;
+			border: 1px solid #f2f2f2;
+        }
+        .shop_box_img img{
+            width: 252px;
+            height: 252px;
+			border-radius: 3px;
+        }
+        .shop_box_img label{
+        	position: absolute;
+        	bottom: 0px;
+        	left: 0px;
+        	padding: 0px 5px;
+        	max-width: 242px;
+        	height: 30px;
+        	line-height: 30px;
+        	text-align: center;
+        	background: #31C649;
+        	font-size: 19px;
+        	color: #FFFFFF;
+        	overflow: hidden;
+			text-overflow:ellipsis;
+            white-space: nowrap;
+            border-radius: 2px;
+        }
+        .shop_tit{
+        	margin-top: 12px;
+        	width: 252px;
+        	height: 66px;
+        	line-height: 33px;
+        	font-size: 25px;
+        	color: #2C2C2C;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .shop_ope{
+        	margin-top: 10px;
+        	line-height: 46px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .shop_ope .add {
+            position: relative;
+            width: 46px;
+            height: 46px;
+        }
+        .shop_ope .add span {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            font-size: 22px;
+            color: #fff;
+            background-color: #FF2A1A;
+            border-radius: 15px;
+            height: 26px;
+            line-height: 26px;
+            padding: 0 9px;
+            display: flex;
+            align-items: center;
+        }
+        .shop_ope img{
+        	width: 46px;
+        }
+        .shop_price{
+        	float: left;
+        	color: #ff6612;
+        }
+        .shop_price label{
+        	font-size: 26px;
+        }
+        .shop_price span{
+        	font-size: 38px;
+        	font-weight: bold;
+        }
+        .shop_null{
+        	margin-top: 80%;
+        	text-align: center;
+        	font-size: 25px;
+        	color: #C8CACD;
+        }
+        .bar_w{
+        	position: relative;
+        	float: left;
+        	width: 35%;
+        	height: 94px;
+        	line-height: 94px;
+        	text-align: center;
+			font-size: 30px;
+			color: #797A7A;
+        }
+		.bar_w.active {
+			color: #2C2C2C;
+		}
+        .bar_w.active::before{
+			content: "";
+        	position: absolute;
+        	bottom: 0px;
+        	left: 46%;
+        	width: 33px;
+        	height: 4px;
+        	background: #FF8D23;
+        }
+        /*店铺信息*/
+       .commodity2{
+        	margin-top: 343px;
+        	height:calc(100vh - 343px) ;
+        	width: 100%;
+        	background: #FFFFFF;
+        	z-index: 1;
+        }
+       .comm_box{
+            background: #ffffff;
+        }
+        .comm_inf{
+        	padding: 21.5px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .comm_pic{
+        	width: 36px;
+        	height: 36px;
+        }
+        .comm_inf_box{
+        	width: 88%;
+        	margin-left: 12px;	
+        }
+        .comm_inf_box2{
+        	width: 93%;
+        	margin-left: 12px;	
+        }
+        .comm_tit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	max-height: 72px;
+        	line-height: 36px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .comm_num{
+        	margin-top: 20px;	
+        	font-size: 26px;
+        	color: #6A6C72;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	width: 49px;
+        	height: 49px;
+        }
+        .comm_regu2{
+        	margin-left: 26px;
+        	margin-top: 42px;
+        	width: 14px;
+        	height: 24px;
+        }
+        .comm_regu3{
+        	margin-left: 26px;
+        	width: 14px;
+        	height: 24px;
+        }
+        .shop_pic{
+        	width: 36px;
+        	height: 36px;
+        }
+        .comm_ustit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	height: 36px;
+        	line-height: 36px;	
+        	overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+        }
+        .shop_pic_list{
+        	display: flex;
+        	justify-content: space-between;
+        }
+        .shop_pic_box{
+        	float: left;
+        	width: 141px;
+        	height: 108px;
+        	margin-right: 21px;
+        }
+        .shop_pic_img{
+        	width: 141px;
+            height: 108px;
+            border-radius: 2px;
+        }
+        .show_tick{
+        	margin-right: 9px;
+        	width: 35px;
+        	height: 35px;
+        }
+        .no_gray{
+        	 color: #C8CACD;
+        }
+        /*示例展示*/
+       .weui-dialog_box {
+		    position: fixed;
+		    z-index: 5000;
+		    top: 50%;
+		    left: 95px;
+		    width: 476px;
+       	    padding: 50px 40px;
+		    -webkit-transform: translate(0, -50%);
+		    transform: translate(0, -50%);
+		    background-color: #fff;
+		    background-color: #FFFFFF;
+		    text-align: center;
+		    border-radius: 3px;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-flex-direction: column;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    flex-direction: column;
+		    max-height: 90%;
+		}
+       .sample_tit{
+       	    font-size: 34px;
+       	    font-weight:500;
+       	    color: #2C2C2C;
+       	    line-height: 36px;
+       	    text-align: left;
+       }
+       .sample_tit img{
+       	float: left;
+       		margin-right: 13px;
+       		width: 36px;
+       		height: 36px;
+       }
+       .sample_des{
+       		margin-top: 44px;
+       		font-size: 28px;
+       		color: #2C2C2C;
+       		line-height: 42px;
+       		text-align: left;
+       }
+		.sample_close{
+			position: absolute;
+			top: 18px;
+			right: 18px;
+			width: 56px;
+			height: 56px;
+		}
+		.weui-dialog__btn {
+		    font-weight: 500;
+		}
+		.font_orage{
+			color: #FF9320;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="mall_top">
+                        <div class="mall_info">
+                            <div class="mall_info_box">
+                                <img class="show_home" src="/images/show_home.png" />
+                                <div class="show_cen">
+                                    <template v-if="information.suspendOpen == 0">
+                                        <p><img class="show_icon" src="/images/show_time.png" />营业时间：{{information.openTime}}</p>
+                                    </template>
+                                    <template v-if="information.suspendOpen == 1">
+                                        <p><img class="show_icon" src="/images/show_time.png" />已打烊</p>
+                                    </template>
+                                    <p><img class="show_icon2" src="/images/shoe_people.png" />店主：{{shopInfo.memberName}}</p>
+                                    <p><img class="show_state" src="/images/take_out.png" /><img v-if="isExtract" class="show_state" src="/images/since.png" /></p>
+                                </div>
+                                <div class="show_ent">
+                                    <img class="show_img" :src="shopInfo.organIcon" />
+                                    <span>社群主页</span>
+                                    <img class="show_arrow" src="/images/show_arrow.png" />
+                                </div>
+                            </div>
+                            <div class="show_new" @click="changeNoticeDialog">
+                                <template v-if="information.shelfNotice">
+                                    <p id="introFont">公告：{{information.shelfNotice | ellipsis}}</p>
+                                    <div class="show_more" v-if="information.shelfNotice.length > 40">更多<img src="/images/under_icon.png" /></div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="top_bar">
+                            <div class="top_bar_at bar_w" :class="{active: currentTab == 0}" @click="changeTab(0)">商品列表</div>
+                            <div class="top_bar_no bar_w" :class="{active: currentTab == 1}" @click="changeTab(1)">商家信息</div>
+                        </div>
+                    </div>
+                    <div class="commodity" v-if="currentTab == 0">
+                        <div class="shop_left">
+                            <div class="shop_class" :class="{f_write: cindex == index}" v-cloak v-for="(item, index) in shelfModelList" :key="index" @click="getShelfModelWithGoods(item.id, item.shopId, item.shelfId, index)">{{item.modelName}}</div>
+                        </div>
+                        <div class="shop_con">
+                            <template v-if="goodsData.length == 0">
+                                <div class="shop_null">本分类暂未关联商品</div>
+                            </template>
+                            <template v-if="goodsData.length != 0">
+                                <div class="shop_list">
+                                    <div class="shop_box" v-for="(item, index) in goodsData" :key="index" @click="toGoodsDetail(item)">
+                                        <div class="shop_box_img">
+                                            <img :src="item.mainImageUrl" />
+                                            <label>脉粒最多抵扣 {{item.maxMailiCount}}元</label>
+                                        </div>
+                                        <p class="shop_tit">{{item.goodsName}}</p>
+                                        <div class="shop_ope">
+                                            <div class="shop_price"><label>￥</label><span>{{item.goodsPriceLow}}</span></div>
+                                            <div class="add">
+                                                <span v-if="item.checkNum !=0">{{item.checkNum}}</span>
+                                                <img @click.stop="addCart(item, index)" src="/images/show_add.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="commodity2" v-if="currentTab == 1">
+                        <div class="comm_box">
+                            <div class="comm_inf">
+                                <img class="comm_pic" src="/images/shop_icon1.png" />
+                                <div class="comm_inf_box">
+                                    <p class="comm_tit">门店地址：{{shopInfo.province}}{{shopInfo.city}}{{shopInfo.area}}{{shopInfo.detailAddress}}</p>
+                                </div>
+                                <img class="comm_regu" @click="openTelDialog" src="/images/shop_telgray.png" />
+                            </div>
+                        </div>
+                        <div class="comm_box top" @click="toPage('/mall/info?photoFiles=' + shopAroundImg)" v-if="shopAroundImg.length > 0">
+                            <div class="comm_inf">
+                                <div class="shop_pic_list">
+                                    <div class="shop_pic_box" v-for="(item, index) in shopAroundImg" v-if="index < 4" :key="index">
+                                        <img class="shop_pic_img" :src="item + '!/both/141x108'" />
+                                    </div>
+                                </div>
+                                <img class="comm_regu2" src="/images/icon_arrow.png" />
+                            </div>
+                        </div>
+                        <div class="comm_box top" @click="toPage('/mall/infos?photoFiles=' + businessLicencesImg)" >
+                            <div class="comm_inf">
+                                <img class="shop_pic" src="/images/shop_icon3.png" />
+                                <div class="comm_inf_box">
+                                    <p class="comm_ustit">商家资质公示</p>
+                                </div>
+                                <img class="comm_regu3" src="/images/icon_arrow.png" />
+                            </div>
+                        </div>
+                        <div class="comm_box top">
+                            <div class="comm_inf">
+                                <img class="shop_pic" src="/images/shop_icon4.png" />
+                                <div class="comm_inf_box2">
+                                    <p class="comm_ustit">配送支持：{{shopInfo.deliveryTypeDesc}}</p>
+                                </div>	
+                            </div>
+                        </div>
+                        <div class="comm_box top" @click="toPage('/mall/extract?shelfId=' + shelfId + '&type=2')">
+                            <div class="comm_inf">
+                                <img class="shop_pic" src="/images/shop_icon5.png" />
+                                <div class="comm_inf_box">
+                                    <p class="comm_ustit">自提地址：<span v-if="shopInfo.sendPickAddressDetail != ''">{{shopInfo.sendPickAddressDetail}}</span></p>
+                                </div>
+                                <img class="comm_regu3" src="/images/icon_arrow.png" />
+                            </div>
+                        </div>
+                        <div class="comm_box top">
+                            <div class="comm_inf">
+                                <img class="shop_pic" src="/images/shop_icon7.png" />
+                                <div class="comm_inf_box2">
+                                    <p class="comm_ustit">营业时间：<span>{{information.openTime}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comm_box top"  @click="changeNoticeDialog">
+                            <div class="comm_inf">
+                                <img class="shop_pic" src="/images/shop_icon9.png" />
+                                <div class="comm_inf_box">
+                                    <p class="comm_ustit">公告：<span v-if="shopInfo.shelfNotice != ''">{{shopInfo.shelfNotice}}</span><span v-else class="no_gray">暂无公告</span></p>
+                                </div>
+                                <img class="comm_regu3" src="/images/icon_arrow.png" />
+                            </div>
+                        </div>
+                        <div class="comm_box top">
+                            <div class="comm_inf" style="justify-content: flex-start;">
+                                <img class="shop_pic" src="/images/shop_icon10.png" />
+                                <div class="comm_inf_box">
+                                    <p class="comm_ustit" v-if="shopInfo.isIssuedInvoice == 1 || shopInfo.isIssuedInvoice == 2">商家服务：<img class="show_tick" src="/images/show_ticket.png"/><span>可开发票</span></p>
+                                    <p class="comm_ustit" v-if="shopInfo.isIssuedInvoice == 0">商家服务：<img class="show_tick" src="/images/show_unticket.png"/><span>不可开发票</span></p>
+                                </div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="b-tabbar">
+                    <div class="b-tabbar-item active">
+                        <div class="b-tabbar-bd">
+                            <div class="b-tabbar-icon">
+                                <img src="/images/ic_tab_home_a.png">
+                            </div>
+                            <div class="b-tabbar-label">小脉部</div>
+                        </div>
+                    </div>
+                    <div class="b-tabbar-item" @click="toPage('/mall/cart?shopId=' + shopId + '&shelfId=' + shelfId)">
+                        <div class="b-tabbar-bd">
+                            <div class="b-tabbar-icon">
+                                <span v-if="goodsCount != 0">{{goodsCount}}</span>
+                                <img src="/images/ic_tab_cart_d.png">
+                            </div>
+                            <div class="b-tabbar-label">购物车</div>
+                        </div>
+                    </div>
+                    <div class="b-tabbar-item" @click="toPage('/mall/orderList?shopId=' + shopId + '&shelfId=' + shelfId)">
+                        <div class="b-tabbar-bd">
+                            <div class="b-tabbar-icon">
+                                <img src="/images/ic_tab_order_d.png">
+                            </div>
+                            <div class="b-tabbar-label">本店订单</div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <!--选择规格-->
+            <template v-if="isShowCartDialog">
+                <div class="js_dialog">
+                    <div class="weui-mask"></div>
+                    <div class="choose_box">
+                        <img class="spe_close" @click="closeAttrDialog" src="/images/close.png" />
+                        <div class="product_box">
+                            <img :src="shopGoodsSkuVoValue.pic + '!/both/164x164'" />
+                            <div class="product_info">
+                                <p class="pro_price">¥ {{shopGoodsSkuVoValue.goodsPrice}}</p>
+                                <p class="pro_inven">库存 {{shopGoodsSkuVoValue.stockNum}}件</p>
+                                <p class="pro_please">请选择: {{setStr}}</p>
+                                <p class="pro_ded">脉粒最多抵扣 <span>{{shopGoodsSkuVoValue.maiLiCount}} 元</span></p>
+                            </div>
+                        </div>
+
+                        <div class="pro_spe_box" v-for="(item, index) in goodsDetail.goodsAttrWithValueVos" :key="index">
+                            <div class="spe_tit"><span>{{item.goodsAttrName}}</span></div>
+                            <div class="pro_spr_list">
+                                <div class="spe_box" :class="{box_active : citem.isActive}" v-for="(citem, cindex) in item.goodsAttributeValueList" :key="cindex" @click="chooseAttr(citem, cindex, item, index)">{{citem.goodsAttrValue}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="pro_spe_box">
+                            <div class="spe_tit">
+                                <span class="spe_top"></span>
+                                <div class="spe_num">
+                                    <span class="spe_num_j" :class="{gray: goodsNum == 1}" @click="minusCount">-</span>
+                                    <span class="number">{{goodsNum}}</span>
+                                    <span class="spe_num_j num_ja" @click="addCount">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spe_bottom">
+                            <div class="spe_btn" @click="addToCart">加入购物车</div>
+                            <div class="spe_btn bg_orage" @click="buyNow">立即购买</div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+	        
+            <!--选择规格 end-->
+            <!--小脉部公告-->
+            <template v-if="isShowNoticeDialog">
+                <div class="js_dialog">
+                    <div class="weui-mask"></div>
+                    <div class="weui-dialog_box">
+                        <p class="sample_tit"><img src="/images/shoe_horn.png">小脉部公告</p>
+                        <p class="sample_des">{{information.shelfNotice}}</p>
+                        <img class="sample_close" @click="changeNoticeDialog" src="/images/icon_notice_close.png" />
+                    </div>
+                </div>
+            </template>
+            
+            <template v-if="isShowTelDialog">
+                <div class="js_dialog">
+                    <div class="weui-mask"></div>
+                    <div class="weui-dialog">
+                        <div class="weui-dialog__bd">确定要拨打商家电话吗？</div>
+                        <div class="weui-dialog__ft">
+                            <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="closeTelDialog">取消</a>
+                            <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary font_orage" @click="changeTel">立即拨打</a>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <!--操作提示-->
+            
+        </div>
+    </div>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    information: {},
+                    currentTab: 0,
+                    cindex: 0,
+                    shopId: `<%- shopId %>`,
+                    shelfId: "",
+                    shopInfo: {},
+                    shelfModelList: [],
+                    goodsList: [],
+                    goodsData: [],
+                    shopAroundImg: [],
+                    businessLicencesImg: [],
+                    isExtract: false,
+                    isShowCartDialog: false,
+                    isShowTelDialog: false,
+                    goodsDetail: {},
+                    shopGoodsSkuVoValue: {},
+                    goodsNum: 1,
+                    isShowNoticeDialog: false,
+                    shelfNotice: "",
+                    goodsIndex: "",
+                    goodsCount: 0
+                }
+            },
+            created() {
+                if(window.name != "bencalie"){
+					window.name = "bencalie";
+				}
+				else{
+					window.name = "";
+					location.reload();
+				}
+                this.initData();
+                this.getShopCartGoodsNum();
+            },
+            filters: {
+                ellipsis (value) {
+                    if (!value) return ''
+                    if (value.length > 40) {
+                        return value.slice(0,40) + '...'
+                    }
+                    return value
+                }
+            },
+            computed: {
+                setStr() {
+					let str = "";
+					if(this.goodsDetail.goodsAttrWithValueVos.length == 0) {return};
+					for(let i = 0; i<this.goodsDetail.goodsAttrWithValueVos.length; i++) {
+						str += this.goodsDetail.goodsAttrWithValueVos[i].goodsAttrName + " ";
+					}
+					if (str.length > 0) {
+						str = str.substr(0, str.length - 1);
+                    }
+					return str;
+                },
+            },
+            methods: {
+                // 初始化数据
+                initData() {
+                    axios.get("/mall/getShopInfo?shopId=" + this.shopId).then(res => {
+                        let data = res.data.data;
+                        // 货架详情里面的商家信息
+                        this.getShelfDetail(data.id);
+                        this.information = data;
+                        this.shelfId = data.id;
+                        document.title = data.shopName;
+                        this.shelfModelWithGoods = data.shelfModelWithGoods;
+						this.shelfModelList = this.shelfModelWithGoods.shelfModelList;
+						let goodsList = this.goodsList;
+						for(let i = 0; i<this.shelfModelList.length; i++) {
+							goodsList.push({id: this.shelfModelList[i].id, goodsData: []});
+                        }
+                        if(this.information.deliveryType.split(",")[1] == "3") {
+                            this.isExtract = true;	
+                        }
+                        if(sessionStorage.getItem("currentTab")) {
+							this.currentTab = sessionStorage.getItem("currentTab");
+							sessionStorage.removeItem("currentTab");
+                        }
+                        if(sessionStorage.getItem("cindex")) {
+                            this.cindex = sessionStorage.getItem("cindex");
+                            sessionStorage.removeItem("cindex");
+                            let shelfModelId = data.shelfModelWithGoods.shelfModelList[this.cindex].id;
+                            this.getShelfModelWithGoods(shelfModelId, this.shopId, this.shelfId, this.cindex);
+                        }else {
+                            let shelfModelId = data.shelfModelWithGoods.shelfModelList[0].id;
+							this.getShelfModelWithGoods(shelfModelId, this.shopId, this.shelfId, 0);
+						}
+                    });
+                },
+                // 获取购物车数据
+				getShopCartGoodsNum() {
+					axios.get("/mall/getShopCartGoodsNum?shopId=" + this.shopId).then(res => {
+                        console.log(res);
+                        if(res.data.errorCode == 0){
+                            if(res.data.data) {
+                                this.goodsCount = res.data.data.allCount;
+                            }
+						}
+					});
+				},
+                // 货架详情里面的商家信息
+				getShelfDetail(shelfId) {
+					let url = "/shop/shopList/getShelfDetail?shelfId=" + shelfId;
+					axios.get(url).then(res => {
+						let data =res.data.data;
+                        this.shopAroundImg = data.shopAroundImg.split(",");
+                        let businessLicencesImg, permitImg;
+                        if(data.businessLicencesImg) {
+                            businessLicencesImg = data.businessLicencesImg.split(",");
+                        }else {
+                            businessLicencesImg = [];
+                        }
+                        if(data.permitImg) {
+                            permitImg = data.permitImg.split(",");
+                        }else {
+                            permitImg = [];
+                        }
+                        this.businessLicencesImg = businessLicencesImg.concat(permitImg);
+                        this.shopInfo = data;
+						if(this.shopInfo.suspendOpen == 0) this.isSuspend = true;
+						if(this.shopInfo.suspendOpen == 1) this.isSuspend = false;
+					})
+				},
+                // 获取商店货架分类商品列表
+                getShelfModelWithGoods(shelfModelId, shopId, shelfId, index) {
+                    this.cindex = index;
+                    sessionStorage.setItem("cindex", this.cindex);
+                    if(this.goodsList[index].goodsData.length != 0) {
+                        return this.goodsData = this.goodsList[index].goodsData;
+                    }
+                    let url = "/mall/getShelfModelWithGoods?shopId=" + shopId + "&shelfId=" + shelfId + "&shelfModelId=" + shelfModelId;
+					axios.get(url).then(res => {
+                        if(res.data.errorCode == 0) {
+							this.goodsList[index].goodsData = res.data.data;
+							this.goodsData = this.goodsList[index].goodsData;
+						}else {
+							return poper(res.data.message);
+						}
+					});
+                },
+                changeTab(e) {
+					if(e == this.currentTab) {return};
+					this.currentTab = e;
+                },
+                // 
+                openTelDialog() {
+                    this.isShowTelDialog = true;
+                },
+                closeTelDialog() {
+                    this.isShowTelDialog = false;
+                },
+                changeNoticeDialog() {
+                    this.isShowNoticeDialog ? this.isShowNoticeDialog = false : this.isShowNoticeDialog = true;
+                },
+                changeTel() {
+                    window.location.href = "tel:" + this.shopInfo.mobile;
+                    this.isShowTelDialog = true;
+                },
+
+                // 查看商品详情
+                toGoodsDetail(item) {
+                    console.log(item);
+                    let goodsCode = item.goodsCode;
+                    let shopId = item.shopId;
+                    window.location.href = "/mall/detail?goodsCode=" + goodsCode + "&shopId=" + shopId;
+                },
+                // 添加购物车
+                addCart(item, index) {
+                    this.goodsIndex = index;
+                    let goodsCode = item.goodsCode;
+                    let shopId = item.shopId;
+                    let url = "/mall/getShopGoodsDetail?goodsCode=" + goodsCode + "&shopId=" + shopId;
+                    axios(url).then(res => {
+                        let data = res.data.data;
+                        this.isShowCartDialog = true;
+                        for(let i = 0; i<data.goodsAttrWithValueVos.length; i++) {
+                            data.goodsAttrWithValueVos[i].isActive = false;
+                            let goodsAttributeValueList = data.goodsAttrWithValueVos[i].goodsAttributeValueList;
+                            for(let j = 0; j<goodsAttributeValueList.length; j++) {
+                                goodsAttributeValueList[j].isActive = false;
+                            }
+                        }
+                        this.goodsDetail = data;
+                        if(this.goodsDetail.goodsAttrWithValueVos.length == 1) {
+                            let attrValue = this.goodsDetail.goodsAttrWithValueVos[0].goodsAttributeValueList[0].id;
+                            this.goodsDetail.goodsAttrWithValueVos[0].goodsAttributeValueList[0].isActive = true;
+                            this.handleSkuList(attrValue);
+                        }
+                        if(this.goodsDetail.goodsAttrWithValueVos.length > 1) {
+                            let attrValue = "";
+                            for(let i = 0; i<this.goodsDetail.goodsAttrWithValueVos.length; i++) {
+                                this.goodsDetail.goodsAttrWithValueVos[i].goodsAttributeValueList[0].isActive = true;
+                                attrValue += this.goodsDetail.goodsAttrWithValueVos[i].goodsAttributeValueList[0].id + ":";
+                            }
+                            if (attrValue.length > 0) {
+                                attrValue = attrValue.substr(0, attrValue.length - 1);
+                            }
+                            this.handleSkuList(attrValue);
+                        }
+                    });
+                },
+                chooseAttr(citem, cindex, item, index) {
+                    let goodsAttributeValueList = item.goodsAttributeValueList;
+                    for(let i = 0; i<goodsAttributeValueList.length; i++) {
+                        if(i == cindex) {
+                            goodsAttributeValueList[i].isActive = true;
+                            // goodsAttributeValueList[i].isActive ? goodsAttributeValueList[i].isActive = false : goodsAttributeValueList[i].isActive = true;
+                        }else {
+                            goodsAttributeValueList[i].isActive = false;
+                        }
+                    }
+                    this.handleChooseAttr();
+                },
+                closeAttrDialog() {
+                    this.isShowCartDialog = false;
+                    this.goodsDetail = {};
+                },
+
+                handleChooseAttr() {
+                    let attrValue = "";
+                    let goodsAttrWithValueVos = this.goodsDetail.goodsAttrWithValueVos;
+                    if(goodsAttrWithValueVos.length == 1) {
+                        for(let i = 0; i<goodsAttrWithValueVos.length; i++) {
+                            let goodsAttributeValueList = goodsAttrWithValueVos[i].goodsAttributeValueList;
+                            for(let j = 0; j<goodsAttributeValueList.length; j++) {
+                                if(goodsAttributeValueList[j].isActive == true) {
+                                    console.log(goodsAttributeValueList[j].id);
+                                    attrValue = goodsAttributeValueList[j].id;
+                                }
+                            }
+                        }
+                    }
+                    if(goodsAttrWithValueVos.length > 1) {
+                        for(let i = 0; i<goodsAttrWithValueVos.length; i++) {
+                            let goodsAttributeValueList = goodsAttrWithValueVos[i].goodsAttributeValueList;
+                            for(let j = 0; j<goodsAttributeValueList.length; j++) {
+                                if(goodsAttributeValueList[j].isActive == true) {
+                                    attrValue += goodsAttributeValueList[j].id + ":";
+                                }
+                            }
+                        }
+                        if (attrValue.length > 0) {
+                            attrValue = attrValue.substr(0, attrValue.length - 1);
+                        }
+                    }
+                    this.handleSkuList(attrValue);
+                },
+
+                // 
+                handleSkuList(attrValue) {
+                    console.log(attrValue);
+                    let shopGoodsSkuVoList = this.goodsDetail.shopGoodsSkuVoList;
+                    let goodsAttrWithValueVos = this.goodsDetail.goodsAttrWithValueVos;
+                    for(let i = 0; i<shopGoodsSkuVoList.length; i++) {
+                        if(shopGoodsSkuVoList[i].attrValue == attrValue) {
+                            this.shopGoodsSkuVoValue = shopGoodsSkuVoList[i];
+                        }
+                    }
+                    console.log(this.shopGoodsSkuVoValue);
+                },
+
+                // 减少商品数量
+                minusCount() {
+                    let goodsNum = this.goodsNum;
+                    if (goodsNum == 1) {
+					return poper("亲,该宝贝不能再减少了~");
+				}
+				this.goodsNum--;
+                },
+                // 增加商品数量
+                addCount() {
+                    let goodsNum = this.goodsNum;
+                    if (goodsNum >= this.shopGoodsSkuVoValue.stockNum) {
+                        return poper("亲,该宝贝不能再增加了~");
+                    }
+                    this.goodsNum++;
+                },
+                getShopSkuAndGoodsStatus() {
+                    let skuCode = this.shopGoodsSkuVoValue.skuCode;
+                    let shopId = this.shopId;
+                    return new Promise((resolve, reject) => {
+                        axios.get("/mall/getShopSkuAndGoodsStatus?skuCode=" + skuCode + "&shopId=" + shopId).then(res => {
+                            if(res.data.errorCode == 0) {
+                                resolve();
+                            }else {
+                                return poper(res.data.message);
+                            }
+                            
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+                },
+                // 加入购物车
+                addToCart() {
+                    if(this.information.suspendOpen == 1) {
+                        return poper("店铺已打烊");
+                    }
+                    this.getShopSkuAndGoodsStatus().then(data => {
+                        let config = {
+                            shopId: this.shopId,
+                            shelfId: this.shelfId,
+                            goodsCode: this.shopGoodsSkuVoValue.goodsCode,
+                            skuCode: this.shopGoodsSkuVoValue.skuCode,
+                            goodsCount: this.goodsNum,
+                            isCheck: 1,
+                            recommendId: 1,
+                            isConfirm: 1
+                        }
+                        let opt = {
+                            method: "POST",
+                            url: "/mall/updateGoodsNum",
+                            data: config,
+                            headers:{
+                                'Content-Type': 'application/json',
+                            }
+                        }
+                        axios(opt).then(res => {
+                            if (res.data.errorCode == 0) {
+                                this.isShowCartDialog = false;
+                                this.goodsData[this.goodsIndex].checkNum = this.goodsData[this.goodsIndex].checkNum + this.goodsNum;
+                                this.goodsIndex = "";
+                                this.goodsNum = 1;
+                                this.goodsCount = res.data.data.allGoodsCount;
+                                return poper("加入购物车成功");
+                            }else {
+                                return poper(res.data.message);
+                            }
+                        });
+                    });
+                },
+                // 立即购买
+                buyNow() {
+                    if(this.information.suspendOpen == 1) {
+                        return poper("店铺已打烊");
+                    }
+                    let shopId = this.shopId;
+					let shelfId = this.shelfId;
+					let goodsCode = this.shopGoodsSkuVoValue.goodsCode;
+					let skuCode = this.shopGoodsSkuVoValue.skuCode;
+					let goodsCount = this.goodsNum;
+					let config = {
+						shopId: this.shopId,
+						shelfId: this.shelfId,
+						goodsCode: this.shopGoodsSkuVoValue.goodsCode,
+						skuCode: this.shopGoodsSkuVoValue.skuCode,
+						goodsCount: this.goodsNum,
+						isCheck: 1,
+						recommendId: 1
+                    }
+                    this.getShopSkuAndGoodsStatus().then(res => {
+                        let url = `/mall/payOrder?shopId=${shopId}&shelfId=${shelfId}&goodsCode=${goodsCode}&skuCode=${skuCode}&goodsCount=${goodsCount}&isCheck=1&recommendId=1`;
+                        window.location.href = url;
+                        this.isShowCartDialog = false;
+                    });
+                },
+                toPage(page) {
+                    sessionStorage.setItem("currentTab", this.currentTab);
+					window.location.href = page;
+				}
+            }
+        })
+    </script>
+</body>
+</html>

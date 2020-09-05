@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+    		margin-top: 14px;
+    	}
+    	.create_category {
+            padding: 0px 25px;
+            height: 96px;
+            line-height: 96px;
+            background: #ffffff;
+            border-bottom: 1px solid #F5F7F9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category {
+            font-size: 28px;
+            color: #2C2C2C;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+
+        .category_tit {
+            text-align: right;
+            min-width: 62%;
+            padding: 0px 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-grow: 2;
+            flex-shrink: 1;
+        }
+        .gray {
+            color: #C8CACD;
+        }
+        .category_img {
+            padding: 32px 0;
+            flex-grow: 0.3;
+            flex-shrink: 0;
+        }
+        .create_category img {
+            float: right;
+            width: 28px;
+            height: 28px;
+        }
+    	.dist_way{
+    		padding: 24px 24px;
+    		background: #FFFFFF;
+    		border-bottom: 1px solid #f7f6f9;
+    		display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    	}
+    	.tui-checkbox.checked {
+			background:#FF6A29
+		}
+		.tui-checkbox {
+			width:34px;
+			height:34px;
+			background-color:#ffffff;
+			border:solid 1px #dddddd;
+			-webkit-border-radius:50%;
+			border-radius:50%;
+			margin-left:14px;
+			font-size:0.8rem;
+			position:relative;
+			display:inline-block;
+			vertical-align:top;
+			cursor:default;
+			-webkit-appearance:none;
+			-webkit-user-select:none;
+			user-select:none;
+			-webkit-transition:background-color ease 0.1s;
+			transition:background-color ease 0.1s;
+		}
+		.tui-checkbox.checked::after {
+			content:'';
+			top:8px;
+			left:7px;
+			position:absolute;
+			background:transparent;
+			border:#fff solid 2px;
+			border-top:none;
+			border-right:none;
+			height:8px;
+			width:16px;
+			-moz-transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+			transform:rotate(-45deg);
+		}
+        /*开关*/
+       .checke{
+            position: relative;
+            -webkit-appearance: none;
+            width:90px;
+            height: 34px;
+            line-height: 34px;
+            background: #cbcdcf;
+            border-radius: 30px;
+            outline: none;
+            margin-left: 26px;
+        }
+        .checke:before{
+            position: absolute;
+            top: -10px;
+            left: -4px;
+            content: '';
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #eceeef;
+            box-shadow: 0px 0px 5px #acb0b4;
+            transition: all 0.2s linear;
+        }
+        .checke:checked{
+           background: #FF6612;
+        }
+        .checke:checked:before{
+            left: 38px;
+            transition: all 0.2s linear;
+        }
+        .addsave{
+        	margin: 49px 24px 36px 24px;
+        	height: 84px;
+        	line-height: 84px;
+        	text-align: center;
+        	border-radius: 3px;
+        	background: #FF6612;
+        	font-size: 35px;
+        	color: #FFFFFF;
+        }
+        .adddel{
+        	margin: 0px 24px;
+        	height: 84px;
+        	line-height: 84px;
+        	text-align: center;
+        	border: 1px solid #C8CACD;
+        	border-radius: 3px;
+        	background: #FFFFFF;
+        	font-size: 35px;
+        	color: #FF6612;
+        }
+        .choose_box{
+			position: fixed;
+		    z-index: 5000;
+		    bottom: 0px;
+		    left: 0;
+		    padding-top: 24px;
+		    width: 100%;
+		    background-color: #FFFFFF;
+		}
+		.pay_bounced_tit{
+			margin-top: 6px;
+			margin-bottom: 30px;
+			text-align: center;
+			font-size: 35px;
+		}
+		.pay_boun_box{
+			margin-top: 24px;
+			padding: 24px 24px;
+        	display: flex;
+        	justify-content: space-between;
+		}
+		.stat_inf_box{
+        	width: 90%;
+        	margin-left: 12px;	
+        }
+        .comm_ustit{
+        	font-size: 32px;
+        	color: #2C2C2C;
+        	height: 36px;
+        	line-height: 36px;	
+        	overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+        }
+        .status{
+        	float: right;
+        	font-size: 30px;
+        	color: #6AC46E;
+        }
+        .stat_orage{
+        	color: #F8AC34;
+        }
+        .spe_bottom{
+			margin-top: 64px;
+			display: flex;
+			justify-content: space-between;
+		}
+		.spe_btn{
+			width: 100%;
+			height: 99px;
+			line-height: 99px;
+			text-align: center;
+			background: #FF6A29;
+			font-size: 42px;
+			color: #FFFFFF;
+		}
+		.opacitys{
+    		opacity: .5;
+    	}
+        .choose_box2{
+			position: fixed;
+		    z-index: 5000;
+		    bottom: 0px;
+		    left: 0;
+		    width: 100%;
+		    height: 884px;
+		    background-color: #F5F7F9;
+		}
+		.pay_top_tit{
+			position: relative;
+			height: 96px;
+			line-height: 96px;
+			text-align: center;
+			font-size: 35px;
+			background: #FFFFFF;
+		}
+		.pay_close{
+			position: absolute;
+			top: 28px;
+			right: 20px;
+			width: 40px;
+			height: 40px;
+		}
+		.pay_cen{
+			padding: 0px 24px;
+			margin-top: 25px;
+			height: 658px;
+			overflow: scroll;
+		}
+		.spe_btn2{
+			position: fixed;
+			bottom: 22px;
+			left: 24px;
+			width: 702px;
+			height: 84px;
+			line-height: 84px;
+			text-align: center;
+			background: #FF6A29;
+			font-size: 35px;
+			color: #FFFFFF;
+		}
+		.invoice_box{
+			padding: 24px;
+			margin-bottom: 25px;
+			background: #FFFFFF;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.invoice_tit{
+			font-size: 32px;
+			color: #000000;
+		}
+		.invoice_state{
+			margin-top: 13px;
+			font-size: 24px;
+			color: #B3B6BA;
+		}
+		.invoice_edi{
+			width: 46px;
+			height: 46px;
+		}
+		.invoice_null{
+			margin-top: 300px;
+			width: 100%;
+			text-align: center;
+			font-size: 25px;
+			color: #C8CACD;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                	<div class="create_category top">
+						<div class="category">发票类型</div>
+						<div class="category_tit">{{isVat==1 && "普通发票" || isVat==2 && "增值税专用发票"}}</div>
+					</div>
+                    <div class="dist_way">
+                    	<div>抬头类型：</div>
+                    	<div @click="changeInvoiceType(1)">个人或事业单位<input name="checkbox" type="checkbox" class="tui-checkbox" :class="{checked: invoiceType == 1}"></div>
+                    	<div @click="changeInvoiceType(2)">企业<input name="checkbox" type="checkbox" class="tui-checkbox" :class="{checked: invoiceType == 2}"></div>
+                    </div>
+                    <template v-if="invoiceType == 1">
+                        <div class="create_category" @click="changeInvoiceItem">
+                            <div class="category">发票抬头</div>
+                            <div class="category_tit" :class="{gray: invoiceTitle == ''}">{{invoiceTitle == "" && "填写需开具的抬头名称，默认为“个人”" || invoiceTitle != "" && invoiceTitle}}</div>
+                            <div class="category_img"><img src="/images/arrows.png"></div>
+                        </div>
+                    </template>
+                    <template v-if="invoiceType == 2">
+                        <div class="create_category" @click="changeInvoiceItem">
+                            <div class="category">发票抬头</div>
+                            <div class="category_tit" :class="{gray: invoiceTitle == ''}">{{invoiceTitle == "" && "抬头名称" || invoiceTitle != "" && invoiceTitle}}</div>
+                            <div class="category_img"><img src="/images/arrows.png"></div>
+                        </div>
+                        <div class="create_category">
+                            <div class="category">税号</div>
+                            <input class="category_tit" placeholder="纳税人识别号或社会统一征信代码" v-model="invoiceTaxNo" />
+                        </div>
+                        <div class="create_category top">
+                            <div class="category">开户银行</div>
+                            <input class="category_tit" placeholder="选填" v-model="vatBankName" />
+                        </div>
+                        <div class="create_category">
+                            <div class="category">银行账号</div>
+                            <input class="category_tit" placeholder="选填" v-model="vatBankAccount" />
+                        </div>
+                        <div class="create_category">
+                            <div class="category">企业地址</div>
+                            <input class="category_tit" placeholder="选填" v-model="vatCompanyAddress" />
+                        </div>
+                        <div class="create_category">
+                            <div class="category">企业电话</div>
+                            <input class="category_tit" placeholder="选填" v-model="vatTelphone" />
+                        </div>
+                    </template>
+                    <div class="create_category">
+                        <div class="category">设置为默认抬头</div>
+                        <input type="checkbox" class="checke" :checked="isDefault == 1" @change="changeDefault">
+                    </div>
+                    <div class="addsave" @click="submit">提交申请</div>
+                    <div class="adddel" @click="goBack">不开发票</div>
+                </main>
+            </div>
+        </div>
+        <template v-if="false">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="choose_box">
+                    <div class="pay_bounced_tit">发票类型选择</div>
+                    <div class="pay_boun_box" @click="toggleInvoice(0)">
+                        <div class="stat_inf_box">
+                            <p class="comm_ustit">普通发票</p>
+                        </div>
+                        <input name="checkbox" type="checkbox" class="tui-checkbox">
+                    </div>
+                    <div class="pay_boun_box">
+                        <div class="stat_inf_box">
+                            <p class="comm_ustit">增值税专用发票</p>
+                        </div>
+                        <input name="checkbox" type="checkbox" class="tui-checkbox" >
+                    </div>
+                    <div class="spe_bottom">
+                        <div class="spe_btn" @click="editInvoice">完成</div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template v-if="isShowInvoiceDialog">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="choose_box2">
+                    <div class="pay_top_tit">发票类型选择<img class="pay_close" src="/images/w_close.png" @click="isShowInvoiceDialog = false"></div>
+                    <div class="pay_cen">
+                        <template v-if="invoiceList.length == 0">
+                            <div class="invoice_null">您还没有发票抬头</div>
+                        </template>
+                        <template v-if="invoiceList.length > 0">
+                            <template v-for="(item, index) in invoiceList">
+                                <div class="invoice_box" v-if="item.invoiceType == invoiceType" :key="index" @click="enterInvoice(item)">
+                                    <div>
+                                        <p class="invoice_tit">{{item.invoiceTitle}}</p>
+                                        <p class="invoice_state">{{item.invoiceType == 1 && "个人抬头" || item.invoiceType == 2 && "企业抬头"}}</p>
+                                    </div>
+                                    <img class="invoice_edi" @click.stop="editInvoice(item)" src="/images/addr_edi.png" />
+                                </div>
+                            </template>
+                            
+                        </template>
+                    </div>
+                    <div class="spe_btn2" @click="addInvoice">添加新的抬头</div>
+                </div>
+            </div>
+        </template>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) {
+                window.location.reload();
+            }
+        });
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    isVat: `<%- id %>`,   // 1 普通发票,2 增值发票
+                    invoiceType: 1, // 1 个人,2 企业
+                    invoiceTitle: "",
+                    invoiceTaxNo: "",
+                    vatCompanyName: "",
+                    vatCompanyAddress: "",
+                    vatTelphone: "",
+                    vatBankName: "",
+                    vatBankAccount: "",
+                    isDefault: 0,
+                    pageIndex: 1,
+                    pageSize: 20,
+                    isShowInvoiceDialog: false,
+                    invoiceList: [],
+                    invoiceId: "",
+                }
+            },
+            created() {
+                if(sessionStorage.getItem("invoiceData")) {
+                    let invoiceData = JSON.parse(sessionStorage.getItem("invoiceData"));
+                    this.invoiceId = invoiceData.invoiceId;
+                    this.invoiceType = invoiceData.invoiceType;
+                    this.invoiceTitle = invoiceData.invoiceTitle;
+                    this.invoiceTaxNo = invoiceData.invoiceTaxNo;
+                    this.vatCompanyName = invoiceData.vatCompanyName;
+                    this.vatCompanyAddress = invoiceData.vatCompanyAddress;
+                    this.vatTelphone = invoiceData.vatTelphone;
+                    this.vatBankName = invoiceData.vatBankName;
+                    this.vatBankAccount = invoiceData.vatBankAccount;
+                    this.isDefault = invoiceData.isDefault;
+                }
+                this.getInvoiceList();
+            },
+            methods: {
+                getInvoiceList() {
+                    axios.get("/mall/getInvoiceList?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize).then(res => {
+                        console.log(res);
+                        this.invoiceList = this.invoiceList.concat(res.data.data.list);
+                    });
+                },
+                changeInvoiceType(type) {
+                    if(this.invoiceType == type) return;
+                    this.invoiceType = type;
+                    this.invoiceId = "";
+                    this.invoiceTitle = "";
+                    this.invoiceTaxNo = "";
+                    this.vatCompanyName = "";
+                    this.vatCompanyAddress = "";
+                    this.vatTelphone = "";
+                    this.vatBankName = "";
+                    this.vatBankAccount = "";
+                    this.isDefault = "";
+                },
+                changeDefault() {
+                    this.isDefault == 1 ? this.isDefault = 0 : this.isDefault = 1;
+                },
+                changeInvoiceItem() {
+                    this.isShowInvoiceDialog = true;
+                },
+                enterInvoice(item) {
+                    this.invoiceType = item.invoiceType;
+                    this.isShowInvoiceDialog = false;
+                    this.invoiceId = item.id;
+                    this.invoiceTitle = item.invoiceTitle;
+                    this.invoiceTaxNo = item.invoiceTaxNo;
+                    this.vatCompanyName = item.vatCompanyName;
+                    this.vatCompanyAddress = item.vatCompanyAddress;
+                    this.vatTelphone = item.vatTelphone;
+                    this.vatBankName = item.vatBankName;
+                    this.vatBankAccount = item.vatBankAccount;
+                    this.isDefault = item.isDefault;
+                    sessionStorage.setItem("invoiceData", JSON.stringify(item));
+                },
+                addInvoice() {
+                    this.isShowInvoiceDialog = false;
+                    window.location.href = "/mall/invoiceHead";
+                },
+                editInvoice(item) {
+                    this.isShowInvoiceDialog = false;
+                    sessionStorage.setItem("invoiceData", JSON.stringify(item));
+                    window.location.href = "/mall/invoiceHead?invoiceId=" + item.id;
+                },
+                goBack() {
+                    sessionStorage.setItem("invoiceId", "");
+                    window.history.go(-1);
+                },
+                submit() {
+                    if(this.invoiceId == "") {
+                        return poper("请填写发票抬头");
+                    }
+                    let config = {
+                        isVat: this.isVat,
+                        id: this.invoiceId,
+                        invoiceType: this.invoiceType,
+                        invoiceTitle: this.invoiceTitle,
+                        invoiceTaxNo: this.invoiceTaxNo,
+                        vatCompanyName: this.vatCompanyName,
+                        vatCompanyAddress: this.vatCompanyAddress,
+                        vatTelphone: this.vatTelphone,
+                        vatBankName: this.vatBankName,
+                        vatBankAccount: this.vatBankAccount,
+                        isDefault: this.isDefault
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/mall/invoiceUpdate",
+						data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    axios(opt).then(res => {
+                        console.log(res);
+                        if(res.data.errorCode == 0) {
+                            config.invoiceId = this.invoiceId;
+                            sessionStorage.setItem("invoiceData", JSON.stringify(config));
+                            sessionStorage.setItem("invoiceId", this.invoiceId);
+                            sessionStorage.setItem("invoiceTitle", this.invoiceTitle);
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.data.message);
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/order.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+        .content {
+            padding-bottom: 120px;
+        }
+        .order_mana_box {
+            padding: 0px 24px;
+            background: #fff;
+        }
+        .order_top_box {
+            width: 100%;
+            border-bottom: 1px solid #EDF0F3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order_all {
+            padding: 24px 0px;
+        }
+        .order_message {
+            flex: 1;
+            line-height: 40px;
+            font-size: 28px;
+            color: #2C2C2C;
+        }
+        .order_message_gray {
+			color: #AFB3BF;
+		}
+        .order_top_box {
+            width: 100%;
+            border-bottom: 1px solid #EDF0F3;
+            display: flex;
+            justify-content: space-between;
+        }
+        .order_tell {
+            height: 90px;
+            align-items: center;
+        }
+        .order_l {
+            text-align: left;
+        }
+        .order_r {
+            text-align: right;
+        }
+        .order_note {
+            padding: 24px 0px;
+            display: flex;
+            border-bottom: 1px solid #EDF0F3;
+        }
+        .oreder_addr_icon {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+        }
+        .order_addr_f {
+            margin-left: 15px;
+        }
+        .comm_tit2 {
+            font-size: 28px;
+            color: #2C2C2C;
+            max-height: 60px;
+            line-height: 30px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+        .comm_num_box {
+            line-height: 34px;
+            font-size: 24px;
+            color: #4299F3;
+        }
+        .ord_martop {
+            margin-top: 21px;
+        }
+        .order_goods_staus {
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .goods_status {
+            font-size: 26px;
+			color: #FF7272;
+			line-height: 30px;
+        }
+        .goods_status span {
+            padding-right: 4px;
+            font-size: 22px;
+        }
+        .goods_status_y {
+            margin-top: 17px;
+            font-size: 24px;
+            color: #FDAA33;
+        }
+        .order_all_one {
+            display: flex;
+            /* justify-content: space-between; */
+            justify-content: flex-end;
+            height: 80px;
+            align-items: center;
+            background-color: #fff;
+            font-size: 28px;
+            color: #9698A0;
+            border-top: 1px solid #EDF0F3;
+            margin-top: 14px;
+        }
+        .order_all_one span {
+            color: #F85341;
+        }
+        .order_all_l {
+            font-size: 28px;
+            color: #9698A0;
+        }
+        .order_all_l span {
+            color: #F85341;
+        }
+        .order_info {
+            padding: 15px 0;
+            font-size: 24px;
+            border-bottom: 1px solid #F5F7F9;
+        }
+        .order_info p {
+            margin: 15px 0px;
+            height: 32px;
+            line-height: 32px;
+            font-size: 24px;
+            color: #2C2C2C;
+        }
+        .comm_item {
+            margin: 12px 0;
+            position: relative;
+        }
+        .comm_item .deliveryType {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .comm_box {
+            margin-top: 0;
+            padding: 0 24px;
+            box-sizing: border-box;
+        }
+        .order_ope {
+            padding: 32px 0 24px;
+        }
+        .order_addr_icon2 img {
+            margin-left: 34px;
+            width: 54px;
+            height: 54px;
+        }
+        .weui-mask {
+		    position: fixed;
+		    z-index: 1000;
+		    top: 0;
+		    right: 0;
+		    left: 0;
+		    bottom: 0;
+		    background: rgba(0,0,0,0.6);
+		}
+		.weui-actionsheet {
+		    position: fixed;
+		    left: 0;
+		    bottom: 0;
+		    z-index: 5000;
+		    width: 100%;
+		    background-color: #f7f7f7;
+		    -webkit-transition: -webkit-transform 0.3s;
+		    transition: -webkit-transform 0.3s;
+		    transition: transform 0.3s;
+		    transition: transform 0.3s,-webkit-transform 0.3s;
+		    overflow: hidden;
+		}
+		.weui-actionsheet__menu {
+		    color: rgba(0,0,0,0.9);
+		    background-color: #fff;
+		}
+		.weui-actionsheet__cell {
+		    position: relative;
+		    padding:0 16px;
+		    text-align: center;
+		    font-size: 36px;
+		    color: #2C2C2C;
+		    line-height: 114px;
+        }
+        .weui-actionsheet__cell.bor {
+            border-bottom: 1px solid #f2f2f2;
+        }
+		.weui-actionsheet__action {
+		    margin-top: 8px;
+		    background-color: #fff;
+		    padding-bottom: constant(safe-area-inset-bottom);
+		    padding-bottom: env(safe-area-inset-bottom);
+        }
+        .weui-dialog2{
+			width: 680px;  
+		    position: fixed;
+		    z-index: 5000;
+		    top: 50%;
+		    left: 35px;
+		    right: 35px; 
+		    -webkit-transform: translate(0, -50%);
+		    transform: translate(0, -50%);
+		    background-color: #fff;
+		    background-color: #FFFFFF;
+		    text-align: center;
+		    border-radius: 3px;
+		    overflow: hidden;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-flex-direction: column;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    flex-direction: column;
+		    max-height: 90%;
+		}
+		.weui-dialog__con{
+			position: relative;
+			padding: 36px;
+		}
+		.weui_close{
+			position: absolute;
+			top: 17px;
+			right: 17px;
+            width: 56px;
+            height: 56px;
+		}
+		.top_tit{
+			text-align: left;
+			font-size: 32px;
+			color: #2C2C2C;
+		}
+		.weui_con{
+			display: flex;
+			flex-wrap:wrap;
+			margin-top: 30px;
+		}
+		
+		.weui-dialog__btn {
+		    line-height: 100px;
+		    font-size: 34px;
+		    font-weight: 700;
+		    color: #3086DE;
+		}
+       .weui-dialog__btn {
+		    color: #3086DE;
+        }
+        .order_reason{
+			padding-top: 20px;
+			padding-bottom: 27px;
+			width: 100%;
+			display: flex;
+			align-items: center;
+		}
+		.delvery_tit{
+			font-size: 28px;
+			color: #6A6C72;
+		}
+		.tui-checkbox.checked {
+			background:#1673ff
+		}
+		.tui-checkbox {
+			width:34px;
+			height:34px;
+			background-color:#ffffff;
+			border:solid 1px #dddddd;
+			-webkit-border-radius:50%;
+			border-radius:50%;
+			font-size:0.8rem;
+			margin-right: 13px;
+			position:relative;
+			display:inline-block;
+			vertical-align:top;
+			cursor:default;
+			-webkit-appearance:none;
+			-webkit-user-select:none;
+			user-select:none;
+			-webkit-transition:background-color ease 0.1s;
+			transition:background-color ease 0.1s;
+		}
+		.tui-checkbox.checked::after {
+			content:'';
+			top:8px;
+			left:7px;
+			position:absolute;
+			background:transparent;
+			border:#fff solid 2px;
+			border-top:none;
+			border-right:none;
+			height:8px;
+			width:16px;
+			-moz-transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+			transform:rotate(-45deg);
+		}
+		.order_text{
+			padding: 10px;
+			width: 590px;
+			height: 160px;
+			line-height: 32px;
+			font-size: 28px;
+			background: #F5F7F9;
+			border: none;
+        }
+        .detail_info2 {
+            width: 100%;
+        }
+        .goods_list {
+            background: #fff;
+            padding: 14px 24px 0;
+        }
+        .goods_list .item {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+        }
+        .comm_inf {
+            padding: 14px 0 30px;
+        }
+        .comm_inf{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.goods_item {
+			flex: 1;
+			display: flex;
+			justify-content: space-between;
+			height: 152px;
+		}
+        .yellow {
+           background: linear-gradient(to right,#fac625,#f7af16);
+        }
+        .red {
+            background: linear-gradient(to right,#ff6642,#f34744);
+        }
+        .blue {
+            background: linear-gradient(to right,#3596ee,#328ce3);
+        }
+        .green {
+            background: linear-gradient(to right,#24d2b3,#1fc7b1);
+        }
+        .gray {
+            background: linear-gradient(to right,#7f8289,#686a71);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="detail_top" :class="{yellow: orderDetail.orderStatus == 101, red: orderDetail.orderStatus == 201, blue: orderDetail.orderStatus == 301, green: orderDetail.orderStatus == 402 || orderDetail.orderStatus == 401, gray:  orderDetail.orderStatus == 501 ||  orderDetail.orderStatus == 502 || orderDetail.orderStatus == 503 ||  orderDetail.orderStatus == 504}" v-if="orderDetail.orderStatus">
+                		<div class="detail_top_one" >
+							{{orderDetail.orderStatus == 101 && "等待买家付款" || orderDetail.orderStatus == 201 && '待发货'|| 
+							orderDetail.orderStatus == 301 && "已发货" || orderDetail.orderStatus == 401 && "交易完成" || orderDetail.orderStatus == 402 && "交易完成" || 
+							orderDetail.orderStatus == 501 && "订单已取消" || orderDetail.orderStatus == 502 && "交易关闭" || orderDetail.orderStatus == 503 && "交易关闭" ||
+                            orderDetail.orderStatus == 504 && "交易关闭" || orderDetail.orderStatus == 505 && "交易关闭" || orderDetail.orderStatus == 506 && "交易关闭" || orderDetail.orderStatus == 507 && "交易关闭"}}
+                            </div>
+                        <template v-if="orderDetail.orderStatus == 201">
+							<div class="desc">买家已付款，请及时发货</div>
+						</template>
+                        <template v-if="orderDetail.orderStatus == 502">
+                            <div class="desc">买家取消订单</div>
+                        </template>
+                    </div>
+                    <div class="order_mana_box" v-if="orderDetail.customerRemark != ''">
+                        <div class="order_top_box order_all">
+                            <div class="order_message">留言：{{orderDetail.customerRemark}}</div>
+                        </div>
+                    </div>
+                    <div class="order_mana_box" v-if="orderDetail.orderInvoice">
+                        <div class="order_top_box order_all">
+                            <div class="order_message">发票：{{orderDetail.orderInvoice.isVat == 1 && "普通发票(个人)" || orderDetail.orderInvoice.isVat == 2 && "增值发票(企业)"}}</div>
+                        </div>
+                    </div>
+                    <div class="order_mana_box">
+                        <div class="order_note">
+                            <template v-if="accountRemark.length == 0">
+                                <img class="oreder_addr_icon" src="/images/flags.png" >
+                                <div class="order_message order_addr_f order_message_gray" @click.stop="changeRemark(accountRemark)">(未添加备注，点击添加备注)</div>
+                            </template>
+                            <template v-else>
+                                <img class="oreder_addr_icon" src="/images/flags_a.png" >
+                                <div class="order_message order_addr_f" @click.stop="changeRemark(accountRemark)">{{accountRemark}}</div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="order_mana_box">
+                        <div class="order_top_box order_tell">
+                            <div class="detail_con_box order_l"><img src="/images/shop_wx.png">{{orderDetail.userName}}</div>
+                            <div class="detail_con_box order_r" @click="openCallDialog(orderDetail.userPhone, '买家')" ><img src="/images/shop_tel.png">拨打电话</div>
+                        </div>
+                    </div>
+                    <div class="order_mana_box" v-if="orderDetail.deliveryType == 1 && Object.keys(orderAddress).length > 0">
+                        <div class="order_top_box order_all">
+                            <img class="oreder_addr_icon" src="/images/shop_icon1.png">
+                            <div class="order_message order_addr_f">{{orderAddress.receiver || ""}},{{orderAddress.mobile}},{{orderAddress.province}}{{orderAddress.city}}{{orderAddress.area}}{{orderAddress.address}}</div>
+                            <div class="order_addr_icon2">
+                                <img @click="changeCopy" src="/images/refund_addr.png">
+                                <!-- <img @click="openGps(orderDetail)"src="/images/gps.png"> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail_address" v-if="orderDetail.deliveryType == 3">
+                        <img class="address_img" src="/images/shop_icon5.png"/>
+                        <div class="detail_info2">
+                            <p class="detail_addr">自提地址：{{orderAddress.province}}{{orderAddress.city}}{{orderAddress.area}}{{orderAddress.address}}</p>
+                            <p class="detail_addr" @click="openCallDialog(orderAddress.pickMobile, '自提人')">自提人电话：{{orderAddress.pickMobile}}<img src="/images/shop_telgray.png"/></p>
+                        </div>
+                    </div>
+                    <div class="delivery_con" v-if="orderDeliveryList.length > 0 && orderDeliveryList[0].deliveryType == 1">
+                        <img src="/images/icon_delivery.png" class="address_img">
+                        <div class="delivery_info">
+                            <p class="order_yellow">发货方式：自己联系物流</p>
+                            <p>{{orderDeliveryList[0].deliveryCompany}} {{orderDeliveryList[0].deliveryCode}}</p>
+                        </div>
+                        <img class="copy_icon" src="/images/refund_addr.png" @click="copyText('deliveryCode', orderDeliveryList[0].deliveryCode)" >
+                    </div>
+                    <div class="comm_item goods_list">
+                        <img class="deliveryType" v-if="orderDetail.deliveryType == 3" src="/images/deliveryType.png">
+                        <template v-for="(item, index) in orderGoodsDtoList">
+                            <div class="item" :key="index">
+                                <img class="comm_pic" :src="item.pic" />
+                                <div class="goods_item">
+                                    <div class="comm_inf_box">
+                                        <p class="comm_tit2">{{item.goodsName}}</p>
+                                        <p class="comm_num_box ord_martop">{{item.goodsAttr}}</p>
+                                    </div>
+                                    <div class="order_goods_staus">
+                                        <p class="goods_status"><span>¥</span>{{item.goodsTotalPay}}</p>
+                                        <div class="goods_status_y">x{{item.goodsCount}}</div>
+                                        <div class="goods_status_y" v-if="item.proMaiLiCount != 0">脉粒抵扣: - ¥ {{item.proMaiLiCount}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="order_all_one">
+                            共计{{orderDetail.goodsNum}}件，{{orderDetail.orderStatus == 101 && "应收" || orderDetail.orderStatus != 101 && "实收"}}<span>¥ {{orderDetail.payPrice}}</span>(含邮费 ¥ {{orderDetail.freightAmount}})
+                        </div>
+                    </div>
+                    <div class="comm_box">
+                        <div class="order_info">
+                            <p>订单来源：{{orderDetail.shopName}}</p>
+                            <p>订单编号：{{orderDetail.orderCode}}<span class="detail_copy" @click="copyText('orderCode', orderDetail.orderCode)">复制</span></p>
+                            <p>下单时间：{{orderDetail.createTime | formatDate}}</p>
+                        </div>
+                    </div>
+                    <div class="comm_box">
+                        <div class="order_info">
+                            <p>配送方式：{{orderDetail.deliveryType == 1 && '快递/外送' || orderDetail.deliveryType == 3 && '自提' || orderDetail.deliveryType == 4 && '免邮'}}</p>
+                        </div>
+                    </div>
+                    <template v-if="orderInvoice">
+                        <div class="comm_box">
+                            <div class="order_info">
+                                <p>发票类型：{{orderInvoice.isVat == 1 && "普通发票" || orderInvoice.isVat == 2 && "增值发票"}}</p>
+                                <p>发票抬头：{{orderInvoice.invoiceTitle}}</p>
+                                <p v-if="orderInvoice.vatBankName">开户银行：{{orderInvoice.vatBankName}}</p>
+                                <p v-if="orderInvoice.vatBankAccount">银行卡号：{{orderInvoice.vatBankAccount}}</p>
+                                <p v-if="orderInvoice.vatCompanyAddress">企业地址：{{orderInvoice.vatCompanyAddress}}</p>
+                                <p v-if="orderInvoice.vatTelphone">企业电话：{{orderInvoice.vatTelphone}}</p>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="comm_box foot_btn" v-if="orderDetail.orderStatus == 201">
+                        <div class="order_ope">
+                            <div class="order_btn bg_blue" v-if="orderDetail.orderStatus == 201" @click="toDeliver(orderDetail.orderCode)">发货</div>
+							<div class="order_btn" v-if="orderDetail.orderStatus == 201" @click="cancelOrderDialog">取消订单</div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <template v-if="isShowOrderDialog">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog2">
+                    <div class="weui-dialog__con">
+                        <img class="weui_close" @click="cancelOrderDialog" src="/images/icon_notice_close.png">
+                        <div class="weui_top">
+                            <p class="top_tit">请选择取消订单理由：</p>
+                        </div>
+                        <div class="weui_con">
+                            <div class="order_reason">
+                                <input name="checkbox" type="checkbox" class="tui-checkbox" :class="{checked: reasonType == 0}" @click="changeReason(0)">
+                                <span class="delvery_tit">缺货</span> 
+                            </div>
+                            <div class="order_reason">
+                                <input name="checkbox" type="checkbox" class="tui-checkbox" :class="{checked: reasonType == 1}" @click="changeReason(1)">
+                                <span class="delvery_tit">填写其他理由：</span> 
+                            </div>
+                            <textarea class="order_text" @focus="changeFocus" v-model="reasonText"></textarea>
+                        </div>
+                    </div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="cancelOrder">确定</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template v-if="isShowCopyDialog">
+			<div class="weui-mask">
+				<div class="weui-actionsheet">
+					<div class="weui-actionsheet__menu">
+						<div class="weui-actionsheet__cell bor" @click="copyText('all')">复制全部退货信息</div>
+						<div class="weui-actionsheet__cell bor" @click="copyText('name')">复制姓名</div>
+						<div class="weui-actionsheet__cell bor" @click="copyText('phone')">复制手机</div>
+						<div class="weui-actionsheet__cell bor" @click="copyText('address')">复制地址</div>
+					</div>
+					<div class="weui-actionsheet__action">
+						<div class="weui-actionsheet__cell" id="iosActionsheetCancel" @click="changeCopy">取消</div>
+					</div>
+				</div>
+			</div>
+        </template>
+        <!--操作提示-->
+		<template v-if="isShowCallSeller">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__bd">确定要拨打{{callName}}电话吗？</div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default"  @click="isShowCallSeller=false">取消</a>
+                        <a href="javascript:"  class="weui-dialog__btn weui-dialog__btn_primary" @click="callSeller">确定</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- 备注订单 -->
+		<template v-if="isRemarkDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog2">
+					<div class="weui-dialog__con">
+						<img class="weui_close" @click="isRemarkDialog = false" src="/images/icon_notice_close.png">
+						<div class="weui_top">
+							<p class="top_tit">请填写备注信息：</p>
+						</div>
+						<div class="weui_con">
+							<textarea class="order_text" v-model="remarkText"></textarea>
+						</div>
+					</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="setAccountRemark">保存</a>
+					</div>
+				</div>
+			</div>
+		</template>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    orderCode: `<%- orderCode %>`,
+                    orderDetail: {},
+                    orderGoodsDtoList: [],
+                    orderDeliveryList: [],
+                    orderInvoice: {},
+                    orderAddress: {},
+                    isShowCopyDialog: false,
+                    isShowOrderDialog: false,
+                    isShowCallSeller: false,
+                    reasonType: 0,
+                    reasonText: "",
+					isRemarkDialog: false,
+                    accountRemark: "",
+                    remarkText: "",
+                    phone: "",
+                    callName: "买家"
+                }
+            },
+            created() {
+                if(window.name != "bencalie"){
+					window.name = "bencalie";
+				}
+				else{
+					window.name = "";
+					location.reload();
+				}
+                this.initData();
+            },
+            filters: {
+				formatDate(value) {
+					let date = new Date(value * 1000);
+					let y = date.getFullYear();
+					let MM = date.getMonth() + 1;
+					MM = MM < 10 ? ('0' + MM) : MM;
+					let d = date.getDate();
+					d = d < 10 ? ('0' + d) : d;
+					let h = date.getHours();
+					h = h < 10 ? ('0' + h) : h;
+					let m = date.getMinutes();
+					m = m < 10 ? ('0' + m) : m;
+					let s = date.getSeconds();
+					s = s < 10 ? ('0' + s) : s;
+					return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+				}
+			},
+            methods: {
+                initData() {
+                    axios.get("/shop/orderManage/getOrderDetail?orderCode=" + this.orderCode).then(res => {
+                        console.log(res);
+                        this.orderDetail = res.data.data;
+                        this.orderDeliveryList = res.data.data.orderDeliveryList;
+                        this.orderGoodsDtoList = res.data.data.orderGoodsDtoList;
+                        this.orderInvoice = res.data.data.orderInvoice;
+                        this.orderAddress = res.data.data.orderAddress || {};
+                        this.accountRemark = res.data.data.accountRemark;
+                    });
+                },
+                copyText(type, code) {
+					let str, item;
+					if (type == "orderCode") {
+						str = code;
+					}else if(type == "deliveryCode") {
+                        str = code;
+                    }else {
+						item = this.orderAddress;
+						if(type == "all") {
+						str = item.receiver + "," + item.mobile + "," + item.province + item.city + item.area + item.address;
+						}else if (type == "name") {
+							str = item.receiver;
+						}else if (type == "phone") {
+							str = item.mobile;
+						}else if (type == "address") {
+							str = item.province + item.city + item.area + item.address;
+						}else {
+							str = type;
+						}
+					}
+					let result = h5Copy(str);
+					if(result === true) {
+						this.isShowCopyDialog = false;
+						return poper("复制成功");
+					}else {
+						return poper("复制失败");
+					}
+                },
+                openCallDialog(phone, name) {
+                    this.phone = phone;
+                    this.callName = name;
+                    this.isShowCallSeller = true;
+                },
+                //拨打电话
+				callSeller(){
+                    this.isShowCallSeller = false;
+					window.location.href = `tel:${this.phone}`;
+                },
+                //打开地图
+				openGps(item){
+					let od = item.orderAddress
+					let addr= `${od.province}${od.city}${od.area}${od.address}`
+					window.location.href = "/mall/map?addr=" + addr;
+				},
+                toDeliver(orderCode) {
+                    window.location.href = "/shop/orderManage/deliver?orderCode=" + orderCode;
+                },
+                cancelOrderDialog() {
+                    this.isShowOrderDialog ? this.isShowOrderDialog = false : this.isShowOrderDialog = true;
+                },
+                changeReason(type) {
+					this.reasonType = type;
+                },
+                cancelOrder() {
+					let cancelReason = "缺货";
+					if (this.reasonType == 1) {
+						cancelReason = this.reasonText;
+					}
+					let opt = {
+						method: "POST",
+						url: "/shop/orderManage/cancelOrder",
+						data:[{orderCode: this.orderCode, cancelReason: cancelReason}]
+					};
+					axios(opt).then(res => {
+						if(res.data.errorCode== 0) {
+							this.isShowOrderDialog = false;
+							this.initData();
+						}else {
+							return poper(res.data.message);
+						};
+					});
+				},
+                changeCopy() {
+                    this.isShowCopyDialog ? this.isShowCopyDialog = false : this.isShowCopyDialog = true;
+                },
+                
+                changeRemark(accountRemark) {
+					this.remarkText = accountRemark;
+					this.isRemarkDialog = true;
+                },
+
+                changeFocus() {
+                    this.reasonType = 1;
+                },
+                
+                // 商家备注订单
+				setAccountRemark() {
+					let opt = {
+						method: "POST",
+						url: "/shop/orderManage/accountRemark",
+						data: {
+							orderCode: this.orderCode,
+							accountRemark: this.remarkText
+						}
+					}
+					axios(opt).then(res => {
+						if(res.data.errorCode == 0) {
+                            this.isRemarkDialog = false;
+                            this.accountRemark = this.remarkText;
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				}
+            }
+        })
+    </script>
+</body>
+</html>

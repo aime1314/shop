@@ -1,0 +1,20 @@
+{
+  "apps": {
+    "name": "qmWeb",                             // 项目名
+    "script": "./bin/www",                           // 执行文件
+    "args"        : " master",
+    "cwd": "./",                                      // 根目录
+
+    "ignore_watch": [                           // 不用监听的文件
+      "node_modules",
+      "temp",
+      "client",
+      ".git",
+      ".idea"
+    ],
+    "watch_options": {
+      "followSymlinks": false
+    },
+    "exec_mode": "fork"                // 应用启动模式，支持fork和cluster模式
+    }
+}

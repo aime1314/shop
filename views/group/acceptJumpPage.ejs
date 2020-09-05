@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script>
+        var sharInfoStr  = JSON.parse(`<%- shareInfoStr %>`);
+    </script>
+</head>
+<body>
+ <script src="/javascripts/jquery.min.js"></script>
+ <script>
+     var inviteMemberId='';
+     var groupId = '';
+     var appStatus=true;
+     var u = navigator.userAgent;
+     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      $(document).ready(function(){
+        GetRequest();
+        // alert(sharInfoStr.appVersion)
+        if(typeof sharInfoStr.appVersion=='undefined'||sharInfoStr.appVersion==''){
+             alert('版本号错误');
+             return;
+        }else{
+            // alert("版本号："+sharInfoStr.appVersion)
+            appStatus = versionCompare(sharInfoStr.appVersion);
+            appVersionCli();
+        }
+     })
+    function GetRequest(){
+        var url = location.search; //获取url中"?"符后的字串 
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        inviteMemberId = theRequest.inviteMemberId;
+        groupId = theRequest.groupId;
+        // alert(inviteMemberId+'    '+groupId);
+    }
+    function appVersionCli(){
+        var obj = {"methodType":"invoke","nativeFlag":"closeWebView"};
+        if(appStatus){
+            //  alert(">=110");
+             var OBJ = {"methodType":"invoke","nativeFlag":"acceptGroupInvitePage","params":{"joinSource":0,"groupId":groupId,"inviteMemberId":inviteMemberId}}
+            //  alert(JSON.stringify(OBJ))
+               if(isAndroid){
+                      qmWebViewListener.getAppMethod(JSON.stringify(OBJ));
+                      qmWebViewListener.getAppMethod(JSON.stringify(obj));
+                }
+                if(isiOS){
+                    window.webkit.messageHandlers.getAppMethod.postMessage(OBJ);
+                     window.webkit.messageHandlers.getAppMethod.postMessage(obj);
+                }
+        } else{
+            // alert("<110");
+             var OBJ = {"methodType":"invoke","nativeFlag":"checkNewAppVersion"}
+            // alert(JSON.stringify(OBJ))
+             if(isAndroid){
+                     qmWebViewListener.getAppMethod(JSON.stringify(OBJ));   
+                }
+                if(isiOS){
+                    // alert(JSON.stringify(OBJ))
+                    window.webkit.messageHandlers.getAppMethod.postMessage(obj);
+                    window.webkit.messageHandlers.getAppMethod.postMessage(OBJ);
+                }
+        }
+    }
+    function versionCompare(appVersion){
+        // alert(appVersion);
+         var appVer = Number(appVersion.split('.').join(""));
+        //  alert(appVer);
+            if(appVer<110){
+                return false;
+           }else{
+                return true;
+           }
+        }   
+</script>
+</body>
+</html>

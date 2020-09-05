@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+        	margin-top: 14px;
+        }
+        .trade_meun{
+        	padding: 28px 24px;
+        	background: #FFFFFF;
+        	display: flex;
+        	justify-content:space-between;
+        }
+        .trade_meun_box{
+        	text-align: center;
+        	width: 175px;
+        }
+        .trade_meun_box span{
+        	display: block;
+        	width: 100%;
+        }
+        .meun_num{
+        	font-size: 38px;
+        	color: #000000;
+        }
+        .meun_state{
+        	padding-top: 14px;
+        	font-size: 24px;
+        	color: #6A6C72;
+        }
+        .trade_box{
+        	background: #FFFFFF;
+        }
+        .trade_top{
+        	padding: 30px 24px;
+			display: flex;
+    		align-items: center;
+        }
+        .trade_top img{
+        	width: 30px;
+        	margin-right: 16px;
+        }
+        .trade_top span{
+        	font-size: 28px;
+        	color: #000000;
+        }
+        .trade_con{
+        	padding: 20px 24px 50px 24px;
+        	text-align: center;
+        	border-bottom: 1px solid #f7f6f9;
+        }
+        .trade_con p{
+        	font-size: 26px;
+        	color: #000000;
+        }
+        .trade_con h1{
+        	padding-top: 20px;
+        	padding-bottom: 27px;
+        	font-size: 60px;
+        	font-weight: bold;
+        	color: #000000;
+        }
+        .trade_con span{
+        	font-size: 28px;
+        	color: #A7AAAF;
+        }
+        .trade_num{
+        	padding: 34px 24px;
+        	display: flex;
+        }
+        .trade_num_box{
+        	width: 50%;
+        	text-align: center;
+        }
+        .trade_num_box p{
+        	font-size: 24px;
+        }
+        .trade_num_box h2{
+        	padding: 18px 0px;
+        	font-size: 38px;
+        }
+        .trade_num_box span{
+        	font-size: 24px;
+        	color: #A7AAAF;
+        }
+        .trade_mana_box{
+        	padding: 0px 24px 32px 24px;
+        	background: #FFFFFF;
+        	display: flex;
+        	flex-wrap: wrap;
+        }
+        .mana_top{
+        	margin-top: 44px;
+        	margin-bottom: 12px;
+        }
+        .trade_img{
+        	width: 96px;
+        	margin-bottom: 23px;
+        }
+        .trade_tit{
+        	font-size: 26px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="trade_meun top">
+                    	<a href="/shop/orderManage/orderList?type=1" class="trade_meun_box">
+                    		<span class="meun_num"><%= information.unPay %></span>
+                    		<span class="meun_state">待付款</span>
+						</a>
+                    	<a href="/shop/orderManage/orderList?type=2" class="trade_meun_box">
+                    		<span class="meun_num"><%= information.unDelivery %></span>
+                    		<span class="meun_state">待发货</span>
+						</a>
+                    	<a href="/shop/orderManage/orderList?type=3" class="trade_meun_box">
+                    		<span class="meun_num"><%= information.unReceive %></span>
+                    		<span class="meun_state">已发货</span>
+						</a>
+                    	<a href="/shop/orderManage/refundList" class="trade_meun_box">
+                    		<span class="meun_num"><%= information.unRefund %></span>
+                    		<span class="meun_state">退款/售后</span>
+						</a>
+                    </div>
+                    <div class="trade_box top">
+                    	<div class="trade_top"><img src="/images/trade.png"><span>我的销售数据</span></div>
+                    	<div class="trade_con">
+                    		<p>今日总营业额（元）</p>
+                    		<h1><%= information.todayOrderMoney %></h1>
+                    		<span>昨日 <%= information.yesterdayOrderMoney %></span>
+                    	</div>
+                    	<div class="trade_num">
+                    		<div class="trade_num_box">
+                    			<p>今日付款总订单数</p>
+                    			<h2><%= information.todayOrderNum %></h2>
+                    			<span>昨日 <%= information.yesterdayAccess %></span>
+                    		</div>
+                    		<div class="trade_num_box">
+                    			<p>今日总访客数</p>
+                    			<h2><%= information.yesterdayAccess %></h2>
+                    			<span>昨日 <%= information.todayAccess %></span>
+                    		</div>
+                    	</div>
+                    </div>
+                    <div class="trade_mana_box top">
+                    	<a href="/shop/goods/createGoods" class="trade_meun_box mana_top">
+                    		<img class="trade_img" src="/images/tra1.png" />
+                    		<span class="trade_tit">创建商品</span>
+                        </a>
+                    	<a href="/shop/goodsManage/index" class="trade_meun_box mana_top">
+                    		<img class="trade_img" src="/images/tra2.png" />
+                    		<span class="trade_tit">商品管理</span>
+                        </a>
+                    	<a href="/shop/orderManage/orderList?type=1" class="trade_meun_box mana_top">
+                    		<img class="trade_img" src="/images/tra3.png" />
+                    		<span class="trade_tit">订单管理</span>
+                        </a>
+                    	<a href="/shop/shopList/index?type=0" class="trade_meun_box mana_top">
+                    		<img class="trade_img" src="/images/tra4.png" />
+                    		<span class="trade_tit">我的小脉部</span>
+                        </a>
+                    	<a href="/shop/spread" class="trade_meun_box mana_top">
+                    		<img class="trade_img" src="/images/tra5.png" />
+                    		<span class="trade_tit">推广效果</span>
+						</a>
+                    </div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+
+				}
+			},
+			created() {
+				sessionStorage.removeItem("goodsDetail");
+				sessionStorage.removeItem("goodsName");
+				sessionStorage.removeItem("mainImageUrlList");
+				sessionStorage.removeItem("goodsSkuAddDtoList");
+				sessionStorage.removeItem("mainImageUrl");
+				sessionStorage.removeItem("imgList");
+			},
+			methods: {
+
+			}
+		})
+	</script>
+</body>
+</html>

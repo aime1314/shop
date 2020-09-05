@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>群脉分享</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <style>
+        body,html{
+            background:#fff;
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .header{
+            width: 1.35rem;
+            height: 1.35rem;
+            margin: 0 auto;
+            margin-top: 2.46rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .header img{
+            display: block;
+            width: 100%;
+            height:100%;
+        }
+        .section{
+            width: 100%;
+            text-align: center;
+        }
+        .section p:nth-child(1){
+            padding: 0.5rem;
+            /* height:0.33rem; */
+            font-size:0.35rem;
+            color:rgba(0,0,0,1);
+            /* line-height:0.36rem; */
+        }
+        .footer{
+            width: 100%;
+            position: fixed;
+            bottom:0.59rem;
+        }
+        .footer p:nth-child(1){
+            padding-bottom: 0.43rem;
+            text-align: center;
+            height:0.23rem;
+            font-size:0.24rem;
+            color:rgba(62,140,249,1);
+            line-height:0.43rem;
+        }
+        .footer p:nth-child(2){
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.49rem;
+            height: 0.71rem;
+            background:rgba(62,140,249,1);
+            border-radius:36px;
+
+        }
+        .footer p:nth-child(2) span:nth-child(1){
+            width: 0.26rem;
+            height: 0.3rem;
+        }
+        .footer p:nth-child(2) span:nth-child(1) img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .footer p:nth-child(2) span:nth-child(2){
+            display: inline-block;
+            height: 0.29rem;
+            font-size: 0.29rem;
+            color: #fff;
+            line-height: 0.33rem;
+        }
+        .back{
+            display: inline-block;
+            width: 2.49rem;
+            height: 0.71rem;
+            line-height: 0.71rem;
+            font-size: 0.32rem;
+            color: #fff;
+            background: rgba(62,140,249,1);
+            border-radius: 0.15rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="/images/pastDue.png" alt="">
+    </header>
+    <section class="section">
+        <p>分享链接</p>
+    </section>
+    <footer class="footer">
+    </footer>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var thumbnail='https://cdn-static.qunmai.com/app/member/headImg/9300.png'
+        var webShowUrl= encodeURIComponent(window.location.href);
+        console.log(window.location.href);
+        var content = document.title;
+        var subTitle = '分享分享分享';
+        $(document).ready(function(){
+            backPage();
+        });
+       function backPage(){
+           var msgContent={"thumbnail":thumbnail,"webShowUrl":webShowUrl};
+           if(content){
+            msgContent.content=content;
+           }
+           if(subTitle){
+            msgContent.subTitle=subTitle;
+           }
+           console.log(msgContent);
+           alert(JSON.stringify(msgContent));
+         var OBJ = {"methodType":"invoke","nativeFlag":"acceptWebShareTemplateParams","params":msgContent}
+          if(isiOS) {
+                window.webkit.messageHandlers.getAppMethod.postMessage(OBJ)
+          }
+          if(isAndroid){
+                qmWebViewListener.getAppMethod(JSON.stringify(OBJ));
+          }
+       }
+
+    </script>
+
+</body>
+</html>

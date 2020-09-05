@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=cad1404d0f03b03102340a0271baf742&plugin=AMap.Geocoder"></script>
+    <style>
+        #container{
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main id="container">
+                      地图
+                </main>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var addr = decodeURI(window.location.href.split('?')[1].split('=')[1])
+
+    var map = new AMap.Map('container', {
+        resizeEnable: true,
+        zoom:13
+    });
+
+    var marker = new AMap.Marker();
+
+    var geocoder = new AMap.Geocoder({
+        city: "0532", //城市设为北京，默认：“全国”
+    });
+    console.log(addr)
+    geocoder.getLocation(addr, function(status, result) {
+        console.log(result)
+        var lnglat = result.geocodes[0].location
+
+        // lnglat.lng=116.397477
+        // lnglat.lat=39.908692
+        // console.log(lnglat)
+        marker.setPosition(lnglat);
+        map.add(marker);
+        map.setFitView(marker);
+
+    })
+    
+</script>
+</html>

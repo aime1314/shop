@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>群脉</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body,html{
+            background:#fff;
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .header{
+            width: 1.35rem;
+            height: 1.35rem;
+            margin: 0 auto;
+            margin-top: 2.46rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .header img{
+            display: block;
+            width: 100%;
+            height:100%;
+        }
+        .section{
+            width: 100%;
+            text-align: center;
+        }
+        .section p:nth-child(1){
+            padding-top: 0.5rem;
+            height:0.33rem;
+            font-size:0.35rem;
+            color:rgba(0,0,0,1);
+            line-height:0.36rem;
+        }
+        .footer{
+            width: 100%;
+            position: fixed;
+            bottom:0.59rem;
+        }
+        .footer p:nth-child(1){
+            padding-bottom: 0.43rem;
+            text-align: center;
+            height:0.23rem;
+            font-size:0.24rem;
+            color:rgba(62,140,249,1);
+            line-height:0.43rem;
+        }
+        .footer p:nth-child(2){
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.49rem;
+            height: 0.71rem;
+            background:rgba(62,140,249,1);
+            border-radius:36px;
+
+        }
+        .footer p:nth-child(2) span:nth-child(1){
+            width: 0.26rem;
+            height: 0.3rem;
+        }
+        .footer p:nth-child(2) span:nth-child(1) img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .footer p:nth-child(2) span:nth-child(2){
+            display: inline-block;
+            height: 0.29rem;
+            font-size: 0.29rem;
+            color: #fff;
+            line-height: 0.33rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="/images/pastDue.png" alt="">
+    </header>
+    <section class="section">
+        <p>请使用群脉APP打开！</p>
+    </section>
+    <footer class="footer">
+        <P>没有安装群脉APP?</P>
+        <p>
+            <span>
+                <img src="/images/ico-download.png" alt="">
+            </span>
+            <span onclick="downLoad()">&nbsp;&nbsp;立即下载</span>
+        </p>
+    </footer>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        function downLoad(){
+            window.location.href = "https://www.qunmai.com/downloadPage.html"
+        }
+    </script>
+</body>
+</html>

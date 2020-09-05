@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/swiper.min.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+        ::-webkit-input-placeholder {
+            color: #C8CACD;
+        }
+
+        ::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #C8CACD;
+        }
+
+        :-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            color: #C8CACD;
+        }
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: #C8CACD;
+        }
+
+        .top {
+            margin-top: 14px;
+        }
+
+        .bottom {
+            margin-bottom: 133px;
+        }
+        .swiper-container {
+            width: 750px;
+            height: 750px;
+        }
+        .swiper-container .swiper-slide img {
+            width: 750px;
+            height: 750px;
+        }
+
+        .swiper-pagination-bullet {
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            opacity: 1;
+        }
+        .swiper-pagination-bullet-active {
+            background: #3086DE;
+        }
+        .upload_box {
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+        }
+
+        .upload_bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #E2E6EC;
+            text-align: center;
+        }
+
+        .upload_bg input {
+            width: 150px;
+            height: 210px;
+            position: absolute;
+            left: 40%;
+            top: 30%;
+            ;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .upload_bg img {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            left: 40%;
+            top: 30%;
+            z-index: 1;
+        }
+
+        .upload_bg p {
+            font-size: 32px;
+            color: #B0BCC9;
+            padding-top: 53%;
+        }
+
+        .upload_icon {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+        }
+        .file-area {
+            width: 90px;
+            height: 90px;
+            margin-right: 20px;
+            position: relative;
+        }
+        .file-area input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .upload_icon img {
+            width: 90px;
+            height: 90px;
+        }
+
+        .create_tit {
+            padding: 0px 25px;
+            height: 96px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+        }
+
+        .create_tit textarea {
+            width: 72%;
+            height: 92px;
+            line-height: 92px;
+            white-space: nowrap;
+            overflow: scroll;
+            border: none;
+            font-size: 32px;
+        }
+
+        .create_num {
+            float: right;
+            line-height: 96px;
+            color: #C8CACD;
+            font-size: 32px;
+        }
+
+        .create_category {
+            padding: 0px 25px;
+            height: 96px;
+            line-height: 96px;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .category {
+            font-size: 32px;
+            color: #6A6C72;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+
+        .category_tit {
+            text-align: right;
+            min-width: 62%;
+            padding: 0px 5px;
+            color: #2C2C2C;
+            font-size: 32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-grow: 2;
+            flex-shrink: 1;
+        }
+
+        .category_img {
+            padding: 32px 0;
+            flex-grow: 0.3;
+            flex-shrink: 0;
+        }
+
+        .create_category img {
+            float: right;
+            width: 32px;
+            height: 32px;
+        }
+
+        .create_btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+        }
+
+        .sty {
+            text-align: center;
+            height: 100px;
+            line-height: 100px;
+            font-size: 35px;
+        }
+
+        .btn_write {
+            background: #ffffff;
+            color: #4487CC;
+            flex-grow: 2;
+        }
+
+        .btn_blun {
+            background: #3086DE;
+            color: #FFFFFF;
+            flex-grow: 2;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="upload_box" v-cloak v-if="!isSwiper">
+                        <div class="upload_bg">
+                            <input type="file" accept="image/*" multiple ref="imginput" @change="handleImage($event)">
+                            <img src="/images/uploading.png">
+                            <p>添加主图</p>
+                        </div>
+                    </div>
+                    <div class="swiper-container" v-cloak v-if="isSwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" v-for="(item, index) in imgList" :key="index">
+                                <img :src="item + '!/both/750x750'">
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <div class="upload_icon" v-if="imgList.length > 0">
+                        <div class="file-area">
+                            <input type="file" accept="image/*" multiple ref="imginput2" @change="handleImage2($event)">
+                            <img src="/images/photo.png">
+                        </div>
+                        <img @click="setPic" src="/images/picture.png" />
+                    </div>
+                    <!--信息编辑-->
+                    <div class="create_tit">
+                        <textarea id="area" v-model="goodsName" @blur="setGoodsName" placeholder="输入商品标题" maxlength="30"></textarea>
+                        <div class="create_num"><span id="text-count">{{goodsName.length}}</span>/30</div>
+                    </div>
+                    <div class="create_category">
+                        <div class="category">商品类目</div>
+                        <template v-if="Object.keys(goodsCategoryDto).length > 0">
+                            <div class="category_tit">{{goodsCategoryDto.name}}>{{goodsCategoryDto.goodsCategoryList[0].name}}>{{goodsCategoryDto.goodsCategoryList[0].goodsCategoryList[0].name}}</div>
+                        </template>
+                        <div class="category_img"><img src="/images/arrows.png"></div>
+                    </div>
+                    <div class="create_category top bottom" @click="toPage('/shop/goodsManage/setDesc?goodsCode=' + goodsCode)">
+                        <div class="category">商品描述</div>
+                        <div class="category_tit" v-cloak v-if="isDetail">已编辑</div>
+                        <div class="category_img"><img src="/images/arrows.png"></div>
+                    </div>
+                    <div class="create_btn">
+                        <div class="btn_blun sty" @click="addGoods">保存</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/swiper.min.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    goodsCode: `<%- goodsCode %>`,
+                    isOnline: `<%- isOnline %>`,
+                    isDelete: `<%- isDelete %>`,
+                    isNeedSku: 1,
+                    isNeedAttrs: 0,
+                    categoryId: "",
+                    category: {},
+                    imgLen: 0,
+                    imgList: [],
+                    mySwiper: "",
+                    isSwiper: false,
+                    isDetail: false,
+                    goodsName: "",
+                    picSign: [],
+                    goodsDetail: "",
+                    goodsCategoryDto: {}
+                }
+            },
+            created() {
+                this.initData();
+            },
+            mounted() {
+                if(this.imgList.length > 0) {
+                    this.isSwiper = true;
+                    this.getSwiper();
+                }
+            },
+            methods: {
+                getSwiper() {
+                    this.$nextTick(() => {
+                        this.mySwiper = new Swiper ('.swiper-container', {
+                            loop : true,
+                            pagination: {
+                                el: '.swiper-pagination',
+                            },
+                            observeParents: true,
+                            observer: true,
+                            on:{
+                                paginationRender: function(){
+                                },
+                            },
+                        })
+                    });
+                },
+                initData() {
+                    axios.get("/shop/goodsManage/getGoodsVoDetail?goodsCode=" + this.goodsCode + "&isNeedSku=" + this.isNeedSku + "&isNeedAttrs=" + this.isNeedAttrs).then(res => {
+                        let data = JSON.parse(res.data).data;
+                        this.goodsCode = data.goodsCode;
+                        this.goodsCategoryDto = data.goodsCategoryDto;
+                        if(sessionStorage.getItem("updateGoodsName")) {
+                            this.goodsName = sessionStorage.getItem("updateGoodsName");
+                        }else {
+                            this.goodsName = data.goodsName;
+                        }
+                        if(sessionStorage.getItem("updateGoodsDetail")) {
+                            this.isDetail = true;
+                            this.goodsDetail = sessionStorage.getItem("updateGoodsDetail");
+                        }else {
+                            this.isDetail = true;
+                            this.goodsDetail = data.goodsDetail;
+                        }
+                        if(sessionStorage.getItem("mainImageUrl")) {
+                            let mainImageUrl = JSON.parse(sessionStorage.getItem("mainImageUrl")).split(",");
+                            this.imgList = [].concat(mainImageUrl, JSON.parse(sessionStorage.getItem("mainImageUrlList")));
+                            sessionStorage.removeItem("mainImageUrl");
+                            sessionStorage.removeItem("mainImageUrlList");
+                            sessionStorage.removeItem("imgList");
+                        }else if(sessionStorage.getItem("imgList")) {
+                            this.imgList = JSON.parse(sessionStorage.getItem("imgList"));
+                            sessionStorage.removeItem("imgList");
+                        }else {
+                            this.imgList = [].concat(data.mainImageUrl.split(","), data.mainImageUrlList);
+                        }
+                        this.imgLen = this.imgList.length;
+                        this.getSwiper();
+                        this.isSwiper = true;
+                    });
+                },
+                setGoodsName() {
+                    sessionStorage.setItem('updateGoodsName', this.goodsName);
+                },
+                handleImage() {
+                    let files = this.$refs.imginput.files;
+                    this.handleImageUpload(files);
+                },
+                handleImage2() {
+                    let files = this.$refs.imginput2.files;
+                    this.handleImageUpload(files);
+                },
+                handleImageUpload(files) {
+                    let imgLen = this.imgLen;
+                    let len = files.length + imgLen;
+                    if(len > 6) {
+                        return poper("主图数量最多6张");
+                    }
+                    for(let i=0; i < files.length; i++) {
+                        let isImg = files[i].type == "image/jpeg" || files[i].type == "image/png" || files[i].type == "image/jpg";
+                        if(!isImg) {
+                            return poper("只能上传jpg/jpeg/png文件");
+                        }
+                        if(files[i].size > (limitNum*1024*1024)) {
+                            return poper(`请选择${limitNum}M以内的图片！`);
+                        }
+                    }
+                    for(let i=0; i < files.length; i++) {
+                        this.imgLen++;
+                        let size = files[i].size;
+                        let imgType = files[i].type.substring(6);
+                        let timestamp = new Date().getTime();
+                        let randomStr = randomString(10);
+                        let item = {
+                            length: size,
+                            goodsCode: this.goodsCode,
+                            type: "/shop/goods",
+                            uri: timestamp + randomStr + "." + imgType
+                        }
+                        this.picSign.push(item);
+                    }
+                    this.getPicSign(files, this.picSign);
+                },
+                // 获取图片参数
+                getPicSign(files, picSign) {
+                    let config = picSign;
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        let data = res.data.data;
+                        if(data.length == 0) return;
+                        let forbody = Promise.resolve();
+                        for(let i = 0; i<data.length; i++) {
+                            forbody = forbody.then(res=>{
+                                return this.uploadImgs(i, data, files);
+                            })
+                        }
+                    })
+                },
+                // 上传图片
+                uploadImgs(i, data, files) {
+                    let formData = new FormData();
+                    formData.append("policy", data[i].policy);
+                    formData.append("signature", data[i].signature);
+                    formData.append("file", files[i]);
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+                            this.imgList.push(data[i].host + data[i].uri);
+                            if(i == data.length-1) {
+                                formData.delete("policy");
+                                formData.delete("signature");
+                                formData.delete("file");
+                                this.picSign = [];
+                                if(this.isSwiper == false) {
+                                    this.isSwiper = true;
+                                    this.getSwiper();
+                                }
+                                sessionStorage.setItem('imgList', JSON.stringify(this.imgList));
+                            }
+                            resolve('ok:'+i);
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+                },
+
+                setPic() {
+                    sessionStorage.setItem('imgList', JSON.stringify(this.imgList));
+                    window.location.href = "/shop/goods/setPic";
+                },
+
+                toPage(page) {
+                    sessionStorage.setItem("updateGoodsDetail", this.goodsDetail);
+                    sessionStorage.setItem("updateGoodsName", this.goodsName);
+                    sessionStorage.setItem("imgList", JSON.stringify(this.imgList));
+                    window.location.href = page;
+                },
+
+                addGoods() {
+                    let config = {
+                        goodsCode: this.goodsCode,
+                        isOnline: this.isOnline,
+                        isDelete: this.isDelete,
+                        goodsName: this.goodsName,
+                        goodsDetail: this.goodsDetail,
+                        mainImageUrl: this.imgList.slice(0,1).join(""),
+                        mainImageUrlList: this.imgList.slice(1)
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/goodsManage/updateGoods",
+						data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    axios(opt).then(res => {
+                        if(res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

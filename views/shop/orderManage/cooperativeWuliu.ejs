@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.page{
+    		background: #FFFFFF;
+    	}
+    	.coop_top{
+    		padding: 33px 24px 13px 24px;
+    		background: #f7f6f9;
+    		font-size: 28px;
+    		color: #797A7A;
+    	}
+    	.coop_box{
+    		padding: 24px 24px 0px 24px;
+    		background: #FFFFFF;
+    		display: flex;
+    		flex-wrap: wrap;
+    		justify-content: space-between;
+    	}
+    	.coop_box_k{
+    		position: relative;
+    		margin-bottom: 24px;
+    		width: 327px;
+    		height: 60px;
+    		line-height: 60px;
+    		text-align: center;
+    		border: 1px solid #B0B1B6;
+    		font-size: 30px;
+    		color: #B0B1B6;
+    	}
+    	.blue{
+    		border: 1px solid #3086DE;
+    		color: #3086DE;
+    	}
+    	.activ{
+    		position: absolute;
+    		bottom: 0;
+    		right: 0;
+    		width: 28px;
+    		height: 28px;
+    	}
+    	/*btn*/
+       .create_btn {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			display: flex;
+		}
+
+		.btn_blun {
+			width: 100%;
+			text-align: center;
+			height: 100px;
+			line-height: 100px;
+			font-size: 35px;
+			background: #3086DE;
+			color: #FFFFFF;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="coop_top">请设置您常用的物流公司（最多选5个）</div>
+                    <div class="coop_box">
+                    	<div class="coop_box_k blue">
+                    		其他
+                    		<img class="activ" src="/images/active.png">
+                    	</div>
+                    	<div class="coop_box_k blue">
+                    		其他
+                    		<img class="activ" src="/images/active.png">
+                    	</div>
+                    	<div class="coop_box_k">
+                    		中国邮政
+                    	</div>
+                    	<div class="coop_box_k">
+                    		中国邮政
+                    	</div>
+                    	<div class="coop_box_k">
+                    		中国邮政
+                    	</div>
+                    	<div class="coop_box_k">
+                    		中国邮政
+                    	</div>
+                    	<div class="coop_box_k">
+                    		中国邮政
+                    	</div>
+                    	<div class="coop_box_k">
+                    		中国邮政
+                    	</div>
+                    	<div class="coop_box_k">
+                    		中国邮政
+                    	</div>
+                    </div>
+                    <div class="create_btn">
+                        <div class="btn_blun">保存</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

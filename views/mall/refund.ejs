@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/mobileSelect.css" />
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+    		margin-top: 14px;
+    	}
+    	.create_category {
+            padding: 33px 25px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category {
+            font-size: 32px;
+            color: #2C2C2C;
+            flex-grow: 1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+        .category span{
+        	color: #FF6612;
+        }
+
+        .category_tit {
+            text-align: right;
+            min-width: 62%;
+            padding: 0px 5px;
+            color: #2C2C2C;
+            font-size: 32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-grow: 2;
+            flex-shrink: 1;
+        }
+
+        .category_img {
+            flex-grow: 0.3;
+            flex-shrink: 0;
+        }
+
+        .create_category img {
+            float: right;
+            width: 28px;
+            height: 28px;
+        }
+        .refund_note{
+        	padding: 0px 24px;
+        	height: 54px;
+        	line-height: 54px;
+        	background: #F3F3F3;
+        	font-size: 28px;
+        	color: #797A7A;
+        }
+        .create_category2 {
+            padding: 33px 25px;
+            background: #ffffff;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .create_category2 p{
+        	width: 100%;
+        }
+        .refund_texta{
+        	margin-top: 10px;
+        	width: 100%;
+        	height: 210px;
+        	line-height: 42px;
+        	border: none;
+        	font-size: 32px;
+        	font-family: "微软雅黑";
+        	color: #2c2c2c;	
+        }
+        .refund_upload{
+        	width: 100%;
+        }
+        .shop_pic_box{
+        	position: relative;
+        	float: left;
+        	width: 156px;
+        	height: 156px;
+        	margin-right: 19px;
+        	margin-top: 22px;
+        }
+        .shop_pic_img{
+        	width: 156px;
+        	height: 156px
+        }
+        .pic_close{
+			position: absolute;
+			top: -15px;
+			right: -13px;
+			width: 40px;
+		}
+		.shop_pic_box input {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+            width: 141px;
+            height: 108px;
+            z-index: 10;
+            opacity: 0;
+        }
+        .shop_pic_upload{
+        	width: 154px;
+        	height: 154px;
+        	text-align: center;
+        	border: 1px solid #B0B1B6;
+        }
+        .shop_pic_upload img{
+        	margin-top: 24px;
+        	width: 56px;
+        	height: 50px;
+        }
+        .shop_pic_upload p{
+        	margin-top: 11px;
+        	line-height: 23px;
+        	font-size: 24px;
+        	color: #B0B1B6;
+        }
+        .refund_foot{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	height: 132px;
+        	background: #FFFFFF;
+        }
+        .addsave{
+        	margin: 24px;
+        	width: 702px;
+        	height: 84px;
+        	line-height: 84px;
+        	text-align: center;
+        	border-radius: 3px;
+        	background: #FF6612;
+        	font-size: 35px;
+        	color: #FFFFFF;
+        }
+        /*选择弹框*/
+       .weui-mask {
+		    position: fixed;
+		    z-index: 1000;
+		    top: 0;
+		    right: 0;
+		    left: 0;
+		    bottom: 0;
+		    background: rgba(0,0,0,0.6);
+		}
+		.weui-actionsheet {
+		    position: fixed;
+		    left: 0;
+		    bottom: 0;
+		    z-index: 5000;
+		    width: 100%;
+		    background-color: #f7f7f7;
+		    -webkit-transition: -webkit-transform 0.3s;
+		    transition: -webkit-transform 0.3s;
+		    transition: transform 0.3s;
+		    transition: transform 0.3s,-webkit-transform 0.3s;
+		    overflow: hidden;
+		}
+		.weui-actionsheet__menu {
+		    color: rgba(0,0,0,0.9);
+		    background-color: #fff;
+		}
+		.weui-actionsheet__cell {
+		    position: relative;
+		    padding:0 16px;
+		    text-align: center;
+		    font-size: 36px;
+		    color: #2C2C2C;
+		    line-height: 114px;
+		}
+		.weui-actionsheet__action {
+		    margin-top: 8px;
+		    background-color: #fff;
+		    padding-bottom: constant(safe-area-inset-bottom);
+		    padding-bottom: env(safe-area-inset-bottom);
+		}
+		/*申请类型*/
+		.mobileSelect .content .btnBar .ensure {
+		    right: 0;
+		    color: #FF6612;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="create_category">
+                        <div class="category">申请类型</div>
+                        <div class="category_tit" id="trigger3">请选择</div>
+                        <div class="category_img"><img src="/images/arrows.png"></div>
+                    </div>
+                    <div class="create_category">
+                        <div class="category">申请原因</div>
+                        <div class="category_tit" id="trigger4">请选择</div>
+                        <div class="category_img"><img src="/images/arrows.png"></div>
+                    </div>
+                    <div class="create_category top">
+                        <div class="category">退款金额：<span>￥{{payPrice}}</span></div>
+                    </div>
+                    <div class="refund_note">最多￥{{payPrice}}，含发货邮费￥0.00</div>
+                    <div class="create_category2 top">
+                    	<p class="category">退款说明：</p>
+                    	<textarea class="refund_texta" v-model="buyerMsg" placeholder="这里是退款说明"></textarea>
+                    	<div class="refind_upload">
+							<template v-if="imgList.length > 0">
+								<div class="shop_pic_box" v-for="(item, index) in imgList" :key="index">
+									<img class="shop_pic_img" :src="item" />
+									<img class="pic_close" src="/images/icon_img_delb.png" @click="delImg(index)" />
+								</div>
+							</template>
+							<template v-if="imgList.length < 3">
+								<div class="shop_pic_box">
+									<div class="shop_pic_upload">
+										<img src="/images/refund_photo.png" />
+										<p>上传凭证</p>
+										<p>{{imgLen}}/3</p>
+									</div>
+									<input type="file" accept="image/*" multiple ref="imginput" @change="handleImage($event)">
+								</div>
+							</template>
+                    	</div>
+                    </div>
+                    <div class="create_category top">
+		                <div class="category">
+							<p>联系电话：</p>
+							<input type="number" v-model="phone" placeholder="请输入手机号">
+						</div>
+					</div>
+					<div class="refund_foot">
+						<div class="addsave" @click="submit">提交申请</div>
+					</div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <!--选择弹框-->
+    <div class="weui-mask" id="iosMask" style="display: none;">
+    	<div class="weui-actionsheet">
+			<div class="weui-actionsheet__menu">
+				<div class="weui-actionsheet__cell bor">拍照</div>
+				<div class="weui-actionsheet__cell">相册选取</div>
+			</div>
+			<div class="weui-actionsheet__action">
+				<div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+			</div>
+		</div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/mobileSelect.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					orderCode: `<%- orderCode %>`,
+                    reasonList: JSON.parse(`<%- reasonList %>`),
+                    payPrice: `<%- payPrice %>`,
+                    AmArr: [{id: 2, value: '我要退货退款'},{id: 1, value: '我要退款（无需退货）'}],
+                    refundType: "",
+					reason: "",
+					photoFiles: "",
+					buyerMsg: "",
+                    phone: "",
+                    imgLen: 0,
+					picSign: [],
+					imgList: []
+				}
+			},
+			created() {
+				console.log(this.reasonList);
+			},
+			mounted() {
+				var mobileSelect3 = new MobileSelect({
+					trigger: '#trigger3',
+					title: '申请类型',
+					wheels: [{data: this.AmArr}],
+                    keyMap: {
+                        id:'id',
+                        value: 'value'
+					},
+					callback:(indexArr, data) => {
+                        console.log(data);
+                        this.refundType = data[0].id;
+					}
+				});
+				//申请原因
+				var mobileSelect4 = new MobileSelect({
+					trigger: '#trigger4',
+					title: '申请原因',
+					wheels: [{data: this.reasonList}],
+					keyMap: {
+                        id:'id',
+                        value: 'reason'
+					},
+					callback:(indexArr, data) => {
+						this.reason = data[0].reason;
+					}
+				});
+			},
+			methods: {
+                handleImage() {
+                    let files = this.$refs.imginput.files;
+                    this.handleImageUpload(files);
+                },
+                handleImageUpload(files) {
+                    let imgLen = this.imgLen;
+                    let len = files.length + imgLen;
+                    if(len > 3) {
+                        return poper("凭证照片数量最多3张");
+                    }
+                    for(let i=0; i < files.length; i++) {
+                        let isImg = files[i].type == "image/jpeg" || files[i].type == "image/png" || files[i].type == "image/jpg";
+                        if(!isImg) {
+                            return poper("只能上传jpg/jpeg/png文件");
+                        }
+                        if(files[i].size > (limitNum*1024*1024)) {
+                            return poper(`请选择${limitNum}M以内的图片！`);
+                        }
+                    }
+                    for(let i=0; i < files.length; i++) {
+                        this.imgLen++;
+                        let size = files[i].size;
+                        let imgType = files[i].type.substring(6);
+                        let timestamp = new Date().getTime();
+                        let randomStr = randomString(10);
+                        let item = {
+							length: size,
+							orderCode: this.orderCode,
+                            type: "/shop/refund",
+                            uri: timestamp + randomStr + "." + imgType
+                        }
+                        this.picSign.push(item);
+					}
+					this.getPicSign(files, this.picSign);
+				},
+				// 获取图片参数
+                getPicSign(files, picSign) {
+                    let config = picSign;
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        console.log(res);
+                        let data = res.data.data;
+                        if(data.length == 0) return;
+                        let forbody = Promise.resolve();
+                        for(let i = 0; i<data.length; i++) {
+                            forbody = forbody.then(res=>{
+                                return this.uploadImgs(i, data, files);
+                            })
+                        }
+                    })
+				},
+				// 上传图片
+                uploadImgs(i, data, files) {
+                    let formData = new FormData();
+                    formData.append("policy", data[i].policy);
+                    formData.append("signature", data[i].signature);
+                    formData.append("file", files[i]);
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+							this.imgList.push(data[i].host + data[i].uri);
+							formData.delete("policy");
+							formData.delete("signature");
+							formData.delete("file");
+                            if(i == data.length-1) {
+                                this.picSign = [];
+                                console.log("上传完毕");
+                                console.log(this.imgList);
+                            }
+                            resolve('ok:'+i);
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+				},
+				delImg(index) {
+                    this.imgList.splice(index, 1);
+                    this.imgLen = this.imgLen - 1;
+				},
+				submit() {
+                    let config = {
+                        buyerMsg: this.buyerMsg,    // 退款说明
+                        orderCode: this.orderCode,  // 
+                        photoFiles: String(this.imgList),    // 图片
+                        reason: this.reason,    // 退款原因
+                        money: this.payPrice,
+                        refundType: this.refundType,
+                        phone: this.phone
+                    }
+                    let opt = {
+						method: "POST",
+						url: "/mall/refundSubmit",
+						data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+                    axios(opt).then(res => {
+                        console.log(res);
+                        if(res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    });
+                }
+
+			}
+		});
+    </script>
+</body>
+</html>

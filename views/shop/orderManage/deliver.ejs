@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/mobileSelect.css" />
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.order_mana_box{
+    		padding: 0px 24px;
+    		background: #FFFFFF;
+    	}
+    	.deliver_order{
+    		width: 100%;
+    		height: 78px;
+    		line-height: 78px;
+    		font-size: 24px;
+    		color: #6A6C72;
+    	}
+    	.order_top_box{
+    		width: 100%;
+    		padding: 20px 0px;
+    		display: flex;
+    	}
+    	.order_message{
+    		line-height: 36px;
+    		font-size: 28px;
+    		color: #2C2C2C;
+    	}
+    	.oreder_addr_icon{
+    		width: 36px;
+    		height: 36px;
+    		flex-shrink: 0;
+    	}
+    	.order_addr_f{
+    		margin-left: 15px;
+    	}
+    	.order_addr_icon2{
+    		display: flex;
+    		align-items: center;
+    	}
+    			
+    	.order_addr_icon2 img{
+    		margin-left: 34px;
+    		width: 54px;
+    		height: 54px;
+    	}
+    	.top{
+    		margin-top: 14px;
+    	}
+    	.create_category {
+            padding: 0px 25px;
+            height: 96px;
+            line-height: 96px;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .category {
+            font-size: 32px;
+            color: #6A6C72;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+
+        .category_tit {
+            text-align: right;
+            min-width: 62%;
+            padding: 0px 5px;
+            color: #2C2C2C;
+            font-size: 32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex-grow: 2;
+            flex-shrink: 1;
+        }
+        .gray{
+        	color: #B0B1B6;
+        }
+
+        .category_img {
+            padding: 32px 0;
+            flex-grow: 0.3;
+            flex-shrink: 0;
+        }
+
+        .create_category img {
+            float: right;
+            width: 32px;
+            height: 32px;
+        }
+        .category_blue{
+        	margin-left: 59px;
+        	font-size: 30px;
+        	color: #3086DE;
+        }
+        /*btn*/
+       .create_btn {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			display: flex;
+		}
+
+		.btn_blun {
+			width: 100%;
+			text-align: center;
+			height: 100px;
+			line-height: 100px;
+			font-size: 35px;
+			background: #3086DE;
+			color: #FFFFFF;
+		}
+        /*选择发货方式*/
+       .mobileSelect .content .panel .wheels {
+		    height: 350px;
+		}
+		.mobileSelect .content .panel .wheel {
+		    height: 350px;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="order_mana_box">
+                    	<div class="deliver_order">订单号：{{orderCode}}</div>
+						<div class="order_top_box">
+							<img class="oreder_addr_icon" src="/images/shop_icon1.png">
+							<div class="order_message order_addr_f"><template v-if="orderAddress.receiver">{{orderAddress.receiver}},</template>{{orderAddress.mobile}},{{orderAddress.province}}{{orderAddress.city}}{{orderAddress.area}}{{orderAddress.address}}</div>
+						</div>
+					</div>
+					<div class="create_category top" id="trigger">
+                        <div class="category">发货方式</div>
+                        <div class="category_tit" :class="{gray : deliveryTypeName == ''}">{{deliveryTypeName == "" ? "请选择" : deliveryTypeName }}</div>
+                        <div class="category_img"><img src="/images/arrows.png"></div>
+                    </div>
+                    <template v-if="deliveryType == 1">
+                        <div class="create_category" @click="toPage('/shop/orderManage/selectWuliu')">
+                            <div class="category">物流公司</div>
+                            <div class="category_tit" :class="{gray : deliveryTypeName == ''}">{{deliveryCompany == "" ? "请选择" : deliveryCompany}}</div>
+                            <div class="category_img"><img src="/images/arrows.png"></div>
+                        </div>
+                        <div class="create_category">
+							<div class="category">运单号</div>
+							<input class="category_tit" type="number" v-model="deliveryCode" placeholder="请输入订单号">
+                            <!-- <div class="category_blue">扫码</div> -->
+                        </div>
+                    </template>
+                    <div class="create_btn">
+                        <div class="btn_blun" @click="submit">发货</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script src="/javascripts/mobileSelect.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					orderCode: `<%- orderCode %>`,
+					deliveryList: JSON.parse(`<%- deliveryList %>`),
+                    deliveryType: "",
+                    deliveryTypeName: "",
+					mobileSelect: "",
+					deliveryCode: "",	// 物流单号
+					deliveryCompany: "",
+					deliveryId: 1,
+					orderAddress: {}
+				}
+			},
+			created() {
+				this.initData();
+				if(sessionStorage.getItem("deliveryData")) {
+					this.deliveryId = JSON.parse(sessionStorage.getItem("deliveryData")).id;
+					this.deliveryCompany = JSON.parse(sessionStorage.getItem("deliveryData")).deliveryName;
+					sessionStorage.removeItem("deliveryData");
+				}
+				if(sessionStorage.getItem("deliveryTypeName")) {
+					this.deliveryTypeName = sessionStorage.getItem("deliveryTypeName");
+					sessionStorage.removeItem("deliveryTypeName");
+				}
+				if(sessionStorage.getItem("deliveryType")) {
+					this.deliveryType = sessionStorage.getItem("deliveryType");
+					sessionStorage.removeItem("deliveryType");
+				}
+				if(sessionStorage.getItem("deliveryCode")) {
+					this.deliveryCode = sessionStorage.getItem("deliveryCode");
+					sessionStorage.removeItem("deliveryCode");
+				}
+                // 配送类型，1：快递，2：商家配送，3：自提，4：无需配送
+				console.log(this.deliveryList);
+			},
+			mounted() {
+				this.mobileSelect = new MobileSelect({
+					trigger: '#trigger',
+					wheels: [{data: this.deliveryList}],
+					keyMap: {
+                        id:'deliveryTypeId',
+                        value: 'deliveryTypeName'
+					},
+					triggerDisplayData: false,
+                    callback:(indexArr, data)=>{
+						this.deliveryType = data[0].deliveryTypeId;
+						this.deliveryTypeName = data[0].deliveryTypeName;
+                    }
+				});
+			},
+			methods: {
+				initData() {
+					axios.get("/mall/getOrderDetail?orderCode=" + this.orderCode).then(res => {
+						console.log(res.data.data);
+						this.orderAddress = res.data.data.orderAddress;
+					});
+				},
+				toPage(page) {
+					sessionStorage.setItem("deliveryCode", this.deliveryCode);
+					sessionStorage.setItem("deliveryTypeName", this.deliveryTypeName);
+					sessionStorage.setItem("deliveryType", this.deliveryType);
+					window.location.href = page;
+				},
+				submit() {
+					let config = {
+						deliveryCode: this.deliveryCode,    // 物流单号
+						deliveryCompany: this.deliveryCompany,  // 物流公司名称
+						deliveryId: this.deliveryId,    // 物流公司ID
+						deliveryType: this.deliveryType,
+						orderCode: this.orderCode,
+						orderDetailIds: [],
+						remark: ""
+					}
+					let opt = {
+						method: "POST",
+						url: "/shop/orderManage/addOrderDelivery",
+						data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+					console.log(opt);
+					axios(opt).then(res => {
+						console.log(res);
+                        if(res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    });
+				},
+
+			}
+		})
+	</script>
+</body>
+</html>

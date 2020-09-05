@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/swiper.min.css">
+    <link rel="stylesheet" href="/stylesheets/mall.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.swiper-container {
+	      width: 750px;
+	      height: 750px;
+	    }
+	    .swiper-slide {
+	      text-align: center;
+	      font-size: 18px;
+	      background: #fff;
+	
+	      /* Center slide text vertically */
+	      display: -webkit-box;
+	      display: -ms-flexbox;
+	      display: -webkit-flex;
+	      display: flex;
+	      -webkit-box-pack: center;
+	      -ms-flex-pack: center;
+	      -webkit-justify-content: center;
+	      justify-content: center;
+	      -webkit-box-align: center;
+	      -ms-flex-align: center;
+	      -webkit-align-items: center;
+	      align-items: center;
+	    }
+	    .swiper-slide img{
+	    	width: 750px;
+	    	height: 750px;
+	    }
+	    .swiper-pagination {
+		    position: absolute;
+		    bottom: 27px;
+    		left: 630px;
+    		width: 80px;
+    		height: 42px;
+    		line-height: 42px;
+    		background-color: rgba(0,0,0,0.6);
+    		font-size: 26px;
+    		color: #FFFFFF;
+		}
+		/*商品信息*/
+		.det_info{
+			padding-left: 24px;
+			background: #FFFFFF;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+		}
+		.info_price{
+			margin-top: 40px;
+			margin-bottom: 20px;
+			font-size: 36px;
+			color: #FF6612;
+		}
+		.info_price span{
+			padding-left: 6px;
+			font-size: 54px;
+			color: #FF6612;
+		}
+		.ded_money{
+			padding: 4px;
+			background: #31C649;
+			border-radius: 3px;
+			font-size: 19px;
+			color: #FFFFFF;
+		}
+		.sold{
+			margin-left: 55px;
+			font-size: 23px;
+			color: #9EA0A2;
+		}
+		.det_info_r{
+			margin-top: 55px;
+			padding: 0px 12px 0px 19px;
+			height: 61px;
+			line-height: 61px;
+			background: #FFB11A;
+			border-top-left-radius: 30px;
+			border-bottom-left-radius: 30px;
+			font-size: 26px;
+			color: #FFFFFF;
+		}
+		.det_info_r img{
+			width: 33px;
+			height: 33px;
+		}
+		.det_info_tit{
+			padding: 30px 24px 28px 24px;
+			background: #FFFFFF;
+			font-size: 38px;
+			color: #2C2C2C;
+		}
+		.top{
+			margin-top: 14px;
+		}
+		.t2{
+        	margin-top: 4px;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	background: #FFFFFF;
+        	display: flex;
+        	justify-content: space-between;
+        }
+		.comm_inf_box{
+        	width: 90%;
+        }
+        .comm_inf_way{
+        	width: 75%;
+        	text-align: right;
+        }
+        .comm_ustit{
+        	font-size: 32px;
+        	color: #2C2C2C;
+        	height: 36px;
+        	line-height: 36px;	
+        	overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+        }
+        .det_gray{
+        	font-size: 29px;
+        	color: #B0B1B6;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	margin-top: 10px;
+        	width: 14px;
+        	height: 24px;
+        }
+        .det_box{
+        	padding-bottom: 114px;
+        	width: 100%;
+        	background: #FFFFFF;
+        }
+        .det_tit{
+        	position: relative;
+        	width: 100%;
+        	height: 82px;
+        	line-height: 82px;
+        	text-align: center;
+        }
+        .det_tit{
+        	font-size: 26px;
+        	color: #989A9E;
+        	background: #FFFFFF;
+        }
+        .det_tit_bor{
+        	position: absolute;
+        	top: 0;
+        	left: 229px;
+        	width: 292px;
+        	height: 41px;
+        	border-bottom: 1px solid #E1E2E4;
+        }
+        .det_con{
+        	width: 100%;
+        }
+        .det_con img{
+        	max-width: 100%;
+        }
+        /*保存*/
+        .create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	background: #ffffff;
+        	width: 100%;
+        	display: flex;
+        }
+        .sty{
+        	text-align: center;
+        	width: 200px;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 33px;
+        }
+        .btn_write{
+        	background: #ffffff;
+        	color: #4487CC;
+        	flex-grow:0.7;
+        	text-align: center;
+        }
+        .btn_write img{
+        	width: 50px;
+        	height: 50px;
+        	padding: 14px 0 5px 0;
+        }
+        .pic_i{
+        	border-radius: 50%;
+        }
+        .btn_write p{
+        	font-size: 21px;
+        	color: #6A6C72;
+        }
+        .btn_green{
+        	background: #37C35B;
+        	color: #FFFFFF;
+        	flex-grow:1;
+        }
+        .bg_orage{
+			background: #FF6A29;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <!--商品相冊-->
+                    <div class="swiper-container">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide" v-for="(item, index) in information.mainImageUrlList" :key="index">
+								<img :src="item + '!/both/750x750'">
+							</div>
+						</div>
+						<div class="swiper-pagination"></div>
+                    </div>
+                    <!--商品价格 标题-->
+				    <div class="det_info">
+                        <div class="det_info_l">
+                            <p class="info_price">¥<span>{{information.goodsPriceLow}}</span></p>
+                            <p>
+                                <span class="ded_money">脉粒最多抵扣 {{information.maxMailiCount}}元</span>
+                                <span class="sold">已售{{information.totalSoldNum}}件</span>
+                            </p>
+                        </div>
+                        <div class="det_info_r"><img src="/images/money.png" />分享赚 {{information.rebateMoney}}元</div>
+                    </div>
+                    <div class="det_info_tit">{{information.goodsName}}</div>
+                    <div class="comm_inf top" @click="addCart">
+                        <div class="comm_inf_box t2">
+                            <p class="comm_ustit">选择规格：<span>{{goodsAttrName}}</span></p>
+                        </div>
+                        <img class="comm_regu" src="/images/icon_arrow.png" />
+                    </div>
+                    <div class="comm_inf top">
+                        <div class="t2">
+                            <span class="comm_ustit">发货方式：</span>
+                        </div>
+                        <div class="comm_inf_way t2">
+                            <span class="comm_ustit det_gray">{{deliveryName}}</span>
+                        </div>
+                    </div>
+                    <div class="det_box top">
+                        <div class="det_tit">
+                            <span>商品详情</span>
+                            <div class="det_tit_bor"></div>
+                        </div>
+                        <div class="det_con" v-html="information.goodsDetail"></div>
+                    </div>
+                    <div class="create_btn">
+                        <div class="btn_write" @click="toIndex"><img src="/images/shop.png"><p>小脉部</p></div>
+                        <div class="btn_write"><img class="pic_i" src="/images/sharedeflimg.png"><p>客服</p></div>
+                        <div class="btn_green sty" @click="addCart">加入购物车</div>
+                        <div class="btn_green bg_orage sty" @click="addCart">立即购买</div>
+                    </div>
+                </main>
+			</div>
+			<!--选择规格-->
+			<template v-if="isShowCartDialog">
+                <div class="js_dialog">
+                    <div class="weui-mask"></div>
+                    <div class="choose_box">
+                        <img class="spe_close" @click="closeAttrDialog" src="/images/close.png" />
+                        <div class="product_box">
+                            <img :src="shopGoodsSkuVoValue.pic + '!/both/164x164'" />
+                            <div class="product_info">
+                                <p class="pro_price">¥ {{shopGoodsSkuVoValue.goodsPrice}}</p>
+                                <p class="pro_inven">库存 {{shopGoodsSkuVoValue.stockNum}}件</p>
+                                <p class="pro_please">请选择: {{goodsAttrName}}</p>
+                                <p class="pro_ded">脉粒最多抵扣 <span>{{shopGoodsSkuVoValue.maiLiCount}} 元</span></p>
+                            </div>
+                        </div>
+
+                        <div class="pro_spe_box" v-for="(item, index) in goodsAttrData.goodsAttrWithValueVos" :key="index">
+                            <div class="spe_tit"><span>{{item.goodsAttrName}}</span></div>
+                            <div class="pro_spr_list">
+                                <div class="spe_box" :class="{box_active : citem.isActive}" v-for="(citem, cindex) in item.goodsAttributeValueList" :key="cindex" @click="chooseAttr(citem, cindex, item, index)">{{citem.goodsAttrValue}}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="pro_spe_box">
+                            <div class="spe_tit">
+                                <span class="spe_top"></span>
+                                <div class="spe_num">
+                                    <span class="spe_num_j" :class="{gray: goodsCount == 1}" @click="minusCount">-</span>
+                                    <span class="number">{{goodsCount}}</span>
+                                    <span class="spe_num_j num_ja" @click="addCount">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spe_bottom">
+                            <div class="spe_btn" @click="addToCart">加入购物车</div>
+                            <div class="spe_btn bg_orage" @click="buyNow">立即购买</div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/swiper.min.js"></script>
+    <script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					information: {},
+					shopId: `<%- shopId %>`,
+					shelfId: "",
+					goodsCode: `<%- goodsCode %>`,
+					cindex: 0,
+					goodsList: [],
+					mySwiper: "",
+					isShowCartDialog: false,
+					goodsSkuVoValue: {},
+					goodsAttrData: {},
+					shopGoodsSkuVoValue: {},
+					goodsAttrName: "",
+					deliveryName: "",
+					goodsCount: 1
+				}
+			},
+			created() {
+				this.initData();
+				sessionStorage.removeItem("userAddr");
+				sessionStorage.removeItem("extractDetail");
+				sessionStorage.removeItem("extractPhone");
+				sessionStorage.removeItem("remarks");
+				sessionStorage.removeItem("deliveryType");
+				sessionStorage.removeItem("invoiceData");
+				sessionStorage.removeItem("invoiceId");
+				sessionStorage.removeItem("invoiceTitle");
+			},
+			mounted() {
+				this.mySwiper = new Swiper ('.swiper-container', {
+					autoplay: true,
+					loop : true,
+					delay: 4000,
+					pagination: {
+						el: '.swiper-pagination',
+					},
+					observeParents: true,
+					observer: true
+				});
+			},
+			methods: {
+				// 初始化数据
+				initData() {
+                    axios.get("/mall/getGoodsDetail?goodsCode=" + this.goodsCode + "&shopId=" + this.shopId).then(res => {
+                        console.log(res);
+						let data = res.data.data;
+						this.information = data;
+						this.shelfId = data.shelfId;
+						this.information.mainImageUrlList.unshift(data.mainImageUrl);
+						this.setGoodsAttrName();
+						this.setDeliveryName();
+                    });
+				},
+				setDeliveryName() {
+					let str = "";
+					if(this.information.deliveryMap.length == 0) return;
+					for(let i = 0; i<this.information.deliveryMap.length; i++) {
+						str += this.information.deliveryMap[i].deliveryName + "、";
+					}
+					if(str.length > 0) {
+						str = str.substr(0, str.length - 1);
+					}
+					this.deliveryName = str;
+				},
+				setGoodsAttrName() {
+					let str = "";
+					if(this.information.goodsAttrWithValueVos.length == 0) {return};
+					for(let i = 0; i<this.information.goodsAttrWithValueVos.length; i++) {
+						str += this.information.goodsAttrWithValueVos[i].goodsAttrName + " ";
+					}
+					if (str.length > 0) {
+						str = str.substr(0, str.length - 1);
+					}
+					this.goodsAttrName =  str;
+				},
+				addCart() {
+					
+					let goodsCode = this.information.goodsCode;
+					let shopId = this.information.shopId;
+					let url = "/mall/getShopGoodsDetail?goodsCode=" + goodsCode + "&shopId=" + shopId;
+					axios(url).then(res => {
+						let data = res.data.data;
+						let goodsAttrWithValueVos = data.goodsAttrWithValueVos;
+						let shopGoodsSkuVoList = data.shopGoodsSkuVoList;
+						this.isShowCartDialog = true;
+						// 循环规格列表
+						for(let i = 0; i<goodsAttrWithValueVos.length; i++) {
+							let goodsAttributeValueList = goodsAttrWithValueVos[i].goodsAttributeValueList;
+							for(let j = 0; j<goodsAttributeValueList.length; j++) {
+								goodsAttributeValueList[j].isActive = false;
+							}
+						}
+						this.goodsAttrData = data;
+						if(goodsAttrWithValueVos.length == 1) {
+							let attrValue = goodsAttrWithValueVos[0].goodsAttributeValueList[0].id;
+							goodsAttrWithValueVos[0].goodsAttributeValueList[0].isActive = true;
+							this.handleSkuList(attrValue);
+						}
+						if(goodsAttrWithValueVos.length > 1) {
+							let attrValue = "";
+							for(let i = 0; i<goodsAttrWithValueVos.length; i++) {
+								attrValue += goodsAttrWithValueVos[i].goodsAttributeValueList[0].id + ":";
+								goodsAttrWithValueVos[i].goodsAttributeValueList[0].isActive = true;
+							}
+							if(attrValue.length > 0) {
+								attrValue = attrValue.substr(0, attrValue.length - 1);
+							}
+							this.handleSkuList(attrValue);
+						}
+					});
+				},
+				handleSkuList(attrValue) {
+					let shopGoodsSkuVoList = this.goodsAttrData.shopGoodsSkuVoList;
+					let goodsAttrWithValueVos = this.goodsAttrData.goodsAttrWithValueVos;
+					for(let i = 0; i<shopGoodsSkuVoList.length; i++) {
+						if(shopGoodsSkuVoList[i].attrValue == attrValue) {
+							this.shopGoodsSkuVoValue = shopGoodsSkuVoList[i];
+						}
+					}
+				},
+				chooseAttr(citem, cindex, item, index) {
+                    let goodsAttributeValueList = item.goodsAttributeValueList;
+                    for(let i = 0; i<goodsAttributeValueList.length; i++) {
+                        if(i == cindex) {
+                            goodsAttributeValueList[i].isActive = true;
+                        }else {
+                            goodsAttributeValueList[i].isActive = false;
+                        }
+                    }
+                    this.handleChooseAttr();
+				},
+				handleChooseAttr() {
+                    let attrValue = "";
+                    let goodsAttrWithValueVos = this.goodsAttrData.goodsAttrWithValueVos;
+                    if(goodsAttrWithValueVos.length == 1) {
+                        for(let i = 0; i<goodsAttrWithValueVos.length; i++) {
+                            let goodsAttributeValueList = goodsAttrWithValueVos[i].goodsAttributeValueList;
+                            for(let j = 0; j<goodsAttributeValueList.length; j++) {
+                                if(goodsAttributeValueList[j].isActive == true) {
+                                    console.log(goodsAttributeValueList[j].id);
+                                    attrValue = goodsAttributeValueList[j].id;
+                                }
+                            }
+                        }
+                    }
+                    if(goodsAttrWithValueVos.length > 1) {
+                        for(let i = 0; i<goodsAttrWithValueVos.length; i++) {
+                            let goodsAttributeValueList = goodsAttrWithValueVos[i].goodsAttributeValueList;
+                            for(let j = 0; j<goodsAttributeValueList.length; j++) {
+                                if(goodsAttributeValueList[j].isActive == true) {
+                                    attrValue += goodsAttributeValueList[j].id + ":";
+                                }
+                            }
+                        }
+                        if (attrValue.length > 0) {
+                            attrValue = attrValue.substr(0, attrValue.length - 1);
+                        }
+                    }
+                    this.handleSkuList(attrValue);
+                },
+				closeAttrDialog() {
+                    this.isShowCartDialog = false;
+                    this.goodsAttrData = {};
+                },
+				closeAttrDialog() {
+					this.isShowCartDialog = false;
+				},
+				// 减少商品数量
+                minusCount() {
+                    let goodsCount = this.goodsCount;
+                    if (goodsCount == 1) {
+						return poper("亲,该宝贝不能再减少了~");
+					}
+				this.goodsCount--;
+                },
+                // 增加商品数量
+                addCount() {
+                    let goodsCount = this.goodsCount;
+                    if (goodsCount >= this.shopGoodsSkuVoValue.stockNum) {
+                        return poper("亲,该宝贝不能再增加了~");
+                    }
+                    this.goodsCount++;
+				},
+
+				getShopSkuAndGoodsStatus() {
+                    let skuCode = this.shopGoodsSkuVoValue.skuCode;
+                    let shopId = this.shopId;
+                    return new Promise((resolve, reject) => {
+                        axios.get("/mall/getShopSkuAndGoodsStatus?skuCode=" + skuCode + "&shopId=" + shopId).then(res => {
+                            if(res.data.errorCode == 0) {
+                                resolve();
+                            }else {
+                                return poper(res.data.message);
+                            }
+                            
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+                },
+				// 加入购物车
+				addToCart() {
+					this.getShopSkuAndGoodsStatus().then(data => {
+						let config = {
+							shopId: this.shopId,
+							shelfId: this.shelfId,
+							goodsCode: this.shopGoodsSkuVoValue.goodsCode,
+							skuCode: this.shopGoodsSkuVoValue.skuCode,
+							goodsCount: this.goodsCount,
+							isCheck: 1,
+							recommendId: "",	// 推荐人id
+							isConfirm: 1
+						}
+						console.log(config);
+						let opt = {
+							method: "POST",
+							url: "/mall/updateGoodsNum",
+							data: config,
+							headers:{
+								'Content-Type': 'application/json',
+							}
+						}
+						axios(opt).then(res => {
+							if (res.data.errorCode == 0) {
+								this.isShowCartDialog = false;
+								return poper("加入购物车成功");
+							}else {
+								return poper(res.data.message);
+							}
+						});
+					});
+				},
+				// 立即购买
+				buyNow() {
+					this.getShopSkuAndGoodsStatus().then(data => {
+						let shopId = this.shopId;
+						let shelfId = this.shelfId;
+						let goodsCode = this.shopGoodsSkuVoValue.goodsCode;
+						let skuCode = this.shopGoodsSkuVoValue.skuCode;
+						let goodsCount = this.goodsCount;
+						let config = {
+							shopId: this.shopId,
+							shelfId: this.shelfId,
+							goodsCode: this.shopGoodsSkuVoValue.goodsCode,
+							skuCode: this.shopGoodsSkuVoValue.skuCode,
+							goodsCount: this.goodsCount,
+							isCheck: 1,
+							recommendId: ""	// 推荐人id
+						}
+						let url = `/mall/payOrder?shopId=${shopId}&shelfId=${shelfId}&goodsCode=${goodsCode}&skuCode=${skuCode}&goodsCount=${goodsCount}&isCheck=1&recommendId=1`;
+						window.location.href = url;
+						this.isShowCartDialog = false;
+					})
+					
+				},
+				toIndex() {
+					window.history.go(-1);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

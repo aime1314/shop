@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	::-webkit-input-placeholder{
+            color:#C8CACD;
+        }
+        ::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#C8CACD;
+        }
+        :-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#C8CACD;
+        }
+        :-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#C8CACD;
+        }
+    	.top{
+        	margin-top: 14px;
+        }
+        .bottom{
+        	margin-bottom: 133px;
+        }
+        .bor{
+        	border: 1px solid #ECEDED;
+        }
+    	.create_category{
+        	padding: 0px 25px;
+            height: 96px;
+            line-height: 96px;
+            background: #ffffff;
+            display: flex;
+            justify-content:space-between;
+        }
+        .category{
+        	font-size: 30px;
+        	color: #2C2C2C;
+        	flex-grow:1;
+        	flex-shrink:0;
+        }
+        .category_tit{
+        	text-align: right;
+        	min-width: 62%;
+        	padding:0px 5px;
+        	color: #2C2C2C;
+        	font-size: 30px;
+        	overflow: hidden;
+        	text-overflow:ellipsis;
+			white-space: nowrap;
+        	flex-grow:2;
+        	flex-shrink:1;
+        }
+        .category_img{
+        	padding: 32px 0;
+        	flex-grow:0.3;
+        	flex-shrink:0;
+        }
+        .create_category img{
+        	float: right;
+        	width: 32px;
+        	height: 32px;	
+        }
+        .create_info{
+        	padding: 26px 25px 26px 25px;
+            background: #ffffff;
+        }
+        .info_color{
+        	position: relative;
+        	width: 215px;
+        	height: 64px;
+        	line-height: 64px;
+        	text-align: center;
+        	border: 1px solid #ECEDED;
+        	margin: 15px 11px 0px 5.3px;
+        	display: flex;
+        	justify-content:center
+        }
+        .custom{
+        	margin-top: 30px;
+        	background: #ECEDED;
+        	font-size: 26px;
+        	color: #97989D;
+        }
+        .info_content{
+        	display: flex;
+        	flex-wrap: wrap;
+        	height: 162px; 
+        	overflow: hidden;
+        }
+        .blue{
+        	border: 1px solid #3086DE;
+        	color: #3086DE;
+        }
+        .color{
+        	float: left;
+        	width: 28px;
+        	height: 28px;
+        	border-radius: 50%;
+        	margin-top: 18px;
+        	margin-right: 8px ;
+        }
+        .colo_write{
+        	background: #FFFFFF;        	
+        }
+        .colo_lgrey{
+        	background: #E3E3E3;        	
+        }
+        .colo_grey{
+        	background: #666666;        	
+        }
+        .colo_black{
+        	background: #000000;        	
+        }
+        .colo_pink{
+        	background: #F4B9C1;        	
+        }
+        .colo_red{
+        	background: #E93323;        	
+        }
+        .colo_wine{
+        	background: #8C1A11;        	
+        }
+        .colo_orange{
+        	background: #F2A93B;        	
+        }
+        .colo_lyellow{
+        	background: #FAFE87;        	
+        }
+        .colo_yellow{
+        	background: #FEFE54;        	
+        }
+        .colo_agreen{
+        	background: #627535;        	
+        }
+        .colo_lgreen{
+        	background: #AFF8A2;        	
+        }
+        .colo_blue{
+        	background: #0000F3;        	
+        }
+        .colo_dpurple{
+        	background: #3D0C50;        	
+        }
+        .colo_violet{
+        	background: #B5ACDF;        	
+        }
+        .colo_purple{
+        	background: #75147B;        	
+        }
+        .colo_chocolate{
+        	background: #C46E33;        	
+        }
+        .colo_dark{
+        	background: #BCB774;        	
+        }
+        .colo_brown{
+        	background: #7F5D1C;        	
+        }
+        .info_btn{
+        	margin-top: 22px;
+        	text-align: center;
+        	line-height: 44px;
+        	font-size: 26px;
+        	color: #c6c8cd;
+        }
+        .info_btn img{
+        	width: 44px;
+        }
+        /*规格信息设置*/
+        .create_tit{
+            padding-bottom: 26px;
+            border-bottom: 1px solid #f7f6f9;
+        }
+        .info_set{
+        	padding-top: 24px;
+        }
+        .info_p{
+        	font-size: 24px;
+        	color: #97989D;
+        }
+        .category img{
+        	width: 34px;
+        	padding-left: 10px;
+        	margin-bottom: 6px;
+        }
+        .category span{
+        	 float: right;
+        	 color: #3086DE;
+        }
+        .set_box{
+        	padding-bottom: 26px;
+            border-bottom: 1px solid #f7f6f9;
+        }
+        .set_top{
+        	height: 76px;
+    		margin-bottom: 21px;
+        }
+        .set_cus{
+        	line-height: 76px;
+        	font-size: 26px;
+        	color: #6A6C72;
+        }
+        .set_r{
+        	float: right;
+        	display: flex;
+        	flex-direction:row-reverse;
+        }
+        .ser_bor{
+        	width: 130px;
+        	height: 50px;
+        	line-height: 50px;
+        	text-align: center;
+        	font-size: 22px;
+        	color: #6A6C72;
+        	border: 1px solid #A4A7AB;
+        	border-radius: 25px;
+        	margin-top: 13px;
+        }
+        .uploadpic{
+        	margin-right: 12px;
+        }
+        .set_con{
+        	display: flex;
+        	flex-wrap: nowrap;
+        }
+        .set_input{
+        	width: 166px;
+        	height: 64px;
+        	line-height: 64px;
+        	font-size: 24px;
+        	text-align: center;
+        	background: #ECEDED;
+        	border: none;
+        	margin-right: 12px;
+        }
+        .set_font{
+        	font-size: 26px;
+        	color: #2C2C2C;
+        }
+        .red{
+        	color: #FD4C4C;
+        }
+        .pic_box{
+        	margin-right: 60px;
+			width: 76px;
+			height: 76px;
+			position: relative;
+		}
+		.pic_img{
+			width: 100%;
+		}
+		.pic_tit{
+			width: 65%;
+		}
+		.pic_close{
+			position: absolute;
+			top: -15px;
+			right: -13px;
+			width: 40px;
+			cursor: pointer;
+		}
+		.set_annot{
+			text-align: right;
+			margin-top: 22px;
+			margin-right: 10px;
+			font-size: 24px;
+			color: #FF5640;
+		}
+        /*保存*/
+        .create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .sty{
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        }
+        .btn_write{
+        	background: #ffffff;
+        	color: #4487CC;
+        	flex-grow:0.3;
+        	text-align: center;
+        }
+        .btn_write img{
+        	width: 44px;
+        	height: 44px;
+        	padding: 14px 0 10px 0;
+        }
+        .btn_write p{
+        	font-size: 20px;
+        	color: #6A6C72;
+        }
+        .btn_blun{
+        	background: #3086DE;
+        	color: #FFFFFF;
+        	flex-grow:2;
+        }
+        /*朕知道了*/
+       .weui-dialog__bd{
+       	padding:70px 24px 70px 41px;
+       	line-height: 46px;
+       	font-size: 28px;
+       	text-align: left;
+       }
+       .weui-dialog__btn {
+		    color: #3086DE;
+		}
+	
+    </style>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="create_info top bottom">
+                        <div class="create_tit">
+                            <p class="category">规格信息设置<img src="/images/question.png"><span>批量设置</span></p> 
+                        </div>
+                        <div class="info_box">
+                            <div class="info_set">
+                                <p class="info_p" style="display: none">请选择具体的销售属性，以便组成完整的规格信息。</p>
+                                <div class="set_box" v-for="(item, index) in goodsSkuVoList" :key="index">
+                                    <div class="set_top">
+                                        <span class="set_cus">{{item.atrValueDesc}}</span>
+                                        <div class="set_r">
+                                            <div class="ser_bor uploadpic" v-if="item.pic == ''" @click="chooseImage(item, index)">上传图片</div>
+                                            <div class="pic_box"  v-if="item.pic != ''">
+                                                <img class="pic_img" :src="item.pic">
+                                                <img class="pic_close" @click="delItemImg(item)" src="/images/icon_img_delb.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="set_con">
+                                        <input class="set_input" type="number" v-model="item.goodsPrice" placeholder="输入价格" />
+                                        <div class="set_input">{{item.stockNum}}</div>
+                                        <input class="set_input" :class="{red: Number(item.maiLiCount) > Number(item.goodsPrice)}" type="number" v-model="item.maiLiCount" placeholder="输入脉粒抵扣" />
+                                        <input class="set_input" :class="{red: Number(item.rebateMoney) > Number(item.goodsPrice)}" type="number" v-model="item.rebateMoney" placeholder="输入推广佣金" />
+                                    </div>
+                                    <p class="set_annot" v-if="Number(item.maiLiCount) > Number(item.goodsPrice)">脉粒抵扣数不可高于商品价格</p>
+                                    <p class="set_annot" v-if="Number(item.rebateMoney) > Number(item.goodsPrice)">推广佣金数不可高于商品价格</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" @change="changeImage($event)" id="upload_img" style="display: none;">
+                    <div class="create_btn">
+                    	<div class="btn_blun sty" @click="batchUpdateGoodsSku">保存</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    goodsCode: `<%- goodsCode %>`,
+                    shopId: `<%- shopId %>`,
+                    online: `<%- online %>`,
+                    isNeedSku: 1,
+                    isNeedAttrs: 1,
+					list: "",
+					isDialog: false,
+                    goodsSkuVoList: [],
+                    picSign: []
+                }
+            },
+            created() {
+				this.getGoodsSkuVos();
+            },
+            methods: {
+                getGoodsSkuVos() {
+					axios.get("/shop/goodsManage/goodsShopSku?goodsCode=" + this.goodsCode + "&shopId=" + this.shopId + "&online=" + this.online).then(res => {
+                        let goodsSkuVoList = res.data.data;
+                        goodsSkuVoList.map(item => {
+                            item.shopId = this.shopId;
+                        });
+                        this.goodsSkuVoList = goodsSkuVoList;
+                    });
+                },
+                // 批量修改商店单品信息
+                batchUpdateGoodsSku() {
+                    let goodsSkuVoList = this.goodsSkuVoList;
+					let result = goodsSkuVoList.every(function(element, index) {
+						return element.goodsPrice != "" && element.skuStockNum != "" && element.maiLiCount != "" && element.rebateMoney != "" && Number(element.maiLiCount) <= Number(element.goodsPrice) && Number(element.rebateMoney) <= Number(element.goodsPrice);
+					});
+					console.log(result);
+					if(!result) {
+						return poper("请检查添加商品规格是否正确");
+                    }
+                    let opt = {
+						method: "POST",
+						url: "/shop/goodsManage/batchUpdateGoodsSku",
+                        data: goodsSkuVoList,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+                    axios(opt).then(res => {
+                        if(res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    });
+                    console.log(goodsSkuVoList);
+                },
+                // 删除照片
+                delItemImg(item) {
+                    item.pic = "";
+                },
+                // 上传图片
+				chooseImage(item, index) {
+					this.imgIndex = index;
+					document.getElementById('upload_img').click();
+                },
+                changeImage(el) {
+					let files = el.target.files;
+					for(let i=0; i < files.length; i++) {
+                        let isImg = files[i].type == "image/jpeg" || files[i].type == "image/png" || files[i].type == "image/jpg";
+                        if(!isImg) {
+                            return poper("只能上传jpg/jpeg/png文件");
+                        }
+                        if(files[i].size > (limitNum*1024*1024)) {
+                            return poper(`请选择${limitNum}M以内的图片！`);
+                        }
+					}
+					for(let i=0; i < files.length; i++) {
+                        this.imgLen++;
+                        let size = files[i].size;
+                        let imgType = files[i].type.substring(6);
+                        let timestamp = new Date().getTime();
+                        let randomStr = randomString(10);
+                        let item = {
+                            length: size,
+                            goodsCode: this.goodsCode,
+                            type: "/shop/goods",
+                            uri: timestamp + randomStr + "." + imgType
+                        }
+                        this.picSign.push(item);
+                    }
+                    this.getPicSign(files, this.picSign);
+                },
+                // 获取图片参数
+                getPicSign(files, picSign) {
+                    let config = picSign;
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        let data = res.data.data;
+                        if(data.length == 0) return;
+                        let forbody = Promise.resolve();
+                        for(let i = 0; i<data.length; i++) {
+                            forbody = forbody.then(res=>{
+                                return this.uploadImgs(i, data, files);
+                            })
+                        }
+                    })
+                },
+                // 上传图片
+                uploadImgs(i, data, files) {
+                    let formData = new FormData();
+                    formData.append("policy", data[i].policy);
+                    formData.append("signature", data[i].signature);
+                    formData.append("file", files[i]);
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+							// this.url = data[i].host + data[i].uri;
+							this.goodsSkuVoList[this.imgIndex].pic = data[i].host + data[i].uri;
+							formData.delete("policy");
+							formData.delete("signature");
+							formData.delete("file");
+                            if(i == data.length-1) {
+                                this.picSign = [];
+                            }
+                            resolve('ok:'+i);
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+				},
+            }
+        })
+    </script>
+</body>
+</html>

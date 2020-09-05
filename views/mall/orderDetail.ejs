@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/order.css">
+    <script src="/javascripts/phone.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                	<div class="detail_top">
+						<template v-if="orderDetail.refundStatus == 0">
+							<div class="detail_top_one" v-if="orderDetail.orderStatus">
+								{{orderDetail.orderStatus == 101 && "等待您付款" || orderDetail.orderStatus == 201 && '等待卖家发货'|| 
+								orderDetail.orderStatus == 301 && "等待您收货" || orderDetail.orderStatus == 401 && "交易完成" || orderDetail.orderStatus == 402 && "交易完成" ||
+								orderDetail.orderStatus == 501 && "已取消订单(未付款)，交易关闭" || orderDetail.orderStatus == 502 && "未付款，超时自动关闭" ||
+								orderDetail.orderStatus == 504 && "卖家已取消订单(退款成功)，交易关闭"}}
+							</div>
+							<template v-if="orderDetail.orderStatus == 101">
+								<div class="desc">剩{{hour}}小时{{minutes}}分自动关闭</div>
+							</template>
+							<template v-if="orderDetail.orderStatus == 301">
+								<div class="desc">还剩{{days}}天{{hour}}小时自动确认</div>
+							</template>
+						</template>
+                		<template v-else>
+							<div class="detail_top_one">退款申请中</div>
+						</template>
+                	</div>
+                	<!--订单 top-->
+                    <div class="detail_address" v-if="orderDetail.deliveryType == 1 && orderDetail.orderAddress">
+                    	<img class="address_img" src="/images/shop_adderss.png">
+                    	<div class="detail_info">
+                    		<p class="detail_name">{{orderDetail.orderAddress.receiver}}<span class="detail_name">{{orderDetail.orderAddress.mobile}}</span></p>
+                    		<p class="detail_addr">收货地址：{{orderDetail.orderAddress.province}}{{orderDetail.orderAddress.city}}{{orderDetail.orderAddress.area}}{{orderDetail.orderAddress.address}}</p>
+                    	</div>
+                    </div>
+                    <!--订单 top end-->
+                    <!--自提订单 top-->
+                    <div class="detail_address" v-if="orderDetail.deliveryType == 3">
+                    	<img class="address_img" src="/images/shop_icon5.png"/>
+                    	<div class="detail_info2">
+                    		<p class="detail_addr">自提地址：{{orderDetail.orderAddress.province}}{{orderDetail.orderAddress.city}}{{orderDetail.orderAddress.area}}{{orderDetail.orderAddress.address}}</p>
+                    		<p class="detail_addr">自提点电话：{{orderDetail.orderAddress.mobile}}<img @click="openCallDialog(orderDetail.orderAddress.mobile)" src="/images/shop_telgray.png"/></p>
+                    	</div>
+                    	<img class="address_img2" src="/images/shop_nav.png" />
+                    </div>
+                    <!--自提订单 top end-->
+                    <div class="comm_box">
+						<div class="order_top">
+							<div class="order_shoptit"><img class="oreder_icon" src="/images/shop_order.png">{{orderDetail.shopName}}<img class="oreder_arrows" src="/images/arrows.png"></div>
+						</div>
+						<template v-for="(item, index) in orderDetail.orderGoodsDtoList" :key="index">
+							<div class="comm_inf">
+								<img class="comm_pic" :src="item.pic" />
+								<div class="comm_inf_box">
+									<div class="order_box">
+										<div class="comm_tit">{{item.goodsName}}</div>
+										<div class="comm_num"><span>￥</span>{{item.goodsPrice}}</div>
+									</div>
+									<div class="comm_num2">
+										<div class="comm_num_box">{{item.goodsAttr}}</div>
+										<div class="comm_num_box">x{{item.goodsCount}}</div>
+									</div>
+									<p class="deduction_num" v-if="item.maiLiCount > 0">脉粒抵扣:- ¥{{item.maiLiCount}}</p>
+								</div>
+							</div>
+						</template>
+					</div>
+					<div class="comm_box">
+						<div class="detail_price">
+							<span>商品总价</span>
+							<span>¥ {{orderDetail.totalGoodsPrice}}</span>
+						</div>
+						<div class="detail_price" v-if="orderDetail.totalMaiLi > 0">
+							<span>脉粒抵扣</span>
+							<span>- ¥ {{orderDetail.totalMaiLi}}</span>
+						</div>
+						<div class="detail_price">
+							<span>运费</span>
+							<span>+ ¥ {{orderDetail.freightAmount}}</span>
+						</div>
+						<div class="detail_price2">
+							<span class="detail_font" v-if="orderDetail.orderStatus == 101">应付款：</span>
+							<span class="detail_font" v-else>实付款：</span>
+							<span class="detail_f">¥</span>
+							<span class="detail_y">{{orderDetail.payPrice}}</span>
+						</div>
+						<div class="detail_contact">
+							<div class="detail_con_box bord"><img src="/images/shop_wx.png">联系卖家</div>
+							<div class="detail_con_box" @click="openCallDialog(orderDetail.sellerPhone)"><img src="/images/shop_tel.png">拨打电话</div>
+						</div>
+					</div>
+					<div class="comm_box mar_bottom">
+						<div class="order_info">
+							<p v-if="orderDetail.customerRemark !=''">订单备注：{{orderDetail.customerRemark}}</p>
+							<p>订单编号：{{orderDetail.orderCode}} <span class="detail_copy" @click="copyText(orderDetail.orderCode)">复制</span></p>
+							<p>下单时间：{{orderDetail.createTime | formatDate}}</p>
+                        </div>
+                        <template v-if="orderDetail.payType != 0">
+                            <div class="order_info">
+                                <p>支付方式：{{orderDetail.payType == 1 && "钱包支付" || orderDetail.payType == 2 && "微信支付" || orderDetail.payType == 3 && "支付宝支付"}}</p>
+                                <p>支付时间：{{orderDetail.paymentTime | formatDate}}</p>
+                            </div>
+                        </template>
+						
+						<div class="order_info">
+							<p>配送方式：{{orderDetail.deliveryType == 1 && '快递/外送' || orderDetail.deliveryType == 3 && '自提' || orderDetail.deliveryType == 4 && '免邮'}}</p>
+						</div>
+						<template v-if="orderDetail.orderInvoice">
+							<div class="order_info">
+								<p>发票类型：{{orderDetail.orderInvoice.isVat == 1 && "普通发票" || orderDetail.orderInvoice.isVat == 2 && "增值发票"}}</p>
+								<p>发票抬头：{{orderDetail.orderInvoice.invoiceTitle}}</p>
+								<p v-if="orderDetail.orderInvoice.vatBankName">开户银行：{{orderDetail.orderInvoice.vatBankName}}</p>
+								<p v-if="orderDetail.orderInvoice.vatBankAccount">银行卡号：{{orderDetail.orderInvoice.vatBankAccount}}</p>
+								<p v-if="orderDetail.orderInvoice.vatCompanyAddress">企业地址：{{orderDetail.orderInvoice.vatCompanyAddress}}</p>
+								<p v-if="orderDetail.orderInvoice.vatTelphone">企业电话：{{orderDetail.orderInvoice.vatTelphone}}</p>
+							</div>
+						</template>
+						
+						<div class="order_info" v-if="orderDetail.orderStatus == 504 && orderDetail.orderRefund">
+							<p>卖家取消订单原因：{{orderDetail.orderRefund.buyerMsg}}</p>
+						</div>
+					</div>
+					<div class="comm_box foot_btn">
+						<div class="order_ope">
+							<div class="order_btn orage" v-if="orderDetail.orderStatus == 101" @click="toPay">付款</div>
+							<div class="order_btn orage" v-if="orderDetail.orderStatus == 301 && orderDetail.refundStatus == 0" @click="takeOrder">确认收货</div>
+							<div class="order_btn" v-if="orderDetail.orderStatus == 301 || orderDetail.orderStatus == 401" @click="getLogistics">查看物流</div>
+							<div class="order_btn" v-if="orderDetail.orderStatus == 101" @click="cancelOrderDialog">取消订单</div>
+							<div class="order_btn" v-if="orderDetail.orderStatus == 201 || orderDetail.orderStatus == 301 && orderDetail.refundStatus == 0" @click="toRefund">申请退款</div>
+							<div class="order_btn" v-if="orderDetail.orderStatus == 501 || orderDetail.orderStatus == 502 || orderDetail.orderStatus == 503 || orderDetail.orderStatus == 504" @click="delOrderDialog(orderDetail.orderCode)">删除订单</div>
+							<!-- <div class="order_btn">查看物流</div>
+							<div class="order_btn">售后详情</div>
+							<div class="order_btn">删除订单</div>
+							<div class="order_btn">退款成功(详情)</div>
+							
+							<div class="order_btn orage">确认收货</div> -->
+							<!-- 待付款 取消订单 付款 -->
+							<!-- 待发货 申请退款 查看物流 -->
+							<!-- 待收货 申请退款 查看物流 确认收货 -->
+							<!-- 已完成 查看物流 删除订单  -->
+							<!-- 卖家取消订单 退款成功 删除订单  -->
+							<!-- 用户申请退款成功 退款成功 查看物流 删除订单  -->
+							<!-- 未付款 删除订单  -->
+
+						</div>
+					</div>
+                </main>
+            </div>
+		</div>
+		<template v-if="isShowCallSeller">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__bd">确定要拨打卖家电话吗？</div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default"  @click="isShowCallSeller=false">取消</a>
+                        <a href="javascript:"  class="weui-dialog__btn weui-dialog__btn_primary" @click="callSeller">确定</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+		<template v-if="isCancelOrderDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">确定要取消此订单吗？</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="cancelOrderDialog">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="cancelOrder">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+		<!--删除提示-->
+		<template v-if="isDelOrderDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">确定要删除此订单吗？</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="isDelOrderDialog=false">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="delOrder">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					orderCode: `<%- orderCode %>`,
+					shopId: "",
+					orderDetail: {},
+					isCancelOrderDialog: false,
+					days: "",
+					hour: "",
+					minutes: "",
+					seconds: "",
+					phone: "",
+					isShowCallSeller: false,
+					isDelOrderDialog: false
+				}
+			},
+			created() {
+				this.initData();
+			},
+			filters: {
+				formatDate(value) {
+					let date = new Date(value * 1000);
+					let y = date.getFullYear();
+					let MM = date.getMonth() + 1;
+					MM = MM < 10 ? ('0' + MM) : MM;
+					let d = date.getDate();
+					d = d < 10 ? ('0' + d) : d;
+					let h = date.getHours();
+					h = h < 10 ? ('0' + h) : h;
+					let m = date.getMinutes();
+					m = m < 10 ? ('0' + m) : m;
+					let s = date.getSeconds();
+					s = s < 10 ? ('0' + s) : s;
+					return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+				}
+			},
+			methods: {
+				initData() {
+					axios.get("/mall/getOrderDetail?orderCode=" + this.orderCode).then(res => {
+						console.log(res);
+						this.orderDetail = res.data.data;
+						this.shopId = res.data.data.shopId;
+						let leftTime = this.orderDetail.remainTime * 1000;
+						this.days = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+						this.hour = Math.floor(leftTime / 1000 / 60 / 60 % 24);
+						this.minutes = Math.floor(leftTime / 1000 / 60 % 60);
+						this.seconds = Math.floor(leftTime / 1000 % 60);
+					});
+				},
+				// 取消订单弹窗
+				cancelOrderDialog() {
+					this.isCancelOrderDialog ? this.isCancelOrderDialog = false : this.isCancelOrderDialog = true;
+				},
+				// 取消订单
+				cancelOrder() {
+					let opt = {
+						method: "POST",
+						url: "/mall/cancelOrder",
+						data: [{
+							orderCode: this.orderCode,
+							cancelReason: ""
+						}]
+					}
+					axios(opt).then(res => {
+						this.isCancelOrderDialog = false;
+						if(res.data.errorCode == 0) {
+							this.initData();
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				},
+				// 申请退款
+				toRefund() {
+					window.location.href = "/mall/refund?orderCode=" + this.orderCode + "&payPrice=" + this.orderDetail.payPrice;
+				},
+				// 查看物流
+				getLogistics() {
+					window.location.href = "/mall/wuliu?orderCode=" + this.orderCode;
+				},
+				delOrderDialog(){
+					this.isDelOrderDialog ? this.isDelOrderDialog = false : this.isDelOrderDialog = true;
+				},
+				// 删除订单
+				delOrder() {
+					axios.get("/mall/delOrder?orderCode=" + this.orderCode).then(res => {
+						if(res.data.errorCode == 0) {
+							window.history.go(-1);
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				},
+				// 退款详情
+				// 付款
+				toPay() {
+					window.location.replace("/mall/pay?orderCode=" + this.orderCode + "&shopId=" + this.shopId);
+				},
+				// 确认收货
+				takeOrder() {
+					axios.get("/mall/confirmReceive?orderCode=" + this.orderCode).then(res => {
+						if(res.data.errorCode == 0) {
+							this.initData();
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				},
+				copyText(orderCode) {
+					let result = h5Copy(orderCode);
+					if(result === true) {
+						this.isShowCopyDialog = false;
+						return poper("复制成功");
+					}else {
+						return poper("复制失败");
+					}
+				},
+				openCallDialog(phone) {
+					this.phone = phone;
+                    this.isShowCallSeller = true;
+                },
+                //拨打电话
+				callSeller(){
+                    this.isShowCallSeller = false;
+					window.location.href = `tel:${this.phone}`;
+                },
+			}
+		})
+	</script>
+</body>
+</html>

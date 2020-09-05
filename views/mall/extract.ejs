@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+        	margin-top: 7px;
+        }
+        .tui-checkbox.checked {
+			background:#FF6A29
+		}
+		.tui-checkbox {
+			width:34px;
+			height:34px;
+			background-color:#ffffff;
+			border:solid 1px #dddddd;
+			-webkit-border-radius:50%;
+			border-radius:50%;
+			margin-right:25px;
+			font-size:0.8rem;
+			position:relative;
+			display:inline-block;
+			vertical-align:top;
+			cursor:default;
+			-webkit-appearance:none;
+			-webkit-user-select:none;
+			user-select:none;
+			-webkit-transition:background-color ease 0.1s;
+			transition:background-color ease 0.1s;
+		}
+		.tui-checkbox.checked::after {
+			content:'';
+			top:8px;
+			left:7px;
+			position:absolute;
+			background:transparent;
+			border:#fff solid 2px;
+			border-top:none;
+			border-right:none;
+			height:8px;
+			width:16px;
+			-moz-transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+			transform:rotate(-45deg);
+		}
+		.comm_box{
+            background: #ffffff;
+		}
+		.comm_inf_box {
+			width: 100%;
+		}
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+        	align-items: center;
+        }
+        .comm_tit{
+        	margin-top: 18px;
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	max-height: 72px;
+        	line-height: 36px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .comm_num{
+        	margin-top: 15px;	
+        	font-size: 26px;
+        	color: #AFAFB2;
+        	display: flex;
+        	justify-content: space-between;
+        }
+        .ext_n{
+        	font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="comm_box top">
+						<% if(type == 1) {%>
+						<div class="comm_inf" v-for="(item, index) in list" :key="index" @click="checkExtract(item)">
+							<input name="checkbox" type="checkbox"  class="tui-checkbox" :class="{checked : item.id == id}">
+							<div class="comm_inf_box">
+								<p class="comm_tit">{{item.province}}{{item.city}}{{item.area}}{{item.address}}</p>
+								<div class="comm_num">
+									<span>联系电话:{{item.telephone}}</span>
+									<span class="ext_n" v-if="item.distance !=0">距您 {{(item.distance / 1000).toFixed(1)}}km</span>
+								</div>
+							</div>
+						</div>
+						<%}%>
+						<% if(type == 2){%>
+							<div class="comm_inf" v-for="(item, index) in list" :key="index">
+								<div class="comm_inf_box">
+									<p class="comm_tit"><span style="font-weight: 700;">自提地址{{index + 1}}：</span>{{item.province}}{{item.city}}{{item.area}}{{item.address}}</p>
+									<div class="comm_num">
+										<span>联系电话:{{item.telephone}}</span>
+										<span class="ext_n" v-if="item.distance !=0">距您 {{(item.distance / 1000).toFixed(1)}}km</span>
+									</div>
+								</div>
+							</div>
+						<%}%>
+					</div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="https://webapi.amap.com/maps?v=1.4.15&key=cad1404d0f03b03102340a0271baf742&plugin=AMap.Geocoder"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					shelfId: `<%- shelfId %>`,
+					id: `<%- id %>`,
+					list: [],
+					pageIndex: 1,
+					pageSize: 20
+				}
+			},
+			created() {
+				// this.initData();
+				this.getLocation();
+			},
+			methods: {
+				// 获取定位
+				getLocation() {
+					AMap.plugin('AMap.Geolocation', ()=> {
+						var geolocation = new AMap.Geolocation({
+							enableHighAccuracy: true,//是否使用高精度定位，默认:true
+							timeout: 1000,          //超过10秒后停止定位，默认：5s
+							buttonPosition:'RB',    //定位按钮的停靠位置
+							buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+							zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+						});
+						geolocation.getCurrentPosition((status,result)=>{
+							if(status=='complete'){
+								this.initData(result.position.lat, result.position.lng);
+							}else{
+								this.initData("", "");
+							}
+						});
+					});
+				},
+				initData(nowLat, nowLng) {
+					axios.get("/mall/getExtractList?shelfId=" + this.shelfId + "&pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize + "&nowLat="+ nowLat +"&nowLng=" +nowLng).then(res => {
+						if(res.data.errorCode == 0) {
+							this.list = res.data.data.list;
+						}
+					});
+				},
+				checkExtract(item) {
+					sessionStorage.setItem("extractDetail", JSON.stringify(item));
+					window.history.go(-1);
+				}
+			}
+		})
+	</script>
+</body>
+</html>

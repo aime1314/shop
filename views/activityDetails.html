@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' href='../public/stylesheets/style.css' />
+    <style>
+        body,html{
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding-bottom: 0.85rem;
+        }
+        .header{
+            width: 100%;
+            height: 3.8rem;
+        }
+        .header img{
+            width: 100%;
+            height:100%;
+        }
+        .section{
+            width: 100%;
+        }
+        .activityTitle{
+            width: 100%;
+            padding: 0.25rem 0.24rem 0 0.24rem;
+            background: #fff;
+            color:#000;
+            font-size: 0.36rem;
+        }
+        .infoBox{
+            background: #fff;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.22rem 0.27rem 0 0.24rem;
+        }
+        .joinNum{
+            height: 0.20rem;
+            font-size: 0.20rem;
+            line-height:0.20rem;
+            color: #989EAB;
+        }
+        .issue{
+            color:#7289BA;
+            font-size: 0.20rem;
+            height: 0.20rem;
+            line-height: 0.20rem;
+        }
+        .issue span{
+            color:#989EAB;
+        }
+        .entryFeeBox{
+            width: 100%;
+            background: #fff;
+            padding: 0.35rem 0.27rem 0 0.24rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+        }
+        .entryFee{
+            color:#000;
+            font-size: 0.21rem;
+        }
+        .entryFeeBox p:nth-child(2){
+            color: #3E8CF9;
+            font-size: 0.37rem;
+            height: 0.40rem;
+            line-height: 0.50rem;
+        }
+        .entryFeeBox p:nth-child(2) span{
+            color: #3E8CF9;
+            font-size: 0.21rem;
+        }
+        .xcfh{
+            width: 1.4rem;
+            height: 0.31rem;
+            line-height: 0.2rem;
+            padding-left: 0.1rem;
+        }
+        .xcfh img{
+            width: 100%;
+            height: 100%;
+        }
+        .activityMsgBox{
+            width: 100%;           
+            background: #fff;
+            padding: 0.42rem 0.27rem 0.31rem 0.24rem; 
+        }
+        .location{
+            padding-top: 0.20rem;
+        }
+        .activityTime, .location{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .activityTime span{
+            display: inline-block;
+            color:#4B5059;
+            font-size: 0.24rem;
+            padding-left: 0.08rem;
+        }
+        .location span{
+            display: inline-block;
+            color:#4B5059;
+            font-size: 0.24rem;
+            padding-left: 0.08rem;
+        }
+        .Icon{
+            width: 0.30rem;
+            height: 0.30rem;
+        }
+        .Icon img{
+            width: 100%;
+            height: 100%;
+        }
+        .line{
+            height: 0.08rem;
+        }
+        .participationBox{
+            width: 100%;
+            padding: 0 0.27rem 0 0.24rem;
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .participation{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .join{
+            font-size: 0.25rem;
+            color:#000;
+            padding-right: 0.13rem;
+        }
+        .joinImgBox{
+            display: flex;
+        }
+        .joinImg{
+            width: 0.65rem;
+            height: 0.65rem;
+            padding: 0 0.045rem;
+        }
+        .joinImg img{
+            width: 100%;
+            height: 100%;
+        }
+        .arrowsIcon{
+            width: 0.26rem;
+            height: 0.26rem;
+        }
+        .arrowsIcon img{
+            width: 100%;
+            height: 100%;
+        }
+        .detailsIntroduce{
+            width: 100%;
+            background: #fff;
+            padding: 0.24rem 0.27rem 0 0.24rem;
+            font-size: 0.23rem;
+            color: #000;
+        }
+        .footer{
+            position:fixed;
+            bottom:0; 
+            width: 100%;
+            height: 0.85rem;
+            border-top: 1px solid #e8ecf0;
+            background: #fff;
+        }
+        .applyBtn{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top:0;
+            bottom: 0;
+            margin:auto;
+            width: 4.68rem;
+            height: 0.56rem;
+            line-height:0.56rem;
+            background: #3E8CF9;
+            border-radius:6px;
+            -webkit-border-radius:6px;
+            -moz-border-radius:6px;
+            font-size:0.28rem;
+            color:#fff;
+            text-align: center;
+        }
+    </style>
+    <title>活动详情</title>
+</head>
+<body>
+    <header class="header">
+        <img src="../public/images/imgs.png" alt="">
+    </header>
+    <section class="section queerBox">
+        <div class="activityTitle queerBox">
+            青岛市潍坊商会2019年团拜会对接联谊会
+        </div>
+        <div class="infoBox queerBox">
+            <p class="joinNum">已有130人参与</p>
+            <p class="issue">
+                青岛湖北商会&nbsp;田云&nbsp;
+                <span>发布</span>
+            </p>
+        </div>
+        <div class="entryFeeBox queerBox">
+            <p class="entryFee">报名费：</p>
+            <p>1~100&nbsp;<span>脉粒</span></p>
+            <div class="xcfh">
+                <img src="../public/images/xcfh.png" alt="">
+            </div>
+        </div>
+        <div class="activityMsgBox queerBox">
+            <div class="activityTime">
+                <div class="Icon">
+                    <img src="../public/images/time.png" alt="">
+                </div>
+                <span>05/30 08:30 - 05/30 22:30 </span>
+            </div>
+            <div class="location">
+                <div class="Icon">
+                    <img src="../public/images/location.png" alt="">
+                </div>  
+                <span>城阳区上马街道高新区广博路腾讯众创空间</span>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="participationBox queerBox">
+            <div class="participation">
+                <div class="join">最近参与</div>
+                <div class="joinImgBox">
+                    <div class="joinImg">
+                        <img src="../public/images/memberImage.png" alt="">
+                    </div>
+                    <div class="joinImg">
+                        <img src="../public/images/touxiang.png" alt="">
+                    </div>
+                    <div class="joinImg">
+                        <img src="../public/images/memberImage.png" alt="">
+                    </div>
+                    <div class="joinImg">
+                        <img src="../public/images/touxiang.png" alt="">
+                    </div>
+                    <div class="joinImg">
+                        <img src="../public/images/memberImage.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="arrowsIcon">
+                <img src="../public/images/arrows.png" alt="">
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="detailsIntroduce queerBox">
+            为迎接职业教育市场千亿风口，助力在线教育机构快速成长，腾讯课堂举办101计划沙龙，邀请行业内大咖和成功机构分享多年来运营经验。
+（1）平台运营：腾讯课堂101计划扶植中小机构方法论
+（2）教育大咖：TOGO career创始人、前尚德教育VP分享机构人员管理方法
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="applyBtn">立即报名</div>
+    </footer>
+    <script src="../public/javascripts/jquery.min.js"></script>
+    <script>
+        $(function(){
+            $(".applyBtn, .arrowsIcon").click(function(){
+                setInterval(function(){
+                    window.open("https://www.baidu.com");
+                },500)
+            })
+            
+        })
+    </script>
+</body>
+</html>

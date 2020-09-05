@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/order.css">
+	<link rel="stylesheet" href="/stylesheets/mall.css" />
+	<script src="/javascripts/phone.js"></script>
+	<style>
+	.order_all_two {
+		font-size: 24px;
+		color: #F4AE40;
+		margin-bottom: 25px;
+	}
+	</style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="top_bar">
+                		<div class="top_bar_at bar_w" @click="toggleTab(0)" :class="{top_bar_bor: orderStatus == 0}">全部</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(1)" :class="{top_bar_bor: orderStatus == 1}">待付款</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(2)" :class="{top_bar_bor: orderStatus == 2}">待发货</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(3)" :class="{top_bar_bor: orderStatus == 3}">待收货</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(4)" :class="{top_bar_bor: orderStatus == 4}">已完成</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(5)" :class="{top_bar_bor: orderStatus == 5}">已关闭</div>
+                	</div>
+                	<div class="order_list">
+						<template v-for="(item, index) in list" :key="index">
+							<div class="comm_box">
+								<div class="order_top">
+									<div class="order_time">下单时间：{{item.createTime | formatDate}}</div>
+									<div class="order_state">
+										{{item.orderStatus == 101 && "等待您付款" || item.orderStatus == 201 && "等待卖家发货" || item.orderStatus == 301 && "等待您收货" ||
+										item.orderStatus == 302 && "等待您收货" || item.orderStatus == 303 && "等待您收货" || item.orderStatus == 401 && "交易完成" || item.orderStatus == 402 && "交易完成" ||
+										item.orderStatus == 501 && "订单已取消" || item.orderStatus == 502 && "交易关闭" || item.orderStatus == 503 && "交易关闭" ||  item.orderStatus == 504 && "交易关闭" ||
+										item.orderStatus == 505 && "交易关闭" || item.orderStatus == 506 && "交易关闭" || item.orderStatus == 507 && "交易关闭"
+									}}
+									</div>
+								</div>
+								<div class="comm_inf" v-for="(citem, cindex) in item.orderGoodsList" @click="changeOrderDetail(citem.orderCode)" :key="cindex">
+									<img class="comm_pic" :src="citem.pic" />
+									<div class="comm_inf_box">
+										<div class="order_box">
+											<div class="comm_tit">{{citem.goodsName}}</div>
+											<div class="comm_num"><span>￥</span>{{citem.goodsPrice}}</div>
+										</div>	
+										<div class="comm_num2">
+											<div class="comm_num_box">
+												<p style="width: 400px; word-break: break-all;">{{citem.goodsAttr}}</p>
+											</div>
+											<div class="comm_num_box">x{{citem.goodsCount}}</div>
+										</div>
+										<p class="deduction_num" v-if="citem.proMaiLiCount > 0">脉粒抵扣:- ¥{{citem.proMaiLiCount}}</p>
+									</div>
+								</div>
+								<template v-if="item.orderStatus == 501 || item.orderStatus == 502 || item.orderStatus == 503 || item.orderStatus == 504 || item.orderStatus == 505 || item.orderStatus == 506 || item.orderStatus == 507">
+								<div class="order_price"><p class="order_all_two">{{
+										item.orderStatus == 501 && "订单取消" ||
+										item.orderStatus == 502 && "未付款超时，订单取消" ||
+										item.orderStatus == 503 && "申请退款成功" ||
+										item.orderStatus == 504 && "卖家取消订单，退款成功" ||
+										item.orderStatus == 505 && "平台取消订单，退款成功" ||
+										item.orderStatus == 506 && "申请退款成功" || 
+										item.orderStatus == 507 && "商家超时未发货，订单取消"
+	
+									}}</p></div>
+								</template>
+								<div class="order_price"><p>总价 ¥ {{item.totalGoodsPrice}}<template v-if="item.totalMaiLi > 0">, 脉粒抵扣 ¥ {{item.totalMaiLi}}</template> 实付款 ¥ </p><span>{{item.payPrice}}</span></div>
+								<div class="order_ope">
+									<div class="order_btn orage" v-if="item.orderStatus == 101" @click="toPay(item.orderCode, item.shopId)">付款</div>
+									<div class="order_btn orage" v-if="item.orderStatus == 301" @click="takeOrder(item.orderCode)">确认收货</div>
+									<div class="order_btn" v-if="item.orderStatus == 301" @click="getLogistics('YT4523965652834' || item.orderCode)">查看物流</div>
+									<!-- <div class="order_btn" v-if="item.orderStatus == 201 || item.orderStatus == 301" @click="toRefund(item.orderCode, item.payPrice)">申请退款</div> -->
+									<div class="order_btn" v-if="item.orderStatus == 201 || item.orderStatus == 301 || item.orderStatus == 401 || item.orderStatus == 402 || item.orderStatus == 501 || item.orderStatus == 502 || item.orderStatus == 503 || item.orderStatus == 504" @click="changeOrderDetail(item.orderCode)">订单详情</div>
+									<div class="order_btn" v-if="item.orderStatus == 401 || item.orderStatus == 402 || item.orderStatus == 501 || item.orderStatus == 502 || item.orderStatus == 503 || item.orderStatus == 504" @click="delOrderDialog(item.orderCode)">删除订单</div>
+									<div class="order_btn" v-if="item.orderStatus == 101" @click="cancelOrderDialog(item.orderCode)">取消订单</div>
+								</div>
+							</div>
+							
+						</template>
+					</div>
+					<!--操作提示-->
+					<template v-if="isCancelOrderDialog">
+						<div class="js_dialog">
+							<div class="weui-mask"></div>
+							<div class="weui-dialog">
+								<div class="weui-dialog__bd">确定要取消此订单吗？</div>
+								<div class="weui-dialog__ft">
+									<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="isCancelOrderDialog=false">取消</a>
+									<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="cancelOrder">确定</a>
+								</div>
+							</div>
+						</div>
+					</template>
+					<!--删除提示-->
+					<template v-if="isDelOrderDialog">
+						<div class="js_dialog">
+							<div class="weui-mask"></div>
+							<div class="weui-dialog">
+								<div class="weui-dialog__bd">确定要删除此订单吗？</div>
+								<div class="weui-dialog__ft">
+									<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="isDelOrderDialog=false">取消</a>
+									<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="delOrder">确定</a>
+								</div>
+							</div>
+						</div>
+					</template>
+                    
+				</main>
+				<footer class="b-tabbar">
+                    <div class="b-tabbar-item " @click="toPage('/mall/index/' + shopId)">
+                        <div class="b-tabbar-bd">
+                            <div class="b-tabbar-icon">
+                                <img src="/images/ic_tab_home_d.png">
+                            </div>
+                            <div class="b-tabbar-label">小脉部</div>
+                        </div>
+                    </div>
+                    <div class="b-tabbar-item" @click="toPage('/mall/cart?shopId=' + shopId + '&shelfId=' + shelfId)">
+                        <div class="b-tabbar-bd">
+                            <div class="b-tabbar-icon">
+								<span v-if="goodsCount != 0">{{goodsCount}}</span>
+                                <img src="/images/ic_tab_cart_d.png">
+                            </div>
+                            <div class="b-tabbar-label">购物车</div>
+                        </div>
+                    </div>
+                    <div class="b-tabbar-item active">
+                        <div class="b-tabbar-bd">
+                            <div class="b-tabbar-icon">
+                                <img src="/images/ic_tab_order_a.png">
+                            </div>
+                            <div class="b-tabbar-label">本店订单</div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					shopId: `<%- shopId %>`,
+					shelfId: `<%- shelfId %>`,
+					orderStatus: `<%- type %>`,
+					pageIndex: 1,
+					isCancelOrderDialog: false,
+					isDelOrderDialog: false,
+					list: [],
+					orderCode:'',
+					goodsCount: 0
+				}
+			},
+			created() {
+				if(window.name != "bencalie"){
+					window.name = "bencalie";
+				}
+				else{
+					window.name = "";
+					location.reload();
+				}
+				this.initData(this.orderStatus);
+				this.getShopCartGoodsNum();
+			},
+			filters: {
+				formatDate(value) {
+					let date = new Date(value * 1000);
+					let y = date.getFullYear();
+					let MM = date.getMonth() + 1;
+					MM = MM < 10 ? ('0' + MM) : MM;
+					let d = date.getDate();
+					d = d < 10 ? ('0' + d) : d;
+					let h = date.getHours();
+					h = h < 10 ? ('0' + h) : h;
+					let m = date.getMinutes();
+					m = m < 10 ? ('0' + m) : m;
+					let s = date.getSeconds();
+					s = s < 10 ? ('0' + s) : s;
+					return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+				}
+			},
+			methods: {
+				// 获取购物车数据
+				getShopCartGoodsNum() {
+					axios.get("/mall/getShopCartGoodsNum?shopId=" + this.shopId).then(res => {
+                        console.log(res);
+                        if(res.data.errorCode == 0){
+                            if(res.data.data) {
+                                this.goodsCount = res.data.data.allCount;
+                            }
+						}
+					});
+				},
+				initData() {
+					let opt = {method: "POST", url: "/mall/getOrderList", data:{
+						orderStatus: this.orderStatus,
+						pageIndex: this.pageIndex,
+						pageSize: this.pageSize,
+						shopId: this.shopId,
+						shelfId: this.shelfId
+					}};
+					axios(opt).then(res => {
+						console.log(res);
+						if(this.pageIndex == 1 && res.data.data) {
+							this.list = res.data.data.list;
+						}else {
+							this.list = [];
+						}
+						
+					});
+				},
+				toggleTab(type) {
+					if(this.orderStatus == type) return;
+					window.location.replace(`/mall/orderList?shopId=${this.shopId}&shelfId=${this.shelfId}&type=${type}`);
+				},
+				// 付款
+				toPay(orderCode, shopId) {
+					window.location.href = "/mall/pay?orderCode=" + orderCode + "&shopId=" + shopId;
+				},
+				// 查看订单详情
+				changeOrderDetail(code) {
+					window.location.href = "/mall/orderDetail?orderCode=" + code;
+				},
+				// 查看物流
+				getLogistics(orderCode) {
+					window.location.href = "/mall/wuliu?orderCode=" + orderCode;
+				},
+				delOrderDialog(o){
+					this.orderCode=o
+					this.isDelOrderDialog ? this.isDelOrderDialog = false : this.isDelOrderDialog = true;
+				},
+				// 是否取消订单
+				cancelOrderDialog(orderCode) {
+					this.orderCode=orderCode;
+					this.isCancelOrderDialog ? this.isCancelOrderDialog = false : this.isCancelOrderDialog = true;
+				},
+				// 删除订单
+				delOrder() {
+					axios.get(`/mall/delOrder?orderCode=${this.orderCode}`).then(res => {
+						console.log(res);
+						if(res.data.errorCode == 0) {
+							this.pageIndex = 1;
+							this.initData(this.orderStatus);
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				},
+				//取消订单
+				cancelOrder(item) {
+					let opt = {method: "POST", url: "/mall/cancelOrder", data:[{orderCode: this.orderCode, cancelReason: "商家不配合，平台取消订单"}]};
+					axios(opt).then(res => {
+						if(res.data.errorCode == 0) {
+							this.isCancelOrderDialog = false;
+							this.pageIndex = 1;
+							this.initData(this.orderStatus);
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				},
+
+				// 申请退款
+				toRefund(orderCode, payPrice) {
+					console.log(orderCode);
+					window.location.href = "/mall/refund?orderCode=" + orderCode + "&payPrice=" + payPrice;
+				},
+
+				toPage(page) {
+					window.location.href = page;
+				},
+				
+				// 确认收货
+				takeOrder(orderCode) {
+					axios.get("/mall/confirmReceive?orderCode=" + orderCode).then(res => {
+						console.log(res);
+						if(res.data.errorCode == 0) {
+							this.pageIndex = 1;
+							this.initData(this.orderStatus);
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				},
+				
+			}
+		})
+	</script>
+</body>
+</html>

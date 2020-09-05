@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/order.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.bar_w{
+    		width: 50%;
+    	}
+    	.top_bar_at{
+    		color: #797A7A;
+    	}
+		.top_bar_at.top_bar_bor {
+			position: relative;
+			color: #3086DE;
+		}
+		.top_bar_at.top_bar_bor::before {
+			content: "";
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			width: 33px;
+			height: 4px;
+			background: #3086DE;
+		}
+    	.comm_pic {
+			width: 120px;
+			height: 120px;
+		}
+		.comm_inf{
+			background: #f7f6f9;
+		}
+		.comm_inf_box {
+			width: 81%;
+			margin-left: 15px;
+		}
+		.order_price_m{
+			padding: 31px 24px 0px 24px;
+			display: flex;
+			justify-content: space-between;
+		}
+		.order_f{
+			font-size: 26px;
+			color: #2C2C2C;
+            display: flex;
+            align-items: center;
+		}
+		.f_w{
+			font-weight: 600;
+		}
+		.order_f span{
+			font-size: 30px;
+			color: #FFA031;
+		}
+		.blue{
+			border: 1px solid #3086DE;
+			color: #3086DE;
+		}
+		/*操作提示*/
+		.weui-dialogw{
+			text-align: left;
+			position: fixed;
+		    z-index: 5000;
+		    top: 50%;
+		    left: 125px;
+		    right: 125px;
+		    -webkit-transform: translate(0, -50%);
+		    transform: translate(0, -50%);
+		    background-color: #fff;
+		    background-color: #FFFFFF;
+		    border-radius: 3px;
+		    overflow: hidden;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-flex-direction: column;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    flex-direction: column;
+		    max-height: 90%;
+			
+		}
+		.weui-dialog__bdw{
+			padding: 51px 24px 42px 24px;
+			overflow-y: auto;
+		    -webkit-overflow-scrolling: touch;
+		    font-size: 34px;
+		    line-height: 1.4;
+		    word-wrap: break-word;
+		    -webkit-hyphens: auto;
+		    hyphens: auto;
+		    color: #2C2C2C;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="top_bar">
+						<div class="top_bar_at bar_w" :class="{top_bar_bor: refundStatus == 101}" @click="toggleTab(101)">进行中</div>
+						<div class="top_bar_at bar_w" :class="{top_bar_bor: refundStatus == 0}" @click="toggleTab(0)">全部</div>
+                	</div>
+                	<div class="order_list">
+						<template v-for="(item, index) in list" :key="index">
+							<div class="comm_box">
+								<div class="order_top">
+									<div class="order_shoptit"><img class="oreder_icon" src="/images/shop_wx.png">{{item.userName}}</div>
+									<div class="order_state">{{item.refundStatus == 101 && "待处理" || item.refundStatus == 201 && "已处理" || item.refundStatus == 301 && "已拒绝" || item.refundStatus == 302 && "买家已撤销" || item.refundStatus == 401 && "退款成功"}}</div>
+								</div>
+								<div class="comm_inf" v-for="(citem, cindex) in item.orderRefundDetailList" :key="cindex">
+									<img class="comm_pic" :src="citem.pic" />
+									<div class="comm_inf_box">
+										<div class="order_box">
+											<div class="comm_tit">{{citem.skuName}}</div>
+											<div class="comm_num"><span>￥</span>{{citem.goodsPrice}}</div>
+										</div>
+										<div class="comm_num2">
+											<div class="comm_num_box">{{citem.goodsAttr}}</div>
+											<div class="comm_num_box">x{{citem.goodsCount}}</div>
+										</div>
+										<p class="deduction_num">脉粒抵扣:- ¥{{citem.maiLiCount}}</p>
+									</div>
+								</div>
+								<div class="order_price_m">
+									<div class="order_f f_w">{{item.refundType == 1 && '仅退款' || item.refundType == 2 && '退款退货'}}</div>
+									<div class="order_f"><p>退款金额：</p><span>¥  {{item.refundAmount}}</span></div>
+								</div>
+								<div class="order_ope">
+									<div class="order_btn blue" v-if="item.refundStatus == 101" @click="agreeOrderDialog(item.refundCode)">同意退款</div>
+									<div class="order_btn" v-if="item.refundStatus == 101" @click="refusedOrderDialog(item.refundCode)">拒绝退款</div>
+									<div class="order_btn" @click="toPage('/shop/orderManage/refundDetail?refundCode=' + item.refundCode)">查看详情</div>	
+								</div>
+							</div>
+						</template>
+					</div>
+                </main>
+            </div>
+        </div>
+
+        <!--拒绝退款-->
+        <template v-if="isRefusedOrderDialog">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__bd">确定要拒绝意退款吗？</div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="refusedOrderDialog('')">取消</a>
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="refundUpdate">确定</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+        
+        <!--同意退款-->
+        <template v-if="isAgreeOrderDialog">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialogw">
+                    <div class="weui-dialog__bdw">同意退款后，钱款将退回买家 账户，确定要同意退款吗？</div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="agreeOrderDialog('')">取消</a>
+                        <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="refundUpdate">确定</a>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					refundStatus: `<%- type %>`,
+					pageIndex: 1,
+					pageSize: 20,
+                    list: [],
+                    refundCode: "",
+                    isRefusedOrderDialog: false,
+                    isAgreeOrderDialog: false
+				}
+			},
+			created() {
+				this.initData();
+			},
+			methods: {
+				initData() {
+					let opt = {
+						method: "POST",
+						url: "/shop/orderManage/getRefundList",
+						data: {
+							pageIndex: this.pageIndex,
+							pageSize: this.pageSize,
+							refundStatus: this.refundStatus
+						}
+					}
+					axios(opt).then(res => {
+						this.list = res.data.data.list;
+					});
+				},
+				toggleTab(type) {
+					if(this.refundStatus == type) return;
+					window.location.replace(`/shop/orderManage/refundList?type=${type}`);
+                },
+                // 拒绝退款申请弹窗
+                refusedOrderDialog(refundCode) {
+                    this.refundCode = refundCode;
+                    this.refundType = 0;
+                    this.isRefusedOrderDialog ? this.isRefusedOrderDialog = false : this.isRefusedOrderDialog = true;
+                },
+                // 同意退款申请弹窗
+                agreeOrderDialog(refundCode) {
+                    this.refundCode = refundCode;
+                    this.refundType = 1;
+                    this.isAgreeOrderDialog ? this.isAgreeOrderDialog = false : this.isAgreeOrderDialog = true;
+                },
+				// 查看详情
+				toPage(page) {
+					window.location.href = page;
+                },
+                refundUpdate() {
+                    let config = {
+                        refundCodes: [this.refundCode],
+                        remark: "",
+                        type: this.refundType
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/orderManage/refundUpdate",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    axios(opt).then(res => {
+                        console.log(res);
+                        this.isRefusedOrderDialog = false;
+                        this.isAgreeOrderDialog = false;
+                        if(res.data.errorCode == 0) {
+                            this.pageIndex = 1;
+                            this.initData();
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+                }
+			}
+		})
+	</script>
+</body>
+</html>

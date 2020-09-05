@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body,html{
+            background:#fff;
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        input::-webkit-input-placeholder {
+            color: #D0D6DF;
+        }
+        input:-moz-placeholder {
+            color: #D0D6DF;
+        }
+        input:-ms-input-placeholder {
+            color: #D0D6DF;
+        }
+        .header{
+            width:100%;
+        }
+        .register-Box{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            width:100%;
+            padding:0 0.6rem;
+            
+        }
+        .register{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            width:100%;
+        }
+        .register .common{
+            margin-top:0.31rem;
+            border-bottom:0.01rem solid #B8BEC9;
+            height:0.76rem;
+            display: flex;
+            align-items: center;
+            clear: both;
+            overflow: hidden;
+        }
+        .register .common:nth-child(1){
+            margin-top: 0.38rem;
+        }
+        .register .phone{
+            display: inline-block;
+            width:0.27rem;
+            height:0.3rem;
+        }
+        .register .phone img{
+            display: block;
+            width:100%;
+            height:100%;
+        }
+        .register .common span{
+            display: inline-block;
+            color:#7F8592;
+            font-size:0.3rem;
+        }
+        .register input{
+            border:none;
+            font-size: 0.3rem;
+        }
+        .register .phoneNum{
+            margin-left: 0.24rem;
+        }
+        #YZC{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .yzCode{
+            width:3.2rem;
+        }
+        #getYzCode{
+            width:1.42rem;
+            height:0.47rem;
+            border:0.01rem solid #b5bac5;
+            border-radius:0.04rem;
+            -webkit-border-radius:0.04rem;
+            -moz-border-radius:0.04rem;
+            font-size: 0.22rem;
+            line-height: 0.47rem;
+            text-align: center;
+        }
+        .footer{
+            width:100%;
+            margin-top: 0.8rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .REG{
+            
+            width:5.19rem;
+            height:0.81rem;
+            background:rgba(62,140,249,1);
+            border-radius:0.07rem;
+            -webkit-border-radius:0.07rem;
+            -moz-border-radius:0.07rem;
+            color:#fff;
+            font-size: 0.33rem;
+            margin:0 auto;
+            text-align: center;
+            line-height: 0.81rem;
+        }
+        .agree{
+            text-align: center;
+            margin-top: 0.33rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .agree span{
+            font-size: 0.21rem;
+        }
+        .zj-box{
+            margin-top: 0.81rem;
+            clear: both;
+            overflow: hidden;
+            text-align: center;
+        }
+        .zj-box span{
+            font-size: 0.28rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="register-Box">
+            <div class="register">
+                <div class="common">
+                    <p class="phone"><img src="/images/ico-phone.png" alt="手机号"></p>
+                    <span>+</span><span>86</span>
+                    <input type="number" class="phoneNum" id="phone" placeholder="请输入手机号">
+                </div>
+                <div class="common" id="YZC">
+                    <input type="text" id="yzCodeNum" class="yzCode" placeholder="输入验证码">
+                    <span id="getYzCode" onclick="getCode(this)" style="color: #b5bac5;">获取验证码</span>
+                </div>
+                <div class="common">
+                    <input type="text" id="realName" placeholder="输入真实姓名">
+                </div>
+                <div class="common" style="justify-content: space-between;">
+                    <input style="width: 4.65rem;" id="pwd" type="password" placeholder="设置6-12位字母、数字密码">
+                    <span style="display:inline-block;width:0.39rem;height:0.39rem;">
+                        <img style="width: 100%;height:100%;display:block;" src="/images/ico-close.png" id="eye" onclick="showhide()" alt="小眼睛">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <footer class="footer">
+        <p class="REG" onclick="register()">注册并登录</p>
+        <p class="agree">
+            <span style="color: #B5BAC5;">点击以上按钮即表示同意</span>
+            <span style="color: #89B3FB;" onclick="privacyZC()">《隐私权声明》</span>
+        </p>
+        <p class="zj-box">
+            <span style="color: #7F8592;">已有账号？</span>
+            <span style="color: #3E8CF9;text-decoration:underline;" onclick="Login()">直接登录</span>
+        </p>
+    </footer>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        var wxWebshareDb = {
+            "title":'注册',                                  // 分享标题
+            "link":window.location.href,                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            "desc": "欢迎加入群脉，请注册账号",             // 分享描述
+            "imgUrl" : '',         //分享图标
+            // "type": '',                                        // 分享类型,music、video或link，不填默认为link
+            // "dataUrl": ''                                    // 如果type是music或video，则要提供数据链接，默认为空
+        };
+    </script>
+    <script src="/javascripts/wxcommon.js"></script>
+    <script>
+        $(function(){
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if(isiOS){
+                $(".register .phone").css("padding-top", "0.1rem");
+                $(".register .common:eq(0) span:eq(0)").css("padding-top", "0.05rem")
+                $(".register .common:eq(0) span:eq(1)").css("padding-top", "0.1rem")
+            }
+        })
+    </script>
+    <script>
+        var timer;
+        function showhide(){
+            if (pwd.type == "password") {
+                pwd.type = "text";
+                    eye.src='/images/ico-open.png'
+            }else {
+                pwd.type = "password";
+                eye.src='/images/ico-close.png'
+            }
+        }
+        function privacyZC(){
+            window.location.href = "/appCorrelation/correlationPage/privacy";
+        }
+        function Login(){
+            var url = location.search; //获取url中"?"符后的字串 
+            var request = new Object(); 
+            if (url.indexOf("?") != -1) { 
+                var str = url.substr(1); 
+                strs = str.split("&"); 
+                for(var i = 0; i < strs.length; i ++) { 
+                    request[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+                } 
+            }
+            if(request.id){
+                window.location.href = "/login/login?id=" +request.id;
+            }else if(request.fId){
+                window.location.href = "/login/login?from="+request.from + "&fId="+request.fId;
+            }
+            
+        }
+        function getCode(el){
+            if(timer){
+                //已经在计时了
+                return;
+            }else{
+
+            }
+            var phoneNum=document.getElementById("phone").value;
+            if(!(/^1[3456789]\d{9}$/.test(phoneNum) &&  phoneNum.length == 11)){
+                poper("请输入正确的电话号")
+                return;
+            }else{
+                $.ajax({
+                type:"get",
+                url:"/api/getyzCode" + "?type=0&phoneNum="+phoneNum,
+                success:function(res){
+                    if(res.errorCode==0){
+                        var count=120;
+                        el.innerText=count+"s"
+                        timer=setInterval(function(){
+                            if(count>1){
+                                count--;
+                                el.innerText=count+"s"
+                            }else{
+                                el.innerText="发送验证码"
+                                clearInterval(timer)
+                            }
+                        },1000)
+                    }else{
+                        poper(res.message)
+                    }
+
+                },
+                error:function(err){
+                    
+                }
+
+            })
+            }
+        }
+        function register(){
+            var phoneNum=$("#phone").val();
+            var yzCode=$("#yzCodeNum").val();
+            var realName=$("#realName").val();
+            if(phoneNum && yzCode && realName){
+                $.ajax({
+                    type:"POST",
+                    url:"/api/register"+location.search,
+                    contentType:"application/x-www-form-urlencoded",
+                    data:{
+                        phoneNum:phoneNum,
+                        yzCode:yzCode,
+                        name:realName,
+                        from:"ticketCardScan"
+                    },
+                    success:function(res){
+                        if(res.errorCode==0){
+                            poper("注册成功");
+                            var search = location.search;
+                            search = search.split("=")[1];
+                            window.location.href = "/cRoll?id="+search;
+                        }else{
+                            poper(res.message)
+                        }
+                    },
+                    error:function(err){
+                        poper("网络连接错误，请稍后再试")
+                    }
+
+                })
+            }else{
+                poper("注册信息填写不完整")
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title><%= title %></title>
+	<link rel="stylesheet" href="/stylesheets/base.css">
+	<script src="/javascripts/phone.js"></script>
+	<style>
+		.top {
+			margin-top: 20px;
+		}
+
+		.search_top {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			background: #f7f6f9;
+			padding-bottom: 20px;
+		}
+
+		.search_box {
+			padding: 0 24px;
+			position: relative;
+		}
+
+		.search_inp {
+			position: relative;
+			width: 78%;
+			height: 68px;
+			background: #ffffff;
+			border-radius: 5px;
+			padding: 0px 18px 0px 58px;
+			margin-top: 20px;
+		}
+
+		.search_inp img {
+			position: absolute;
+			top: 21px;
+			left: 20px;
+		}
+
+		.search_inp input {
+			width: 100%;
+			height: 68px;
+			line-height: 68px;
+		}
+
+		.search_label {
+			position: absolute;
+			top: 0;
+			right: 24px;
+			bottom: 0;
+			left: 24px;
+			z-index: 2;
+			height: 68px;
+			line-height: 68px;
+			background: #ffffff;
+			border-radius: 5px;
+			text-align: center;
+		}
+
+		.search_label img {
+			width: 27px;
+			height: 27px;
+		}
+
+		.search_label span {
+			padding-left: 6px;
+			font-size: 28px;
+			color: #C8CACD;
+		}
+
+		.searchbtn {
+			position: absolute;
+			top: 20px;
+			right: 24px;
+			font-size: 28px;
+			color: #6A6C72;
+		}
+
+		.create_tit {
+			padding: 0px 24px;
+			height: 96px;
+			background: #ffffff;
+			border-bottom: 1px solid #f7f6f9;
+		}
+
+		.sear {
+			display: block;
+			float: left;
+			width: 140px;
+			height: 50px;
+			line-height: 50px;
+			text-align: center;
+			padding: 0px 25px;
+			margin-top: 23px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			border-radius: 25px;
+			font-size: 28px;
+		}
+
+		.search_sp {
+			border: 1px solid #3086DE;
+			color: #3086DE;
+		}
+
+		.search_th {
+			background: #3086DE;
+			border: 1px solid #3086DE;
+			color: #FFFFFF;
+		}
+
+		.arrows_icon {
+			float: left;
+			width: 18px;
+			height: 14px;
+			margin: 41px 10px;
+		}
+
+		.search_con {
+			width: 100%;
+			margin-top: 221px;
+			overflow: scroll;
+		}
+
+		.search_tit {
+			height: 96px;
+			line-height: 96px;
+			font-size: 32px;
+			color: #2C2C2C;
+		}
+
+		.search_jl {
+			width: 100%;
+			margin-top: 20px;
+			overflow: scroll;
+			height: 100%;
+		}
+
+		.create_tit_jl {
+			padding: 0px 24px;
+			background: #ffffff;
+			border-bottom: 1px solid #f7f6f9;
+		}
+
+		.search_tit_jl {
+			display: block;
+			line-height: 42px;
+			padding: 30px 0;
+			font-size: 32px;
+			color: #2C2C2C;
+		}
+
+		.search_null {
+			width: 100%;
+			text-align: center;
+			margin-top: 301px;
+		}
+
+		.search_null img {
+			width: 146px;
+			height: 146px;
+		}
+
+		.search_null p {
+			padding-top: 30px;
+			font-size: 28px;
+			color: #6A6C72;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<div class="page">
+			<div class="wrapper">
+				<main class="content">
+					<div class="search_top">
+						<!--搜索-->
+						<div class="search_box">
+							<div class="search_inp">
+								<img src="/images/search.png" /><input type="search" placeholder="搜索类目"
+									v-model="cateName" @change="searchVal" id="search_input">
+							</div>
+							<label v-if="!isSearch" @click="changeSearch" class="search_label" id="search_label">
+								<img src="/images/search.png" />
+								<span>搜索类目</span>
+							</label>
+							<a v-if="isSearch" href="javascript:" @click="closeSearch" class="searchbtn" id="searchCancel">取消</a>
+						</div>
+						<!--分类定位-->
+						<div class="create_tit top" v-if="!isShowSearchData">
+							<span class="search_sp sear" v-cloak @click="changeType(1)">{{options1 ? options1 : "一级分类"}}</span>
+							<img class="arrows_icon" v-cloak v-if="options2" src="/images/arrows_icon.png" />
+							<span class="search_sp sear" v-cloak v-if="options2"  @click="changeType(2)">{{options2 ? options2 : "二级分类"}}</span>
+							<img class="arrows_icon" v-cloak v-if="options3" src="/images/arrows_icon.png" />
+							<span class="search_sp sear" v-cloak v-if="options3">{{options3 ? options2 : "三级分类"}}</span>
+						</div>
+						<!--输入（搜索）记忆-->
+						<template v-if="isShowSearchData">
+							<div class="search_jl" v-if="searchData.length > 0">
+								<div class="create_tit_jl" v-for="(item, index) in searchData" :key="index" @click="changeSearchCategory(item)">
+									<span
+										class="search_tit_jl">{{item.name}}>>{{item.goodsCategoryDto.name}}>>{{item.goodsCategoryDto.goodsCategoryDto.name}}</span>
+								</div>
+							</div>
+						</template>
+					</div>
+					<div class="search_con" v-if="!isShowSearchData">
+						<template v-if="isOptions == 1">
+							<div class="create_tit"
+								v-for="(item, index) in list" :key="index" @click="getLevel(2, item.fatherCateId, item.cateLevel, item.id, item.name)">
+								<span class="search_tit">{{ item.name }}</span>
+							</div>
+						</template>
+						<template v-if="isOptions == 2">
+							<div class="create_tit"
+								 v-for="(item, index) in list2" :key="index" @click="getLevel(3, item.fatherCateId, item.cateLevel, item.id, item.name)">
+								 <span class="search_tit">{{ item.name }}</span>
+							</div>
+						</template>
+						<template v-if="isOptions == 3">
+
+							<div class="create_tit" @click="changeCategory(item.fatherCateId, item.cateLevel, item.id, item.name)"
+								v-for="(item, index) in list3" :key="index"><span
+									class="search_tit">{{ item.name }}</span></div>
+
+						</template>
+					</div>
+					<!--未查询到搜索结果-->
+					<template v-if="isShowSearchData">
+						<div class="search_null" v-if="searchData.length == 0">
+							<img src="/images/bags.png" />
+							<p>很抱歉，暂无相匹配的商品分类，换个词试试吧</p>
+						</div>
+					</template>
+
+				</main>
+			</div>
+		</div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					list: JSON.parse(`<%- information %>`),
+					list2: [],
+					list3: [],
+					options1: "",
+					options2: "",
+					options3: "",
+					isOptions: 1,
+					category: {},
+					isSearch: false,
+					cateName: "",
+					isShowSearchData: false,
+					searchData: []
+				}
+			},
+			methods: {
+				changeSearch() {
+					this.isSearch = true;
+				},
+				// 搜索
+				searchVal() {
+					axios.get(`/shop/goods/getSearchList?cateName=${this.cateName}`).then(res => {
+						this.isShowSearchData = true;
+						this.searchData = res.data;
+					})
+				},
+				// 关闭搜索框
+				closeSearch() {
+					this.cateName = "";
+					this.isSearch = false;
+					this.isShowSearchData = false;
+				},
+				// 获取
+				getLevel(level, fatherCateId, cateLevel, categoryId, name) {
+					axios.get(`/shop/goods/setCategory/${level}/${categoryId}`).then(res => {
+						if (level == 2) {
+							this.list2 = res.data;
+							this.options1 = name;
+							this.category = {
+								id: categoryId,	// 分类ID
+								cateLevel: cateLevel,	// 分类等级
+								fatherCateId: fatherCateId,	// 父级分类ID
+								name: name	// 分类名称
+							}
+							this.isOptions = 2;
+						}
+						if (level == 3) {
+							this.list3 = res.data;
+							this.options2 = name;
+							this.category.goodsCategoryDto = {
+								id: categoryId,	// 分类ID
+								cateLevel: cateLevel,	// 分类等级
+								fatherCateId: fatherCateId,	// 父级分类ID
+								name: name	// 分类名称
+							}
+							this.isOptions = 3;
+						}
+					})
+				},
+
+				changeType(index) {
+					this.isOptions = index;
+					if(index == 1) {
+						this.category = {};
+						this.options1 = "";
+						this.options2 = "";
+					}
+					if(index == 2) {
+						delete this.category.goodsCategoryDto;
+						this.options2 = "";
+						this.options3 = "";
+					}
+				},
+
+				changeCategory(fatherCateId, cateLevel, categoryId, name) {
+					this.category.goodsCategoryDto.goodsCategoryDto = {
+						id: categoryId,
+						cateLevel: cateLevel,
+						fatherCateId: fatherCateId,
+						name: name
+					}
+					console.log(this.category);
+					this.confirm();
+				},
+				changeSearchCategory(item) {
+					this.category = item;
+					console.log(item);
+					this.confirm();
+				},
+				confirm() {
+					sessionStorage.setItem("category", JSON.stringify(this.category));
+					window.history.go(-1);
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	::-webkit-input-placeholder {
+            color: #C8CACD;
+        }
+
+        ::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #C8CACD;
+        }
+
+        :-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            color: #C8CACD;
+        }
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: #C8CACD;
+        }
+        .top {
+            margin-top: 14px;
+        }
+    	.create_tit {
+            padding: 0px 25px;
+            height: 96px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+        	justify-content: space-between;
+        }
+        .create_tit input {
+            width: 88%;
+            height: 92px;
+            line-height: 92px;
+            border: none;
+            font-size: 29px;
+            font-family: "微软雅黑";
+        }
+        .create_tit2 {
+            padding: 15px 25px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+        	justify-content: space-between;
+        }
+        .set_address{
+        	margin-top: 13px;
+            width: 77%;
+            height: 70px;
+            font-size: 29px;
+            font-family: "微软雅黑";
+            display: flex;
+		    justify-content: flex-start;
+		    align-items: center;
+        }
+        .create_num {
+            float: right;
+            line-height: 96px;
+            color: #C8CACD;
+            font-size: 32px;
+        }
+        .category {
+        	line-height: 96px;
+            font-size: 29px;
+            color: #6A6C72;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+        .comm_regu2{
+        	margin-left: 26px;
+        	margin-top: 25px;
+        	width: 46px;
+        	height: 46px;
+        }
+    	.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                	<div class="create_tit2" @click="changeArea">
+                    	<div class="category">地址：</div>
+                    	<div class="set_address">{{province}}{{city}}{{area}}{{detailAddress}}</div>
+                        <img class="comm_regu2" src="/images/arrows.png" />
+                    </div>
+                    <div class="create_tit top">
+                    	<div class="category">电话：</div>
+                    	<input type="tel" v-model="mobile" maxlength="11" placeholder="请输入联系电话，方便客户与您沟通" />
+                    </div>
+                    <div class="create_btn">
+	                    <div class="btn_blun" @click="submit">保存</div>
+					</div>	
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    shopId: `<%- shopId %>`,
+                    province: "",
+                    city: "",
+                    area: "",
+                    detailAddress: "",
+                    mobile: "",
+                    shelfLng: "",
+                    shelfLat: ""
+                }
+            },
+            created() {
+                this.province = sessionStorage.getItem("province");
+                this.city = sessionStorage.getItem("city");
+                this.area = sessionStorage.getItem("area");
+                this.detailAddress = sessionStorage.getItem("detailAddress");
+                this.mobile = sessionStorage.getItem("mobile");
+                this.shelfLng = sessionStorage.getItem("shelfLng");
+                this.shelfLat = sessionStorage.getItem("shelfLat");
+            },
+            methods: {
+                changeArea() {
+                    window.location.href = "/shop/shopList/location/" + this.shelfLng + "," + this.shelfLat + "/1"
+                },
+                submit() {
+                    let shelfId = sessionStorage.getItem("shelfId");
+                    let config = {
+                        id: shelfId,
+                        mobile: this.mobile,
+                        shelfLat: this.shelfLat,
+                        shelfLng: this.shelfLng,
+                        province: this.province,
+                        city: this.city,
+                        area: this.area,
+                        detailAddress: this.detailAddress
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/shopList/updateShelf",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    axios(opt).then(res => {
+                        console.log(res);
+                        if (res.data.errorCode == 0) {
+                            sessionStorage.removeItem("province");
+                            sessionStorage.removeItem("city");
+                            sessionStorage.removeItem("area");
+                            sessionStorage.removeItem("detailAddress");
+                            sessionStorage.removeItem("mobile");
+                            sessionStorage.removeItem("shelfLng");
+                            sessionStorage.removeItem("shelfLat");
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

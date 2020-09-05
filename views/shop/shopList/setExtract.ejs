@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+        	margin-top: 14px;
+        }
+        .prompt{
+        	padding: 24px;
+        	line-height: 36px;
+        	font-size: 28px;
+        	color: #6A6C72;
+        }
+        .prompt span{
+        	color: #09BB07;
+        }
+        .create_tit{
+    		padding: 0px 24px;
+            height: 96px;
+            line-height: 96px;
+            text-align: center;
+            background: #ffffff;
+        }
+        .create_tit span{
+        	font-size: 29px;
+        	color: #3086DE;
+        }
+        .search_con{
+    		width: 100%;
+			margin-bottom: 120px;
+			padding-top: 10px;
+    	}
+        .comm_box{
+            background: #ffffff;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+        }
+        .comm_pic{
+        	margin-top: 18px;
+        	width: 36px;
+        	height: 36px;
+		}
+        .comm_inf_box{
+        	width: 85%;
+        	margin-left: 15px;
+        }
+        .comm_tit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	max-height: 72px;
+        	line-height: 36px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .comm_num{
+        	margin-top: 15px;	
+        	font-size: 26px;
+        	color: #AFAFB2;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	margin-top: 40px;
+        	width: 32px;
+			height: 32px;
+        }
+        .create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content" v-cloak>
+                	<p class="prompt"><span>提示：</span>当发货方式支持“买家自提”时，自提地址才会向 买家展示。</p>
+                    <div class="create_tit" @click="toPage('/shop/shopList/editExtract?shelfId=' + shelfId)"><span>+添加自提地址</span></div>
+                    <div class="search_con">
+	                    <div class="comm_box" v-for="(item, index) in list" :key="index" @click="editExtract(item)">
+	                    	<div class="comm_inf">
+		                    	<img class="comm_pic" src="/images/shop_icon5.png" />
+								<div class="comm_inf_box">
+									<p class="comm_tit">地址：{{item.province}}{{item.city}}{{item.area}}{{item.address}}</p>
+									<p class="comm_num">{{item.telephone}}</p>
+								</div>
+								<img class="comm_regu" src="/images/arrows.png">
+							</div>	
+	                    </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					list: [],
+					shelfId: `<%- shelfId %>`
+				}
+			},
+			created() {
+				this.initData();
+				sessionStorage.removeItem("province");
+				sessionStorage.removeItem("provinceCode");
+				sessionStorage.removeItem("city");
+				sessionStorage.removeItem("cityCode");
+				sessionStorage.removeItem("area");
+				sessionStorage.removeItem("areaCode");
+				sessionStorage.removeItem("shelfLng");
+				sessionStorage.removeItem("shelfLat");
+				sessionStorage.removeItem("telephone");
+				sessionStorage.removeItem("address");
+				sessionStorage.removeItem("detailAddress");
+			},
+			methods: {
+				initData() {
+					axios.get("/shop/shopList/getExtract?shelfId=" + this.shelfId).then(res => {
+						this.list = res.data.data.list;
+					});
+				},
+				toPage(page) {
+					window.location.replace(page + '&data='+ JSON.stringify({shelfId: this.shelfId, type: "add"}));
+				},
+				editExtract(item) {
+					item.type = "update";
+					window.location.replace('/shop/shopList/editExtract?data=' + JSON.stringify(item));
+				}
+			}
+		})
+	</script>
+</body>
+</html>

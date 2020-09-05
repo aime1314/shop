@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/order.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.bar_w{
+    		width: 50%;
+    	}
+    	.order_status_box{
+    		padding: 0px 15px;
+    		height: 60px;
+    		line-height: 60px;
+    		background: #F5F7F9;
+    	}
+    	.order_staus{
+    		float: left;
+    		font-size: 26px;
+    		font-weight: bold;
+    		color: #2c2c2c;
+    	}
+    	.order_status_box{
+    		font-size: 26px;
+    	}
+    	.order_status_box span{
+    		color: #FF6612;
+    	}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="top_bar">
+                		<div class="top_bar_at bar_w" :class="{top_bar_bor: refundStatus == 0}" @click="toggleTab(0)">全部</div>
+                		<div class="top_bar_at bar_w" :class="{top_bar_bor: refundStatus == 101}" @click="toggleTab(101)">待处理</div>
+                	</div>
+                	<div class="order_list">
+						<template v-for="(item, index) in list" :key="index">
+							<div class="comm_box">
+								<div class="order_top">
+									<div class="order_shoptit"><img class="oreder_icon" src="/images/shop_order.png">{{item.shopName}}<img class="oreder_arrows" src="/images/arrows.png"></div>
+									<div class="order_state">{{item.refundStatus == 101 && "退款申请中" || item.refundStatus == 201 && "申请退款成功" || item.refundStatus == 301 && "已拒绝" || item.refundStatus == 302 && "已撤销" || item.refundStatus == 401 && "卖家取消订单，退款成功"}}</div>
+								</div>
+								<div class="comm_inf" v-for="(citem, cindex) in item.orderRefundDetailList" :key="cindex">
+									<img class="comm_pic" :src="citem.pic" />
+									<div class="comm_inf_box">
+										<div class="order_box">
+											<div class="comm_tit">{{citem.skuName}}</div>
+											<div class="comm_num"><span>￥</span>{{citem.goodsPrice}}</div>
+										</div>	
+										<div class="comm_num2">
+											<div class="comm_num_box">{{citem.goodsAttr}}</div>
+											<div class="comm_num_box">x{{citem.goodsCount}}</div>
+										</div>
+										<p class="deduction_num">脉粒抵扣:- ¥{{citem.maiLiCount}}</p>
+									</div>
+								</div>
+								<div class="order_price">
+									<div class="order_status_box">
+										<div class="order_staus">{{item.refundType == 1 && '仅退款' || item.refundType == 2 && '退款退货'}}</div>
+										实付：¥ {{item.orderAmount}} 退款金额：<span>¥ {{item.refundAmount}}</span>
+									</div>
+								</div>
+								<div class="order_ope">
+									<div class="order_btn" @click="toPage('/mall/refundDetail?refundCode=' + item.refundCode)">查看详情</div>
+									<div class="order_btn" v-if="item.refundStatus == 301 || item.refundStatus == 302 || item.refundStatus == 401" @click="refundDelete(item.refundCode)">删除售后单</div>	
+								</div>
+							</div>
+						</template>
+					</div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					pageIndex: 1,
+					pageSize: 20,
+					refundStatus: 0,
+					list: []
+				}
+			},
+			created() {
+				this.initData();
+			},
+			methods: {
+				initData() {
+					let opt = {
+						method: "POST",
+						url: "/mall/getRefundList",
+						data: {
+							pageIndex: this.pageIndex,
+							pageSize: this.pageSize,
+							refundStatus: this.refundStatus
+						}
+					}
+					axios(opt).then(res => {
+						console.log(res);
+						this.list = res.data.data.list;
+					});
+				},
+				toggleTab(type) {
+					if(this.refundStatus == type) return;
+					this.refundStatus = type;
+					this.pageIndex = 1;
+					this.initData();
+				},
+				refundDelete(refundCode) {
+					axios.get("/mall/refundDelete?refundCode=" + refundCode).then(res => {
+						console.log();
+						if(res.data.errorCode == 0) {
+							this.pageIndex = 1;
+							this.initData();
+						}else {
+							return poper(res.data.message);
+						}
+					});
+				},
+				toPage(page) {
+					window.location.href = page;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

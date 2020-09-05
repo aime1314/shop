@@ -1,0 +1,390 @@
+.top_bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 94px;
+	background: #ffffff;
+	border-top: 1px solid #f7f6f9;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	z-index: 10;
+}
+
+.bar_w {
+	position: relative;
+	float: left;
+	width: 16%;
+	height: 94px;
+	line-height: 94px;
+	text-align: center;
+	font-size: 26px;
+}
+
+.top_bar_at {
+	color: #797A7A;
+}
+
+.top_bar_at.top_bar_bor {
+	position: relative;
+	color: #FF8D23;
+}
+
+.top_bar_at.top_bar_bor::before {
+	content: "";
+	position: absolute;
+	bottom: 0px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 33px;
+	height: 4px;
+	background: #FF8D23;
+}
+
+.order_list {
+	margin-top: 106px;
+	margin-bottom: 112px;
+}
+
+.comm_box {
+	margin-top: 12px;
+	background: #ffffff;
+}
+
+.order_top{
+	padding: 0px 24px;
+	height: 72px;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+.order_time{
+	line-height: 72px;
+	font-size: 22px;
+	color: #6A6C72;
+}
+.order_shoptit{
+	height: 78px;
+	font-size: 24px;
+	color: #6A6C72;
+	display: flex;
+	align-items: center;
+}
+.oreder_icon{
+	margin-right: 10px;
+	width: 30px;
+	height: 30px;	
+}
+.oreder_arrows{
+    margin-left: 5px;
+	width: 20px;
+	height: 20px;
+}
+.order_state{
+	line-height: 72px;
+	font-size: 24px;
+	color: #FF6612;
+}
+.order_since{
+	padding: 4px 4px;
+	margin-right: 26px;
+	background: #50BE42;
+	border-radius: 6px;
+	font-size: 19px;
+	color: #FFFFFF;
+}
+.comm_inf {
+	padding: 14px 24px;
+	display: flex;
+}
+
+.comm_pic {
+	width: 152px;
+	height: 152px;
+	border-radius: 3px;
+}
+
+.comm_inf_box {
+	width: 76%;
+	margin-left: 15px;
+}
+
+.order_box {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+
+.comm_tit {
+	font-size: 28px;
+	color: #2C2C2C;
+	height: 30px;
+	line-height: 30px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.comm_num {
+	line-height: 30px;
+	font-size: 33px;
+	color: #2C2C2C;
+}
+
+.comm_num span {
+	font-size: 26px;
+}
+
+.comm_num2 {
+	margin-top: 15px;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.comm_num_box {
+	font-size: 26px;
+	color: #AFAFB2;
+}
+
+.deduction_num {
+	margin-top: 10px;
+	text-align: right;
+	font-size: 23px;
+	color: #A5A8B2;
+}
+.order_return{
+	padding: 0px 24px;
+	margin-bottom: 14px;
+	text-align: right;
+	font-size: 24px;
+	color: #F4AE40;
+}
+.order_price{
+	padding: 0px 24px;
+	text-align: right;
+	font-size: 24px;
+	color: #2C2C2C;
+}
+.order_price p {
+	display: inline-block;
+}
+.order_price span{
+	font-size: 30px;
+}
+.order_ope{
+	padding: 32px 24px 21px 24px;
+	display: flex;
+	flex-direction: row-reverse;
+}
+.order_btn{
+	margin-left:22px;
+	padding: 0px 20px;
+	min-width: 114px;
+	height: 54px;
+	line-height: 54px;
+	font-size: 24px;
+	color: #6A6C72;
+	border: 1px solid #B6B6BD;
+	border-radius: 27px;
+	text-align: center;
+}
+.order_btn_blue {
+	color: #3086DE;
+	border: 1px solid #3086DE;
+}
+.orage{
+	color: #FF6A29;
+	border: 1px solid #FF6A29;
+}
+.blue{
+	color: #3086DE;
+	border: 1px solid #3086DE;
+}
+.bg_blue {
+	color: #fff;
+	background-color: #3086DE;
+	border: 1px solid #3086DE;
+}
+/*订单详情*/
+.detail_top{
+	height: 100px;
+	background: linear-gradient(to right,#ff9012,#ff7512);
+	text-align: center;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.detail_top .desc {
+	font-size: 22px;
+	color: #fff;
+	width: 100%;
+	margin-top: 10px;
+}
+.detail_top_one{
+	font-size: 28px;
+	font-weight: bold;
+	color: #FFFFFF;
+	width: 100%;
+}
+.detail_top_two{
+	padding-top: 20px;
+	line-height: 30px;
+	font-size: 28px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.detail_top_two span{
+	font-size: 22px;
+	font-weight: normal;
+}
+.delivery_con{
+	padding: 24px 24px;
+	background: #FFFFFF;
+	display: flex;
+	align-items: center;
+}
+.delivery_info {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 1;
+	margin-left: 15px;
+}
+.delivery_info p {
+	width: 100%;
+	font-size: 28px;
+	color: #2C2C2C;
+}
+.delivery_info .order_yellow {
+	color: #FFA031;
+	margin-bottom: 17px;
+}
+
+.detail_address{
+	padding: 24px 24px;
+	background: #FFFFFF;
+	display: flex;
+	align-items: center;
+}
+.address_img{
+	width: 45px;
+	height: 45px;
+}
+.address_img2{
+	margin-left: 25px;
+	width: 56px;
+	height: 56px;
+}
+.detail_info{
+	margin-left: 16px;
+}
+.detail_info2{
+	margin-left: 16px;
+	width: 80%;
+}
+.detail_name{
+	font-size: 26px;
+	font-weight: 700;
+	color: #2C2C2C;
+}
+.detail_name span{
+	padding-left: 24px;
+}
+.detail_addr{
+	margin-top: 12px;
+	line-height: 36px;
+	font-size: 26px;
+	color: #2C2C2C;
+}
+.detail_addr img{
+	margin-left: 17px;
+	width: 36px;
+	height: 36px;
+}
+.detail_price{
+	padding: 30px 24px 0px 24px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.detail_price span{
+	font-size: 24px;
+	color: #2C2C2C;
+}
+.detail_price2{
+	padding: 30px 24px 34px 24px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	border-bottom: 1px solid #F5F7F9;
+}
+.detail_font{
+	font-size: 24px;
+	color: #2C2C2C;
+}
+.detail_f{
+	padding-left: 26px;
+	padding-right: 5px;
+	font-size: 22px;
+	color: #FF6612;
+}
+.detail_y{
+	font-size: 30px;
+	color: #FF6612;
+}
+.detail_contact{
+	padding: 24px 24px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.detail_con_box{
+	width: 50%;
+	text-align: center;
+	font-size: 28px;
+	color: #6A6C72;
+}
+.bord{
+	border-right: 2px solid #F5F7F9;
+}
+.detail_con_box img{
+	margin-right: 10px;
+	width: 42px;
+	height: 42px;
+}
+.order_info{
+	padding: 15px 24px;
+	border-bottom: 1px solid #F5F7F9;
+}
+.order_info p{
+	margin: 15px 0px;
+	height: 32px;
+	line-height: 32px;
+	font-size: 24px;
+	color: #2C2C2C;
+}
+.detail_copy{
+	margin-left: 13px;
+	padding: 8px 21px;
+	background: #EEF0F2;
+	border-radius: 18px;
+	font-size: 22px;
+	color: #636363;
+}
+.mar_bottom{
+	margin-bottom: 118px;
+}
+.foot_btn{
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	border-top: 1px solid #E5E8EB;
+}
+

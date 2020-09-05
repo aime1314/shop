@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    .express_header{
+        width:100%;
+        height:108px;
+        padding:0 19px;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        background:#fff;
+    }
+    .express_header .status{
+        font-size:32px;
+        margin-bottom:13px;
+        font-family:Noto Sans S Chinese;
+        font-weight:bold;
+        color:rgba(44,44,44,1);
+    }
+    .express_header .company{
+        font-size:24px;
+        color:rgba(44,44,44,1);
+    }
+    .trail_box{
+        margin-top:14px;
+        background:#fff;
+        padding:0 21px;
+        font-size:22px;
+        color:rgba(44,44,44,1);
+    }
+    .trail_item{
+        display:flex;
+    }
+    .trail_item .time{
+        min-width:150px;
+        text-align:center;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        color:rgba(44,44,44,1);
+        line-height:28px;
+        font-weight:bold;
+    }
+    .trail_item .deliver{
+        width:42px;
+        max-width:42px;
+        min-width:42px;
+        position: relative;
+        display:flex;
+        flex-direction:column;
+        justify-content:space-between;
+    }
+    .trail_item .deliver .line{
+        width:2px;
+        background:rgba(242,243,247,1);
+        margin:0 auto;
+        flex:1;
+    }
+    .trail_item .deliver .dot{
+        width:10px;
+        height:10px;
+        border-radius:50%;
+        background:rgba(200,202,210,1);
+        margin:6px auto;
+    }
+    .trail_item .content{
+        /* display:flex;
+        flex-direction:column; */
+        /* justify-content:center; */
+        padding:19px 7px;
+        line-height:30px;
+    }
+    .trail_item:first-child .dot{
+        width:42px;
+        height:42px;
+        background:url(/images/sin_in.png) no-repeat center center;
+        background-size:100% 100%;
+    }
+    .trail_item:last-child .dot{
+        width:42px;
+        height:42px;
+        background:url(/images/narrow-up.png) no-repeat center center;
+        background-size:100% 100%;
+    }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="express_header">
+                         <div class="status">签收</div>
+                         <div class="company">{{trailList[0].deliveryCompany}} {{orderCode}}</div>
+                    </div>
+                    <div class="trail_box">
+                         <div class="trail_item" v-for="(item,index) in trailList" :key="index">
+                             <div class="time">
+                                  <div>{{item.acceptTime.split(' ')[1]}}</div>
+                                  <div>{{item.acceptTime.split(' ')[0]}}</div>
+                             </div>
+                             <div class="deliver">
+                                <div class="line"></div>
+                                <div class="dot"></div>
+                                <div class="line"></div>
+                             </div>
+                             <div class="content" v-html="item.acceptStation">
+                             </div>
+                         </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    orderCode: `<%- orderCode %>`,
+                    trailList:[1,2,4]
+                }
+            },
+            created() {
+                this.initData();
+            },
+            methods: {
+                initData() {
+                    axios.get("/mall/getDeliveryTracesList?orderCode=" + this.orderCode).then(res => {
+                        this.trailList=res.data.data
+                        
+                        res.data.data.forEach(item=>{
+                            item.acceptStation=item.acceptStation.replace(/(1[3|4|5|8|0]\d{4,9})/i,"<a href='tel:$1' style='color:#FF8A1B'>$1</a>")
+                            item.acceptStation=item.acceptStation.replace(/(\d{3,4}-\d{5,7})/i,"<a href='tel:$1' style='color:#FF8A1B'>$1</a>")
+                            console.log(item.acceptStation)
+                        })
+                        
+
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/order.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/mobileSelect.css" />
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+    		margin-top: 30px;
+    		margin-bottom: 5px;
+    	}
+    	.bar_w{
+    		width: 25%;
+		}
+		.bar_w {
+			position: relative;
+			flex: 1;
+			height: 94px;
+			line-height: 94px;
+			text-align: center;
+			font-size: 26px;
+		}
+		.top_bar_at.top_bar_bor {
+			position: relative;
+			color: #FF8D23;
+		}
+		.top_bar_bor::before {
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			width: 33px;
+			height: 4px;
+			background: #FF8D23;
+		}
+    	.goods_top{
+			z-index: 100;
+    		position: fixed;
+    		top: 94px;
+    		left: 0;
+    		width: 100%;
+    		height: 94px;
+    		background: #FFFFFF;
+    		border-top: 1px solid #EDF0F3;
+    		display: flex;
+    		justify-content: space-between;
+    	}
+    	.goods_top div{
+    		padding: 0px 24px;
+    		font-size: 26px;
+    		color: #000000;
+    		display: flex;
+    		align-items: center;
+    	}
+    	.goods_top div img{
+    		margin-left: 8px;
+    		width: 12px;
+    		height: 8px;
+    	}
+    	.order_top{
+    		position: relative;	
+    	}
+    	.order_top_box{
+    		width: 100%;
+    		border-bottom: 1px solid #EDF0F3;
+    		display: flex;
+    		justify-content: space-between;
+    	}
+    	.goods_orage{
+    		position: absolute;
+    		top: 27px;
+    		left: 0;
+    		width: 9px;
+    		height: 24px;
+    		background: #FF8D23;
+    	}
+    	.detail_copy{
+    		height: 20px;
+    		line-height: 20px;
+    		font-size: 20px;
+    	}
+    	.order_list{
+    		margin-top: 200px;
+    	}
+    	.comm_inf{
+    		align-items: center;
+    	}
+    	.comm_inf_box{
+    		width: 64%;
+    	}
+    	.comm_pic{
+    		width: 120px;
+    		height: 120px;
+    	}
+    	.order_goods_staus{
+    		text-align: right;
+    	}
+    	.goods_status{
+    		font-size: 23px;
+    		color: #FF7272;
+    	}
+    	.goods_status_y{
+    		margin-top: 18px;
+    		font-size: 26px;
+    		color: #FF7272;
+    	}
+    	.goods_status_y span{
+    		padding-right: 4px;
+    		font-size: 22px;
+    	}
+    	.good_throgh{
+    		text-decoration: line-through;
+    	}
+    	.goods_yellow{
+    		color: #FDAA33;
+    	}
+    	.goods_green{
+    		color: #52C663;
+    	}
+    	.mobileSelect .content .btnBar .ensure {
+		    color: #FF6012;
+		}
+		.goods_null{
+    		margin-top: 600px;
+    		width: 750px;
+    		height:calc(100vh - 190px);
+    		line-height: 36px;
+    		text-align: center;
+    		font-size: 25px;
+    		color: #C8CACD;
+    	}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                   <div class="top_bar">
+                		<div class="top_bar_at bar_w" @click="toggleTab(0)" :class="{top_bar_bor: currentTab == 0}">全部</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(2)" :class="{top_bar_bor: currentTab == 2}">已到账</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(1)" :class="{top_bar_bor: currentTab == 1}">待到账</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(3)" :class="{top_bar_bor: currentTab == 3}">已取消</div>
+                	</div>
+                	<div class="goods_top">
+                		<div><span id="trigger3">本月</span> <img src="/images/under_goods.png"/></div>
+                		<div>总佣金 ¥ {{allRebate}}</div>
+                		<div>已到账 ¥ {{rebate}}</div>
+                	</div>
+                	<!--列表为空-->
+                	<div class="goods_null" v-if="list.length == 0">本月暂无商品返佣记录， <br>赶快去社群小卖部分享商品吧。</div>
+                	<div class="order_list" v-if="list.length > 0">
+						<div class="comm_box" v-for="(item, index) in list" :key="index">
+							<div class="order_top">
+								<div class="order_top_box">
+									<div class="order_shoptit">订单号：{{item.orderCode}}<span class="detail_copy" @click="copyText('orderCode', item.orderCode)">复制</span></div>
+									<div class="order_time">{{item.createOrderTime | formatDate}}</div>
+								</div>	
+							</div>
+							<div class="order_top">
+								<div class="order_top_box">
+									<div class="order_shoptit">来源：{{item.shelfName}}</div>
+									<div class="order_time">买家：{{item.buyerName}}</div>
+								</div>	
+							</div>
+							<div class="comm_inf" v-for="(citem, cindex) in item.rebateDetailList">
+								<img class="comm_pic" :src="citem.pic" />
+								<div class="comm_inf_box">
+									<p class="comm_tit">{{citem.goodsName}}</p>
+									<p class="comm_num_box top">¥{{citem.goodsPrice}}</p>
+									<p class="comm_num_box">x{{citem.goodsNum}}</p>
+								</div>
+								<div class="order_goods_staus" v-if="item.rebateStatus == 1">
+									<p class="goods_status goods_yellow">佣金待到账</p>
+									<p class="goods_status_y goods_yellow"><span>¥</span>{{citem.rebateMoney}}</p>
+								</div>
+								<div class="order_goods_staus" v-if="item.rebateStatus == 2">
+									<p class="goods_status goods_green">佣金已到账</p>
+									<p class="goods_status_y goods_green"><span>¥</span>{{citem.rebateMoney}}</p>
+								</div>
+								<div class="order_goods_staus" v-if="item.rebateStatus == 3">
+									<p class="goods_status">佣金已取消</p>
+									<p class="goods_status_y good_throgh"><span>¥</span>{{citem.rebateMoney}}</p>
+								</div>
+							</div>	
+						</div>
+					</div> 
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/mobileSelect.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					currentTab: 0,
+					month: "",
+					pageIndex: 1,
+					pageSize: 20,
+					allRebate: 0,
+					unRebate: 0,
+					rebate: 0,
+					list: []
+				}
+			},
+			created() {
+				var date = new Date();
+				var year = date.getFullYear();
+				var month = date.getMonth()+1;
+				if(month < 10) month = "0" + month;
+				this.month = year + month;
+				this.initData();
+				this.getRefundCount();
+			},
+			mounted() {
+				var AmArr = [{id: "2018", value: "2018年"},{id: "2019", value: "2019年"}, {id: "2020", value: "2020年"}];
+				var hoursArr = [{id: "01", value: "1月"}, {id: "02", value: "2月"}, {id: "03", value: "3月"}, {id: "04", value: "4月"}, {id: "05", value: "5月"}, {id: "06", value: "6月"}, {id: "07", value: "7月"}, {id: "08", value: "8月"}, {id: "09", value: "9月"}, {id: "10", value: "10月"}, {id: "11", value: "11月"}, {id: "12", value: "12月"}];
+				var mobileSelect3 = new MobileSelect({
+					trigger: '#trigger3',
+					title: '',
+					wheels: [
+								{data: AmArr},
+								{data: hoursArr},
+							],
+					keyMap: {
+                        id:'id',
+                        value: 'value'
+                    },
+					position:[0, 1, 0, 1, 0],
+					callback:(indexArr, data)=> {
+						console.log(data);
+						this.month = data[0].id + data[1].id;
+						console.log(this.month);
+						this.pageIndex = 1;
+						this.list = [];
+						this.initData();
+						this.getRefundCount();
+					}
+				});
+			},
+			methods: {
+				initData() {
+					let opt = {
+						method: "POST",
+						url: "/shop/myRebateList",
+						data: {
+							rebateStatus: this.currentTab,
+							rebateMonth: this.month,
+							pageIndex: this.pageIndex,
+							pageSize: this.pageSize
+						}
+					}
+					axios(opt).then(res => {
+						if(res.data.data) {
+							this.list = this.list.concat(res.data.data.list);
+						}
+					});
+				},
+				getRefundCount() {
+					let opt = {
+						method: "POST",
+						url: "/shop/refundCount",
+						data: {
+							rebateStatus: this.status,
+							rebateMonth: this.month,
+							pageIndex: this.pageIndex,
+							pageSize: this.pageSize
+						}
+					}
+					axios(opt).then(res => {
+						if(res.data.data) {
+							this.allRebate = res.data.data.allRebate;
+							this.unRebate = res.data.data.unRebate;
+							this.rebate = res.data.data.rebate;
+						}
+					});
+				},
+				toggleTab(type) {
+					if(type == this.currentTab) {
+						return;
+					}else {
+						this.currentTab = type;
+						this.pageIndex = 1;
+						this.list = [];
+						this.initData();
+						this.getRefundCount();
+					}
+				},
+				copyText(type, orderCode) {
+					let str;
+					if (type == "orderCode") {
+						str = orderCode;
+					}
+					let result = h5Copy(str);
+					if(result === true) {
+						this.isShowCopyDialog = false;
+						return poper("复制成功");
+					}else {
+						return poper("复制失败");
+					}
+				}
+			}
+		})
+    </script>
+</body>
+</html>

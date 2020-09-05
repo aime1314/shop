@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+        	margin-top: 14px;
+        }
+        .shop_null{
+        	margin-top: 60%;
+        	line-height: 36px;
+        	text-align: center;
+        	font-size: 25px;
+        	color: #C8CACD;
+        }
+        .rele_box{
+        	margin-bottom: 114px;
+        }
+    	.comm_box{
+            background: #ffffff;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+        }
+        .comm_pic{
+        	width: 110px;
+        	height: 110px;
+        }
+        .comm_inf_box{
+        	width: 73%;
+        	margin-left: 15px;
+        }
+        .comm_tit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	height: 30px;
+        	line-height: 30px;
+        	overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+        }
+        .comm_num{
+        	margin-top: 16px;
+        	font-size: 30px;
+        	color: #F85341;
+        }
+        .comm_num span{
+        	 font-size: 24px;
+        }
+        .comm_num2{
+        	margin-top: 16px;	
+        }
+        .comm_num_box{
+        	float: left;
+        	margin-right: 32px;
+        	font-size: 22px;
+        	color: #AFAFB2;
+        }
+        .comm_num_box span{
+        	 padding-left: 5px;
+        }
+        .rele_green{ 
+        	color: #31C649;
+        }
+        .rele_yellow{ 
+        	color: #FFB11A;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	margin-top: 38px;
+        	width: 34px;
+        	height: 34px;
+        }
+        input[type="checkbox"] {
+		text-indent:0;
+		width: 34px;
+		height: 34px;
+		line-height: 34px;
+		text-align:center;
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		}
+		input[type="checkbox"]::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: #fff;
+		width: 100%;
+		height: 100%;
+		border: 1px solid #bdbfc2;
+		}
+		input[type="checkbox"]:checked::before {
+		content: "\2713";
+		background-color: #3086DE;
+		color: #fff;
+		position: absolute;
+		top: 0px;
+		left: 0;
+		width: 100%;
+		font-size: 24px;
+		font-weight: bold;
+		outline: none;
+		border-color:#ccc;
+		border: 1px solid #bdbfc2;
+		}
+		.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+					<template v-if="information.length == 0">
+						<div class="shop_null">暂未找到可关联的商品， <br>请先去创建商品吧。</div>
+					</template>
+					<template v-if="information.length != 0">
+						<div class="rele_con">
+							<div class="rele_box">
+								<div class="comm_box top" v-for="(item, index) in information" :key="index">
+									<div class="comm_inf">
+										<img class="comm_pic" :src="item.mainImageUrl" />
+										<div class="comm_inf_box">
+											<p class="comm_tit">{{item.goodsName}}</p>
+											<p class="comm_num"><span>￥</span>{{item.goodsPriceLow}}-{{item.goodsPriceHigh}}</p>
+											<p class="comm_num2">
+												<div class="comm_num_box">脉粒抵扣<span class="rele_green">{{item.maxMailiCount}} 元</span></div>
+												<div class="comm_num_box">推广佣金<span class="rele_yellow">{{item.rebateMoney}} 元</span></div>
+											</p>
+										</div>
+										<div class="comm_regu"><input type="checkbox" @change="checkedGoods(item, index)"></div>
+									</div>
+								</div>
+							</div>
+							<div class="create_btn">
+								<div class="btn_blun" @click="submit">保存</div>
+							</div>
+						</div>
+					</template>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					information: JSON.parse(`<%- information %>`),
+					shopId: `<%- shopId %>`,
+					shelfId: `<%- shelfId %>`,
+					shelfModelId: `<%- shelfModelId %>`,
+
+				}
+			},
+			created() {
+				console.log(this.information);
+				for(let i = 0; i<this.information.length; i++) {
+					this.information[i].isChecked = 0;
+				}
+				this.initData();
+			},
+			methods: {
+				initData() {
+					axios.get("/shopList/getRelevance?shopId=" + this.shopId + "&shelfId=")
+				},
+				checkedGoods(item, index) {
+					item.isChecked == 0 ? item.isChecked = 1 : item.isChecked = 0;
+					console.log(item);
+					console.log(index);
+				},
+				submit() {
+					let goodsArr = [];
+					for(let i = 0; i<this.information.length; i++) {
+						if(this.information[i].isChecked == 1) {
+							goodsArr.push({
+								shopId: this.shopId,
+								shelfId: this.shelfId,
+								shelfModelId: this.shelfModelId,
+								goodsCode: this.information[i].goodsCode
+							})
+						}
+					}
+					console.log(goodsArr);
+					if(goodsArr.length == 0) return;
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/shopList/addBatchShelfModelGoods",
+                        data: goodsArr,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+					axios(opt).then(res => {
+                        console.log(res);
+                        if (res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+				}
+			}
+		})
+	</script>
+</body>
+</html>

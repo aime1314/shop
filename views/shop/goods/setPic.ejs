@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.create_tit{
+    		padding: 30px 24px;
+            height: 85px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+            justify-content:space-between;
+    	}
+    	.search_con{
+    		width: 100%;
+    		margin-top: 8px;
+    		margin-bottom: 120px;
+    	}
+    	.search_tit{
+    		float: left;
+    		display: block;
+    		height: 85px;
+    		line-height: 85px;
+    		padding-right: 12px;
+    		font-size: 25px;
+        	color: #2C2C2C;
+    	}
+    	.gray{
+    		color: #B3B6BA;
+    	}
+		.tui-checkbox.checked {
+			background:#1673ff
+		}
+		.tui-checkbox {
+			width:34px;
+			height:34px;
+			background-color:#ffffff;
+			border:solid 1px #dddddd;
+			-webkit-border-radius:50%;
+			border-radius:50%;
+			margin-top: 24px;
+			font-size:0.8rem;
+			position:relative;
+			display:inline-block;
+			vertical-align:top;
+			cursor:default;
+			-webkit-appearance:none;
+			-webkit-user-select:none;
+			user-select:none;
+			-webkit-transition:background-color ease 0.1s;
+			transition:background-color ease 0.1s;
+		}
+		.tui-checkbox.checked::after {
+			content:'';
+			top:8px;
+			left:7px;
+			position:absolute;
+			background:transparent;
+			border:#fff solid 2px;
+			border-top:none;
+			border-right:none;
+			height:8px;
+			width:16px;
+			-moz-transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+			transform:rotate(-45deg);
+		}
+		.pic_box{
+			width: 85px;
+			height: 85px;
+			position: relative;
+		}
+		.pic_img{
+			width: 100%;
+		}
+		.pic_tit{
+			width: 65%;
+		}
+		.pic_close{
+			position: absolute;
+			top: -22px;
+			right: -22px;
+			width: 44px;
+			height: 44px;
+			cursor: pointer;
+		}
+		.pic_menu{
+			width: 68px;
+		}
+		.pic_menu img{
+			width: 68px;
+		}
+		.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .sty{
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        }
+        .btn_write{
+        	background: #ffffff;
+        	color: #4487CC;
+			flex-grow:0.7;
+			position: relative;
+		}
+		.btn_write input {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+		}
+        .btn_write img{
+        	width: 52px;
+        	height: 52px;
+        	padding-right: 11px;
+        }
+        .btn_blun{
+        	background: #3086DE;
+        	color: #FFFFFF;
+        	flex-grow:2;
+        }
+        /*弹窗*/
+       .weui-mask {
+		    position: fixed;
+		    z-index: 1000;
+		    top: 0;
+		    right: 0;
+		    left: 0;
+		    bottom: 0;
+		    background: rgba(0,0,0,0.6);
+		}
+		.weui-dialog {
+		    position: fixed;
+		    z-index: 5000;
+		    top: 50%;
+		    left: 125px;
+		    right: 125px;
+		    -webkit-transform: translate(0,-50%);
+		    transform: translate(0,-50%);
+		    background-color: #fff;
+		    background-color:#FFFFFF;
+		    text-align: center;
+		    border-radius: 3px;
+		    overflow: hidden;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-flex-direction: column;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    flex-direction: column;
+		    max-height: 90%;
+		}
+		.weui-dialog__bd {
+		    overflow-y: auto;
+		    -webkit-overflow-scrolling: touch;
+		    padding: 76px 24px;
+		    font-size: 34px;
+		    line-height: 1.4;
+		    word-wrap: break-word;
+		    -webkit-hyphens: auto;
+		    hyphens: auto;
+		    color:#2C2C2C;
+		}
+		.weui-dialog__ft {
+		    position: relative;
+		    line-height: 69px;
+		    min-height: 69px;
+		    font-size: 30px;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		}
+		.weui-dialog__ft:after {
+		    content: " ";
+		    position: absolute;
+		    left: 0;
+		    top: 0;
+		    right: 0;
+		    height: 1px;
+		    border-top: 1px solid rgba(0,0,0,0.1);
+		    color: rgba(0,0,0,0.1);
+		    -webkit-transform-origin: 0 0;
+		    transform-origin: 0 0;
+		    -webkit-transform: scaleY(0.5);
+		    transform: scaleY(0.5);
+		}
+		.weui-dialog__btn {
+		    display: block;
+		    -webkit-box-flex: 1;
+		    -webkit-flex: 1;
+		    flex: 1;
+		    line-height: 69px;
+		    font-size: 30px;
+		    text-align: center;
+		    color: #797A7A;
+		    font-weight: 700;
+		    text-decoration: none;
+		    -webkit-box-direction: normal;
+		    -webkit-tap-highlight-color: rgba(0,0,0,0);
+		    position: relative;
+		}
+		.weui-dialog__btn:after {
+		    content: " ";
+		    position: absolute;
+		    left: 0;
+		    top: 0;
+		    width: 1px;
+		    bottom: 0;
+		    border-left: 1px solid rgba(0,0,0,0.1);
+		    color: rgba(0,0,0,0.1);
+		    -webkit-transform-origin: 0 0;
+		    transform-origin: 0 0;
+		    -webkit-transform: scaleX(0.5);
+		    transform: scaleX(0.5);
+		}
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="search_con" id="sortable">
+                    	<div class="create_tit" v-for="(item, index) in imgList" :key="index">
+                    		<div class="pic_box">
+                    			<img class="pic_img" :src="item.url + '!/both/85x85'">
+                    			<img class="pic_close" @click="removeImg(item, index, item._id)" src="/images/icon_img_dela.png" />
+                    		</div>
+                    		<div class="pic_tit">
+								<span class="search_tit" :class="{gray: !item.pick}">设为商品封面图</span>  
+								<span class="tui-checkbox" :class="{checked: item.pick}" @click="changePick(item, index, item._id)"></span>
+                    		</div>
+							<div class="pic_menu handle"><img src="/images/menu.png"></div>
+                    	</div>
+                    </div>
+                    <div class="create_btn">
+                    	<div class="btn_write sty" v-cloak><input type="file" accept="image/*" multiple ref="imginput" @change="handleImageUpload(this)"><img src="/images/pic_icon.png">添加主图({{imgLen}}/6)</div>
+                    	<div class="btn_blun sty" @click="openSaveDialog">保存</div>
+                    </div>
+					<!--操作提示-->
+					<template v-if="isSaveDialog">
+						<div class="js_dialog">
+							<div class="weui-mask"></div>
+							<div class="weui-dialog">
+								<div class="weui-dialog__bd">确定要保存本次更改吗？</div>
+								<div class="weui-dialog__ft">
+									<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="closeSaveDialog">取消</a>
+									<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="submit">确定</a>
+								</div>
+							</div>
+						</div>
+					</template>
+                    
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+	<script src="/javascripts/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+	<script>
+
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					imgList: [],
+					imgLen: 0,
+					pick: 0,
+					_imgList: [],
+					picSign: [],
+					isSaveDialog: false,
+					mainImageUrl: ""
+				}
+			},
+			created() {
+				imgItem = JSON.parse(sessionStorage.getItem("imgList"));
+				if(JSON.parse(sessionStorage.getItem("mainImageUrl"))) {
+					let mainImageUrl = JSON.parse(sessionStorage.getItem("mainImageUrl"));
+					for(let i =0; i<imgItem.length; i++) {
+						if(mainImageUrl == imgItem[i]) {
+							this.pick = i;
+						}
+					}
+				}
+				for(let i = 0; i<imgItem.length; i++) {
+					this.imgList.push({url: imgItem[i], _id: randomString(5), pick: false});
+				}
+				this.imgLen = imgItem.length;
+				this.imgList[0].pick = true;
+				this.mainImageUrl = this.imgList[0].url;
+				this._imgList = this.imgList.concat();
+			},
+			mounted() {
+				var el = document.getElementById('sortable');
+				var sortable = Sortable.create(el,{
+					animation: 150,
+					handle: '.handle',
+					onEnd:(evt)=> {
+						[this._imgList[evt.oldIndex], this._imgList[evt.newIndex]] = [this._imgList[evt.newIndex], this._imgList[evt.oldIndex]];
+					}
+				});
+			},
+			methods: {
+				changePick(item, index, _id) {
+					console.log(index, item);
+					if(item.pick == true) {return};
+					for(let i = 0; i<this.imgList.length; i++) {
+						this.imgList[i].pick = false;
+					}
+					item.pick = true;
+					this.mainImageUrl = item.url;
+					console.log(this._imgList);
+				},
+				removeImg(item, index, _id) {
+					if(item.pick == true) {
+						this.mainImageUrl = "";
+					}
+					this.imgList.splice(index, 1);
+					for(let i = 0; i<this._imgList.length; i++) {
+						if(this._imgList[i]._id == _id) {
+							this._imgList.splice(i, 1);
+						}
+					}
+					this.imgLen = this.imgLen-1;
+				},
+				openSaveDialog() {
+					this.isSaveDialog = true;
+				},
+				closeSaveDialog() {
+					this.isSaveDialog = false;
+				},
+				// 提交
+				submit() {
+					console.log(this._imgList);
+					if(this.mainImageUrl == "") {
+						return poper("请选择主图");
+					}
+					let mainImageUrlList = [];
+					for(let i = 0; i<this._imgList.length; i++) {
+						if(this._imgList[i].pick == true) {
+							continue;
+						}
+						mainImageUrlList.push(this._imgList[i].url);
+					}
+					sessionStorage.setItem("mainImageUrl", JSON.stringify(this.mainImageUrl));
+					sessionStorage.setItem("mainImageUrlList", JSON.stringify(mainImageUrlList));
+					this.isSaveDialog = false;
+					window.history.go(-1);
+				},
+				// 上传图片
+				handleImageUpload() {
+					let files = this.$refs.imginput.files;
+					let imgLen = this.imgLen;
+                    let len = files.length + imgLen;
+                    if(len > 6) {
+                        return poper("主图数量最多6张");
+					}
+					for(let i=0; i < files.length; i++) {
+                        let isImg = files[i].type == "image/jpeg" || files[i].type == "image/png" || files[i].type == "image/jpg";
+                        if(!isImg) {
+                            return poper("只能上传jpg/jpeg/png文件");
+                        }
+                        if(files[i].size > (limitNum*1024*1024)) {
+                            return poper(`请选择${limitNum}M以内的图片！`);
+                        }
+					}
+					for(let i=0; i < files.length; i++) {
+                        this.imgLen++;
+                        let size = files[i].size;
+                        let imgType = files[i].type.substring(6);
+                        let timestamp = new Date().getTime();
+                        let randomStr = randomString(6);
+                        let item = {
+                            length: size,
+                            goodsCode: 9001000,
+                            type: "/shop/goods",
+                            uri: timestamp + randomStr + "." + imgType
+                        }
+                        this.picSign.push(item);
+                    }
+                    this.getPicSign(files, this.picSign);
+				},
+				// 获取图片参数
+                getPicSign(files, picSign) {
+                    let config = picSign;
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        console.log(res);
+                        let data = res.data.data;
+                        if(data.length == 0) return;
+                        let forbody = Promise.resolve();
+                        for(let i = 0; i<data.length; i++) {
+                            forbody = forbody.then(res=>{
+                                return this.uploadImgs(i, data, files);
+                            })
+                        }
+                    })
+				},
+				// 上传图片
+                uploadImgs(i, data, files) {
+                    let formData = new FormData();
+                    formData.append("policy", data[i].policy);
+                    formData.append("signature", data[i].signature);
+                    formData.append("file", files[i]);
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+							this.imgList.push({url: data[i].host + data[i].uri, _id: randomString(5), pick: false});
+							this._imgList.push(this.imgList[this.imgList.length -1]);
+							formData.delete("policy");
+							formData.delete("signature");
+							formData.delete("file");
+                            if(i == data.length-1) {
+                                this.picSign = [];
+                            }
+                            resolve('ok:'+i);
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+                },
+			}
+		})
+	</script>
+</body>
+</html>

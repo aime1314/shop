@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+        .content {
+            padding-top: 10px;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .tab-list {
+            height: 100px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+        }
+        .tab-list .item {
+            height: 50px;
+            padding: 0 26px;
+            display: inline-flex;
+            align-items: center;
+            text-align: center;
+            font-size: 28px;
+            color: #3872E8;
+            border-radius: 25px;
+            border: 2px solid #3872E8;
+            margin-right: 20px;
+        }
+        .tab-list .item.active {
+            position: relative;
+            padding-left: 70px;
+        }
+        .tab-list .item.active::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 35px;
+            width: 18px;
+            height: 11px;
+            background: url(/images/icon_select.png) no-repeat center;
+        }
+        .area-list {
+            height: calc(100% - 188px);
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .area-list .item {
+            height: 124px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding-left: 30px;
+            font-size: 32px;
+            color: #2C2C2C;
+            margin-bottom: 1px;
+        }
+        .btn-back {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 88px;
+            background: #f5f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+            color: #797A7A;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <div class="content">
+                    <div class="tab-list" v-cloak>
+                        <div class="item" :class="{active: address.provinceLabel}">{{address.provinceLabel ? address.provinceLabel : "请选择省份"}}</div>
+                        <div class="item" v-if="address.provinceLabel" :class="{active: address.cityLabel}">{{address.cityLabel ? address.cityLabel : "请选择城市"}}</div>
+                        <div class="item" v-if="address.cityLabel" :class="{active: address.areaLabel}">{{address.areaLabel ? address.areaLabel : "请选择区县"}}</div>
+                    </div>
+                    <div class="area-list">
+                        <template v-if="isType == 0">
+                            <div class="item" :data-label="item.label" :data-index="index" :data-adcode="item.adcode" v-for="(item, index) in provinceList" :key="index" @click="changeProvince">{{item.label}}</div>
+                        </template>
+                        <template v-if="isType == 1">
+                            <div class="item" :data-label="item.label" :data-index="index" :data-adcode="item.adcode" v-for="(item, index) in cityList" :key="index" @click="changeCity">{{item.label}}</div>
+                        </template>
+                        <template v-if="isType == 2">
+                            <div class="item" :data-label="item.label" :data-index="index" :data-adcode="item.adcode" v-for="(item, index) in areaList" :key="index" @click="changeArea">{{item.label}}</div>
+                        </template>
+                    </div>
+                    <div class="btn-back" onclick="javascript:history.back(-1);">取消</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    isType: 0,
+                    provinceList: JSON.parse(`<%- provinceList %>`),
+                    cityList: [],
+                    areaList: [],
+                    address: {
+                        provinceLabel: "",
+                        provinceIndex: "",
+                        provinceAdcode: "",
+                        cityLabel: "",
+                        cityIndex: "",
+                        cityAdcode: "",
+                        areaLabel: "",
+                        areaIndex: "",
+                        areaAdcode: ""
+                    }
+                }
+            },
+            created() { 
+                if(sessionStorage.getItem("address")) {
+                    this.address = JSON.parse(sessionStorage.getItem("address"));
+                    this.changeCity();
+                }
+            },
+            methods: {
+                // 选择省
+                changeProvince(e) {
+                    let provinceLabel = e.target.dataset.label;
+                    let provinceIndex = e.target.dataset.index;
+                    let provinceAdcode = e.target.dataset.adcode;
+                    axios.get("/shop/shopList/getCityData/"+ provinceIndex).then(res => {
+                        console.log(res);
+                        this.address.provinceLabel = provinceLabel;
+                        this.address.provinceIndex = provinceIndex;
+                        this.address.provinceAdcode = provinceAdcode;
+                        this.cityList = res.data;
+                        this.isType = 1;  
+                    })
+                },
+                // 选择城市
+                changeCity(e) {
+                    if(e) {
+                        this.address.cityLabel = e.target.dataset.label;
+                        this.address.cityIndex = e.target.dataset.index;
+                        this.address.cityAdcode = e.target.dataset.adcode;
+                    }
+                    axios.get("/shop/shopList/getAreaData/"+ this.address.provinceIndex + "/"+this.address.cityIndex).then(res => {
+                        this.areaList = res.data;
+                        this.isType = 2;
+                    })
+                },
+                // 选择县区
+                changeArea(e) {
+                    let areaLabel = e.target.dataset.label;
+                    let areaIndex = e.target.dataset.index;
+                    let areaAdcode = e.target.dataset.adcode;
+                    this.address.areaLabel = areaLabel;
+                    this.address.areaIndex = areaIndex;
+                    this.address.areaAdcode = areaAdcode;
+                    let opt = {method: "POST", url: "/applyShop/getLocation", data:{address: this.address}};
+                    axios(opt).then(res => {
+                        sessionStorage.setItem("address", JSON.stringify(this.address));
+                        window.location.href = "/shop/shopList/location/" + res.data.districts[0].center + "/2";
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+</html>

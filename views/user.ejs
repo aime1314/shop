@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        .header{
+            position: relative;
+            z-index:0;
+            padding-bottom: 100%;
+            background: #356ddc;
+        }
+        .header:after{
+            display: block;
+            content: "";
+            position: absolute;
+            width:100%;
+            height:100%;
+            background:#0b1212;
+            opacity: 0.05;
+            top:0;
+            left:0;
+            z-index:1;
+        }
+        .imageUrl{
+            width:100%;
+            position: absolute;
+        }
+        .realName{
+            color:#fff;
+            font-size: 0.6rem;
+            line-height: 1;
+            bottom:1.29rem;
+            position: absolute;
+            z-index:2;
+            padding:0 0.25rem;
+            text-shadow:5px 2px 6px rgba(13,5,10,0.3);
+        }
+        .section{
+            padding:0 0.25rem;
+            width:100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            position:relative;
+            top:-0.85rem;
+            display: block;
+            background: transparent;
+            padding-bottom: 0.3rem;
+        }
+
+        .section .item{
+            background:#fff;
+            -webkit-box-shadow: 0 0 10px rgba(155,164,183,0.2);
+            -moz-box-shadow: 0 0 10px rgba(155,164,183,0.2);
+            box-shadow: 0 0 10px rgba(155,164,183,0.2);
+            padding:0.31rem;
+            margin-bottom:0.178rem;
+            color:#61656d;
+        }
+        .item .title{
+            font-size:0.32rem;
+            color:#000;
+            font-weight: bolder;
+            padding-bottom:0.2rem;
+        }
+        .organizationItem{
+            display: inline-block;
+            background:#f0f5fd;
+            color:#5792e4;
+            font-size:0.24rem;
+            padding:5px 0.19rem;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            line-height:1;
+            white-space: nowrap;
+            margin-right:0.12rem;
+            margin-top:0.12rem;
+        }
+        .certificate{
+            font-size:0.19rem;
+            background:#f29549;
+            color:#fff;
+            line-height: 1.1;
+            padding:0 0.05rem;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            position:relative;
+            top:-1px;
+        }
+        .worktype{
+            font-size:0.27rem;
+            color:#61656d;
+            margin-bottom:0.1rem;
+            font-weight: bold;
+        }
+        .companyName{
+            color:#7f8592;
+            font-size:0.23rem;
+        }
+        .companyItem{
+            padding-bottom:0.28rem;
+        }
+        .content{
+            color:#61656d;
+            font-size:0.23rem;
+        }
+        footer{
+            width:100%;
+        }
+        .footer{
+            width:100%;
+            position: fixed;
+            bottom:0;
+            left:0;
+        }
+        .dialog{
+            position: fixed;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            display: none;
+        }
+        .dialog.active{
+            display: block;
+        }
+        .dialog .bg{
+            display: block;
+            content: '';
+            position: absolute;
+            width:100%;
+            height:100%;
+            background: rgba(0,0,0,0.3);
+        }
+        .dialogcontent{
+            position: absolute;
+            left:50%;
+            top:50%;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            -o-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            z-index:1;
+            padding:0.326rem;
+            background-color: #fff;
+        }
+        .dialogcontent>p{
+            white-space: nowrap;
+            margin-bottom:0.41rem;
+            position: relative;
+        }
+        .dialogcontent>p>img{
+            width:0.35rem;
+        }
+        .dialogcontent>p>input{
+            border-bottom:1px solid #ccd0d8;
+            height:0.53rem;
+            width:3.41rem;
+            margin-left:0.21rem;
+            border-radius: 0;
+            font-size: 0.29rem;
+        }
+        .dialogcontent .btn{
+            margin-top:1.07rem;
+            width:100%;
+            background: #3e8cf9;
+            color:#fff;
+            height:0.74rem;
+            line-height: 0.74rem;
+            text-align: center;
+            -webkit-border-radius: 3px;
+            -moz-border-radius:3px;
+            border-radius: 3px;
+            font-size: 0.32rem;
+        }
+        .close{
+            overflow: hidden;
+        }
+        .close>img{
+            width:0.326rem;
+        }
+        .yzCode{
+            position: absolute;
+            right:0;
+            bottom:5px;
+            color:#3e8cf9;
+            border:1px solid #3e8cf9;
+            padding:5px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            width:1.35rem;
+            text-align: center;
+        }
+        .yzCode.active{
+            border-color:#ccd0d8;
+            color:#ccd0d8;
+        }
+        .title_span{
+            color: #989EAB !important;
+            font-size:0.27rem;
+            float: right;
+            right: 0;
+            font-weight:400;
+        }
+        .max{
+            max-height: 2.1rem;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="page1">
+        <header class="header">
+                <img src="<%= information.imageUrl %>" class="imageUrl" alt=""/>
+                <h2 class="realName"><%= information.realName %></h2>
+            </header>
+            <section class="section">
+                <div class="selfInfo item">
+                    <P class="title">个人简介</P>
+                    <p><%= information.detailDesc %></p>
+                </div>
+                <div class="organization item"> 
+                    <p class="title">加入的社群
+                     <% if(information.organizationList &&  information.organizationList.length && information.organizationList.length>0) { %>
+                        <span class="title_span" onclick="openOrganList()">查看全部(<%= information.organizationList.length %>)
+                                <img src="/images/arrows.png" style="width:0.26rem"></span>
+                        <% } %> 
+                    </p>
+                    <ul class="max">
+                        <% information.organizationList.forEach(function(item){ %>
+                            <li class="organizationItem">
+                                <%= item.organizationName %>
+                                <% if(item.certificateStatus==1){ %>
+                                <!-- <span class="certificate">证</span> -->
+                                <img src="/images/icoz.png" style="width: 0.24rem;"/>
+                                <% } %>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="company item" style="padding-bottom:0">
+                    <p class="title">行业、公司、职位</p>
+                    <ul>
+                        <% information.memberBusinessList.forEach(function(item){ %>
+                        <li class="companyItem">
+                            <p class="worktype"><%= item.businessFirstName %>-<%= item.businessSecondName %></p>
+                            <p class="companyName"><%= item.companyName %> • <%= item.workTitle %></p>
+                        </li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="resource item">
+                    <p class="title">资源</p>
+                    <p class="content">
+                        <% if(information.resourceSupply){ %>
+                        <%= information.resourceSupply %>
+                        <% } else { %>
+                        暂未填写
+                        <% } %>
+                    </p>
+                </div>
+                <div class="requirement item">
+                    <p class="title">需求</p>
+                    <p class="content">
+                        <% if(information.requirement){ %>
+                        <%= information.requirement %>
+                        <% } else { %>
+                        暂未填写
+                        <% } %>
+                    </p>
+                </div>
+                <div class="home item">
+                    <p class="title">家乡</p>
+                    <p class="content">
+                        <%= information.homeProvinceName %>
+                        <%= information.homeCityName %>
+                        <%= information.homeAreaName %>
+                    </p>
+                </div>
+                <div class="address item">
+                    <p class="title">现居地</p>
+                    <p class="content"><%= information.provinceName %>
+                        <%= information.cityName %>
+                        <%= information.areaName %></p>
+                </div>
+            </section>
+            <footer onclick="showDialog()">
+                <img src="/images/footer.png" class="footer" alt=""/>
+            </footer>
+            <div class="dialog" id="dialog">
+                <div class="dialogcontent">
+                    <p class="close">
+                        <img src="/images/close.png"  class="right" alt="" onclick="closeDialog()">
+                    </p>
+                    <p>
+                        <img src="/images/phone.png" alt="">
+                        <input type="number" placeholder="输入手机号码" id="phone">
+                    </p>
+                    <p>
+                        <img src="/images/code.png" alt="">
+                        <input type="number" placeholder="输入验证码" id="yzCodeNum">
+                        <span class="yzCode" id="yzCode" onclick="getCode(this)">发送验证码</span>
+                    </p>
+                    <p>
+                        <img src="/images/name.png" alt="" >
+                        <input type="text" placeholder="输入姓名" id="name">
+                    </p>
+                    <div class="btn" onclick="register()">注册并加入群脉</div>
+                </div>
+                <div class="bg" onclick="closeDialog()"></div>
+                
+            </div>
+</div>
+<script src="/javascripts/webcommon.js"></script>
+<script src="/javascripts/jquery.min.js"></script>
+<script>
+    var wxWebshareDb = {
+        "title":'个人分享',                                  // 分享标题
+        "link":window.location.href,                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        "desc": "<%= information.detailDesc %>",             // 分享描述
+        "imgUrl" : '<%= information.imageUrl %>',         //分享图标
+        // "type": '',                                        // 分享类型,music、video或link，不填默认为link
+        // "dataUrl": ''                                    // 如果type是music或video，则要提供数据链接，默认为空
+    };
+</script>
+<script src="/javascripts/wxcommon.js"></script>
+
+<script>
+    var realName = `<%= information.realName %>`
+    var timer;
+    function showDialog(){
+        var ele=document.getElementById("dialog")
+        ele.classList.add("active")
+    }
+    function closeDialog(){
+        var ele=document.getElementById("dialog")
+        ele.classList.remove("active")
+        var yzCode=document.getElementById("yzCode")
+        //关闭弹窗，清除计时器
+        var inputs=document.getElementsByTagName("input")
+        for(var i =0 ;i<inputs.length;i++){
+            inputs[i].value=""
+        }
+        clearInterval(timer)
+        yzCode.innerText="发送验证码"
+        yzCode.classList.remove("active")
+    }
+    function getCode(el){
+        if(timer){
+            //已经在计时了
+            return;
+        }else{
+            el.classList.remove("active")
+        }
+        var phoneNum=document.getElementById("phone").value
+        if(!(/^1[23456789]\d{9}$/.test(phoneNum) &&  phoneNum.length == 11)){
+            poper("请输入正确的电话号")
+            return;
+        }else{
+            $.ajax({
+                type:"get",
+                url:"/users/wap/getyzCode"+location.search+"&phoneNum="+phoneNum,
+                success:function(res){
+                    if(res.errorCode==0){
+                        el.classList.add("active")
+                        var count=120;
+                        el.innerText=count+"s"
+                        timer=setInterval(function(){
+                            if(count>1){
+                                count--;
+                                el.innerText=count+"s"
+                            }else{
+                                el.innerText="发送验证码"
+                                el.classList.remove("active")
+                                clearInterval(timer)
+                            }
+                        },1000)
+                    }else{
+                        poper(res.message)
+                    }
+
+                },
+                error:function(err){
+                    
+                }
+
+            })
+        }
+
+    }
+    function register(){
+        // console.log("注册")
+        var phoneNum=$("#phone").val();
+        var yzCode=$("#yzCodeNum").val();
+        var name=$("#name").val();
+        if(phoneNum && yzCode && name){
+            $.ajax({
+                type:"POST",
+                url:"/users/wap/register"+location.search,
+                contentType:"application/x-www-form-urlencoded",
+                data:{
+                    phoneNum:phoneNum,
+                    yzCode:yzCode,
+                    name:name,
+                    businessSource: "personalPage"
+                },
+                success:function(res){
+                    if(res.errorCode==0){
+                        window.location.href = "https://www.qunmai.com/downloadPage.html"
+                    }else{
+                        poper(res.message)
+                    }
+                },
+                error:function(err){
+                    poper("网络连接错误，请稍后再试")
+                }
+
+            })
+        }else{
+            poper("注册信息填写不完整")
+        }
+
+    }
+        function openOrganList(){
+            //跳转社群
+            var id = '<%= information.id %>';
+            window.location.href = "/share/allOrganList?memberId="+id; 
+    }
+</script>
+</body>
+</html>

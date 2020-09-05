@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/jquery-confirm.min.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body,html{
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding-bottom: 0.85rem;
+            background: #fff;
+        }
+        /* 活动分享 */
+        .activity-box .header{
+            width: 100%;
+            height: 3.8rem;
+        }
+        .activity-box .header img{
+            width: 100%;
+            height:100%;
+        }
+        .activity-box .section{
+            width: 100%;
+        }
+        .activity-box .activityTitle{
+            width: 100%;
+            padding: 0.25rem 0.24rem 0 0.24rem;
+            background: #fff;
+            color:#000;
+            font-size: 0.36rem;
+        }
+        .activity-box .infoBox{
+            background: #fff;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.22rem 0.27rem 0 0.24rem;
+        }
+        .activity-box .joinNum{
+            height: 0.20rem;
+            font-size: 0.20rem;
+            line-height:0.20rem;
+            color: #989EAB;
+        }
+        .activity-box #issue{
+            color:#7289BA;
+            font-size: 0.20rem;
+            height: 0.20rem;
+            line-height: 0.20rem;
+        }
+        .activity-box #issue span{
+            color:#989EAB;
+        }
+        .activity-box .entryFeeBox{
+            width: 100%;
+            background: #fff;
+            padding: 0.35rem 0.27rem 0 0.24rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+        }
+        .activity-box .entryFee{
+            color:#000;
+            font-size: 0.21rem;
+        }
+        .activity-box .entryFeeBox p:nth-child(2){
+            color: #3E8CF9;
+            font-size: 0.37rem;
+            height: 0.40rem;
+            line-height: 0.50rem;
+        }
+        .activity-box .entryFeeBox p:nth-child(2) span{
+            color: #3E8CF9;
+            font-size: 0.21rem;
+        }
+        .activity-box .xcfh{
+            width: 1.4rem;
+            height: 0.31rem;
+            line-height: 0.2rem;
+            padding-left: 0.1rem;
+        }
+        .activity-box .xcfh img{
+            width: 100%;
+            height: 100%;
+        }
+        .activity-box .activityMsgBox{
+            width: 100%;           
+            background: #fff;
+            padding: 0.42rem 0.27rem 0.31rem 0.24rem; 
+        }
+        .activity-box .location{
+            padding-top: 0.20rem;
+        }
+        .activity-box .activityTime, .location{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .activity-box .activityTime span{
+            display: inline-block;
+            color:#4B5059;
+            font-size: 0.24rem;
+            
+        }
+        .activity-box .activityTime span:nth-child(2){
+            padding-left: 0.08rem;
+        }
+        .activity-box .location span{
+            display: inline-block;
+            color:#4B5059;
+            font-size: 0.24rem;
+            padding-left: 0.08rem;
+        }
+        .activity-box .Icon{
+            width: 0.30rem;
+            height: 0.30rem;
+        }
+        .activity-box .Icon img{
+            width: 100%;
+            height: 100%;
+        }
+        .activity-box .line{
+            height: 0.08rem;
+            background:#f5f7f9; 
+        }
+        .activity-box .participationBox{
+            width: 100%;
+            padding: 0.09rem 0.27rem 0.09rem 0.24rem;
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .activity-box .participation{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .activity-box .join{
+            height: 0.65rem;
+            line-height: 0.65rem;
+            font-size: 0.25rem;
+            color:#000;
+            padding-right: 0.13rem;
+        }
+        .activity-box .joinImgBox{
+            display: flex;
+            width:4.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .activity-box .joinImg{
+            width: 0.65rem;
+            height: 0.65rem;
+            margin: 0 0.045rem;
+        }
+        .activity-box .joinpeople{
+            width:0.65rem;
+            height:0.65rem;
+            margin: 0 0.045rem;
+            line-height: 0.65rem;
+            text-align: center;
+            border-radius: 50%;
+            -webkit-border-radius:50%;
+            -moz-border-radius:50%;
+            background: #3e8cf9;
+            color:#fff;
+            font-size: 0.21rem;
+        }
+        .activity-box .joinImg img{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            -webkit-border-radius:50%;
+            -moz-border-radius:50%;
+        }
+        .activity-box .arrowsIcon{
+            width: 0.26rem;
+            height: 0.26rem;
+        }
+        .activity-box .arrowsIcon img{
+            width: 100%;
+            height: 100%;
+        }
+        .activity-box .detailsIntroduce{
+            width: 100%;
+            background: #fff;
+            padding: 0.24rem 0.27rem 0 0.24rem;
+            font-size: 0.23rem;
+            color: #000;
+        }
+        .activity-box .footer{
+            position:fixed;
+            bottom:0; 
+            width: 100%;
+            height: 0.85rem;
+            border-top: 0.01rem solid #e8ecf0;
+            background: #fff;
+        }
+        .activity-box .applyBtn{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top:0;
+            bottom: 0;
+            margin:auto;
+            width: 4.68rem;
+            height: 0.56rem;
+            line-height:0.56rem;
+            background: #3e8cf9;
+            border-radius:0.06rem;
+            -webkit-border-radius:0.06rem;
+            -moz-border-radius:0.06rem;
+            font-size:0.28rem;
+            color:#fff;
+            text-align: center;
+        }
+        .activity-box .grayBtn{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top:0;
+            bottom: 0;
+            margin:auto;
+            width: 4.68rem;
+            height: 0.56rem;
+            line-height:0.56rem;
+            background: #c9ced4;
+            border-radius:0.06rem;
+            -webkit-border-radius:0.06rem;
+            -moz-border-radius:0.06rem;
+            font-size:0.28rem;
+            color:#fff;
+            text-align: center;
+        }
+        .dialog{
+            position: fixed;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            display: none;
+        }
+        .dialog.active{
+            display: block;
+        }
+        .dialog .bg{
+            display: block;
+            content: '';
+            position: absolute;
+            width:100%;
+            height:100%;
+            background: rgba(0,0,0,0.3);
+        }
+        .dialogcontent{
+            position: absolute;
+            left:50%;
+            top:50%;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            -o-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            z-index:1;
+            width:5.6rem;
+            height:7.6rem;
+            padding:0 0.5rem;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        .top-box{
+            margin-bottom: 0.41rem;
+            display: flex;
+            justify-content: space-between;
+            padding:0 0 0 0rem!important;
+        }
+        .dialogcontent .btn{
+            margin-top:0.41rem;
+            width:100%;
+            background: #3e8cf9;
+            color:#fff;
+            height:0.74rem;
+            line-height: 0.74rem;
+            text-align: center;
+            -webkit-border-radius: 0.07rem;
+            -moz-border-radius:0.07rem;
+            border-radius: 0.07rem;
+            font-size: 0.32rem;
+        }
+        .title{
+            display: inline-block;
+            font-size: 0.33rem;
+            line-height: 0.33rem;
+            color:#000;
+            padding-top:0.58rem;
+            font-family:Noto Sans S Chinese;
+            font-weight:bold;
+        }
+        .title span{
+            color:#3E8CF9;
+        }
+        .close{
+            position: absolute;
+            right: 0.36rem;
+            top:0.42rem;
+        }
+        .close>img{
+            display: block;
+            width:0.30rem;
+        }
+        .dialogcontent .common{
+            margin-top:0.31rem;
+            border-bottom:0.01rem solid #B8BEC9;
+            height:0.76rem;
+            display: flex;
+            align-items: center;
+            clear: both;
+            overflow: hidden;
+            /* line-height: 0.76rem;
+            vertical-align: middle; */
+        }
+        .dialogcontent .common:nth-child(1){
+            margin-top: 0.38rem;
+        }
+        .dialogcontent .phone{
+            display: block;
+            width:0.27rem;
+            height:0.3rem;
+        }
+        .dialogcontent .phone img{
+            display: block;
+            width:100%;
+            height:100%;
+        }
+        .dialogcontent .common span{
+            display: inline-block;
+            color:#7F8592;
+            font-size:0.3rem;
+        }
+        .dialogcontent input{
+            border:none;
+            font-size: 0.3rem;
+        }
+        input::-webkit-input-placeholder {
+            color: #d0d6df;
+            font-size: 0.3rem;
+        }
+        input::-moz-input-placeholder {
+            color: #d0d6df;
+            font-size: 0.3rem;
+        }
+        input::-ms-input-placeholder {
+            color: #d0d6df;
+            font-size: 0.3rem;
+        }
+        .dialogcontent .phoneNum{
+            margin-left: 0.24rem;
+            width: 3.5rem;
+            line-height: 0.34rem;
+            height: 0.34rem;
+        }
+        #YZC{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .yzCode{
+            width:3.2rem;
+        }
+        #yzCode{
+            width:1.42rem;
+            height:0.47rem;
+            border:0.01rem solid #b5bac5;
+            border-radius:0.04rem;
+            -webkit-border-radius:0.04rem;
+            -moz-border-radius:0.04rem;
+            font-size: 0.22rem;
+            line-height: 0.47rem;
+            text-align: center;
+        }
+        .agree{
+            text-align: center;
+            margin-top: 0.32rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .agree span{
+            font-size: 0.21rem;
+        }
+        .zj-box{
+            margin-top: 0.65rem;
+            clear: both;
+            overflow: hidden;
+            text-align: center;
+        }
+        .zj-box span{
+            font-size: 0.28rem;
+        }
+        .jconfirm .jconfirm-box{
+            width: 4.17rem;
+            height: 1.96rem;
+            background:#f7f7f7;
+            border-radius: 12px;
+            -webkit-border-radius:12px;
+            -moz-border-radius:12px;
+        }
+        .jconfirm-content div:first-child{
+            color:#000;
+            font-size: 0.29rem;
+        }
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons{
+            float: inherit;
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: flex!important;
+            /* justify-content: center; */
+            justify-content: space-around;
+            border-top: 1px solid #E1E4E9;
+            align-items: center;
+        }
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button{
+            width: 100%;
+            height:0.68rem;
+            line-height: 0.68rem;
+            border-radius: 0;
+            -webkit-border-radius:0;
+            -moz-border-radius:0;
+            color: #3478F6;
+            font-size: 0.28rem!important;
+            background: #f7f7f7;
+        }
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button:first-child{
+            border-right:1px solid #E1E4E9;
+        }
+    </style>
+    <style>
+        .personList{
+            display: none;
+        }
+        .personList .content{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #f5f7f9;
+        }
+        .personList .list{
+            width: 100%;
+            height: 0.83rem;
+            display: flex;
+            display: -webkit-flex; 
+            justify-content: flex-start;
+            align-items: center;
+            background: #fff;
+        }
+        .personList .list .leftCon{
+            padding-left: 0.25rem;
+        }
+        .personList .list .leftImg{
+            width: 0.62rem;
+            height: 0.62rem;
+            line-height: 0.62rem;
+            border-radius: 50%;
+            -webkit-border-radius:50%;
+            -moz-border-radius:50%;
+            background:#3E8CF9;
+            color: #fff;
+            text-align: center;
+            font-size: 0.23rem;
+        }
+        .personList .list .leftCon img{
+            width: 0.62rem;
+            height: 0.62rem;
+            vertical-align: middle;
+            border-radius: 50%;
+            -webkit-border-radius:50%;
+            -moz-border-radius:50%;
+        }
+        .personList .list .rightCon{
+            padding-left: 0.13rem;
+            height: 0.83rem;
+            line-height: 0.83rem;
+            flex:5;
+            border-top:0.01rem solid #f5f7f9;
+        }
+        .personList .rightCon p{
+            font-size: 0.27rem;
+            text-align: left;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            vertical-align: middle;
+        }
+        .personList .shortName {
+            display: inline-block;
+            width: 1.04rem;
+            height:1.04rem;
+            line-height:1.04rem;
+            vertical-align: middle;
+            text-align: center;
+            background-color: #3e9ff9;
+            color: #fff;
+            font-size: 0.3rem;
+            border-radius: 100%;
+            -webkit-border-radius:100%;
+            -moz-border-radius:100%;
+        }
+    </style>
+    <style>
+        .writeForm{
+            display: none;
+            width:100%;
+            height:auto;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .writeForm .content{
+            width: 100%;
+            height: 100%;
+            
+        } 
+        .writeForm .lists{
+            height: 100%;
+        }
+        .writeForm .list{
+            height: auto;
+            margin: 0.30rem 0.23rem;
+        }
+        /* .writeForm .list:last-child{
+            padding-bottom: 1.5rem;
+        } */
+        .writeForm .list p{
+            font-size:0.24rem;
+            /* margin-left: 0.2rem; */
+        }
+        .writeForm .list span{
+            font-size:0.24rem;
+            color: #f0505c;
+        }
+        .writeForm .list div{
+            margin-top: 0.15rem;
+        }
+        .writeForm .sHistory{
+            behavior:url(#default#savehistory);
+        }
+        .writeForm .list div input{
+            border-radius:0.06rem;
+            -webkit-border-radius:0.06rem;
+            -moz-border-radius:0.06rem;
+            border:0.02rem solid #ccc;
+            font-size: 0.22rem;
+            padding: 0 0.2rem;
+            width: 92%;
+            height: 0.68rem;
+            -webkit-appearance:none;
+            -moz-appearance: none;  
+            outline: 0;
+        }
+        /* .writeForm .fill{
+            display: block;
+            width: 10.02rem;
+            height: 0.68rem;
+            border: 0.01rem solid #E6E9EC;
+            border-radius: 0.06rem;
+            -webkit-border-radius:0.06rem;
+            -moz-border-radius:0.06rem;
+            margin:0 auto;
+        } */
+        .writeForm .footer{
+            background: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-top:0.01rem solid #e7ebef;
+        }
+        .writeForm .btn{
+            display: block;
+            width:5.94rem;
+            height:0.81rem;
+            line-height: 0.81rem;
+            background: #3e8cf9;
+            border-radius: 0.06rem;
+            -webkit-border-radius:0.06rem;
+            -moz-border-radius:0.06rem;
+            color: #fff;
+            font-size: 0.32rem;
+            text-align: center;
+            margin: 0.16rem auto;
+        }
+    </style>
+    <style>
+        .payMoney{
+            display: none;
+        }
+        .payMoney .content{
+            width: 100%;
+            text-align: left;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #f5f7f9;
+        }
+        .payMoney .pay{
+        /* text-align: center; */
+            margin-top: 0.45rem;
+        }
+        .payMoney .payamount{
+            margin: 0 auto;
+            width: 100%;
+            height: 0.84rem;
+            background: #fff;
+            margin-top: 0.28rem;
+        }
+        .payMoney .payamount input{
+            border:0.02rem solid #ccc;
+            font-size: 0.5rem;
+            /* color: #D0D6DF; */
+            margin-left: 0.05rem;
+            -webkit-appearance:none;
+            -moz-appearance: none;  
+            outline: 0;
+        }
+        .payMoney .pay span{
+            color: #3e8cf9;
+        }
+        .payMoney .pay em{
+            color: #3e8cf9;
+            font-size: 0.2rem;
+            font-style: normal;
+        }
+        .payMoney .pay label{
+            display: inline-block;
+            font-size: 0.27rem;
+            color: #000;
+            height: 0.84rem;
+            line-height: 0.84rem;
+            vertical-align: middle;
+            /* padding:0 0.2rem; */
+            margin-left: 0.26rem;
+        }
+        .payMoney .pay input{
+            display: inline-block;
+            width: 65%;
+            height: 0.84rem;
+            margin: 0 auto;
+            vertical-align: middle;
+            font-size: 0.22rem;
+            border: none;
+            padding-left: 0.26rem;
+        }
+        .payMoney .pay input:hover{
+            border: none;
+        }
+        .payMoney input::-webkit-input-placeholder {
+            color: #989EAB;
+            font-size: 0.22rem;
+        }
+        .payMoney input::-moz-input-placeholder {
+            color: #989EAB;
+            font-size: 0.22rem;
+        }
+        .payMoney input::-ms-input-placeholder {
+            color: #989EAB;
+            font-size: 0.22rem;
+        }
+        .payMoney .pay p{
+            display: inline-block;
+            font-size: 0.27rem;
+            height: 0.27rem;
+            width: 100%;
+            line-height: 0.27rem;
+            vertical-align: middle;
+            margin-left: 0.26rem;
+            /* border: 0.02rem solid #3e8cf9; */
+        }
+        .payMoney .payamount p{
+            width:60%;
+            color:#989EAB;
+        }
+        .payMoney .footer{
+            background: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-top:0.01rem solid #e7ebef;
+        }
+        .payMoney .btn{
+            display: block;
+            width:5.9rem;
+            height:0.76rem;
+            line-height: 0.76rem;
+            background: #3e8cf9;
+            border-radius: 0.05rem;
+            -webkit-border-radius:0.05rem;
+            -moz-border-radius:0.05rem;
+            color: #fff;
+            font-size: 0.32rem;
+            text-align: center;
+            margin: 0.18rem auto;
+        }
+    </style>
+    <style>
+        .paySuccess{
+            display: none;
+        }
+        .paySuccess .content{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            /* background: #f5f7f9; */
+            text-align: left;
+        }
+        .paySuccess .success{
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            width: 100%;
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            text-align: center;
+        }
+        .paySuccess .success img{
+            width: 1.35rem;
+            height: 1.35rem;
+        }
+        .paySuccess .success p{
+            font-size: 0.36rem;
+            margin-top: 0.36rem;
+        }
+        .paySuccess .success .desc{
+            font-size: 0.25rem;
+            color:#989EAB;
+            margin-top: 0.5rem;
+        }
+        .paySuccess .footer{
+            width: 100%;
+            position: fixed;
+            bottom:0.59rem;
+        }
+        .paySuccess .footer p:nth-child(2){
+            padding-bottom: 0.43rem;
+            text-align: center;
+            height:0.23rem;
+            font-size:0.24rem;
+            color:rgba(62,140,249,1);
+            line-height:0.43rem;
+        }
+        .paySuccess .footer p:nth-child(3){
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.49rem;
+            height: 0.71rem;
+            border-radius:36px;
+            border: 0.01rem solid rgba(62,140,249,1);
+        }
+        .paySuccess .footer p:nth-child(3) span:nth-child(1){
+            width: 0.26rem;
+            height: 0.3rem;
+        }
+        .paySuccess .footer p:nth-child(3) span:nth-child(1) img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .paySuccess .footer p:nth-child(3) span:nth-child(2){
+            display: inline-block;
+            height: 0.29rem;
+            font-size: 0.29rem;
+            color: rgba(62,140,249,1);
+            line-height: 0.33rem;
+        }
+        .return{
+            margin-bottom: 1rem;
+        }
+        .btnActivty{
+            display: block;
+            width:2.9rem;
+            height:0.71rem;
+            line-height: 0.71rem;
+            background: #3e8cf9;
+            border-radius: 0.1rem;
+            color: #fff;
+            font-size: 0.3rem;
+            text-align: center;
+            margin: 0.2rem auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- 活动详情 -->
+    <div class="activity-box">
+        <%if(information&&information.activityImage&&information.activityTitle&&information.hasOwnProperty('attendNum')&&information.organizationName&&information.memberInformation&&information.memberInformation.realName&&information.hasOwnProperty('isNeedPay')) {%>
+        <header class="header">
+            <img src="<%= information.activityImage %>" alt="">
+        </header>
+        <section class="section queerBox">
+            <div class="activityTitle queerBox">
+                <%= information.activityTitle %>
+            </div>
+            <div class="infoBox queerBox">
+                <p class="joinNum">已有<%= information.attendNum %>人参与</p>
+                <p id="issue">
+                    <%= information.organizationName %>&nbsp;<%= information.memberInformation.realName %>&nbsp;
+                    <span>发布</span>
+                </p>
+            </div>
+            <div class="entryFeeBox queerBox">
+                <% if(information.isNeedPay == 0){ %>
+                    <p class="entryFee">报名费：</p><span style="font-size:0.21rem;color:#3e8cf9;">免费</span>
+                <% }else if(information.isNeedPay == 1){ %>
+                    <p class="entryFee">报名费：</p>
+                    <% if(information.amountRangeType == 0){ %>
+                        <p><%= information.amountMin %>~<%= information.amountMax %>&nbsp;<span>元</span></p>
+                    <% }else if(information.amountRangeType == 1){ %>
+                        <p><%= information.amountFix %>&nbsp;<span>元</span></p>
+                    <% } %>
+                    <div class="xcfh">
+                        <% if(information.isReturnAmount == 0){ %>
+                            
+                        <% }else if(information.isReturnAmount == 1){ %>
+                            <img src="/images/xcfh.png" alt="">
+                        <% } %>
+                    </div>
+                <% } %>
+                
+            </div>
+            <div class="activityMsgBox queerBox">
+                <div class="activityTime">
+                    <div class="Icon">
+                        <img src="/images/time.png" alt="">
+                    </div>
+                    <span id="startTime"><%= information.startTime %></span>-
+                    <span id="endTime"><%= information.endTime %></span>
+                </div>
+                <div class="location">
+                    <div class="Icon">
+                        <img src="/images/location.png" alt="">
+                    </div>
+                    <% if(!information.province && !information.city && !information.activityAddress){ %>
+                        <span>无需地址</span>
+                    <% }else{ %>
+                        <span><%= information.province %><%= information.city %><%= information.activityAddress %></span>
+                    <% } %>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="participationBox queerBox">
+                <div class="participation">
+                    <div class="join">最近参与</div>
+                    <div class="joinImgBox">
+                     <% if(information.memberActivityAttendVOList&&information.memberActivityAttendVOList.length>0){ %>
+                        <% information.memberActivityAttendVOList.forEach(function(item){ %>
+                            <% if(item.memberInformation){ %>
+                             <% if(item.memberInformation.imageUrl){ %>
+                                <% if(item.memberInformation.imageUrl.indexOf("!") == -1){ %>
+                                    <div class="joinImg">
+                                        <img src="<%= item.memberInformation.imageUrl %>!/both/98x98" alt="">
+                                    </div>
+                                <% }else{ %>
+                                    <div class="joinImg">
+                                        <img src="<%= item.memberInformation.imageUrl %>" alt="">
+                                    </div>
+                                <% } %>
+                            <% }else{ %>
+                                <% if(new RegExp("[\u4E00-\u9FA5]+").test(item.memberInformation.realName) || new RegExp("[0-9]+").test(item.memberInformation.realName)){ %>
+                                    <% if(item.memberInformation.realName.length > 2){ %>
+                                        <div class="joinpeople"><%= ((item.memberInformation.realName.split("").reverse().join("")).substring(0,2)).split("").reverse().join("") %></div>
+                                    <% }else{ %>
+                                        <div class="joinpeople"><%= ((item.memberInformation.realName.split("").reverse().join("")).substring(0,1)).split("").reverse().join("") %></div>
+                                    <% } %>
+                                <% }else if(new RegExp("[A-Za-z]+").test(item.memberInformation.realName)){ %>
+                                    <% if(item.memberInformation.realName.length > 2){ %>
+                                        <div class="joinpeople"><%= item.memberInformation.realName.substring(0,2) %></div>
+                                    <% }else{ %>
+                                        <div class="joinpeople"><%= item.memberInformation.realName.substring(0,1) %></div>
+                                    <% } %>
+                                <% } %>
+                            <% } %>
+                            <% } %>
+                        <% }) %>
+                    <% } %>
+                    </div>
+                </div>
+                <% if(information.memberActivityAttendVOList&&information.memberActivityAttendVOList.length>0){ %>
+                    <div class="arrowsIcon" onclick="personList()">
+                        <img src="/images/arrows.png" alt="">
+                    </div>
+                <% }else{ %>
+                    <div class="arrowsIcon">
+                            <img src="/images/arrows.png" alt="">
+                        </div>
+                <% } %>
+            </div>
+            <div class="line"></div>
+            <% if(information.activityDesc){ %>
+                <div class="detailsIntroduce queerBox"><%- (information.activityDesc).replace(/\n/g, "<br>") %></div>
+            <% } %>
+        </section>
+        <footer class="footer">
+            <% if(information.status == 0 && information.attendStatus == 0){ %>
+                <div class="applyBtn" onclick="showDialog()">立即报名</div>
+            <% }else if(information.status == 0 && information.attendStatus == 1){ %>
+                <div class="grayBtn">已参加</div>
+            <% }else if(information.status == 0 && information.attendStatus == 2){ %>
+                <div class="grayBtn" style="background:#61c774;" onclick="openAPP()">打开群脉APP扫码确认到场</div>
+            <% }else if(information.status == 1){ %>
+                <div class="grayBtn">活动结束，停止报名</div>
+            <% } %>
+        </footer>
+        <% } %>
+    </div>
+
+    <div class="dialog" id="dialog">
+        <div class="dialogcontent">
+            <div class="top-box">
+                <p class="title">
+                    <% if(userInfo.memberId && !userInfo.telephone){ %>
+                        使用此功能请先<span>绑定手机号</span>
+                    <% }else{ %>
+                        注册群脉<span></span>
+                    <% } %>
+                </p>
+                <p class="close">
+                    <img src="/images/close.png"  class="right" alt="" onclick="closeDialog()">
+                </p>
+            </div>
+            <div class="common">
+                <p class="phone"><img src="/images/ico-phone.png" alt="手机号"></p>
+                <span>+</span><span>86</span>
+                <input type="number" class="phoneNum" id="phone" placeholder="请输入手机号">
+            </div>
+            <div class="common" id="YZC">
+                <input type="text" id="yzCodeNum" class="yzCode" placeholder="输入验证码">
+                <span id="yzCode" onclick="getCode(this)" style="color: #b5bac5;">获取验证码</span>
+            </div>
+            <% if(userInfo.memberId && !userInfo.telephone){ %>
+
+            <% }else{ %>
+                <div class="common">
+                    <input type="text" id="name" placeholder="输入姓名">
+                </div>
+            <% } %>
+            <% if(userInfo.memberId && !userInfo.telephone){ %>
+                <div class="btn" onclick="bindPhone()">绑定手机号</div>
+            <% }else{ %>
+                <div class="btn" onclick="register()">立即注册</div>
+            <% } %>
+            
+            <p class="agree">
+                <span style="color: #B5BAC5;">点击以上按钮即表示同意</span>
+                <span style="color: #89B3FB;" onclick="privacyZC()">《隐私权声明》</span>
+            </p>
+            <p class="zj-box">
+                <span style="color: #7F8592;">已有账号？</span>
+                <span style="color: #3E8CF9;text-decoration:underline;" onclick="openAPP()">打开APP</span>
+            </p>
+        </div>
+        <div class="bg" onclick="closeDialog()"></div>
+    </div>
+    <!-- 参与人员 -->
+    <div class="personList">
+        <div class="content">
+            <ul class="lists">
+                <% if(information.memberActivityAttendVOList){ %>
+                    <% information.memberActivityAttendVOList.forEach(function(item){ %>
+                        <li class="list">
+                            <div class="leftCon">
+                              <% if(item.memberInformation){ %>
+                                <% if(item.memberInformation.imageUrl){ %>
+                                    <% if(item.memberInformation.imageUrl.indexOf("!") == -1){ %>
+                                        <img src="<%= item.memberInformation.imageUrl %>!/both/93x93"/>
+                                    <% }else{ %>
+                                        <img src="<%= item.memberInformation.imageUrl %>"/>
+                                    <% } %>
+                                <% }else{ %>
+                                    <% if(new RegExp("[\u4E00-\u9FA5]+").test(item.memberInformation.realName) || new RegExp("[0-9]+").test(item.memberInformation.realName)){ %>
+                                        <% if(item.memberInformation.realName.length > 2){ %>
+                                            <div class="leftImg"><%= ((item.memberInformation.realName.split("").reverse().join("")).substring(0,2)).split("").reverse().join("") %></div>
+                                        <% }else{ %>
+                                            <div class="leftImg"><%= ((item.memberInformation.realName.split("").reverse().join("")).substring(0,1)).split("").reverse().join("") %></div>
+                                        <% } %>
+                                    <% }else if(new RegExp("[A-Za-z]+").test(item.memberInformation.realName)){ %>
+                                        <% if(item.memberInformation.realName.length > 2){ %>
+                                            <div class="leftImg"><%= item.memberInformation.realName.substring(0,2) %></div>
+                                        <% }else{ %>
+                                            <div class="leftImg"><%= item.memberInformation.realName.substring(0,1) %></div>
+                                        <% } %>
+                                    <% } %>
+                                <% } %>
+                             <% } %>  
+                            </div>
+                            <div class="rightCon">
+                               <% if(item.memberInformation){ %>
+                                   <p><%= item.memberInformation.realName %></p>
+                               <% } %>
+                            </div>
+                        </li>
+                    <% }) %>
+                <% }else{ %>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+    <!-- 填写表单 -->
+    <div class="writeForm">
+        <div class="content">
+            <ul class="lists">
+                
+            </ul>
+            
+        </div>
+        <div class="footer footerForm">
+            <% if(information.isNeedPay == 0){ %>
+                <p class="btn" onclick="confirmForm(this)">提交并报名</p>
+            <% }else if(information.isNeedPay == 1){%>
+                <p class="btn" onclick="payMoney(this)">提交并支付</p>
+            <% } %>
+            
+        </div>
+    </div>
+    <!-- 支付 -->
+    <div class="payMoney">
+        <div class="content">
+            <!-- <div @click="back">返回</div> -->
+            <div class="pay">
+                <% if(information.amountRangeType == 0){ %>
+                    <div>
+                        <p>参加本次活动需要缴纳<span style="font-size:0.27rem;"><%= information.amountMin %>-<%= information.amountMax %><em>元</em></span>之间的费用</p>
+                        <div class="payamount">
+                            <label>输入付费金额</label> 
+                            <input type="number" id="amount" placeholder="输入付费区间数字，最多保留1位小数"/>
+                        </div>     
+                    </div>
+                <% }else if(information.amountRangeType == 1){ %>
+                    <div>
+                        <p>参加本次活动需要缴纳固定金额的费用(元):</p>
+                        <div class="payamount">
+                            <label>固定付费金额</label>
+                            <p id="amountFix"><%= information.amountFix %></p>
+                        </div>
+                    </div>
+                <% } %>  
+                <div class="footer" onclick="payConfirm()">
+                    <div class="btn">确认支付</div>
+                </div>
+            </div>   
+        </div>
+    </div>
+    <!-- 支付成功 -->
+    <div class="paySuccess">
+        <div class="content">
+            <div class="success">
+                <img src="/images/ico-ok.png" alt="">
+                <p>参加成功!</p>
+                <p class="desc">请认真阅读本活动的相关介绍并按时到场哦~</p>
+            </div>
+            <footer class="footer">
+                    <div class="return">
+                            <a class=btnActivty onclick="backActivty()">返回活动</a>
+                    </div>
+                <P>没有安装群脉APP?</P>
+                <p onclick="downLoad()">
+                    <span>
+                        <img src="/images/ico.png" alt="">
+                    </span>
+                    <span>&nbsp;&nbsp;立即下载</span>
+                </p>
+            </footer>
+        </div>
+    </div>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        var wxWebshareDb = {
+            "title":'<%= information.activityTitle %>',                                  // 分享标题
+            "link":window.location.href,                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            "desc": "玩社群，用群脉！体验社群活动智能管理！",             // 分享描述
+            "imgUrl" : '<%= information.activityImage %>',         //分享图标
+            // "type": '',                                        // 分享类型,music、video或link，不填默认为link
+            // "dataUrl": ''                                    // 如果type是music或video，则要提供数据链接，默认为空
+        };
+    </script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/wxcommon.js"></script>
+    <script src="/javascripts/jquery-confirm.min.js"></script>
+    <script>
+        $(function(){
+            // //弹出软键盘时在安卓上的问题
+            windowInnerHeight = window.innerHeight; //获取当前浏览器窗口高度
+            document.body.addEventListener("focusout", () => {
+                //软键盘收起的事件处理
+                setTimeout(() => {
+                    const scrollHeight =
+                        document.documentElement.scrollTop || document.body.scrollTop || 0;
+                    window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+                }, 100);
+            });
+            var u = navigator.userAgent;
+            //安卓手机软盘弹起后使其fixed不弹起
+            if(u.indexOf('Android') > -1 || u.indexOf('Adr') > -1){
+                 $(window).resize(function(){
+                if(window.innerHeight < windowInnerHeight){
+                    $('.footerForm').css('position','static');
+                    //也可以在css文件夹写个类名，然后相对应的removeClass和addClass既可
+                }else{
+                    $('.footerForm').css('position','absolute');
+                }
+              });
+            }
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+            //ios终端
+            // if(isiOS){
+            //     $('textarea,input').on('blur', function (event) {
+            //         document.body.scrollTop = 0;
+            //     });
+            // }
+            let startTime = document.getElementById("startTime");
+            let endTime = document.getElementById("endTime");
+            let start = startTime.innerText;
+            start = start * 1000;
+            let end = endTime.innerText;
+            end = end * 1000;
+            var begin = new Date(start);
+            var finish = new Date(end);
+            let startMonth =begin.getMonth();
+            let endMonth = finish.getMonth();
+            let startDate = begin.getDate();
+            let endDate = finish.getDate();
+            let startHour = begin.getHours();
+            let endHour = finish.getHours();
+            let startMinu = begin.getMinutes();
+            let endMinu = finish.getMinutes();
+            startTime.innerText = doubleNum(startMonth+1)+"/"+ doubleNum(startDate)+" " + doubleNum(startHour)+":"+doubleNum(startMinu)
+            endTime.innerText = doubleNum(endMonth+1)+"/"+ doubleNum(endDate)+" " + doubleNum(endHour)+":"+doubleNum(endMinu)
+            function doubleNum(num){
+                if(num < 10){
+                    return "0" +num;
+                }else{
+                    return num;
+                }
+            }
+        })
+    </script>
+    <script>
+        var formList = null;
+        var timer;
+        var u = navigator.userAgent;
+         //android终端
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var userInfo = JSON.parse(`<%- userInfoStr %>`)
+        var ua = navigator.userAgent.toLowerCase();
+　　    var isWeixin = ua.indexOf('micromessenger') != -1;
+        // console.log("用户信息：",userInfo)
+        var isForm = '<%= information.isNeedContent %>';
+        function showDialog(){
+            if(isiOS){
+                $(".dialogcontent .phone").css("padding-top", "0.05rem");
+                $(".dialogcontent .common:eq(0) span:eq(0)").css("margin-top", "0rem")
+                $(".dialogcontent .common:eq(0) span:eq(1)").css("padding-top", "0.05rem")
+            }
+            // var userInfo = JSON.parse(`<%- userInfoStr %>`)
+            
+            var isNeedPay = '<%= information.isNeedPay %>'
+            var id = '<%= information.id %>'
+            // console.log("活动id:",id)
+            // console.log("是否需要支付",isNeedPay)
+            // console.log("是否需要表单",isForm)
+            if(isWeixin){
+                //console.log("微信中打开开");
+                //console.log("###:",userInfo)
+                if(userInfo.memberId && userInfo.telephone){
+                    // var ele=document.getElementById("dialog")
+                    // window.location.href = "https://www.qunmai.com";   //跳转下载TODO
+                    if(isForm == 1){
+                        $(".activity-box").css("display", "none");
+                        $("title").text("填写报名表单")
+                        // $("body").css("padding-bottom", "1.66rem")
+                        $(".writeForm").css("display", "block");
+                        $.ajax({
+                            type:"GET",
+                            url:" /api/getActivityTableList",
+                            success:function(res){
+                                formList=res.data.sort(compare('rank'));
+                                if(formList.length !=0){
+                                    formList.forEach(function(item){
+                                        var formLi;
+                                        if(item.isNecessary == 1){
+                                            formLi = `
+                                                <li class="list">
+                                                    <p>`+ item.name +`<span >(必填)</span></p>
+                                                    <div>
+                                                        <input id="`+ item.rank +`" class="`+ item.id +`" data="`+item.isNecessary+`" onblur="blurs()"/>  
+                                                    </div>
+                                                </li>
+                                            `
+                                        }else{
+                                            formLi = `
+                                                <li class="list">
+                                                    <p>`+ item.name +`<span ></span></p>
+                                                    <div>
+                                                        <input id="`+ item.rank +`" class="`+ item.id +`" data="`+item.isNecessary+`" onblur="blurs()"/>  
+                                                    </div>
+                                                </li>
+                                            `
+                                        }
+                                        $(".writeForm .content .lists").append(formLi);
+                                    })
+                                }
+                            },
+                            error:function(error){
+
+                            }
+                        })
+                    }else{
+                        if(isNeedPay == 1){
+                            $(".activity-box").css("display", "none");
+                            $(".payMoney").css("display", "block");
+                            $("title").text("结算台");
+                        }else{
+                            $.ajax({
+                                type:"POST",
+                                url:"/api/attendActivity",
+                                contentType:"application/json",
+                                success:function(res){
+                                    if(res.errorCode == 0){
+                                        $(".activity-box").css("display", "none");
+                                        $(".writeForm").css("display", "none");
+                                        $(".paySuccess").css("display", "block");
+                                        $("title").text("参与成功");
+                                    }
+                                },
+                                error:function(error){
+
+                                }
+                            })
+                        }
+                    }
+                }else if(!userInfo.memberId && !userInfo.telephone){
+                    var ele=document.getElementById("dialog")
+                    ele.classList.add("active")
+                }else if(userInfo.memberId && !userInfo.telephone){
+                    var ele=document.getElementById("dialog")
+                    ele.classList.add("active")
+                }
+            }else{
+                var ele=document.getElementById("dialog")
+                ele.classList.add("active")
+            }
+        }
+        function compare(property){
+            //根据rank排序
+           return function(a,b){
+                var value1 = a[property];
+                var value2 = b[property];
+                return value1 - value2;
+              }
+           }
+        function closeDialog(){
+            var ele=document.getElementById("dialog")
+            ele.classList.remove("active")
+            var yzCode=document.getElementById("yzCode")
+            //关闭弹窗，清除计时器
+            var inputs=document.getElementsByTagName("input")
+            for(var i =0 ;i<inputs.length;i++){
+                inputs[i].value=""
+            }
+            clearInterval(timer)
+            yzCode.innerText="发送验证码"
+            yzCode.classList.remove("active")
+        }
+        function privacyZC(){
+            window.location.href = "/appCorrelation/correlationPage/privacy";
+        }
+        function openAPP(){
+            window.location.href = "https://www.qunmai.com/downloadPage.html"    
+        }
+        function getCode(el){
+            // console.log(el)
+            if(timer){
+                //已经在计时了
+                return;
+            }else{
+                el.classList.remove("active")
+            }
+            var phoneNum=document.getElementById("phone").value
+            if(!(/^1[3456789]\d{9}$/.test(phoneNum) &&  phoneNum.length == 11)){
+                poper("请输入正确的电话号")
+                return;
+            }else{
+                if(userInfo.memberId && !userInfo.telephone){
+                    $.ajax({
+                        type:"get",
+                        url:"/api/getyzCode"+location.search+"&type=2&phoneNum="+phoneNum,
+                        success:function(res){
+                            // console.log(res)
+                            if(res.errorCode==0){
+                                el.classList.add("active")
+                                var count=120;
+                                el.innerText=count+"s"
+                                timer=setInterval(function(){
+                                    if(count>1){
+                                        count--;
+                                        el.innerText=count+"s"
+                                    }else{  
+                                        el.innerText="发送验证码"
+                                        el.classList.remove("active")
+                                        clearInterval(timer)
+                                    }
+                                },1000)
+                            }else{
+                                poper(res.message)
+                            }
+
+                        },
+                        error:function(err){
+
+                        }
+
+                    })
+                }else{
+                    $.ajax({
+                        type:"get",
+                        url:"/api/getyzCode"+location.search+"&phoneNum="+phoneNum,
+                        success:function(res){
+                            // console.log(res)
+                            if(res.errorCode==0){
+                                el.classList.add("active")
+                                var count=120;
+                                el.innerText=count+"s"
+                                timer=setInterval(function(){
+                                    if(count>1){
+                                        count--;
+                                        el.innerText=count+"s"
+                                    }else{
+                                        el.innerText="发送验证码"
+                                        el.classList.remove("active")
+                                        clearInterval(timer)
+                                    }
+                                },1000)
+                            }else if(res.errorCode == "04" || res.message == "用户已注册"){
+                                var ele=document.getElementById("dialog")
+                                ele.classList.remove("active");
+                                $.confirm({
+                                    title: '',
+                                    content: '该手机号码已被注册，是否立即打开群脉APP?',
+                                    animation: 'top',
+                                    buttons: {
+                                        ok: {
+                                            text: "取消",
+                                            btnClass: 'btn-primary',
+                                            keys: ['enter'],
+                                            action: function() {
+                                            }
+                                        },
+                                        cancel: {
+                                            text: "立即打开",
+                                            btnClass: 'btn-primary',
+                                            keys: ['esc'],
+                                            action: function() {
+                                                window.location.href = "https://www.qunmai.com/downloadPage.html"     //TODO
+
+                                            }
+                                        }
+                                    }
+                                });
+                            }else{
+                                poper(res.message)
+                            }
+
+                        },
+                        error:function(err){
+
+                        }
+
+                    })
+                }
+                
+            }
+
+        }
+        function register(){
+            // console.log("注册",location.search)
+            var phoneNum=$("#phone").val();
+            var yzCode=$("#yzCodeNum").val();
+            var name=$("#name").val();
+            var url = location.search; //获取url中"?"符后的字串 
+            var theRequest = new Object(); 
+            if (url.indexOf("?") != -1) { 
+                var str = url.substr(1); 
+                strs = str.split("&"); 
+                for(var i = 0; i < strs.length; i ++) { 
+                    theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+                } 
+            } 
+            if(phoneNum && yzCode && name){
+                if(theRequest.invitedCode ==undefined){
+                    $.ajax({
+                        type:"POST",
+                        url:"/api/register"+location.search,
+                        contentType:"application/x-www-form-urlencoded",
+                        data:{
+                            phoneNum:phoneNum,
+                            yzCode:yzCode,
+                            name:name,
+                            from:"activityPage"   //TODO
+                        },
+                        success:function(res){
+                           // console.log(res)
+                            if(res.errorCode==0){
+                                if(isWeixin){
+                                    poper("注册成功")
+                                    var ele=document.getElementById("dialog")
+                                    ele.classList.remove("active")
+                                    userInfo.memberId = res.data.id;
+                                    userInfo.telephone = res.data.telephone
+                                }else{
+                                    window.location.href = "/login/regSuccess"
+                                }
+                                
+                            }else{
+                                poper(res.message)
+                            }
+                        },
+                        error:function(err){
+                            poper("网络连接错误，请稍后再试")
+                        }
+
+                    })
+                }else if(theRequest.invitedCode){
+                    $.ajax({
+                        type:"POST",
+                        url:"/api/register"+location.search,
+                        contentType:"application/x-www-form-urlencoded",
+                        data:{
+                            phoneNum:phoneNum,
+                            yzCode:yzCode,
+                            name:name,
+                            from:activityPage,   //TODO
+                            invitedCode:theRequest.invitedCode
+                        },
+                        success:function(res){
+                           // console.log(res)
+                            if(res.errorCode==0){
+                                if(isWeixin){
+                                    poper("注册成功")
+                                    var ele=document.getElementById("dialog")
+                                    ele.classList.remove("active")
+                                    userInfo.memberId = res.data.id;
+                                    userInfo.telephone = res.data.telephone
+                                }else{
+                                    window.location.href = "/login/regSuccess"
+                                }
+                                // window.location.href = "/login/regSuccess"
+                            }else{
+                                poper(res.message)
+                            }
+                        },
+                        error:function(err){
+                            poper("网络连接错误，请稍后再试")
+                        }
+
+                    })
+                }
+            
+            }else{
+                poper("注册信息填写不完整")
+            }
+
+        }
+        function bindPhone(){
+            var phoneNum=$("#phone").val();
+            var yzCode=$("#yzCodeNum").val();
+            // console.log("打印",phoneNum, yzCode);
+            if(phoneNum && yzCode){
+                $.ajax({
+                    type:"GET",
+                    url:"/api/bindPhone?phoneNum=" + phoneNum + "&getyzCode="+yzCode,
+                    contentType:"application/x-www-form-urlencoded",
+
+                    success:function(res){
+                        // console.log("绑定手机号返回信息:",res)
+                        if(res.errorCode==0){
+                            poper("绑定手机号成功")
+                            var ele=document.getElementById("dialog")
+                            ele.classList.remove("active")
+                            userInfo.memberId = res.data.id;
+                            userInfo.telephone = res.data.telephone
+                            // window.location.href = "https://www.qunmai.com"
+                        }else{
+                            poper(res.message)
+                        }
+                    },
+                    error:function(err){
+                        poper("网络连接错误，请稍后再试")
+                    }
+
+                })
+            }else{
+                poper("信息填写不完整")
+            }
+        }
+        //参与人员
+        function personList(){
+            $(".activity-box").css("display", "none");
+            $("title").text("参与人员")
+            $(".personList").css("display", "block");
+        }
+        // function formData(){
+        //     var isNeLength=0;
+        //     var isNeAndValue=0;
+        //     console.log("打印:",)
+        // }
+        // 填写表单
+        var contentList = [];
+        function confirmForm(e){
+            var formCon = $(e).parent('.footer').prev('.content').find('input[data=1]');
+            for(let i=0;i<formCon.length;i++){
+                if(formCon[i].value==''){
+                    poper("请填写必填项");
+                    return;
+                }
+            }
+            // console.log("fo",formList)
+            var inputs = $(".writeForm input");
+            contentList = [];
+            for(var i = 0; i < inputs.length; i++){
+                var obj = {};
+                // console.log("打印拿到的val值",inputs[i].value)
+                // console.log("拿到的id：",inputs[i].getAttribute("class"))
+                obj.content = inputs[i].value;
+                obj.activityTableId = Number(inputs[i].getAttribute("class"))
+                contentList.push(obj)
+            }
+            formList.forEach(function(item){
+
+            })
+            var data = {
+                list:contentList
+            }
+            // console.log("拿到的:",contentList)
+            // console.log("###:",JSON.stringify(data))
+            $.ajax({
+                type:"POST",
+                url:"/api/attendActivity",
+                contentType:"application/json",
+                data:JSON.stringify(data),
+                success:function(res){
+                    // console.log("返回信息",res)
+                    if(res.errorCode == 0){
+                        $(".activity-box").css("display", "none");
+                        $(".writeForm").css("display", "none");
+                        $(".paySuccess").css("display", "block");
+                        $("title").text("参与成功");
+                    }
+                },
+                error:function(error){
+
+                }
+            })
+        }
+        //提交并支付
+        var formlist = [];
+        function payMoney(e){
+            var formCon = $(e).parent('.footer').prev('.content').find('input[data=1]');
+            for(let i=0;i<formCon.length;i++){
+                if(formCon[i].value==''){
+                    poper("请填写必填项");
+                    return;
+                }
+            }
+            var inputs = $(".writeForm input");
+            formlist = []
+            for(var i = 0; i < inputs.length; i++){
+                var objForm = {};
+                // console.log("打印拿到的val值",inputs[i].value)
+                // console.log("拿到的id：",inputs[i].getAttribute("class"))
+                objForm.content = inputs[i].value;
+                objForm.activityTableId = Number(inputs[i].getAttribute("class"))
+                formlist.push(objForm)
+            }
+            // var data = {
+            //     list:contentList
+            // }
+            // console.log("###:",JSON.stringify(data))
+            // console.log("填写表单",formList)
+            $(".activity-box").css("display", "none");
+            $(".writeForm").css("display", "none");
+            $(".payMoney").css("display", "block");
+            $("title").text("结算台")
+        }
+        function weixinPay(res){
+            let onBridgeReady=()=>{
+                // console.log("####onBridgeReady:  ",res);
+                if(res.data&&res.data&&res.data.appid&&res.data.pay_timestamp&&res.data.nonceStrPay&&res.data.prepayid&&res.data.signType&&res.data.paySign){
+                     WeixinJSBridge.invoke(
+                            'getBrandWCPayRequest', {
+                            "appId":res.data.appid,     //公众号名称，由商户传入     
+                            "timeStamp":res.data.pay_timestamp+'',         //时间戳，自1970年以来的秒数     
+                            "nonceStr":res.data.nonceStrPay, //随机串     
+                            "package":"prepay_id="+res.data.prepayid,     
+                            "signType":res.data.signType,         //微信签名方式：     
+                            "paySign":res.data.paySign //微信签名 
+                            },
+                            function(res){
+                            if(res.err_msg == "get_brand_wcpay_request:fail"){
+                                    poper('支付失败');
+                                } else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                                        // poper(JSON.stringify(that));
+                                        poper("取消支付")
+                                }else if(res.err_msg == "get_brand_wcpay_request:ok") {
+                                    // window.location.href='/paySuccess';  
+                                    // WeixinJSBridge.call('closeWindow');
+                                    poper("支付成功")
+                                    $(".activity-box").css("display", "none");
+                                    $(".payMoney").css("display", "none");
+                                    $(".paySuccess").css("display", "block");
+                                    $("title").text("参与成功");
+                                } 
+                            }
+                );
+                }
+               
+            }
+            //  this.time = setInterval(() =>{
+            //超时处理
+            //WeixinJSBridge加载需要1-2秒  WeixinJSBridge is not defined
+            if (typeof WeixinJSBridge != "undefined" ) {
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady(), false);
+            }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady()); 
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady());
+            }else{
+                    onBridgeReady();
+            }
+        }
+        // 确认支付
+        function payConfirm(){
+            // console.log("能否拿到",formlist)
+            // console.log("是否需要表单:",isForm)
+            var amountRangeType = "<%= information.amountRangeType %>"
+            var amountMin = "<%= information.amountMin %>"
+            var amountMax = "<%= information.amountMax %>"
+            var amountFix = "<%= information.amountFix %>"
+            var itemId = "<%= information.id %>"
+            // console.log("活动id",itemId)
+            // console.log("金额区间",amountFix,amountMin,amountMax)
+            var reg=/^\d+(\.\d{1})?$/;
+            var amount = document.getElementById("amount");
+            var amountFix = document.getElementById("amountFix")
+            // console.log("aaa",amountFix.innerText)
+            // console.log("amount",amount.value)
+            if(amountRangeType == 0){
+                if(amount.value < amountMin || amount.value > amountMax){
+                    poper("请输入范围内价格")
+                    return;
+                }
+            }
+            var attendAmount = amountRangeType == 0?amount.value:amountFix.innerText;
+            if(isForm == 1){
+                var data = {
+                    money:attendAmount,
+                    list:formlist
+                }
+            }else{
+                var data = {
+                    money:attendAmount
+                }
+            }
+            
+            if(attendAmount){
+                var isBM = false;
+                    $.ajax({
+                        type:"POST",
+                        async:false,
+                        url:"/api/attendActivity",
+                        contentType:"application/json",
+                        data:JSON.stringify(data),
+                        success:function(res){
+                            // console.log("报名返回",res)
+                            if(res.errorCode==0 &&res.data==1){
+                                isBM = true;
+                            }
+                        },
+                        error:function(error){
+
+                        }
+                    });
+                //   console.log("###   ",isBM)
+                    $.ajax({
+                        type:"GET",
+                        async:false,
+                        url:"/api/wxPay?pId=41&itemId="+itemId+"&money="+attendAmount, 
+                        success:function(res){
+                            // console.log("打印返回信息",res)
+                            weixinPay(res)
+                        },
+                        error:function(error){
+
+                        }
+                    })
+                }else{
+                    poper("请输入正确的价格")
+                }
+    
+        }
+        function downLoad(){
+            window.location.href = "https://www.qunmai.com/downloadPage.html"
+        }
+        function blurs(){
+		 setTimeout(function() {
+           var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+            window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+         }, 100);
+		        }
+        function backActivty(){
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>

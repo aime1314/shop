@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="referrer" content="no-referrer" />
+	<title><%= title %></title>
+	<link rel="stylesheet" href="/stylesheets/base.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/mobileSelect.css" />
+	<script src="/javascripts/phone.js"></script>
+	<style>
+		.create_tit {
+			padding: 0px 24px;
+			height: 96px;
+			background: #ffffff;
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.delvery_tit {
+			height: 96px;
+			line-height: 96px;
+			font-size: 29px;
+			color: #6A6C72;
+		}
+
+		.delvery_right {
+            color: #6A6C72;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+		}
+
+		.delvery_input {
+			margin: 0 10px 0 10px;
+			width: 200px;
+			height: 64px;
+			border: 1px solid #C8CACD;
+			text-align: center;
+            font-size: 30px;
+            color: #2C2C2C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+		}
+
+		.create_btn {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			display: flex;
+		}
+
+		.btn_blun {
+			width: 100%;
+			text-align: center;
+			height: 100px;
+			line-height: 100px;
+			font-size: 35px;
+			background: #3086DE;
+			color: #FFFFFF;
+		}
+
+		/*选择营业时间*/
+		.opening_box {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			background: #f7f6f9;
+		}
+
+		.create_tit2 {
+			padding: 0px 24px;
+			height: 96px;
+			background: #ffffff;
+			border-bottom: 1px solid #f7f6f9;
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.category {
+			line-height: 96px;
+			font-size: 29px;
+			color: #6A6C72;
+			flex-grow: 1;
+			flex-shrink: 0;
+		}
+
+		.search_tit {
+			height: 96px;
+			line-height: 96px;
+			font-size: 29px;
+			color: #2C2C2C;
+		}
+
+		.set_address {
+			margin-top: 13px;
+			width: 77%;
+			height: 70px;
+			line-height: 70px;
+			text-align: right;
+			font-size: 29px;
+		}
+
+		.create_tit2 img {
+			margin-top: 32px;
+			width: 32px;
+			height: 32px;
+        }
+        .create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<div class="page">
+			<div class="wrapper">
+				<main class="content">
+					<div class="create_tit">
+						<div class="delvery_tit">营业时间：</div>
+						<div class="delvery_right">
+                            <span class="delvery_input" id="trigger3"></span>-
+                            <span class="delvery_input" id="trigger4"></span>
+						</div>
+                    </div>
+                    <div class="create_btn">
+                        <div onclick="submit()" class="btn_blun">确定</div>
+                    </div>
+					
+				</main>
+			</div>
+		</div>
+	</div>
+	<!--选择时间-->
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+	<script src="/javascripts/mobileSelect.js"></script>
+	<script type="text/javascript">
+        var hoursArr = [{id: '00', value: '0时'},{id: '01', value: '1时'},{id: '02', value: '02时'},{id: '03', value: '03时'},{id: '04', value: '04时'},{id: '05', value: '05时'},
+        {id: '06', value: '06时'},{id: '07', value: '07时'},{id: '08', value: '08时'},{id: '09', value: '09时'},{id: '10', value: '10时'},{id: '11', value: '11时'},
+        {id: '12', value: '12时'},{id: '13', value: '13时'},{id: '14', value: '14时'},{id: '15', value: '15时'},{id: '16', value: '16时'},{id: '17', value: '17时'},
+        {id: '18', value: '18时'},{id: '19', value: '19时'},{id: '20', value: '20时'},{id: '21', value: '21时'},{id: '22', value: '22时'},{id: '23', value: '23时'}];
+
+        var numArr = [{id: '00', value: "00分"},{id: '01', value: "01分"},{id: '02', value: "02分"},{id: '03', value: "03分"},{id: '04', value: "04分"},{id: '05', value: "05分"},
+        {id: '06', value: "06分"},{id: '07', value: "07分"},{id: '08', value: "08分"},{id: '09', value: "09分"},{id: '10', value: "10分"},{id: '11', value: "11分"},
+        {id: '12', value: "12分"},{id: '13', value: "13分"},{id: '14', value: "14分"},{id: '15', value: "15分"},{id: '16', value: "16分"},{id: '17', value: "17分"},
+        {id: '18', value: "18分"},{id: '19', value: "19分"},{id: '20', value: "20分"},{id: '21', value: "21分"},{id: '22', value: "22分"},{id: '23', value: "23分"},
+        {id: '24', value: "24分"},{id: '25', value: "25分"},{id: '26', value: "26分"},{id: '27', value: "27分"},{id: '28', value: "28分"},{id: '29', value: "29分"},
+        {id: '30', value: "30分"},{id: '31', value: "31分"},{id: '32', value: "32分"},{id: '33', value: "33分"},{id: '34', value: "34分"},{id: '35', value: "35分"},
+        {id: '36', value: "36分"},{id: '37', value: "37分"},{id: '38', value: "38分"},{id: '39', value: "39分"},{id: '40', value: "40分"},{id: '41', value: "41分"},
+        {id: '42', value: "42分"},{id: '43', value: "43分"},{id: '44', value: "44分"},{id: '45', value: "45分"},{id: '46', value: "46分"},{id: '47', value: "47分"},
+        {id: '48', value: "48分"},{id: '49', value: "49分"},{id: '50', value: "50分"},{id: '51', value: "51分"},{id: '52', value: "52分"},{id: '53', value: "53分"},
+        {id: '54', value: "54分"},{id: '55', value: "55分"},{id: '56', value: "56分"},{id: '57', value: "57分"},{id: '58', value: "58分"},{id: '59', value: "59分"},];
+		let startTime = "",endTime = "";
+		var openTime = `<%- openTime %>`;
+		if(openTime) {
+			let str = openTime.split("~");
+			startTime =  str[0];
+			endTime = str[1];
+			document.getElementById("trigger3").innerHTML = startTime;
+			document.getElementById("trigger4").innerHTML = endTime;
+		}
+		var mobileSelect3 = new MobileSelect({
+			trigger: '#trigger3',
+			title: '开始时间',
+			wheels: [
+				{ data: hoursArr },
+				{ data: numArr }
+			],
+            position: [8, 0],
+			transitionEnd: function (indexArr, data) {
+			},
+			callback: function (indexArr, data) {
+                startTime = data[0].id + ":" + data[1].id;
+				document.getElementById("trigger3").innerHTML = startTime;
+			}
+        });
+		var mobileSelect4 = new MobileSelect({
+			trigger: '#trigger4',
+			title: '结束时间',
+			wheels: [
+				{ data: hoursArr },
+				{ data: numArr }
+			],
+			position: [21, 0],
+			transitionEnd: function (indexArr, data) {
+			},
+			callback: function (indexArr, data) {
+                endTime = data[0].id + ":" + data[1].id;
+				document.getElementById("trigger4").innerHTML = endTime;
+			}
+        });
+        function submit() {
+            if(startTime == "") {
+                return poper("请填写营业时间");
+            }
+            if(endTime == "") {
+                return poper("请填写营业时间");
+            }
+            let shelfId = sessionStorage.getItem("shelfId");
+            let config = {
+                id: shelfId,
+                openTime: startTime + "~" + endTime
+            }
+            let opt = {
+                method: "POST",
+                url: "/shop/shopList/updateShelf",
+                data: config,
+                headers:{
+                    'Content-Type': 'application/json',
+                }
+            }
+            axios(opt).then(res => {
+                if (res.data.errorCode == 0) {
+                    window.history.go(-1);
+                }else {
+                    return poper(res.data.message);
+                }
+            })
+        }
+	</script>
+</body>
+
+</html>

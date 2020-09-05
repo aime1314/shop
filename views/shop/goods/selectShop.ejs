@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.create_tit{
+    		padding: 0px 24px;
+            height: 96px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+            justify-content:space-between;
+    	}
+    	.search_con{
+    		width: 100%;
+    		margin-top: 20px;
+    		margin-bottom: 120px;
+    	}
+    	.search_tit{
+    		display: block;
+    		width: 70%;
+    		height: 96px;
+    		line-height: 96px;
+    		font-size: 30px;
+        	color: #2C2C2C;
+    	}
+    	.opacitys{
+    		opacity: .5;
+    	}
+		input[type="checkbox"] {
+		text-indent:0;
+		margin:34px 0 34px 0;
+		width: 28px;
+		height: 28px;
+		line-height: 28px;
+		text-align:center;
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		}
+		input[type="checkbox"]::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: #fff;
+		width: 100%;
+		height: 100%;
+		border: 1px solid #bdbfc2;
+		}
+		input[type="checkbox"]:checked::before {
+		content: "\2713";
+		background-color: #3086DE;
+		color: #fff;
+		position: absolute;
+		top: 0px;
+		left: 0;
+		width: 100%;
+		font-size: 20px;
+		font-weight: bold;
+		outline: none;
+		border-color:#ccc;
+		border: 1px solid #bdbfc2;
+		}
+		.class_sele{
+			margin-top: 24px;
+			width: 152px;
+			height: 48px;
+		}
+		.class_sele span{
+			display: block;
+			width: 151px;
+			height: 46px;
+			line-height: 46px;
+			text-align: center;
+			border-radius: 6px;
+			font-size: 24px;			
+			overflow: hidden;
+        	text-overflow:ellipsis;
+			white-space: nowrap;
+		}
+		.class_gray{
+			border: 1px solid #6A6C72;	
+			color:#6A6C72 ;
+		}
+		.class_blun{
+			border: 1px solid #3086DE;
+			color:#3086DE ;
+		}
+    	.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="search_con">
+                    	<div class="create_tit" v-for="(item, index) in list" :key="index">
+							<template v-if="item.goodsHadInShelf == 1">
+								<input class="opacitys" type="checkbox" checked="checked" disabled>
+								<span class="search_tit opacitys">{{item.shopName}}</span>
+								<div class="class_sele opacitys"><span class="class_gray">已发布</span></div>
+							</template>
+							<template v-else>
+								<input type="checkbox" :value="item.id" @change="changeClassify" v-model="checkedShelf">
+								<span class="search_tit">{{item.shopName}}</span>
+								<div class="class_sele" v-if="item.isActive"><span @click="chooseClassify(item.id)" class="class_blun">已选择分类</span></div>
+								<div class="class_sele" v-else><span @click="chooseClassify(item.id)" class="class_gray">选择分类</span></div>
+							</template>
+                    	</div>
+                    </div>
+                    <div class="create_btn">
+                    	<div class="btn_blun" @click="submit">提交</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					list: JSON.parse(`<%- information %>`),
+					goodsCode: `<%- goodsCode %>`,
+					shopShelfModelDtoList: [],
+					checkedShelf: []
+				}
+			},
+			created() {
+				console.log(this.list);
+				if(sessionStorage.getItem("shopShelfModelDtoList")) {
+					this.shopShelfModelDtoList = JSON.parse(sessionStorage.getItem("shopShelfModelDtoList"));
+					let shopShelfModelDtoList = this.shopShelfModelDtoList;
+					let list = this.list;
+					for(let i = 0; i < list.length; i++) {
+						for(let j = 0; j<shopShelfModelDtoList.length; j++) {
+							if(shopShelfModelDtoList[j].shelfId == list[i].id) {
+								list[i].isActive = true;
+							}
+						}
+					}
+				}
+				if(sessionStorage.getItem("checkedShelf")) {
+					this.checkedShelf = JSON.parse(sessionStorage.getItem("checkedShelf"));
+				}
+			},
+			
+			methods: {
+				changeClassify() {
+				},
+				chooseClassify(shelfId) {
+					sessionStorage.setItem("checkedShelf", JSON.stringify(this.checkedShelf));
+					window.location.href = "/shop/goods/selectCategory/" + shelfId;
+				},
+				submit() {
+					if(this.checkedShelf.length == 0) {
+						return poper("请选择要发布的小脉部");
+					}else if(this.shopShelfModelDtoList.length == 0) {
+						return poper("请选择分类");
+					}
+					let shopShelfModelDtoList = this.shopShelfModelDtoList;
+					let checkedShelf = this.checkedShelf;
+					let _shopShelfModelDtoList = [];
+					for(let i = 0; i < checkedShelf.length; i++) {
+						for(let j = 0; j<shopShelfModelDtoList.length; j++) {
+							if(shopShelfModelDtoList[j].shelfId == checkedShelf[i]) {
+								_shopShelfModelDtoList.push(shopShelfModelDtoList[j]);
+							}
+						}
+					}
+					let config = {
+						isDirectAdd: 1,
+						goodsCode: this.goodsCode,
+						shopShelfModelDtoList: _shopShelfModelDtoList
+					}
+					let opt = {
+						method: "POST",
+						url: "/shop/goods/addShopGoods",
+						data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+					console.log(opt);
+					axios(opt).then(res => {
+						if (res.data.errorCode == 0) {
+							window.location.href = "/shop/index";
+						}else {
+							return poper(res.data.message);
+						}
+					})
+				}
+			}
+		});
+	</script>
+</body>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+        	margin-top: 14px;
+        }
+        .top_bar{
+        	position: fixed;
+        	top: 0;
+        	left: 0;
+        	width: 100%;
+        	height: 94px;
+        	background: #ffffff;
+        	border-top: 1px solid #f7f6f9;
+        }
+        .bar_w{
+        	position: relative;
+        	float: left;
+        	width: 50%;
+        	height: 94px;
+        	line-height: 94px;
+        	text-align: center;
+        	font-size: 30px;
+        }
+        .top_bar_at{
+        	color: #797A7A;
+        }
+		.top_bar_at.top_bar_bor {
+			position: relative;
+			color: #3086DE;
+		}
+		.top_bar_at.top_bar_bor::before {
+			content: "";
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			width: 33px;
+			height: 4px;
+			background: #3086DE;
+		}
+        .commodity{
+        	margin-top: 108px;
+        }
+        .comm_box{
+            background: #ffffff;
+        }
+        .comm_shop{
+			padding: 24px 24px 0px 24px;
+			display: flex;
+			align-items: center;
+        }
+        .comm_shop img{
+        	width: 34px;
+        }
+        .comm_shop span{
+        	padding-left: 9px;
+        	line-height: 34px;
+        	font-size: 24px;
+        	color: #6A6C72;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+        }
+        .comm_pic{
+        	width: 110px;
+        }
+        .comm_inf_box{
+        	width: 80%;
+        	margin-left: 15px;
+        }
+        .comm_tit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	height: 70px;
+        	line-height: 35px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .comm_num{
+        	margin-top: 14px;
+        	font-size: 30px;
+        	color: #F85341;
+        }
+        .comm_num span{
+        	 color: #3086DE;
+        	 padding: 0 5px;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	margin-top: 30px;
+        	width: 130px;
+        	height: 50px;
+        	line-height: 50px;
+        	text-align: center;
+        	background: #3086DE; 
+        	border-radius: 25px;
+        	font-size: 24px;
+        	color: #FFFFFF;
+        }
+        .comm_edi_box{
+        	padding: 11px 24px;
+        	display: flex;
+        	justify-content: space-between;
+        }
+        .fon{
+        	height: 52px;
+        	line-height: 52px;
+        	text-align: center;
+        	border: 1px solid #E6EAEE;
+        	border-radius: 3px;
+        	font-size: 24px;
+        	color: #6A6C72;
+        }
+        .comm_del{
+        	float: left;
+        	width: 130px;	
+        }
+        .comm_sold{
+        	float: right;
+        	width: 130px;
+        	margin-left: 24px;
+        }
+        .comm_edi{
+        	float: right;
+        	width: 150px;
+        }
+		.weui-actionsheet {
+		    position: fixed;
+		    left: 0;
+		    bottom: 0;
+		    z-index: 5000;
+		    width: 100%;
+		    background-color: #f7f7f7;
+		    -webkit-transition: -webkit-transform 0.3s;
+		    transition: -webkit-transform 0.3s;
+		    transition: transform 0.3s;
+		    transition: transform 0.3s,-webkit-transform 0.3s;
+		    overflow: hidden;
+		}
+		.weui-actionsheet__menu {
+		    color: rgba(0,0,0,0.9);
+		    background-color: #fff;
+		}
+		.weui-actionsheet__cell {
+		    position: relative;
+		    padding:0 16px;
+		    text-align: center;
+		    font-size: 36px;
+		    color: #2C2C2C;
+		    line-height: 114px;
+		}
+		.weui-actionsheet__action {
+		    margin-top: 8px;
+		    background-color: #fff;
+		    padding-bottom: constant(safe-area-inset-bottom);
+		    padding-bottom: env(safe-area-inset-bottom);
+		}
+		.weui-dialog__bd {
+			padding: 70px 40px;
+			font-size: 28px;
+			text-align: left;
+		}
+		.weui-dialog__btn {
+			font-weight: 400;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                	<div class="top_bar">
+                		<div class="top_bar_at bar_w" @click="toggleTab(1)" :class="{top_bar_bor: isOnline == 1}">已上架</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(0)" :class="{top_bar_bor: isOnline == 0}">已下架</div>
+                	</div>
+                    <div class="commodity">
+						<template v-if="list">
+							<div class="comm_box top" v-for="(item, index) in list" :key="index">
+								<div class="comm_shop"><img src="/images/shop.png"><span>{{item.shopName}}{{item.shelfName}}</span></div>
+								<div class="comm_inf">
+									<img class="comm_pic" :src="item.mainImageUrl" />
+									<div class="comm_inf_box">
+										<p class="comm_tit">{{item.goodsName}}</p>
+										<template v-if="item.goodsPriceLow == item.goodsPriceHigh">
+											<p class="comm_num">￥{{item.goodsPriceLow}}</p>
+										</template>
+										<template v-else>
+											<p class="comm_num">￥{{item.goodsPriceLow}}-{{item.goodsPriceHigh}}</p>
+										</template>
+									</div>
+								</div>
+								<div class="comm_edi_box">
+									<div class="comm_del fon" @click="changeDelDialog(item)">删除</div>
+									<div>
+										<div class="comm_sold fon" v-if="isOnline == 1" @click="openOnlineDialog(item)">下架</div>
+										<div class="comm_sold fon" v-if="isOnline == 0" @click="openOnlineDialog(item)">上架</div>
+										<div class="comm_edi fon" @click="changeEditDialog(item)">编辑商品</div>	
+									</div>	
+								</div>
+							</div>
+						</template>
+                	</div>
+                </main>
+            </div>
+		</div>
+
+		<template v-if="isOnlineDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">是否确认{{isOnline == 1 ? "下架" : "上架"}}？商品下架后请在“已{{isOnline == 1 ? "下架" : "上架"}}”查看并管理。</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="closeOnlineDialog">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" v-if="isOnline == 0" @click="changeOnline">确定</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" v-if="isOnline == 1" @click="changeOffline">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<template v-if="isDelDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">是否确认删除该商品？</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="isDelDialog = false">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="delGoods">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!--选择弹框-->
+		<template v-if="isEditDialog">
+			<div class="weui-mask">
+				<div class="weui-actionsheet">
+					<div class="weui-actionsheet__menu">
+						<div class="weui-actionsheet__cell bor" @click="editBaseInfo">商品基础信息</div>
+						<div class="weui-actionsheet__cell" @click="editAttrInfo">商品规格参数</div>
+					</div>
+					<div class="weui-actionsheet__action">
+						<div class="weui-actionsheet__cell" @click="closeEditDialog">取消</div>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					goodsCode: `<%- goodsCode %>`,
+					list: [],
+					pageIndex: 1,
+					pageSize: 20,
+					isOnline: 1,
+					goodsItem: "",
+					isEditDialog: false,
+					isOnlineDialog: false,
+					isDelDialog: false
+				}
+			},
+			created() {
+				sessionStorage.removeItem("goodsDetail");
+				sessionStorage.removeItem("goodsName");
+				sessionStorage.removeItem("mainImageUrlList");
+				sessionStorage.removeItem("goodsSkuAddDtoList");
+				sessionStorage.removeItem("mainImageUrl");
+				sessionStorage.removeItem("imgList");
+				sessionStorage.removeItem("shopShelfModelDtoList");
+				sessionStorage.removeItem("checkedShelf");
+				sessionStorage.removeItem("updateGoodsDetail");
+				sessionStorage.removeItem("updateGoodsName");
+				this.initData();
+			},
+			methods: {
+				initData() {
+					axios.get("/shop/goodsManage/getShopGoodsPageVos?goodsCode=" + this.goodsCode + "&pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize + "&isOnline=" + this.isOnline).then(res => {
+						console.log(res);
+						this.list = res.data.data.list;
+					});
+				},
+				toggleTab(type) {
+					if(this.isOnline == type) return;
+					this.isOnline = type;
+					this.pageIndex = 1;
+					this.list = [];
+					this.initData();
+				},
+				changeEditDialog(item) {
+					this.goodsItem = item;
+					this.isEditDialog = true;
+				},
+				closeEditDialog() {
+					this.isEditDialog = false;
+				},
+				openOnlineDialog(item) {
+					this.goodsItem = item;
+					this.isOnlineDialog = true;
+				},
+				closeOnlineDialog() {
+					this.isOnlineDialog = false;
+				},
+				// 上架
+				changeOnline() {
+					let config = {
+						goodsCode: this.goodsItem.goodsCode,
+						shopId: this.goodsItem.shopId,
+						isOnline: 1,
+					}
+					this.updateShopGoods(config);
+				},
+				// 下架
+				changeOffline() {
+					let config = {
+						goodsCode: this.goodsItem.goodsCode,
+						shopId: this.goodsItem.shopId,
+						isOnline: 0,
+					}
+					this.updateShopGoods(config);
+				},
+				changeDelDialog(item) {
+					this.goodsItem = item;
+					this.isDelDialog = true;
+				},
+				// 删除商品
+				delGoods() {
+					let config = {
+						goodsCode: this.goodsItem.goodsCode,
+						shopId: this.goodsItem.shopId,
+						isDelete: 1,
+					}
+					this.updateShopGoods(config);
+				},
+				// 管理商品 - 单品查询 查询模板单品列表
+				manageGoods(goodsCode) {
+					window.location.href = "/shop/goodsManage/list/" + goodsCode;
+				},
+				// 编辑模版基础信息
+				editBaseInfo() {
+					let goodsCode = this.goodsItem.goodsCode;
+					let shopId = this.goodsItem.shopId;
+					console.log(goodsCode);
+					window.location.href = "/shop/goodsManage/setGoodsBase?goodsCode=" + goodsCode + "&shopId=" + shopId + "&isOnline=" + this.isOnline;
+				},
+				
+				// 编辑模版规格
+				editAttrInfo() {
+					let goodsCode = this.goodsItem.goodsCode;
+					let shopId = this.goodsItem.shopId;
+					window.location.href = "/shop/goodsManage/setGoodsInfo?goodsCode=" + goodsCode + "&shopId=" + shopId + "&online=" + this.isOnline;
+				},
+				// 更新店铺商品信息
+				updateShopGoods(config) {
+					let opt = {
+						method: "POST",
+						url: "/shop/goodsManage/updateShopGoods",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+					axios(opt).then(res => {
+						this.isOnlineDialog = false;
+						this.isDelDialog = false;
+						if (res.data.errorCode == 0) {
+                            this.initData();
+                        }else {
+                            return poper(res.data.message);
+                        }
+					})
+				}
+			}
+		})
+	</script>
+</body>
+</html>

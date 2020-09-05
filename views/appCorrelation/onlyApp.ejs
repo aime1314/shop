@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>群脉</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <style>
+        body,html{
+            background:#fff;
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .header{
+            width: 1.35rem;
+            height: 1.35rem;
+            margin: 0 auto;
+            margin-top: 2.46rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .header img{
+            display: block;
+            width: 100%;
+            height:100%;
+        }
+        .section{
+            width: 100%;
+            text-align: center;
+        }
+        .section p:nth-child(1){
+            padding: 0.5rem;
+            /* height:0.33rem; */
+            font-size:0.35rem;
+            color:rgba(0,0,0,1);
+            /* line-height:0.36rem; */
+        }
+        .footer{
+            width: 100%;
+            position: fixed;
+            bottom:0.59rem;
+        }
+        .footer p:nth-child(1){
+            padding-bottom: 0.43rem;
+            text-align: center;
+            height:0.23rem;
+            font-size:0.24rem;
+            color:rgba(62,140,249,1);
+            line-height:0.43rem;
+        }
+        .footer p:nth-child(2){
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.49rem;
+            height: 0.71rem;
+            background:rgba(62,140,249,1);
+            border-radius:36px;
+
+        }
+        .footer p:nth-child(2) span:nth-child(1){
+            width: 0.26rem;
+            height: 0.3rem;
+        }
+        .footer p:nth-child(2) span:nth-child(1) img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .footer p:nth-child(2) span:nth-child(2){
+            display: inline-block;
+            height: 0.29rem;
+            font-size: 0.29rem;
+            color: #fff;
+            line-height: 0.33rem;
+        }
+        .back{
+            display: inline-block;
+            width: 2.49rem;
+            height: 0.71rem;
+            line-height: 0.71rem;
+            font-size: 0.32rem;
+            color: #fff;
+            background: rgba(62,140,249,1);
+            border-radius: 0.15rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="/images/pastDue.png" alt="">
+    </header>
+    <section class="section">
+        <p><%= message %></p>
+    </section>
+    <footer class="footer">
+        <% if(isApp==false){ %>
+        <div>
+                <P>没有安装群脉APP?</P>
+                <p>
+                    <span>
+                        <img src="/images/ico-download.png" alt="">
+                    </span>
+                    <span onclick="downLoad()">&nbsp;&nbsp;立即下载</span>
+                </p>
+        </div>
+        <% }else { %>
+         <div>
+                <p>
+                    <span class="back" onclick="backPage()">返回</span>
+                </p>
+        </div>
+        <% } %>
+    </footer>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        var isApp = `<%- isApp %>`
+        console.log(isApp)
+        function downLoad(){
+            window.location.href = "https://www.qunmai.com/downloadPage.html"
+        }
+        $.ajax({  
+           type : "post",  
+           url : "/api/shart",  
+           data : "uri=" + encodeURIComponent(window.location.href),  
+           async : false,  
+           success : function(data){  
+            // console.log(data.data);  
+            wxConfig(data.data)
+          }  
+        }); 
+        function wxConfig(data){
+            wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId:data.appId, // 必填，公众号的唯一标识
+            timestamp: data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: data.nonceStr, // 必填，生成签名的随机串
+            signature: data.signature,// 必填，签名
+            jsApiList: ["hideMenuItems"] // 必填，需要使用的JS接口列表
+        });
+        }
+          wx.ready(function() {
+            wx.hideMenuItems({
+                menuList: ["menuItem:copyUrl","menuItem:editTag","menuItem:delete","menuItem:originPage","menuItem:readMode", "menuItem:openWithQQBrowser", "menuItem:openWithSafari","menuItem:share:email","menuItem:share:brand","menuItem:share:qq","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮
+            });
+         });
+       function backPage(){
+          var OBJ = {"methodType":"invoke","nativeFlag":"closeWebView"}
+          if(isApp=='IOS') {
+                window.webkit.messageHandlers.getAppMethod.postMessage(OBJ)
+          }else{
+                qmWebViewListener.getAppMethod(JSON.stringify(OBJ));
+          }
+       }
+
+    </script>
+
+</body>
+</html>

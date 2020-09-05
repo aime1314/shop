@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+        .form-area {
+            padding-bottom: 180px;
+            overflow-y: scroll;
+            height: calc(100% - 170px);
+        }
+        .address-item {
+            height: 88px;
+            padding-left: 30px;
+            padding-right: 57px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #2C2C2C;
+            font-size: 32px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .address-item::after {
+            content: "";
+            position: absolute;
+            display: inline-block;
+            right: 30px;
+            width: 14px;
+            height: 24px;
+            background: url(/images/icon_arrow.png) no-repeat center;
+        }
+        .address-item span {
+            color: #A7AAAF;
+        }
+        .as-box {
+            margin-bottom: 10px;
+        }
+        .as-box .as-item {
+            background: #fff;
+            margin-bottom: 5px;
+            padding: 30px;
+        }
+        .as-box .as-item .as-item-h {
+            margin-bottom: 28px;
+            font-size: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .as-box .as-item .as-item-h .title {
+            color: #2C2C2C;
+        }
+        .as-box .as-item .as-item-h .desc {
+            color: #A7AAAF;
+            position: absolute;
+            font-size: 30px;
+            left: 210px;
+        }
+        .as-box .as-item .as-item-h .handle {
+            color: #89D353;
+            font-size: 30px;
+        }
+        .as-box .as-item .as-item-c {
+            display: flex;
+            padding-left: 220px;
+        }
+        .as-box .as-item .as-item-c .upload-box {
+            margin-right: 43px;
+            text-align: center;
+            font-size: 32px;
+            color: #2C2C2C;
+        }
+        .as-box .as-item .as-item-c .upload-box input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+        .as-box .as-item .as-item-c .upload-box .upload-img {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            background: url(/images/icon_upload.png) no-repeat center;
+            margin-bottom: 20px;
+        }
+        .as-box .as-item .as-item-c .upload-box .text {
+            margin-top: 20px;
+        }
+        .as-box .as-item .as-item-c .upload-box .upload-img img {
+            width: 140px;
+            height: 140px;
+        }
+        .as-box .as-item .as-item-c .upload-box .upload-img span {
+            position: absolute;
+            top: -13px;
+            right: -13px;
+            width: 26px;
+            height: 26px;
+            background: url(/images/icon_img_del.png) no-repeat center;
+        }
+        .as-box .as-item .as-item-b {
+            text-align: center;
+            font-size: 26px;
+            color: #797A7A;
+            margin-top: 20px;
+        }
+        .input-box {
+            margin-bottom: 10px;
+        }
+        .input-box .input-item {
+            background: #fff;
+            height: 88px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            margin-bottom: 1px;
+        }
+        .input-box .input-item .label {
+            font-size: 32px;
+            color: #2C2C2C;
+            width: 170px;
+        }
+        .input-box .input-item input {
+            flex: 1;
+            height: 60px;
+            font-size: 32px;
+            color: #2C2C2C;
+        }
+        .input-box .textarea-item {
+            background: #fff;
+            padding: 0 30px 27px;
+        }
+        .input-box  .textarea-item .label {
+            font-size: 34px;
+            color: #2C2C2C;
+            margin-bottom: 15px;
+            padding-top: 27px;
+        }
+        .input-box  .textarea-item textarea {
+            border: 1px solid #A7AAAF;
+            width: 680px;
+            height: 180px;
+            font-size: 34px;
+            color: #2C2C2C;
+            resize: none;
+            padding: 5px;
+        }
+        .footer-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            height: 170px;
+        }
+        .footer-area .policy-tip {
+            margin: 15px 28px 20px;
+            font-size: 28px;
+        }
+        .footer-area .policy-tip span {
+            color: #2C2C2C;
+            padding-left: 44px;
+            position: relative;
+        }
+        .footer-area .policy-tip span::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            background: url(/images/icon_oval.png) no-repeat center;
+        }
+        .footer-area .policy-tip span.active::before {
+            background: url(/images/icon_oval_ac.png) no-repeat center;
+        }
+        .footer-area .policy-tip a {
+            color: #797A7A;
+            text-decoration: underline;
+        }
+        .footer-area .btn-default {
+            margin: 0 28px;
+            height: 88px;
+            background: #3872E8;
+            border-radius: 6px;
+            font-size: 34px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .weui-dialog_box {
+		    position: fixed;
+		    z-index: 5000;
+		    top: 50%;
+		    left: 95px;
+		    width: 500px;
+       	    padding: 30px;
+		    -webkit-transform: translate(0, -50%);
+		    transform: translate(0, -50%);
+		    background-color: #fff;
+		    background-color: #FFFFFF;
+		    text-align: center;
+		    border-radius: 3px;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-flex-direction: column;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    flex-direction: column;
+		    max-height: 90%;
+		}
+       .sample_tit{
+       	    font-size: 34px;
+       	    font-weight:500;
+       	    color: #2C2C2C;
+       	    line-height: 28px;
+       	    text-align: left;
+       }
+       .sample_tit img{
+       		margin-right: 15px;
+       		width: 28px;
+       		height: 28px;
+       }
+       .sample_des{
+       		margin-top: 29px;
+       		font-size: 28px;
+       		color: #797A7A;
+       		line-height: 58px;
+       		text-align: left;
+       }
+       .sample_pic{
+       		position: relative;
+       		margin-top: 24px;
+       		width: 500px;
+       		height: 332px;
+       }
+       .triangle-topleft {
+       		position: absolute;
+       		top: 0px;
+       		left: 0px;
+		    width: 0;
+		    height: 0;
+		    border-top: 100px solid #3086DE;
+		    border-right: 100px solid transparent;
+		}
+		.triangle-topleft span{
+			position: absolute;
+			top: -88px;
+    		left: 13px;
+			font-size: 32px;
+			color: #FFFFFF;
+		}
+		.sample_close{
+			position: absolute;
+			bottom: -78px;
+			left: 250px;
+			width: 59px;
+			height: 59px;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="form-area">
+                        <div class="address-item" @click="selectAddress">联系地址<span v-cloak v-if="area">{{area}}</span></div>
+
+                        <div class="as-box">
+                            <div class="as-item">
+                                <div class="as-item-h">
+                                    <div class="title">营业执照</div>
+                                    <div class="desc">请上传营业执照</div>
+                                    <div class="handle" @click="changeBLDialog">示意图</div>
+                                </div>
+                                <div class="as-item-c">
+                                    <div class="upload-box">
+                                        <div class="upload-img">
+                                            <template v-if="businessLicencesImg == ''">
+                                                <input type="file" name="file" accept="image/*" ref="blinputer" @change="uploadBusinessLicencesImg($event)" >
+                                            </template>
+                                            <template v-else>
+                                                <img :src="businessLicencesImg + '!/both/140x140'" alt="营业执照">
+                                                <span @click="delBusinessLicencesImg"></span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="as-item">
+                                <div class="as-item-h">
+                                    <div class="title">法人身份证</div>
+                                    <div class="desc">请上传法人身份证</div>
+                                    <div class="handle" @click="changeIdDialog">示意图</div>
+                                </div>
+                                <div class="as-item-c">
+                                    <div class="upload-box">
+                                        
+                                        <div class="upload-img">
+                                            <template v-if="idFrontImg == ''">
+                                                <input type="file" name="file" accept="image/*" ref="idFinputer" @change="uploadIdFrontImg($event)" >
+                                            </template>
+                                            <template v-else>
+                                                <img :src="idFrontImg + '!/both/140x140'" alt="法人身份证">
+                                                <span @click="delIdFrontImg"></span>
+                                            </template>
+                                        </div>
+                                        <div class="text">人像面</div>
+                                    </div>
+                                    <div class="upload-box">
+                                        <div class="upload-img">
+                                            <template v-if="idBackImg == ''">
+                                                <input type="file" name="file" accept="image/*" ref="idBinputer" @change="uploadIdBackImg($event)" >
+                                            </template>
+                                            <template v-else>
+                                                <img :src="idBackImg + '!/both/140x140'" alt="法人身份证">
+                                                <span @click="delIdBackImg"></span>
+                                            </template>
+                                        </div>
+                                        <div class="text">国徽面</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="as-item">
+                                <div class="as-item-h">
+                                    <div class="title">其他经营资格证</div>
+                                    <div class="handle" @click="changePeDialog">示意图</div>
+                                </div>
+                                <div class="as-item-c">
+                                    <div class="upload-box" v-for="(item, index) in permitImg" :key="index">
+                                        <div class="upload-img" style="background: none;">
+                                            <img :src="item + '!/both/140x140'" alt="其他经营资格证">
+                                            <span @click="delPermitImg(index)"></span>
+                                        </div>
+                                    </div>
+                                    <div class="upload-box" v-if="permitImg.length < 2">
+                                        <div class="upload-img">
+                                            <input type="file" name="file" accept="image/*" ref="permitinputer" multiple @change="uploadPermitImg($event)" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="as-item-b">如果涉及食品、医药等经营，请上传相关资格证</div>
+                            </div>
+                        </div>
+
+                        <div class="input-box">
+                            <div class="input-item">
+                                <div class="label">联系人</div>
+                                <input type="text" v-model="shelfOwnerName" placeholder="请输入联系人姓名">
+                            </div>
+                            <div class="input-item">
+                                <div class="label">联系电话</div>
+                                <input type="number" v-model="mobile" placeholder="便于后续群脉与您联系">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="footer-area">
+                        <div class="policy-tip">
+                            <span class="read" :class="{active: isRead}" @click="toggleRead">我已阅读</span>
+                            <a href="">《小脉部开通条款》</a>
+                        </div>
+                        <div class="btn-default" @click="submit">提交</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!--营业执照-->
+        <template v-if="isBLDialog">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog_box">
+                    <p class="sample_tit"><img src="/images/start.png">营业执照</p>
+                    <p class="sample_des">需文字清晰、边框完整、露出国徽 <br>复印件需加盖印章</p>
+                    <div class="sample_pic">
+                        <img src="/images/pic_1.png" />
+                        <div class="triangle-topleft"><span>例</span></div>
+                    </div>
+                    <img class="sample_close" @click="changeBLDialog" src="/images/cloase_r.png" />
+                </div>
+            </div>
+        </template>
+        <!--法人身份证-->
+        <template v-if="isIdDialog">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog_box">
+                    <p class="sample_tit"><img src="/images/start.png">法人身份证正反照</p>
+                    <p class="sample_des">请上传法定代表人身份证正反照 <br>照片需清晰、完整、无遮挡</p>
+                    <div class="sample_pic">
+                        <img src="/images/icd1.png" />
+                        <div class="triangle-topleft"><span>例</span></div>
+                    </div>
+                    <div class="sample_pic">
+                        <img src="/images/icd2.png" />
+                        <div class="triangle-topleft"><span>例</span></div>
+                    </div>
+                    <img class="sample_close" @click="changeIdDialog" src="/images/cloase_r.png" />
+                </div>
+            </div>
+        </template>
+        <!--其他经营资格证-->
+        <template v-if="isPeDialog">
+            <div class="js_dialog">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog_box">
+                    <p class="sample_tit"><img src="/images/start.png">其他经营资格证</p>
+                    <p class="sample_des">需文字清晰、边框完整 <br>复印件需加盖印章</p>
+                    <div class="sample_pic">
+                        <img src="/images/pic2.png" />
+                        <div class="triangle-topleft"><span>例</span></div>
+                    </div>
+                    <img class="sample_close" @click="changePeDialog" src="/images/cloase_r.png" />
+                </div>
+            </div>
+        </template>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    information: JSON.parse(`<%- information %>`),
+                    shopName: `<%- name %>`,   // 小脉部名称
+                    organId: `<%- id %>`,   // 社群id
+                    review: `<%- review %>`,
+                    shelfOwnerName: "", // 小脉部店主名
+                    mobile: "", // 店主手机
+                    shelfLat: "",   // 维度
+                    shelfLng: "",   // 经度
+                    detailAddress: "",  // 详情地址
+                    province: "",   // 省
+                    city: "",   // 市
+                    area: "",   // 区
+                    provinceCode: "",   // 省码(370000)
+                    cityCode: "",   // 市码
+                    areaCode: "",   // 区码(370214)
+                    businessLicencesImg: "",    // 营业执照图片地址
+                    idFrontImg: "", // 身份证前面地址
+                    idBackImg: "",  // 身份证背面地址
+                    permitImg: [],   // 经营许可证地址
+                    isRead: true,   // 是否阅读条款
+                    imgs: {},
+                    imgLen:0,
+                    picSign: [],
+                    isBLDialog: false,
+                    isIdDialog: false,
+                    isPeDialog: false,
+                    verify: true
+                }
+            },
+            created() {
+                if(Object.keys(this.information).length == 0) {
+                    if(sessionStorage.getItem("address")) {
+                        let address = JSON.parse(sessionStorage.getItem("address"));
+                        this.province = address.provinceLabel;
+                        this.provinceCode = address.provinceAdcode;
+                        this.city = address.cityLabel;
+                        this.cityCode = address.cityAdcode;
+                        this.area = address.areaLabel;
+                        this.areaCode = address.areaAdcode;
+                    }
+                    if(sessionStorage.getItem("detailAddress") && sessionStorage.getItem("shelfLng") && sessionStorage.getItem("shelfLat")) {
+                        this.detailAddress = sessionStorage.getItem("detailAddress");
+                        this.shelfLng = sessionStorage.getItem("shelfLng");
+                        this.shelfLat = sessionStorage.getItem("shelfLat");
+                    }
+                }else {
+                    this.shopName = this.information.shopName;
+                    this.shelfOwnerName = this.information.shelfOwnerName;
+                    this.mobile = this.information.mobile;
+                    this.province = this.information.province;
+                    this.provinceCode = this.information.provinceCode;
+                    this.city = this.information.city;
+                    this.cityCode = this.information.cityCode;
+                    this.area = this.information.area;
+                    this.areaCode = this.information.areaCode;
+                    this.detailAddress = this.information.detailAddress;
+                    this.shelfLng = this.information.shelfLng;
+                    this.shelfLat = this.information.shelfLat;
+                    this.businessLicencesImg = this.information.businessLicencesImg;
+                    this.idFrontImg = this.information.idFrontImg;
+                    this.idBackImg = this.information.idBackImg;
+                    this.permitImg = this.information.permitImg.split(",");
+                }
+            },
+            methods: {
+
+                // 提交申请
+                submit() {
+                    if(!this.verify) {
+                        return poper("请勿重复提交");
+                    }
+                    let config = {
+                        shopName: this.shopName,    // 小脉部名称
+                        organId: this.organId,   // 社群id
+                        shelfOwnerName: this.shelfOwnerName,    // 小脉部店主名
+                        mobile: this.mobile,    // 店主手机
+                        shelfLat: this.shelfLat,    // 维度 
+                        shelfLng: this.shelfLng,    // 经度 
+                        detailAddress: this.detailAddress,  // 详情地址 
+                        province: this.province,    // 省 
+                        city: this.city,    // 市 
+                        area: this.area,    // 区 
+                        provinceCode: this.provinceCode,    // 省码(370000) 
+                        cityCode: this.cityCode,    // 市码 
+                        areaCode: this.areaCode,    // 区码(370214) 
+                        businessLicencesImg: this.businessLicencesImg,  // 营业执照图片地址
+                        idFrontImg: this.idFrontImg,    // 身份证前面地址
+                        idBackImg: this.idBackImg,  // 身份证背面地址
+                        permitImg: this.permitImg.toString()  // 经营许可证地址
+                    }
+                    if(this.businessLicencesImg === '') {
+                        return poper("请上传营业执照图片");
+                    }
+                    if(config.idFrontImg === '') {
+                        return poper("请上传营业执照图片");
+                    }
+                    if(config.idBackImg === '') {
+                        return poper("请上传身份证图片");
+                    }
+                    if(config.shelfOwnerName === '') {
+                        return poper("请输入联系人");
+                    }
+                    if(!(/^1[3456789]\d{9}$/.test(this.mobile) &&  this.mobile.length == 11)) {
+                        return poper("请输入联系电话");
+                    }
+                    if(config.province === '' || config.city === '' || config.area === '' || config.provinceCode === '' || config.cityCode === '' || config.areaCode === '' || config.detailAddress === '' || config.shelfLat === '' || config.shelfLng === '') {
+                        return poper("请选择联系地址");
+                    }
+                    var url;
+                    if(this.review == true) {
+                        url = "/applyShop/reOpeningShop";
+                    }else {
+                        url = "/applyShop/register";
+                    }
+                    axios.post(url, config).then(res => {
+                        if(res.data.errorCode == 0) {
+                            sessionStorage.removeItem("address");
+                            sessionStorage.removeItem("detailAddress");
+                            sessionStorage.removeItem("shelfLng");
+                            sessionStorage.removeItem("shelfLat");
+                            this.verify = false;
+                            window.location.href = "/applyShop/status?type=sussess";
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    }).catch((err) => {
+                        console.error(err);
+                    });
+                },
+                // 选择联系地址
+                selectAddress() {
+                    window.location.href = "/applyShop/selectArea/" + this.organId + "/" + this.shopName;
+                },
+                changeBLDialog() {
+                    this.isBLDialog ? this.isBLDialog = false : this.isBLDialog = true;
+                },
+                changeIdDialog() {
+                    this.isIdDialog ? this.isIdDialog = false : this.isIdDialog = true;
+                },
+                changePeDialog() {
+                    this.isPeDialog ? this.isPeDialog = false : this.isPeDialog = true;
+                },
+                // 切换是否阅读状态
+                toggleRead() {
+                    this.isRead ? this.isRead = false : this.isRead = true;
+                },
+                // 上传营业执照
+                uploadBusinessLicencesImg(e) {
+                    if(!this.$refs.blinputer.files[0].size) return;
+                    let files = this.$refs.blinputer.files[0];
+                    let filesSize = files.size;
+                    let isImg = files.type == "image/jpeg" || files.type == "image/png" || files.type == "image/jpg";
+                    if(!isImg) {
+                        return poper("请上传图片");
+                    }
+                    if(filesSize > (limitNum*1024*1024)) {
+                        return poper(`请选择${limitNum}M以内的图片！`);
+                    }
+                    let imgType = files.type.substring(6);
+                    var timestamp = new Date().getTime();
+                    let config = [];
+                    config[0] = {
+                        length: filesSize,
+                        type: "/shop/apply",
+                        uri: timestamp + "." + imgType
+                    }
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        let data = res.data.data[0];
+                        let formData = new FormData(); 
+                        formData.append("policy", data.policy);  
+		                formData.append("signature", data.signature); 
+                        formData.append('file',files);
+                        this.uploadImg(data,formData).then(results => {
+                            this.businessLicencesImg = results.url;
+                        });
+                    });
+                },
+                // 删除营业执照照片
+                delBusinessLicencesImg() {
+                    this.businessLicencesImg = "";
+                },
+                // 上传身份证正面照片
+                uploadIdFrontImg(e) {
+                    if(!this.$refs.idFinputer.files[0].size) return;
+                    let files = this.$refs.idFinputer.files[0];
+                    let filesSize = files.size;
+                    let isImg = files.type == "image/jpeg" || files.type == "image/png" || files.type == "image/jpg";
+                    if(!isImg) {
+                        return poper("请上传图片");
+                    }
+                    if(filesSize > (limitNum*1024*1024)) {
+                        return poper(`请选择${limitNum}M以内的图片！`);
+                    }
+                    let imgType = files.type.substring(6);
+                    let timestamp = new Date().getTime();
+                    let config = [];
+                    config[0] = {
+                        length: filesSize,
+                        type: "/shop/apply",
+                        uri: timestamp + "." + imgType
+                    }
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        let data = res.data.data[0];
+                        let formData = new FormData(); 
+                        formData.append("policy", data.policy);  
+		                formData.append("signature", data.signature); 
+                        formData.append('file',files);
+                        this.uploadImg(data,formData).then(results => {
+                            this.idFrontImg = results.url;
+                        });
+                    });
+                },
+                // 删除身份证正面照片
+                delIdFrontImg() {
+                    this.idFrontImg = "";
+                },
+                // 上传身份证反面照片
+                uploadIdBackImg(e) {
+                    if(!this.$refs.idBinputer.files[0].size) return;
+                    let files = this.$refs.idBinputer.files[0];
+                    let filesSize = files.size;
+                    let isImg = files.type == "image/jpeg" || files.type == "image/png" || files.type == "image/jpg";
+                    if(!isImg) {
+                        return poper("请上传图片");
+                    }
+                    if(filesSize > (limitNum*1024*1024)) {
+                        return poper(`请选择${limitNum}M以内的图片！`);
+                    }
+                    let imgType = files.type.substring(6);
+                    var timestamp = new Date().getTime();
+                    let config = [];
+                    config[0] = {
+                        length: filesSize,
+                        type: "/shop/apply",
+                        uri: timestamp + "." + imgType
+                    }
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        let data = res.data.data[0];
+                        let formData = new FormData(); 
+                        formData.append("policy", data.policy);  
+		                formData.append("signature", data.signature); 
+                        formData.append('file',files);
+                        this.uploadImg(data,formData).then(results => {
+                            this.idBackImg = results.url;
+                        });
+                    });
+                },
+                // 删除身份证反面照片
+                delIdBackImg() {
+                    this.idBackImg = "";
+                },
+                // 上传其他经营资格证
+                uploadPermitImg(e) {
+                    if(!this.$refs.permitinputer.files[0].size) return;
+                    let files = this.$refs.permitinputer.files;
+                    let filesSize = files.size;
+                    let imgLen = this.imgLen;
+                    let len = files.length + imgLen;
+                    for (let i=0; i < files.length; i++) {
+                        let file = files[i];
+                        let isImg = file.type == "image/jpeg" || file.type == "image/png" || file.type == "image/jpg";
+                        if(!isImg) {
+                            return poper("请上传图片");
+                        }
+                        if(file.size > (limitNum*1024*1024)) {
+                            return poper(`请选择${limitNum}M以内的图片！`);
+                        }
+                    }
+                    for(let i=0; i < files.length; i++) {
+                        let size = files[i].size;
+                        let imgType = files[i].type.substring(6);
+                        let timestamp = new Date().getTime();
+                        let item = {
+                            length: size,
+                            goodsCode: 9001000,
+                            type: "/shop/apply",
+                            uri: timestamp + "." + imgType
+                        }
+                        this.picSign.push(item);
+                        this.imgLen++;
+                    }
+                    this.getPicSign(files, this.picSign);
+                },
+                // 删除其它经营资格证
+                delPermitImg(index) {
+                    this.permitImg.splice(index, 1);
+                    this.imgLen = this.imgLen-1;
+                },
+
+                // 获取图片参数
+                getPicSign(files, picSign) {
+                    let config = picSign;
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        console.log(res);
+                        let data = res.data.data;
+                        if(data.length == 0) return;
+                        let forbody = Promise.resolve();
+                        for(let i = 0; i<data.length; i++) {
+                            forbody = forbody.then(res=>{
+                                return this.uploadImgs(i, data, files);
+                            })
+                        }
+                    })
+                },
+                
+                // 上传图片
+                uploadImgs(i, data, files) {
+                    let formData = new FormData();
+                    formData.append("policy", data[i].policy);
+                    formData.append("signature", data[i].signature);
+                    formData.append("file", files[i]);
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+                            let url = data[i].host + data[i].uri;
+							this.permitImg.push(url);
+							formData.delete("policy");
+							formData.delete("signature");
+							formData.delete("file");
+                            if(i == data.length-1) {
+                                this.picSign = [];
+                                console.log("上传完毕");
+                                console.log(this.permitImg);
+                            }
+                            resolve('ok:'+i);
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+                },
+    
+                // 上传照片
+                uploadImg(data, formData) {
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data.bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+                            let url = data.host + data.uri;
+                            formData.delete("policy");
+                            formData.delete("signature");
+                            formData.delete("file");
+                            resolve({url});
+                        }, err => {
+                            reject({errorCode: 1});
+                        })
+                    });
+                },
+
+                // 上传其它经营资格证
+                uploadPermitImgs(data, formData) {
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data.bucketName;
+                    axios.post(url, formData, config).then(res => {
+                        console.log(res);
+                        console.log(data);
+                        this.permitImg[0] = data.host + data.uri;
+                        
+                    }, err => {
+                        console.log(err);
+                    })
+                },
+
+            }
+        })
+    </script>
+</body>
+</html>

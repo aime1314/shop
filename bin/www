@@ -1,0 +1,123 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+// global声明全局变量，全局都可以直接调用，详见http://nodejs.cn/api/globals.html
+global.formObj = {
+WAPANDROID:'462cc7fa829d8e1f81c7164493360415',
+WAPIOS:'1f874c83e7b8be3732d096ea6e812d31',
+WEIXIN:'39ab41b11ea474382d8803f85d1dbece',
+WXXCX:'de43c118b9cfc862fca71716a9de2931',
+QMXCX:'800db7d26d6a587ade25c818222af849',
+PC:'f20fd60a7f647de0cbe5f45379c7d9bb'
+};
+// 测试地址
+global.target = "http://test.service.qunmai.com:8888";
+global.from = formObj.PC;
+global.decryptKey = "QSUyNiolNUVzMSUyOCUyOQ==" //密钥
+global.WATCH_APPID = 'wx49121a2ce7192dc6';
+global.WATCH_LOGIN_KEY = "NDkxMjFhMmNlNzE5MmRjNg==";
+global.WATCH_LOGIN_HOST = "https://webauth.qunmai.com";
+global.APP_RUN_MOD = '0';
+global.APP_RUN_PORT = '65503';
+global.APP_ERR_PAGE = '/appCorrelation/error';
+global.IM_KEY = "x18ywvqfxcbuc";
+let args = process.argv; // 生产环境配置
+if (args[2] === 'master') {
+    WATCH_APPID = 'wx49121a2ce7192dc6';
+    // target = "http://private.service.qunmai.com";
+    target = "https://service.qunmai.com";
+    decryptKey = "QSUyNiolNUVzMSUyOCUyOQ=="; //密钥
+    APP_RUN_MOD = '1';
+    IM_KEY = "x4vkb1qpxzfck"
+}
+
+var app = require('../app');
+var debug = require('debug')('hxjappweb:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || APP_RUN_PORT);
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port, () => {
+    console.log('服务器运行在:');
+    console.log(
+      `    - Local:  http://localhost:${port}`
+    )
+});
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string' ?
+        'Pipe ' + port :
+        'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string' ?
+        'pipe ' + addr :
+        'port ' + addr.port;
+    debug('Listening on ' + bind);
+}

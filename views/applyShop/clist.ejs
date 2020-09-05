@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <style>
+        .content {
+            height: 100%;
+        }
+        .tab-list {
+            display: flex;
+            justify-content: center;
+            height: 88px;
+            background: #fff;
+        }
+        .tab-list .item {
+            flex: 1;
+            height: 100%;
+            font-size: 32px;
+            color: #797A7A;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .tab-list .item.active {
+            color: #3872E8;
+            position: relative;
+        }
+        .tab-list .item.active::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 73px;
+            height: 3px;
+            background: #3872E8;
+        }
+        .scroll-list {
+            padding-top: 10px;
+            font-size: 34px;
+            height: calc(100% - 98px);
+            overflow-y: scroll;
+        }
+        .scroll-list .item {
+            background: #fff;
+            height: 120px;
+            border-bottom: 1px solid #f5f7f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+        .scroll-list .item .item-l {
+            font-size: 34px;
+            color: #2C2C2C;
+        }
+        .scroll-list .item .item-l .desc {
+            margin-top: 12px;
+            font-size: 28px;
+            color: #FF0000;
+        }
+        .scroll-list .item .item-r .btn-primary {
+            width: 198px;
+            height: 70px;
+            background: #3872E8;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .scroll-list .item .item-r .btn-default {
+            width: 198px;
+            height: 70px;
+            border: 1px solid #797A7A;
+            color: #797A7A;
+            border-radius: 6px;
+            font-size: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .scroll-list .item .item-r .btn-orange {
+            width: 198px;
+            height: 70px;
+            color: #FF8D23;
+            border-radius: 6px;
+            font-size: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .scroll-list .no-data {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #797A7A;
+            font-size: 28px;
+        }
+        .js_dialog .mask {
+            position: absolute;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+        }
+        .js_dialog .dialog {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            -o-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            z-index: 1100;
+            border-radius: 3px;
+        }
+        .js_dialog .dialog .bd {
+            font-size: 34px;
+            color: #2C2C2C;
+            text-align: center;
+            padding: 76px 30px 30px;
+        }
+        .js_dialog .dialog .bd div {
+            margin-bottom: 20px;
+        }
+        .js_dialog .dialog .bd .gray {
+            color: #C8CACD;
+        }
+        .js_dialog .dialog .bd .green {
+            color: #09BB07;
+        }
+        .js_dialog .dialog-btn {
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: #3872E8;
+            border-top: 1px solid #EAEAEA;
+        }
+    </style>
+    <script src="/javascripts/phone.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="tab-list">
+                        <div class="item" :class="{active: currentTab == 0}" @click="changeTab(0)">待开通</div>
+                        <div class="item" :class="{active: currentTab == 1}" @click="changeTab(1)">未达标</div>
+                        <div class="item" :class="{active: currentTab == 2}" @click="changeTab(2)">审核中</div>
+                    </div>
+                    <div class="scroll-list">
+                        <template v-if="currentTab == 0">
+                            <template v-if="list.length > 0">
+                            <div class="item" v-for="(item, index) in list">
+                                <div class="item-l">
+                                    <div class="name">{{ item.organizationName }}</div>
+                                    <div v-if="item.organizationStatus == 2" class="desc">申请失败</div>
+                                </div>
+                                <div class="item-r">
+                                    <div v-if="item.organizationStatus == 1" class="btn-primary" @click="applyFor(item.id, item.organizationName)">立即申请</div>
+                                    <div  v-if="item.organizationStatus == 2" class="btn-default" @click="checkDetail(item)">查看详情</div>
+                                </div>
+                            </div>
+                            </template>
+                            <template v-else>
+                                <div class="no-data">暂无可开通的小脉部</div>
+                            </template>
+                        </template>
+                        <template v-if="currentTab == 1">
+                            <template v-if="list2.length > 0">
+                                <div class="item" v-for="(item, index) in list2">
+                                    <div class="item-l">
+                                        <div class="name">{{ item.organizationName }}</div>
+                                    </div>
+                                    <div class="item-r">
+                                        <div class="btn-default" 
+                                        :data-memberCount="item.memberCount"
+                                        :data-realMemberCount="item.realMemberCount"
+                                        :data-newMemberCount="item.newMemberCount"
+                                        :data-realNewMemberCount="item.realNewMemberCount"
+                                        @click="checkReason($event)">查看原因</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="no-data">暂无可审核的小脉部</div>
+                            </template>
+                        </template>
+                        <template v-if="currentTab == 2">
+                            <template v-if="list3.length > 0">
+                                <div class="item" v-for="(item, index) in list3">
+                                    <div class="item-l">
+                                        <div class="name">{{ item.shopName }}</div>
+                                    </div>
+                                    <div class="item-r">
+                                        <div class="btn-orange">审核中</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="no-data">暂无审核中的小脉部</div>
+                            </template>
+                        </template>
+                    </div>
+                </main>
+                <template v-if="isReason">
+                    <div class="js_dialog">
+                        <div class="mask"></div>
+                        <div class="dialog">
+                            <div class="bd">
+                                <div>社群总人数未达标 <span class="gray">{{realmembercount}}</span><span class="green">/{{membercount}}</span></div>
+                                <div>纳新人数未达标 <span class="gray">{{realnewmembercount}}</span><span class="green">/{{newmembercount}}</span></div>
+                            </div>
+                            <div class="dialog-btn" @click="closeReason">朕知道了</div>
+                        </div>
+                    </div>
+                </template>
+                
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script>
+
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    list: [],
+                    list2: [],
+                    list3: [],
+                    islist2: false,
+                    islist3: false,
+                    index: 0,
+                    currentTab: `<%- type %>`,
+                    isReason: false,
+                    membercount: "",
+                    realmembercount: "",
+                    newmembercount: "",
+                    realnewmembercount: ""
+                }
+            },
+            created() {
+                this.initData();
+            },
+            methods: {
+                initData() {
+                    if(this.currentTab == 0) {
+                        this.getOrganShop();
+                    }else if(this.currentTab == 1) {
+                        this.getUnFinishedOrgan();
+                    }else if(this.currentTab == 2) {
+                        this.getShop();
+                    }
+                },
+                getOrganShop() {
+                    axios.get("/applyShop/getOrganShop").then(res => {
+                        if(res.data.errorCode == 0) {
+                            this.list = res.data.data;
+                        }
+                    });
+                },
+                getUnFinishedOrgan() {
+                    axios.get("/applyShop/getUnFinishedOrgan").then(res => {
+                        if(res.data.errorCode == 0) {
+                            this.list2 = res.data.data;
+                            this.islist2 = true;
+                        }
+                    });
+                },
+                getShop() {
+                    axios.get("/applyShop/getShop").then(res => {
+                        if(res.data.errorCode == 0) {
+                            this.list3 = res.data.data;
+                            this.islist3 = true;
+                        }
+                    });
+                },
+                // 立即申请
+                applyFor(id,name) {
+                    window.location.href = "/applyShop/regform?id="+id+"&shopname="+name;
+                },
+                changeTab(type) {
+                    if(this.currentTab == type) return;
+                    window.location.replace(`/applyShop/clist?type=${type}`);
+                },
+                // 查看原因
+                checkReason(e) {
+                    this.membercount = e.target.dataset.membercount;
+                    this.realmembercount = e.target.dataset.realmembercount;
+                    this.newmembercount = e.target.dataset.newmembercount;
+                    this.realnewmembercount = e.target.dataset.realnewmembercount;
+                    this.isReason = true;
+                },
+                // 关闭查看原因弹窗
+                closeReason() {
+                    this.isReason = false;
+                },
+                // 查看详情
+                checkDetail(item) {
+                    console.log(item);
+                    window.location.href = "/applyShop/status?type=error&shopId=" + item.id + "&shopname=" + item.organizationName
+                }
+            }
+        })
+    </script>
+</body>
+</html>

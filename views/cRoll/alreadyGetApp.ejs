@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>已被领取</title>
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body,html{
+            background:#fff;
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .header{
+            width: 1.35rem;
+            height: 1.35rem;
+            margin: 0 auto;
+            margin-top: 2.46rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .header img{
+            display: block;
+            width: 100%;
+            height:100%;
+        }
+        .section{
+            width: 100%;
+            text-align: center;
+        }
+        .section p:nth-child(1){
+            padding-top: 0.36rem;
+            height:0.33rem;
+            font-size:0.35rem;
+            color:rgba(0,0,0,1);
+            line-height:0.36rem;
+        }
+        .section p:nth-child(2){
+            padding-top: 0.5rem;
+            height:0.24rem;
+            font-size:0.24rem;
+            color:rgba(152,158,171,1);
+            line-height:0.36rem;
+        }
+        .footer{
+            width: 100%;
+            position: fixed;
+            bottom:0.65rem;
+        }
+        .footer p {
+            width:2.25rem;
+            height:0.65rem;
+            background:rgba(62,140,249,1);
+            border-radius:5px;
+            color:#fff;
+            font-size: 0.3rem;
+            text-align:center;
+            line-height: 0.65rem;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="/images/ico-ok.png" alt="">
+    </header>
+    <section class="section">
+        <p>该卡券已被领取！</p>
+        <p>请卡主进入“我的卡券”查看并使用</p>
+    </section>
+    <footer class="footer">
+        <p onclick="goBack()">返回</p>
+    </footer>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/wxcommon.js"></script>
+    <!-- <script>
+        window.onload = function(){
+            var system = `<%- sysType %>`
+            console.log("打印：",JSON.parse(system))
+            try {
+                var version = JSON.parse(system)
+                if(version.app == "IOS"){
+                    $(".footer").css("bottom", "1.65rem")
+                }
+            } catch (error) {
+                
+            }
+            
+            
+        }
+    </script> -->
+    <script>
+        function goBack(){
+            var system = `<%- sysType %>`
+            var obj = {"methodType":"invoke","nativeFlag":"closeWebView"}
+            try {
+                var version = JSON.parse(system)
+                if(version.app == "IOS"){
+                    try{
+                        window.webkit.messageHandlers.getAppMethod.postMessage(obj)
+                    }catch(e){
+                    }
+                }else if(version.app == "ANDROID"){
+                    try{
+                        qmWebViewListener.getAppMethod(JSON.stringify(obj));
+                    }catch(e){
+                    }
+                }
+            } catch (error) {
+                
+            }
+            
+        }
+    </script>
+</body>
+</html>

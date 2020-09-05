@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel="stylesheet" href="/stylesheets/order.css">
+    <script src="/javascripts/phone.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="top_bar">
+                		<div class="top_bar_at bar_w" @click="toggleTab(0)" :class="{top_bar_bor: currentTab == 0}">全部</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(1)" :class="{top_bar_bor: currentTab == 1}">待付款</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(2)" :class="{top_bar_bor: currentTab == 2}">待发货</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(3)" :class="{top_bar_bor: currentTab == 3}">待收货</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(4)" :class="{top_bar_bor: currentTab == 4}">已完成</div>
+                		<div class="top_bar_at bar_w" @click="toggleTab(5)" :class="{top_bar_bor: currentTab == 5}">已关闭</div>
+                	</div>
+                	<div class="order_list">
+                		<!--a list-->
+						<div class="comm_box">
+							<div class="order_top">
+								<div class="order_shoptit"><img class="oreder_icon" src="/images/shop_order.png">【青岛帅哥俱乐部】的小脉部<img class="oreder_arrows" src="/images/arrows.png"></div>
+								<div class="order_state"><span class="order_since">自提</span>退款申请中</div>
+							</div>
+							<div class="comm_inf">
+								<img class="comm_pic" src="/images/touristsHead.png" />
+								<div class="comm_inf_box">
+									<div class="order_box">
+										<div class="comm_tit">精品烟台红富士苹果2个(大果)</div>
+										<div class="comm_num"><span>￥</span>99.00</div>
+									</div>	
+									<div class="comm_num2">
+										<div class="comm_num_box">50~80MM;10斤</div>
+										<div class="comm_num_box">x2</div>
+									</div>
+									<p class="deduction_num">脉粒抵扣:- ¥10</p>
+								</div>
+							</div>
+							<div class="comm_inf">
+								<img class="comm_pic" src="/images/touristsHead.png" />
+								<div class="comm_inf_box">
+									<div class="order_box">
+										<div class="comm_tit">红心猕猴桃一盒</div>
+										<div class="comm_num"><span>￥</span>99.00</div>
+									</div>	
+									<div class="comm_num2">
+										<div class="comm_num_box">小盒;2斤装</div>
+										<div class="comm_num_box">x2</div>
+									</div>
+									<p class="deduction_num">脉粒抵扣:- ¥10</p>
+								</div>
+							</div>
+							<div class="order_return">申请退款成功</div>
+							<div class="order_price">总价 ¥ 297.00, 脉粒抵扣 ¥ 15.00 实付款 ¥ <span>282</span></div>
+							<div class="order_ope">
+								<div class="order_btn orage">确认收货</div>
+								<div class="order_btn">售后详情</div>
+								<div class="order_btn">订单详情</div>	
+							</div>
+						</div>
+						<!--a list end-->
+						<div class="comm_box">
+							<div class="order_top">
+								<div class="order_time">下单时间：2020-04-09 09:29</div>
+								<div class="order_state">退款申请中</div>
+							</div>
+							<div class="comm_inf">
+								<img class="comm_pic" src="/images/touristsHead.png" />
+								<div class="comm_inf_box">
+									<div class="order_box">
+										<div class="comm_tit">精品烟台红富士苹果2个(大果)</div>
+										<div class="comm_num"><span>￥</span>99.00</div>
+									</div>	
+									<div class="comm_num2">
+										<div class="comm_num_box">50~80MM;10斤</div>
+										<div class="comm_num_box">x2</div>
+									</div>
+									<p class="deduction_num">脉粒抵扣:- ¥10</p>
+								</div>
+							</div>
+							<div class="order_price">总价 ¥ 297.00, 脉粒抵扣 ¥ 15.00 实付款 ¥ <span>282</span></div>
+							<div class="order_ope">
+								<div class="order_btn orage">确认收货</div>
+								<div class="order_btn">售后详情</div>
+								<div class="order_btn">订单详情</div>	
+							</div>
+						</div>
+					</div>
+					<!--操作提示-->
+                    <div class="js_dialog" id="iosDialog1" style="display: none;">
+			            <div class="weui-mask"></div>
+			            <div class="weui-dialog">
+			                <div class="weui-dialog__bd">确定要取消此订单吗？</div>
+			                <div class="weui-dialog__ft">
+			                    <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+			                    <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+			                </div>
+			            </div>
+			        </div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					shopId: `<%- shopId %>`,
+					shelfId: `<%- shelfId %>`,
+					currentTab: 0
+				}
+			},
+			created() {
+				console.log(this.shopId);
+				console.log(this.shelfId);
+				this.initData();
+			},
+			methods: {
+				initData() {
+					let opt = {method: "POST", url: "/mall/getOrderList", data:{}};
+					axios(opt).then(res => {
+						console.log(res);
+					});
+				},
+				toggleTab(type) {
+					this.currentTab = type;
+					console.log(this.currentTab);
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.create_tit{
+    		padding: 0px 24px;
+            height: 96px;
+            line-height: 96px;
+            text-align: center;
+            background: #ffffff;
+        }
+        .create_tit span{
+        	font-size: 29px;
+        	color: #3086DE;
+        }
+        .coop_top{
+    		padding: 33px 24px 13px 24px;
+    		display: flex;
+    		justify-content: space-between;
+    		font-size: 28px;
+    		color: #797A7A;
+    	}
+    	.blue{
+    		color: #3086DE;
+    	}
+    	.sele_wlbox{
+    		padding: 0px 24px;
+    		height: 88px;
+    		background: #FFFFFF;
+    		border-bottom: 1px solid #f7f6f9;
+    		display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    	}
+    	.sele_wlbox span{
+    		font-size: 32px;
+    		color: #2c2c2c;
+    	}
+    	.sele_wlbox img{
+    		width: 33px;
+    		height: 30px;
+    	}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="coop_top">
+                    	<span>全部物流</span>
+                    </div>
+                    <template  v-for="(item, index) in list" :key="index">
+                        <div class="sele_wlbox" v-if="item.isCommonlyUse == 1" @click="changeDelivery(index)"><span>{{item.deliveryName}}</span></div>
+                    </template>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    list: []
+                }
+            },
+            created() {
+                this.getDeliveryCompany();
+            },
+            methods: {
+                // 获取物流列表
+                getDeliveryCompany() {
+                    axios.get("/shop/getDeliveryCompany").then(res => {
+                        console.log(res);
+                        this.list = res.data.data;
+                    });
+                },
+                // 选择物流
+                changeDelivery(index) {
+                    sessionStorage.setItem("deliveryData", JSON.stringify(this.list[index]));
+                    window.history.go(-1);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

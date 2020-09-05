@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<meta name="referrer" content="no-referrer" />
+	<title><%= title %></title>
+	<link rel="stylesheet" href="/stylesheets/base.css" />
+	<link rel="stylesheet" href="/stylesheets/order.css" />
+	<link rel="stylesheet" href="/stylesheets/mall.css" />
+	<script src="/javascripts/phone.js"></script>
+	<style>
+		.cart_top {
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 100;
+			width: 100%;
+			height: 74px;
+			line-height: 74px;
+			text-align: right;
+			background: #ffffff;
+			border-top: 1px solid #f7f6f9;
+		}
+
+		.cart_top span {
+			padding-right: 24px;
+			font-size: 30px;
+			color: #2c2c2c;
+		}
+
+		.cart_box {
+			/* margin-top: 88px; */
+			/* margin-bottom: 200px; */
+			padding-top: 88px;
+			padding-bottom: 200px;
+			height: 100%;
+			box-sizing: border-box;
+		}
+
+		.comm_inf {
+			align-items: center;
+			border-bottom: 1px solid #f7f6f9;
+		}
+
+		.comm_num_box {
+			margin-top: 14px;
+			margin-bottom: 13px;
+		}
+
+		.cart_bor {
+			float: left;
+			margin-top: 10px;
+			margin-bottom: 5px;
+			padding: 9px 16px;
+			border: 1px solid #4dc179;
+			border-radius: 30px;
+			font-size: 22px;
+			color: #4dc179;
+		}
+
+		.cart_bor img {
+			margin-left: 12px;
+			width: 20px;
+			height: 20px;
+		}
+
+		.comm_num2 {
+			float: left;
+			width: 100%;
+		}
+
+		.comm_num {
+			line-height: 48px;
+			font-size: 26px;
+			color: #ff6612;
+		}
+
+		.spe_num {
+			width: 168px;
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.spe_num span {
+			display: block;
+			width: 48px;
+			height: 48px;
+			line-height: 48px;
+			background: #f4f5f9;
+			font-size: 32px;
+		}
+
+		.spe_num input {
+			width: 72px;
+			height: 48px;
+			line-height: 48px;
+			text-align: center;
+			font-size: 28px;
+		}
+
+		.order_top {
+			border-bottom: 1px solid #f7f6f9;
+		}
+
+		.comm_inf_box {
+			width: 67%;
+		}
+
+		.tui-checkbox.checked {
+			background: #ff6a29;
+		}
+
+		.tui-checkbox {
+			width: 34px;
+			height: 34px;
+			background-color: #ffffff;
+			border: solid 1px #dddddd;
+			-webkit-border-radius: 50%;
+			border-radius: 50%;
+			margin-right: 27px;
+			font-size: 0.8rem;
+			position: relative;
+			display: inline-block;
+			vertical-align: top;
+			cursor: default;
+			-webkit-appearance: none;
+			-webkit-user-select: none;
+			user-select: none;
+			-webkit-transition: background-color ease 0.1s;
+			transition: background-color ease 0.1s;
+		}
+
+		.tui-checkbox.checked::after {
+			content: "";
+			top: 8px;
+			left: 7px;
+			position: absolute;
+			background: transparent;
+			border: #fff solid 2px;
+			border-top: none;
+			border-right: none;
+			height: 8px;
+			width: 16px;
+			-moz-transform: rotate(-45deg);
+			-ms-transform: rotate(-45deg);
+			-webkit-transform: rotate(-45deg);
+			transform: rotate(-45deg);
+		}
+
+		.cart_foot {
+			position: fixed;
+			bottom: 100px;
+			left: 0;
+			width: 100%;
+			height: 88px;
+			background: #ffffff;
+			border-bottom: 1px solid #e5e8eb;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.cart_foot_edi {
+			position: fixed;
+			bottom: 100px;
+			left: 0;
+			width: 100%;
+			height: 88px;
+			background: #ffffff;
+			border-bottom: 1px solid #e5e8eb;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.cart_foot_all {
+			padding-left: 24px;
+			width: 110px;
+			font-size: 30px;
+			color: #2c2c2c;
+		}
+
+		.cart_foot_all input {
+			margin-right: 6px;
+		}
+
+		.cart_foot_comb {
+			width: 330px;
+			text-align: right;
+			font-size: 28px;
+			color: #626262;
+		}
+
+		.black {
+			color: #2c2c2c;
+		}
+
+		.cart_foot_comb span {
+			padding-left: 5px;
+			font-size: 35px;
+			color: #ff6612;
+		}
+
+		.cart_foot_btn {
+			width: 224px;
+			height: 88px;
+			line-height: 88px;
+			text-align: center;
+			background: #ff6a29;
+			font-size: 35px;
+			color: #ffffff;
+		}
+
+		.foot_red {
+			background: #f85443;
+		}
+
+		.cart_btn {
+			width: 100%;
+			height: 99px;
+			line-height: 99px;
+			text-align: center;
+			background: #ff6a29;
+			font-size: 42px;
+			color: #ffffff;
+		}
+
+		.no-cart {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.no-cart .item {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+		}
+		.no-cart .item img {
+			width: 188px;
+			height: 188px;
+			margin-bottom: 34px;
+		}
+		.no-cart .item .title {
+			font-size: 36px;
+			color: #6A6C72;
+			text-align: center;
+			width: 100%;
+			margin-bottom: 26px;
+		}
+		.no-cart .item .desc {
+			font-size: 25px;
+			color: #C8CACD;
+			text-align: center;
+			width: 100%;
+		}
+		.content {
+			height: 100%;
+		}
+
+	</style>
+</head>
+<body>
+    <div id="app">
+		<div class="page" v-cloak>
+			<div class="wrapper">
+				<main class="content">
+					<div class="cart_top" v-if="Object.keys(information).length > 0">
+						<span v-if="isShowdel" @click="bindHideDel">{{ isShowdel ? "完成" : "编辑" }}</span>
+						<span v-else @click="bindShowDel">{{ isShowdel ? "完成" : "编辑" }}</span>
+					</div>
+					<div class="cart_box">
+						<template v-if="isShowCart">
+							<template v-for="(item, index) in information.cartSellerDtoList" :key="index">
+								<div class="comm_box">
+									<div class="order_top">
+										<div class="order_shoptit">
+											<input :value="item.isChecked == 1" type="checkbox" @change="checkedGroup(item)"
+												class="tui-checkbox" :class="{checked: item.isChecked == 1}" />
+											<img class="oreder_icon" src="/images/shop_order.png" />
+											{{ information.shopName }}
+										</div>
+									</div>
+									<div class="comm_inf" v-for="(citem, cindex) in item.cartGoodsDtoList" :key="cindex">
+										<input :checked="citem.isChecked == 1" type="checkbox"
+											@change="checkedGoods(citem, index, item.shelfId)" class="tui-checkbox"
+											:class="{checked: citem.isChecked == 1}" />
+										<img class="comm_pic" :src="citem.goodsPic + '!/both/152x152'" />
+										<div class="comm_inf_box">
+											<div class="comm_tit">{{ citem.goodsName }}</div>
+											<div class="comm_num_box" v-if="!isShowdel">
+												{{ citem.goodsAttr }}
+											</div>
+											<div class="cart_bor" v-if="isShowdel" @click="addCart(citem, item.shelfId)">
+												{{ citem.goodsAttr }}<img src="/images/under_greenicon.png" />
+											</div>
+											<div class="comm_num2">
+												<div class="comm_num">￥{{ citem.goodsPrice }}</div>
+												<div class="spe_num">
+													<span class="spe_num_j" @click="minusCount(citem, item)">-</span>
+													<input type="number" v-model="citem.goodsCount" />
+													<span class="spe_num_j num_ja" @click="addCount(citem, item)">+</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</template>
+							<div class="no-cart" v-if="Object.keys(information).length == 0 && isShowCart">
+								<div class="item">
+									<img src="/images/icon_serch.png" >
+									<div class="title">购物车是空的</div>
+									<div class="desc">要不，去小脉部买点什么吧~</div>
+								</div>
+							</div>
+						</template>
+					</div>
+					<div class="cart_foot" >
+						<div class="cart_foot_all" v-if="!isShowdel">
+							<input name="checkbox" :value="isChecked == 1" type="checkbox" @change="checkedAllGoods"
+								class="tui-checkbox" :class="{checked: isChecked == 1}" />
+							全选
+						</div>
+						<div class="cart_foot_comb">合计<span>¥{{information.totalPrice || 0}}</span></div>
+						<div class="cart_foot_btn" @click.stop="cartSubmit">去结算({{information.goodsCount || 0}})</div>
+					</div>
+					<div class="cart_foot_edi" v-if="isShowdel">
+						<div class="cart_foot_all">
+							<input name="checkbox" :value="isChecked == 1" type="checkbox" @change="checkedAllGoods" class="tui-checkbox" :class="{checked: isChecked == 1}" />
+							全选
+						</div>
+						<div class="cart_foot_comb black" @click="confirmCheckDel(1)">清空购物车</div>
+						<div class="cart_foot_btn foot_red" @click="confirmCheckDel(2)">删除</div>
+					</div>
+				</main>
+				<footer class="b-tabbar">
+					<div class="b-tabbar-item" @click="toPage('/mall/index/' + shopId)">
+						<div class="b-tabbar-bd">
+							<div class="b-tabbar-icon">
+								<img src="/images/ic_tab_home_d.png" />
+							</div>
+							<div class="b-tabbar-label">小脉部</div>
+						</div>
+					</div>
+					<div class="b-tabbar-item active">
+						<div class="b-tabbar-bd">
+							<div class="b-tabbar-icon">
+								<span v-if="goodsCount != 0">{{goodsCount}}</span>
+								<img src="/images/ic_tab_cart_a.png" />
+							</div>
+							<div class="b-tabbar-label">购物车</div>
+						</div>
+					</div>
+					<div class="b-tabbar-item"  @click="toPage('/mall/orderList?shopId=' + shopId + '&shelfId=' + shelfId)">
+						<div class="b-tabbar-bd">
+							<div class="b-tabbar-icon">
+								<img src="/images/ic_tab_order_d.png" />
+							</div>
+							<div class="b-tabbar-label">本店订单</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+		<template v-if="isShowCartDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="choose_box">
+					<img class="spe_close" @click="closeAttrDialog" src="/images/close.png" />
+					<div class="product_box">
+						<img :src="shopGoodsSkuVoValue.pic + '!/both/164x164'" />
+						<div class="product_info">
+							<p class="pro_price">¥ {{ shopGoodsSkuVoValue.goodsPrice }}</p>
+							<p class="pro_inven">
+								库存 {{ shopGoodsSkuVoValue.stockNum }}件
+							</p>
+							<p class="pro_please">请选择: {{ setStr }}</p>
+							<p class="pro_ded">
+								脉粒最多抵扣
+								<span>{{ shopGoodsSkuVoValue.maiLiCount }} 元</span>
+							</p>
+						</div>
+					</div>
+					<div class="pro_spe_box" v-for="(item, index) in goodsDetail.goodsAttrWithValueVos" :key="index">
+						<div class="spe_tit">
+							<span>{{ item.goodsAttrName }}</span>
+						</div>
+						<div class="pro_spr_list">
+							<div class="spe_box" :class="{box_active : citem.isActive}"
+								v-for="(citem, cindex) in item.goodsAttributeValueList" :key="cindex"
+								@click="chooseAttr(citem, cindex, item, index)">
+								{{ citem.goodsAttrValue }}
+							</div>
+						</div>
+					</div>
+					<div class="spe_bottom">
+						<div class="cart_btn" @click="addToCart">确定</div>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script src="/javascripts/webcommon.js"></script>
+	<script>
+		window.addEventListener('pageshow', function(e) {
+            if (e.persisted) {
+                window.location.reload();
+            }
+        });
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					information: {},
+					shopId: `<%- shopId %>`,
+					shelfId: `<%- shelfId %>`,
+					isShowCart: false,
+					isShowdel: false,
+					isShowCartDialog: false,
+					goodsDetail: {},
+					shopGoodsSkuVoValue: {},
+					isChecked: false,
+					skuCode: "",
+					goodsCount: 0
+				}
+			},
+			created() {
+				this.getCartData();
+				sessionStorage.removeItem("userAddr");
+				sessionStorage.removeItem("extractDetail");
+				sessionStorage.removeItem("extractPhone");
+				sessionStorage.removeItem("remarks");
+				sessionStorage.removeItem("deliveryType");
+				sessionStorage.removeItem("invoiceData");
+				sessionStorage.removeItem("invoiceId");
+				sessionStorage.removeItem("invoiceTitle");
+			},
+			computed: {
+				setStr() {
+					let str = "";
+					if (this.goodsDetail.goodsAttrWithValueVos.length == 0) {
+						return;
+					}
+					for (
+						let i = 0;
+						i < this.goodsDetail.goodsAttrWithValueVos.length;
+						i++
+					) {
+						str +=
+							this.goodsDetail.goodsAttrWithValueVos[i].goodsAttrName + " ";
+					}
+					if (str.length > 0) {
+						str = str.substr(0, str.length - 1);
+					}
+					return str;
+				}
+			},
+			methods: {
+                // 获取购物车数据
+				getCartData() {
+					axios.get("/mall/getCartData?shopId=" + this.shopId).then(res => {
+                        if(res.data.errorCode == 0){
+                            if(res.data.data) {
+								this.isShowCart = true;
+                                this.information = res.data.data;
+								this.goodsCount = res.data.data.allGoodsCount;
+                            }else {
+								this.isShowCart = true;
+								this.information = {};
+							}
+						}
+						console.log(this.information);
+					});
+				},
+				// 全选/取消全选所有商品
+				checkedAllGoods() {
+					if(Object.keys(this.information).length == 0) return;
+					if (this.isChecked) {
+						this.isChecked = false;
+						this.checkBoxItem({shopId: this.shopId, type: 1, isCheck: 0});
+						this.information.cartSellerDtoList.find((item, index) => {
+							item.isChecked = 0;
+							item.cartGoodsDtoList.find((val, idx) => {
+								val.isChecked = 0;
+							});
+						});
+					} else {
+						this.isChecked = true;
+						this.checkBoxItem({shopId: this.shopId, type: 1, isCheck: 1});
+						this.information.cartSellerDtoList.find((item, index) => {
+							item.isChecked = 1;
+							item.cartGoodsDtoList.find((val, idx) => {
+								val.isChecked = 1;
+							});
+						});
+					}
+				},
+				// 全选/取消全选货架商品
+				checkedGroup(item) {
+					console.log(item);
+					if (item.isChecked == 1) {
+						item.isChecked = 0;
+						this.checkBoxItem({shopId: this.shopId, shelfId: item.shelfId, type: 2, isCheck: 0});
+						for (let i = 0; i < item.cartGoodsDtoList.length; i++) {
+							item.cartGoodsDtoList[i].isChecked = 0;
+						}
+					} else {
+						item.isChecked = 1;
+						this.checkBoxItem({shopId: this.shopId, shelfId: item.shelfId, type: 2, isCheck: 1});
+						for (let i = 0; i < item.cartGoodsDtoList.length; i++) {
+							item.cartGoodsDtoList[i].isChecked = 1;
+						}
+					}
+					this.handleGoodsType();
+				},
+				// 选择/取消选择商品
+				checkedGoods(citem, index, shelfId) {
+					if(citem.isChecked == 1) {
+						citem.isChecked = 0;
+						this.checkBoxItem({shopId: this.shopId, shelfId: shelfId, skuCode: citem.skuCode, type: 3, isCheck: 0});
+					}else {
+						citem.isChecked = 1;
+						this.checkBoxItem({shopId: this.shopId, shelfId: shelfId, skuCode: citem.skuCode, type: 3, isCheck: 1});
+					}
+					let cartSellerDtoList = this.information.cartSellerDtoList[index];
+					let storegoodsleg = cartSellerDtoList.cartGoodsDtoList.length;
+					let selectedleg = 0;
+					for (
+						let i = 0;
+						i < cartSellerDtoList.cartGoodsDtoList.length;
+						i++
+					) {
+						if (cartSellerDtoList.cartGoodsDtoList[i].isChecked == 1) {
+							selectedleg++;
+						}
+					}
+					if (storegoodsleg == selectedleg) {
+						cartSellerDtoList.isChecked = 1;
+					} else {
+						cartSellerDtoList.isChecked = 0;
+					}
+					this.handleGoodsType();
+				},
+				handleGoodsType() {
+					let cartSellerDtoList = this.information.cartSellerDtoList;
+					this.isChecked = cartSellerDtoList.every((item, index) => {
+						return item.isChecked == 1;
+					});
+				},
+				// 选中/取消选中
+				checkBoxItem(config) {
+					let opt = {
+						method: "POST",
+						url: "/mall/checkBoxItem",
+						data: config,
+						headers: {
+							"Content-Type": "application/json"
+						}
+					};
+					console.log(opt);
+					axios(opt).then(res => {
+                        console.log(res);
+                        this.information = res.data.data;
+					});
+				},
+				minusCount(citem, item) { 
+                    let goodsCount = citem.goodsCount;
+                    if (goodsCount == 1) {
+						return poper("亲,该宝贝不能再减少了~");
+                    }
+                    let config = {
+						shopId: this.shopId,
+						shelfId: item.shelfId,
+						isCheck: citem.isChecked,
+						goodsCode: citem.goodsCode,
+						skuCode: citem.skuCode,
+						goodsCount: -1,
+					}
+					console.log(config);
+					let opt = {
+						method: "POST",
+						url: "/mall/updateGoodsNum",
+						data: config,
+						headers: {
+							"Content-Type": "application/json",
+						}
+					}
+					axios(opt).then(res => {
+                        console.log(res);
+                        this.information = res.data.data;
+					});
+				},
+				addCount(citem, item) {
+					let config = {
+						shopId: this.shopId,
+						shelfId: item.shelfId,
+						isCheck: citem.isChecked,
+						goodsCode: citem.goodsCode,
+						skuCode: citem.skuCode,
+						goodsCount: 1,
+					}
+					console.log(config);
+					let opt = {
+						method: "POST",
+						url: "/mall/updateGoodsNum",
+						data: config,
+						headers: {
+							"Content-Type": "application/json",
+						}
+					}
+					axios(opt).then(res => {
+						this.information = res.data.data;
+					});
+				},
+				// 编辑
+				bindShowDel() {
+					this.isShowdel = true;
+				},
+				// 完成
+				bindHideDel() {
+					this.isShowdel = false;
+				},
+				// 选中删除商品
+				confirmCheckDel(type) {
+					let cartSellerDtoList = this.information.cartSellerDtoList;
+					let skuCodeList = [];
+					
+					for (var i = 0; i < cartSellerDtoList.length; i++) {
+						var cartGoodsDtoList = cartSellerDtoList[i].cartGoodsDtoList;
+						for (var a = 0; a < cartGoodsDtoList.length; a++) {
+							if (cartGoodsDtoList[a].isChecked == 1) {
+								skuCodeList.push(cartGoodsDtoList[a].skuCode);
+							}
+						}
+					}
+					console.log(cartSellerDtoList);
+					let config = {
+						shopId: this.shopId,
+						skuCodeList: skuCodeList,
+						type: type
+					};
+					let opt = {
+						method: "POST",
+						url: "/mall/deleteItem",
+						data: config,
+						headers: {
+							"Content-Type": "application/json"
+						}
+					};
+					axios(opt).then(res => {
+						console.log(res);
+						if (res.data.errorCode == 0) {
+							this.isShowdel = false;
+							this.getCartData();
+						} else {
+							return poper(res.data.message);
+						}
+					});
+				},
+				// 添加购物车
+				addCart(item, shelfId) {
+					let goodsCode = item.goodsCode;
+					let shopId = this.shopId;
+					this.shelfId = shelfId;
+					this.skuCode = item.skuCode;
+					console.log(item);
+					let url =
+						"/mall/getShopGoodsDetail?goodsCode=" +
+						goodsCode +
+						"&shopId=" +
+						shopId;
+					axios(url).then(res => {
+						let data = res.data.data;
+						this.isShowCartDialog = true;
+						for (let i = 0; i < data.goodsAttrWithValueVos.length; i++) {
+							data.goodsAttrWithValueVos[i].isActive = false;
+							let goodsAttributeValueList =
+								data.goodsAttrWithValueVos[i].goodsAttributeValueList;
+							for (let j = 0; j < goodsAttributeValueList.length; j++) {
+								goodsAttributeValueList[j].isActive = false;
+							}
+						}
+						this.goodsDetail = data;
+						if (this.goodsDetail.goodsAttrWithValueVos.length == 1) {
+							let attrValue = this.goodsDetail.goodsAttrWithValueVos[0]
+								.goodsAttributeValueList[0].id;
+							this.goodsDetail.goodsAttrWithValueVos[0].goodsAttributeValueList[0].isActive = true;
+							this.handleSkuList(attrValue);
+						}
+						if (this.goodsDetail.goodsAttrWithValueVos.length > 1) {
+							let attrValue = "";
+							for (
+								let i = 0;
+								i < this.goodsDetail.goodsAttrWithValueVos.length;
+								i++
+							) {
+								this.goodsDetail.goodsAttrWithValueVos[
+									i
+								].goodsAttributeValueList[0].isActive = true;
+								attrValue +=
+									this.goodsDetail.goodsAttrWithValueVos[i]
+										.goodsAttributeValueList[0].id + ":";
+							}
+							if (attrValue.length > 0) {
+								attrValue = attrValue.substr(0, attrValue.length - 1);
+							}
+							console.log(attrValue);
+							this.handleSkuList(attrValue);
+						}
+					});
+				},
+
+				handleChooseAttr() {
+					let attrValue = "";
+					let goodsAttrWithValueVos = this.goodsDetail.goodsAttrWithValueVos;
+					if (goodsAttrWithValueVos.length == 1) {
+						for (let i = 0; i < goodsAttrWithValueVos.length; i++) {
+							let goodsAttributeValueList =
+								goodsAttrWithValueVos[i].goodsAttributeValueList;
+							for (let j = 0; j < goodsAttributeValueList.length; j++) {
+								if (goodsAttributeValueList[j].isActive == true) {
+									console.log(goodsAttributeValueList[j].id);
+									attrValue = goodsAttributeValueList[j].id;
+								}
+							}
+						}
+					}
+					if (goodsAttrWithValueVos.length > 1) {
+						for (let i = 0; i < goodsAttrWithValueVos.length; i++) {
+							let goodsAttributeValueList =
+								goodsAttrWithValueVos[i].goodsAttributeValueList;
+							for (let j = 0; j < goodsAttributeValueList.length; j++) {
+								if (goodsAttributeValueList[j].isActive == true) {
+									attrValue += goodsAttributeValueList[j].id + ":";
+								}
+							}
+						}
+						if (attrValue.length > 0) {
+							attrValue = attrValue.substr(0, attrValue.length - 1);
+						}
+					}
+					this.handleSkuList(attrValue);
+				},
+
+				handleSkuList(attrValue) {
+					let shopGoodsSkuVoList = this.goodsDetail.shopGoodsSkuVoList;
+					let goodsAttrWithValueVos = this.goodsDetail.goodsAttrWithValueVos;
+					for (let i = 0; i < shopGoodsSkuVoList.length; i++) {
+						if (shopGoodsSkuVoList[i].attrValue == attrValue) {
+							this.shopGoodsSkuVoValue = shopGoodsSkuVoList[i];
+						}
+					}
+				},
+				chooseAttr(citem, cindex, item, index) {
+					let goodsAttributeValueList = item.goodsAttributeValueList;
+					for (let i = 0; i < goodsAttributeValueList.length; i++) {
+						if (i == cindex) {
+							goodsAttributeValueList[i].isActive = true;
+							// goodsAttributeValueList[i].isActive ? goodsAttributeValueList[i].isActive = false : goodsAttributeValueList[i].isActive = true;
+						} else {
+							goodsAttributeValueList[i].isActive = false;
+						}
+					}
+					this.handleChooseAttr();
+				},
+				closeAttrDialog() {
+					this.isShowCartDialog = false;
+					this.goodsDetail = {};
+				},
+				toPage(page) {
+					window.location.href = page;
+				},
+				addToCart() {
+					console.log(this.shopGoodsSkuVoValue);
+					let config = {
+                        shopId: this.shopId,
+                        shelfId: this.shelfId,
+                        goodsCode: this.shopGoodsSkuVoValue.goodsCode,
+						skuCode: this.shopGoodsSkuVoValue.skuCode,
+						beforeSkuCode: this.skuCode,
+                        goodsCount: 1,
+                        isCheck: 1,
+                        recommendId: 1,
+						isConfirm: 1,
+						addSku: 2
+					}
+					let opt = {
+						method: "POST",
+						url: "/mall/updateGoodsNum",
+						data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+					console.log(opt);
+					axios(opt).then(res => {
+						console.log(res);
+						if (res.data.errorCode == 0) {
+							this.isShowCartDialog = false;
+							this.bindHideDel();
+                            this.getCartData();
+						}else {
+                            return poper(res.data.message);
+                        }
+					});
+				},
+				// 结算
+				cartSubmit() {
+					if(Object.keys(this.information) == 0) return;
+					window.location.href = "/mall/payCartOrder?shopId=" + this.shopId;
+					
+                }
+                
+			}
+		})
+	</script>
+</body>
+</html>

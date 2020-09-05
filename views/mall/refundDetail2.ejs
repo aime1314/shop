@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.detail_top{
+			height: 100px;
+			background: #FF6612;
+			text-align: center;
+		}
+		.detail_top_two{
+			padding-top: 20px;
+			line-height: 30px;
+			font-size: 28px;
+			font-weight: bold;
+			color: #FFFFFF;
+		}
+		.detail_top_two span{
+			font-size: 22px;
+			font-weight: normal;
+		}
+		.detail_amount{
+			padding: 24px 24px;
+			background: #FFFFFF;
+			border-bottom: 1px solid #f7f6f9;
+			display: flex;
+			justify-content: space-between;
+		}
+		.detail_gray{
+			font-size: 30px;
+			color: #2c2c2c;
+		}
+		.detail_orage{
+			font-size: 30px;
+			color: #FF6A29;
+		}
+		.refund_infor_tit{
+			margin-top: 12px;
+			padding: 24px;
+			background: #FFFFFF;
+			font-size: 30px;
+			color: #2C2C2C;
+		}
+		.comm_inf {
+			padding: 14px 24px;
+			border-bottom: 1px solid #f7f6f9;
+			display: flex;
+		}
+		
+		.comm_pic {
+			width: 120px;
+			height: 120px;
+		}
+		
+		.comm_inf_box {
+			width: 81%;
+			margin-left: 15px;
+		}
+		
+		.order_box {
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+		}
+		
+		.comm_tit {
+			font-size: 28px;
+			color: #2C2C2C;
+			height: 30px;
+			line-height: 30px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		
+		.comm_num {
+			line-height: 30px;
+			font-size: 24px;
+			color: #2C2C2C;
+		}
+		
+		.comm_num span {
+			font-size: 22px;
+		}
+		
+		.comm_num2 {
+			margin-top: 15px;
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+		}
+		
+		.comm_num_box {
+			font-size: 26px;
+			color: #AFAFB2;
+		}
+		
+		.deduction_num {
+			margin-top: 10px;
+			text-align: right;
+			font-size: 23px;
+			color: #A5A8B2;
+		}
+		.order_info{
+			padding: 15px 24px;
+			border-bottom: 1px solid #F5F7F9;
+		}
+		.order_info p{
+			margin: 15px 0px;
+			height: 32px;
+			line-height: 32px;
+			font-size: 24px;
+			color: #2C2C2C;
+		}
+		.order_info p span{
+			color: #3086DE;
+		}
+		.comm_box {
+			/*margin-top: 12px;*/
+			margin-bottom: 109px;
+			background: #ffffff;
+		}
+		.detail_contact{
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 96px;
+			background: #FFFFFF;
+			border-top: 1px solid #e9ecee;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.detail_con_box{
+			width: 50%;
+			text-align: center;
+			font-size: 28px;
+			color: #6A6C72;
+		}
+		.bord{
+			border-right: 2px solid #F5F7F9;
+		}
+		.detail_con_box img{
+			margin-right: 10px;
+			width: 42px;
+			height: 42px;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                	<div class="detail_top">
+                		<p class="detail_top_two">卖家取消订单，退款成功<br><span>还剩2天23小时59分</span></p>
+                	</div>
+                    <!--申请成功-->
+					<div class="detail_amount">
+						<span class="detail_gray">退款总金额</span>
+						<span class="detail_orage">¥ 297.00</span>
+					</div>
+					<div class="detail_amount">
+						<span class="detail_gray">退回支付宝</span>
+						<span class="detail_orage">¥ 297.00</span>
+					</div>
+					<!--退款信息-->
+					<div class="refund_infor_tit">退款信息</div>
+                    <div class="comm_inf">
+						<img class="comm_pic" src="/images/touristsHead.png" />
+						<div class="comm_inf_box">
+							<div class="order_box">
+								<div class="comm_tit">精品烟台红富士苹果2个(大果)</div>
+								<div class="comm_num"><span>￥</span>99.00</div>
+							</div>
+							<div class="comm_num2">
+								<div class="comm_num_box">50~80MM;10斤</div>
+								<div class="comm_num_box">x2</div>
+							</div>
+							<p class="deduction_num">脉粒抵扣:- ¥10</p>
+						</div>
+					</div>
+					<div class="comm_inf">
+						<img class="comm_pic" src="/images/touristsHead.png" />
+						<div class="comm_inf_box">
+							<div class="order_box">
+								<div class="comm_tit">精品烟台红富士苹果2个(大果)</div>
+								<div class="comm_num"><span>￥</span>99.00</div>
+							</div>
+							<div class="comm_num2">
+								<div class="comm_num_box">50~80MM;10斤</div>
+								<div class="comm_num_box">x2</div>
+							</div>
+							<p class="deduction_num">脉粒抵扣:- ¥10</p>
+						</div>
+					</div>
+					<div class="comm_box mar_bottom">
+						<div class="order_info">
+							<p>退款原因：卖家取消订单</p>
+							<p>退款金额：¥ 297.00</p>
+							<p>退还脉粒：25脉粒</p>
+							<p>退款编号：94746994499449</p>
+						</div>
+					</div>
+					<div class="detail_contact">
+						<div class="detail_con_box bord"><img src="/images/shop_wx.png">联系卖家</div>
+						<div class="detail_con_box"><img src="/images/shop_tel.png">拨打电话</div>
+					</div>
+                </main>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

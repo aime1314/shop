@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/mescroll.min.css' />
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <script src="/javascripts/iscroll.js"></script>
+    <script src="/javascripts/mescroll.min.js"></script>
+    
+    <style>
+        *{
+  margin: 0;
+  padding:0;
+}
+.content{
+  /* position: absolute; */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+  background: #f5f7f9;
+}
+.content1{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #f5f7f9;
+}
+.noActive{
+  position: absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+  font-size:0.3rem;
+  color: #989eab;
+}
+  .list{
+  height: auto;
+  display: flex;
+  display: -webkit-flex; 
+  background: #fff;
+  margin: 0.11rem 0;
+  position: relative;
+  
+}
+.list .imgLeft{
+  flex:2;
+  padding: 0.2rem 0rem 0.2rem 0.2rem;
+}
+.imgLeft>img{
+  width: 2.1rem;
+  height: 1.2rem;
+  border-radius: 0.08rem;
+}
+.over{
+  width:0.96rem;
+  height: 0.96rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.list .rightCon{
+  flex:3;
+  padding: 0.2rem 0.15rem;
+}
+.rightCon p{
+  font-size: 0.26rem;
+  text-align: left;
+  height: 0.71rem;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.rightCon div{
+  overflow: hidden;
+  text-align: left;
+  line-height: 0.26rem;
+  margin-top: 0.25rem;
+}
+.rightCon div span{
+  font-size: 0.20rem;
+  color: #c0c6d0;
+}
+.span2{
+  float: right;
+  margin-top: 0.13rem;
+  margin-right: 0.20rem;
+}
+  .rightCon div em{
+  font-size: 0.21rem;
+  font-style: normal;
+  color:#989eab; 
+  display: inline-block;
+  margin-top: 0.1rem;
+  }
+  .rightCon div a{
+  width: 1.12rem;
+  height: 0.38rem;
+  line-height: 0.39rem;
+  font-size: 0.2rem;
+  display:inline-block;
+  border: 0.01rem solid #3e8cf9;
+  color: #3e8cf9;
+  text-align: center;
+  text-decoration: none;
+  float: right;
+  margin-top: 0.05rem;
+  margin-right: 0.20rem;
+  border-radius: 0.04rem;
+  }
+  .mescroll{
+			position: fixed;
+			top: 0.2rem;
+			bottom: 0;
+			height: auto; /*如设置bottom:50px,则需height:auto才能生效*/
+		}
+</style>
+<script>
+    $(document).ready(function(){
+    })
+    var wxWebshareDb = {
+            "title":'活动列表',                                  // 分享标题
+            "link":window.location.href,                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            "desc": "玩社群，用群脉！体验社群活动智能管理！",             // 分享描述
+            "imgUrl" : '/images/logo1.png',         //分享图标
+            // "type": '',                                        // 分享类型,music、video或link，不填默认为link
+            // "dataUrl": ''                                    // 如果type是music或video，则要提供数据链接，默认为空
+        };
+    function info(id){
+      window.location.href="/share/activityPage?itemId="+id;
+      // alert(id)
+    }
+</script>
+</head>
+<body>
+        <div>
+            <% if(information&&information.length>0){%>
+              <div id="mescroll" class="mescroll">
+                  <div class="content" >
+                      <ul class="lists" >
+                          <% information.forEach(function(item){ %>
+                            <% if(item&&item.activityImage&&item.activityTitle&&item.createTime&&item.hasOwnProperty('attendNum')&&item.id&&item.hasOwnProperty('status')){%>
+                            <li class="list">
+                              <div class="imgLeft">
+                                 <img src="<%= item.activityImage%>!/fh/300"/>
+                              </div>
+                               <% if(item.status == 1){%>
+                                <img class="over" src="/images/over.png"/>
+                                <% } %>
+                                <div class="rightCon">
+                                  <%if(item.status == 1){%>
+                                    <p style="color:#989eab"><%=item.activityTitle%></p>
+                                  <%}else{%>
+                                      <p><%=item.activityTitle%></p>
+                                  <%}%>
+                                    <div>
+                                        <span class="span1"><%= item.createTime%></span>
+                                    </div>
+                                    <div>
+                                        <em>已有<%=item.attendNum%>人参加</em>
+                                        <a onclick="info('<%= item.id %>')">查看详情</a>
+                                    </div>
+                               </div>  
+                            </li>
+                            <% } %>
+                        <% }) %>
+                    </ul>
+                </div>
+              </div>
+              <%}else{%>
+                <div class="content1">
+                    <p class="noActive">
+                      暂时没有相关官方活动
+                    </p>
+                  </div>
+              <%}%>
+        </div> 
+        
+</body>
+<script src="/javascripts/wxcommon.js"></script>
+<script>
+  $(document).ready(function(){
+    console.log("name:###",window.name)
+      if(window.name != 'bencalie'){
+         location.reload();
+         window.name = 'bencalie';
+       }else{
+          window.name = '';
+       }
+  })
+     //时间戳转换时间
+     function add0(m) { return m < 10 ? '0' + m : m }
+     function dateMoent(shijianchuo) {
+          var time0 = new Date();
+          var time = new Date(shijianchuo * 1000);
+          var week;
+          var y0 = time0.getFullYear()
+          var y = time.getFullYear() == y0 ? '' : time.getFullYear() + '/';
+          var m = time.getMonth() + 1;
+          var d = time.getDate();
+          if (time.getDay() == 0) week = "周日";
+          if (time.getDay() == 1) week = "周一";
+          if (time.getDay() == 2) week = "周二";
+          if (time.getDay() == 3) week = "周三";
+          if (time.getDay() == 4) week = "周四";
+          if (time.getDay() == 5) week = "周五";
+          if (time.getDay() == 6) week = "周六";
+           return y + add0(m) + '/' + add0(d) + ' ' + week;
+     }
+          // 上拉刷新 下拉加载
+      var mescroll = new MeScroll("mescroll", {
+           //第一个参数"mescroll"对应上面布局结构div的id (1.3.5版本支持传入dom对象)
+	       		//如果您的下拉刷新是重置列表数据,那么down完全可以不用配置,具体用法参考第一个基础案例
+	       		//解析: down.callback默认调用mescroll.resetUpScroll(),而resetUpScroll会将page.num=1,再触发up.callback
+				down: {
+          auto:false,
+          callback: downCallback 
+          //下拉刷新的回调,别写成downCallback(),多了括号就自动执行方法了
+				},
+				up: {
+          auto:false,
+          isBoth: true, 
+          sBounce: false,
+          noMoreSize:4,
+          empty: {
+						// icon: "../res/img/mescroll-empty.png", //图标,默认null
+            tip: "暂无相关数据~", 
+            //提示
+          },
+          lazyLoad:{
+              use: true,
+          },
+          callback: upCallback,
+           //上拉加载的回调
+					//以下是一些常用的配置,当然不写也可以的.
+					page: {
+						num: 0, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+						size: 15 //每页数据条数,默认10
+					},
+					htmlNodata: '<p class="upwarp-nodata">没有更多了...</p>',
+					// noMoreSize: 5, //如果列表已无数据,可设置列表的总数量要大于5才显示无更多数据;
+					// 		避免列表数据过少(比如只有一条数据),显示无更多数据会不好看
+					// 		这就是为什么无更多数据有时候不显示的原因.
+					// toTop: {
+					// 	//回到顶部按钮
+					// 	src: "../img/mescroll-totop.png", //图片路径,默认null,支持网络图
+					// 	offset: 1000 //列表滚动1000px才显示回到顶部按钮	
+					// },
+					// empty: {
+					// 	//列表第一页无任何数据时,显示的空提示布局; 需配置warpId才显示
+					// 	warpId:	"xxid", //父布局的id (1.3.5版本支持传入dom元素)
+					// 	icon: "../img/mescroll-empty.png", //图标,默认null,支持网络图
+					// 	tip: "暂无相关数据~" //提示
+					// },
+					// lazyLoad: {
+		      //   			use: true // 是否开启懒加载,默认false
+		      //   			attr: 'imgurl' // 标签中网络图的属性名 : <img imgurl='网络图  src='占位图''/>
+		      //   		}
+				}
+      });
+      console.log(mescroll)
+      //下拉刷新的回调
+		function downCallback() {
+       window.location.reload();
+    }
+     //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
+		function upCallback(page) {
+			var pageNum = page.num; // 页码, 默认从1开始 如何修改从0开始 ?
+      var pageSize = page.size; // 页长, 默认每页10条
+      // alert(pageSize)
+        setTimeout(function () {
+          $.ajax({
+				url: '/api/getActivityList?pageIndex=' + ++pageNum + "&pageSize=" + pageSize,
+				success: function(data) {
+           if(data.errorCode==0){
+            var curPageData = data.data; // 接口返回的当前页数据列表
+             mescroll.endSuccess(curPageData.length);
+                //设置列表数据
+              setListData(curPageData);//自行实现 TODO
+       
+           } else{
+             alert(data.message)
+           }
+					// var totalPage = data.xxx; // 接口返回的总页数 (比如列表有26个数据,每页10条,共3页; 则totalPage值为3)
+					// var totalSize = data.xxx; // 接口返回的总数据量(比如列表有26个数据,每页10条,共3页; 则totalSize值为26)
+					// var hasNext = data.xxx; // 接口返回的是否有下一页 (true/false)
+					
+					//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+					//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空,显示empty配置的内容;
+					//列表如果无下一页数据,则提示无更多数据,(注意noMoreSize的配置)
+					
+					//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+					//必传参数(当前页的数据个数, 总页数)
+					//mescroll.endByPage(curPageData.length, totalPage);
+							
+					//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+					//必传参数(当前页的数据个数, 总数据量)
+					//mescroll.endBySize(curPageData.length, totalSize);
+							
+					//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+					//必传参数(当前页的数据个数, 是否有下一页true/false)
+					//mescroll.endSuccess(curPageData.length, hasNext);
+							
+					//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.
+					//如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据
+					//如果传了hasNext,则翻到第二页即可显示无更多数据.
+
+					
+					//curPageData.length必传的原因:
+					// 1. 使配置的noMoreSize 和 empty生效
+					// 2. 判断是否有下一页的首要依据: 
+					//    当传的值小于page.size时(说明不满页了),则一定会认为无更多数据;
+					//    比传入的totalPage, totalSize, hasNext具有更高的判断优先级;
+					// 3. 当传的值等于page.size时,才会取totalPage, totalSize, hasNext判断是否有下一页
+					// 传totalPage, totalSize, hasNext目的是避免方法四描述的小问题
+					
+			
+				},
+				error: function(e) {
+				// 	//联网失败的回调,隐藏下拉刷新和上拉加载的状态
+					mescroll.endErr();
+				}
+		    	});
+      },1000)
+  
+    } 
+    function setListData(infor){
+      var list = '';
+      if(infor&&infor.length>0){
+        infor.map(function(item, index) {
+          if(item&&item.activityImage&&item.activityTitle&&item.createTime&&item.hasOwnProperty('attendNum')&&item.id&&item.hasOwnProperty('status')){
+            if(item.status==1){
+             list+='<li class="list">'+
+                     '<div class="imgLeft">'+
+                      '<img src=" '+item.activityImage+'!/fh/300"/>'+
+                      '</div>'+
+                      '<img class="over" src="/images/over.png"/>'+
+                      '<div class="rightCon">'+
+                         '<p style="color:#989eab">'+item.activityTitle+'</p>'+
+                         '<div>'+
+                           ' <span class="span1">'+dateMoent(item.createTime)+'</span>'+
+                            //  '<span class="span2">'+item.organizationName+'</span>'+
+                          '</div>'+
+                           '<div>'+
+                                '<em>已有'+item.attendNum+'人参加</em>'+
+                                 '<a onclick="info('+item.id+')">查看详情</a>'+
+                                 '</div>'+
+                        '</div>'+
+                      '</li>'
+            }else{
+              list+='<li class="list">'+
+                     '<div class="imgLeft">'+
+                      '<img src=" '+item.activityImage+'!/fh/300"/>'+
+                      '</div>'+
+                      '<div class="rightCon">'+
+                         '<p>'+item.activityTitle+'</p>'+
+                         '<div>'+
+                           ' <span class="span1">'+dateMoent(item.createTime)+'</span>'+
+                            //  '<span class="span2">'+item.organizationName+'</span>'+
+                          '</div>'+
+                           '<div>'+
+                                '<em>已有'+item.attendNum+'人参加</em>'+
+                                 '<a onclick="info('+item.id+')">查看详情</a>'+
+                                 '</div>'+
+                        '</div>'+
+                      '</li>'
+            }
+          }
+       })
+          $('.lists').append(list);
+      }
+    
+    }
+		       	
+</script>
+</html>

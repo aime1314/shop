@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    
+
+
+    <script>
+        window.onload = function(){
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            var itemId = `<%= roll.itemId %>`
+            var obj = {"methodType":"jump","nativeFlag":"organizePage","itemId": itemId}
+            var OBJ = {"methodType":"invoke","nativeFlag":"closeWebView"}
+            if(isiOS) {
+                
+                window.webkit.messageHandlers.getAppMethod.postMessage(OBJ)
+                window.webkit.messageHandlers.getAppMethod.postMessage(obj)
+            }
+            if(isAndroid)  {
+                qmWebViewListener.getAppMethod(JSON.stringify(OBJ));
+                qmWebViewListener.getAppMethod(JSON.stringify(obj));
+                
+            }
+        }
+    </script>
+</body>
+
+</html>

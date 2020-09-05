@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+        	margin-top: 14px;
+        }
+    	.top_bar{
+        	position: fixed;
+        	top: 0;
+        	left: 0;
+        	width: 100%;
+        	height: 94px;
+        	background: #ffffff;
+        	border-top: 1px solid #f7f6f9;
+        }
+        .bar_w{
+        	position: relative;
+        	float: left;
+        	width: 25%;
+        	height: 94px;
+        	line-height: 94px;
+        	text-align: center;
+        	font-size: 30px;
+        }
+        .top_bar_at{
+        	color: #3086DE;
+        }
+        .top_bar_no{
+        	color: #797A7A;
+        }
+        .top_bar_bor{
+        	position: absolute;
+        	bottom: 0px;
+        	left: 42%;
+        	width: 33px;
+        	height: 4px;
+        	background: #3086DE;
+        }
+        .commodity{
+        	margin-top: 108px;
+        }
+        .comm_box{
+            background: #ffffff;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+        }
+        .comm_pic{
+        	width: 50px;
+        	height: 50px;
+        }
+        .comm_inf_box{
+        	width: 69%;
+        	margin-left: 15px;
+        }
+        .comm_tit{
+        	font-size: 34px;
+        	color: #2C2C2C;
+        	height: 50px;
+        	line-height: 50px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
+			overflow: hidden;
+        }
+        .comm_num{
+        	margin-top: 29px;	
+        }
+        .comm_num_box{
+        	float: left;
+        	margin-right: 44px;
+        	font-size: 24px;
+        	color: #AFAFB2;
+        }
+        .comm_num_box span{
+        	 color: #3086DE;
+        	 padding: 0 5px;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	margin-top: 30px;
+        	width: 130px;
+        	height: 50px;
+        	line-height: 50px;
+        	text-align: center;
+        	background: #3086DE; 
+        	border-radius: 25px;
+        	font-size: 24px;
+        	color: #FFFFFF;
+        }
+
+		.son_box{
+			padding:0 30px;
+			height:120px;
+			line-height:120px;
+			margin-bottom:15px;
+			font-size:34px;
+			font-family:Source Han Sans CN;
+			font-weight:bold;
+			color:rgba(44,44,44,1);
+			display:flex;
+			justify-content:space-between;
+		}
+		.son_btn{
+			width:130px;
+			height:50px;
+			line-height:50px;
+			font-size:24px;
+			border-radius:25px;
+			text-align:center;
+			margin-top:35px;
+		}
+		.apply{
+            background:#3086DE;
+			color:#fff;
+		}
+		.look_reason{
+			border:1px solid rgba(121,122,122,1);
+		}
+		.reason_mask{
+			position: fixed;
+			width:100%;
+			height:100%;
+			z-index:999;
+			top:0;
+			background:rgba(0,0,0,0.7);
+		}
+		.reason_mask .card{
+			width:500px;
+			height:296px;
+			background:rgba(255,255,255,1);
+			border-radius:3px;
+			position: absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+		}
+		.reason_mask .btn{
+			height:69px;
+			line-height:69px;
+			text-align: center;
+			border-top:1px solid #cdcdcd;
+			color:#3086DE;
+		}
+		.reason_mask .info{
+			height:216px;
+			display:flex;
+			flex-direction:column;
+			text-align:center;
+			font-size:34px;
+			font-weight:400;
+			line-height:55px;
+            color:rgba(44,44,44,1);
+			justify-content:center;
+		}
+		.reason_mask  span.real{
+			color:#C8CACD;
+		}
+		.reason_mask  span.count{
+			color:#09BB07;
+		}
+		.no_shop{
+           text-align: center;
+		   color:#797A7A;
+		   font-size:28px;
+		   margin-top:423px;
+		}
+		.auditing{
+			color: #FF8D23;
+		}
+		[v-cloak]{
+			display:none;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="top_bar">
+						<div class="bar_w" :class="{'top_bar_at':shopStatus==index}" v-for="(item,index) in topBars" @click="bindTap(index)">
+                			{{item}}
+                			<div v-if="shopStatus==index" class="top_bar_bor"></div>
+                		</div>
+                	</div>
+                	<div class="commodity">
+						<template v-if="shopStatus == '0' && isLoad">
+							<template v-if="list.length > 0">
+								<div class="comm_box top" v-for="(item, index) in list">
+									<div class="comm_inf">
+										<img class="comm_pic" src="/images/shop2.png" />
+										<div class="comm_inf_box">
+											<p class="comm_tit">{{item.shopName}}</p>
+											<p class="comm_num">
+												<div class="comm_num_box">分类<span>{{item.shelfCateCount}}</span>个 </div> 
+												<div class="comm_num_box">商品<span>{{item.shopGoodsCount}}</span>个 </div>
+											</p>
+										</div>
+										<div class="comm_regu" @click="setShop(item.shelfId)">店铺设置</div>
+									</div>
+								</div>
+							</template>
+						</template>
+						<template v-if="shopStatus == '1' || shopStatus == '2' || shopStatus == '3' && isLoad">
+							<template v-if="list.length > 0">
+								<div class="comm_box son_box" v-for="(item, index) in list">
+									 <div>{{item.organizationName}}</div>
+									 <div v-if="shopStatus == '1'" class="son_btn apply" @click="toApply()">立即申请</div>
+									 <div v-if="shopStatus == '2'" class="son_btn look_reason" @click="lookReason(item)">查看原因</div>
+									 <div v-if="shopStatus == '3'" class="auditing">审核中</div>
+								</div>
+							</template>
+						</template>
+                		<template v-if="list.length==0 && shopStatus && isLoad">
+							<div class="no_shop">暂无{{topBars[shopStatus]}}的小脉部</div>
+						</template>
+	                    
+                    </div>
+                </main>
+			</div>
+			<div class="reason_mask" v-cloak v-if="showReason && unfinished">
+				<div class="card">
+			 	   <div class="info">
+						<div v-if="unfinished.realMemberCount!=unfinished.memberCount">社群总人数未达标 <span class="real">{{unfinished.realMemberCount}}</span><span class="count">/{{unfinished.memberCount}}</span></div>
+						<div v-if="unfinished.realNewMemberCount!=unfinished.newMemberCount">纳新人数未达标 <span class="real">{{unfinished.realNewMemberCount}}</span><span  class="count">/{{unfinished.newMemberCount}}</span></div>
+					</div>
+                   <div class="btn" @click="closeReason">朕知道了</div>
+				</div>
+			</div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+                    topBars:['已开通','待开通','未达标','审核中'],
+					shopStatus:`<%- shopStatus %>`,
+					list: [],
+					currentTab: 0,
+					unfinished:null,
+					showReason:false,
+					isLoad: false
+				}
+			},
+			created(){
+				switch(this.shopStatus){
+					case '0':
+					   this.getShopWithData()
+					break;
+					case '1':
+					   this.getOrganShop()
+					break;
+					case '2':
+					   this.getUnFinishedOrgan()
+					break;
+					case '3':
+					   this.getData(0)
+					break;
+					default:
+						break;
+				}
+			},
+			methods: {
+				getShopWithData() {
+					let opt = {method: "GET", url: "/shop/shopList/getShopWithData"};
+					this.isLoad = false;
+					axios(opt).then(res => {
+						if(this.shopStatus == 0 && res.data.data) {
+							this.list = res.data.data;
+							this.isLoad = true;
+						}else {
+							this.list = [];
+							this.isLoad = true;
+						}
+					});
+				},
+				getData(status) {
+					let opt = {method: "GET", url: "/shop/shopList/getShopList?status=" + status};
+					this.isLoad = false;
+					axios(opt).then(res => {
+						if(this.shopStatus == 0 && res.data.data) {
+							this.list = res.data.data;
+						}else {
+							this.list = [];
+						}
+					});
+				},
+				getOrganShop(){
+					let opt = {method: "GET", url: "/shop/shopList/getOrganShop"};
+					this.isLoad = false;
+					axios(opt).then(res => {
+						this.list=res.data.data;
+						this.isLoad = true;
+					});
+				},
+				getUnFinishedOrgan(){
+					let opt = {method: "GET", url: "/shop/shopList/getUnFinishedOrgan"};
+					this.isLoad = false;
+					axios(opt).then(res => {
+						this.list=res.data.data;
+						this.isLoad = true;
+					});
+				},
+				bindTap(type){
+					if(this.shopStatus == type) return;
+					this.shopStatus=type;
+					this.list = [];
+					window.location.replace(`/shop/shopList/index?type=${type}`);
+                    
+				},
+				setShop(id) {
+					window.location.href = "/shop/shopList/setShop/" + id
+				},
+				toApply(){
+					window.location.href='/applyShop/index'
+				},
+				lookReason(item){
+				  this.showReason=true
+                  this.unfinished=item
+				},
+				closeReason(){
+					this.unfinished=null
+					this.showReason=false
+				}
+			}
+		})
+	</script>
+</body>
+</html>

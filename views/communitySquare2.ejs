@@ -1,0 +1,3230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <link rel='stylesheet' href='/stylesheets/mescroll.min.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/jquery-confirm.min.css">
+    <script src="/javascripts/mescroll.min.js"></script>
+    <script src="/javascripts/vue.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var url = location.search; //获取url中"?"符后的字串 
+            var theRequest = new Object(); 
+            if (url.indexOf("?") != -1) { 
+                var str = url.substr(1); 
+                strs = str.split("&"); 
+                for(var i = 0; i < strs.length; i ++) { 
+                    // theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+                    theRequest[strs[i].split("=")[0]]=strs[i].split("=")[1]; 
+                } 
+            }
+            // console.log(decodeURI(theRequest.organName));
+            //   document.title = '【'+encodeURIComponent(theRequest.organName)+'】的广场';  
+            document.title = '【'+decodeURI(theRequest.organName)+'】的广场'
+        });
+    </script>
+    <style>
+        body,html{
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .content{
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; 
+             /* //解决ios下滚动不流畅的问题 */
+        }
+        .pageColsed{
+            display: none;
+        }
+        .header{
+            width: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .header p:nth-child(1){
+            width: 1.46rem;
+            margin: 0 auto;
+        }
+        .header p img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .header p:nth-child(2){
+            text-align: center;
+            padding-top: 0.29rem;
+            color: #989EAB;
+            height: 0.59rem;
+            width: 2.14rem;
+            margin: 0 auto;
+            font-size: 0.24rem;
+            line-height: 0.rem;
+            font-weight: bold;
+            font-family: normal 100% Helvetica, Arial, sans-serif;
+        }
+        .footer{
+            width: 100%;
+            position: absolute;
+            bottom: 0.71rem;
+        }
+        .footer>div{
+
+        }
+        .footer>div>p{
+            margin: 0 auto;
+            width:2.25rem;
+            height:0.65rem;
+            line-height: 0.65rem;
+            color: #fff;
+            background:rgba(62,140,249,1);
+            border-radius:4px;
+            font-size: 0.3rem;
+            text-align: center;
+        }
+        .friend_window {
+       
+        }
+      
+      
+        .input_box {
+            background:rgba(249,250,252,1);
+            box-shadow:0px 1px 0px 0px rgba(206,211,216,1), 0px 1px 0px 0px rgba(206,211,216,1);
+            -moz-box-shadow: 0px 1px 0px 0px rgba(206,211,216,1), 0px 1px 0px 0px rgba(206,211,216,1);/*firefox*/
+            -webkit-box-shadow: 0px 1px 0px 0px rgba(206,211,216,1), 0px 1px 0px 0px rgba(206,211,216,1);/*safari或chrome*/
+            border-radius:1px;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height:0.853rem;
+            /* z-index: 20; */
+            border-top: 1px solid rgba(206,211,216,1); 
+            }
+        .input_box>img{
+            width: 0.48rem;
+            margin-left: 0.1rem;
+        }
+        .footerbar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+        .footerbar button {
+            margin: 0 10px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .input {
+            font-size: 0.28rem;
+            margin: 0.13rem 0rem 0.13rem 0.16rem;
+            overflow-y: auto;
+            height: 0.58rem;
+            line-height: 0.58rem;
+            width: 5.44rem;
+            background-color: #fff;
+            background:rgba(255,255,255,1);
+            border:1px solid rgba(205,208,212,1);
+            border-radius:4px;
+            display: inline-block;
+            vertical-align: middle;
+            -webkit-user-select:text；
+        }
+        .input *{
+        -webkit-user-select:text
+        }
+        .input:focus{
+            /* height: auto; */
+            outline: none !important;
+            -webkit-focus-ring-color:none;
+        }
+    
+        .footerbar .input::-webkit-scrollbar {
+            display: block !important;
+        }
+        .faceList{
+            list-style: none;
+            height: 21px;
+            width: 21px;
+            cursor: pointer;
+            /* display: flex; */
+            display: inline-block;
+            overflow: hidden;
+            align-items: flex-start;
+        }
+        .icon {
+            /* width: 1em;
+            height: 1em;
+            vertical-align: -0.15em; */
+            fill: currentColor;
+            overflow: hidden;
+        }
+        .upload-demo /deep/ .el-upload-list {
+            display: none !important;
+        }
+        .upload-demo>ul{
+            display: none !important;
+        }
+        /* img {
+            transform: scale(1);
+            transition: all ease 0.2s;
+        }
+        img.scale {
+            transform: scale(1.5);
+        } */
+        .dialog{
+            min-height: 200px;
+            width: auto;
+            background: #ccc;
+            z-index: 8;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%)
+        }
+        .dialog>div:first-child{
+            height: 30px;
+            /* background: #fff; */
+            border-bottom: 2px solid #eee;
+        }
+        .dialog>div:first-child>div{
+            float: right;
+            margin-top: 4px;
+            margin-right: 5px;
+        }
+        .dialog>div:first-child>div>i{
+            margin-right: 8px;
+            height: 20px;
+            width: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+        .dialog>div:first-child>div>i:hover{
+            background: #e4393c;
+        }
+        .dialog>div:last-child{
+            padding: 10px;
+        }
+        .dialog>div:last-child /deep/ .el-carousel--horizontal .el-carousel__container {
+            height: 600px !important;
+            width: 600px !important;
+        }
+        .dialog>div:last-child /deep/ .el-carousel .el-carousel__container {
+            height: 600px !important;
+            width: 600px !important;
+        }
+        .voice-bg{
+            background: #ccc;
+            min-width: 70px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .bg{
+            /*语音*/
+            background: #A0E759 !important;
+        }
+        .voice-bg>img{
+            width: 13px;
+            vertical-align: middle;
+            margin-top: -1px;
+        }
+        .voice-bg>span{
+            vertical-align: middle;
+            display: inline-block;
+        }
+        .el-tag--medium{
+            width: 100px;
+            height: 40px !important;
+            line-height: 37px !important;
+            margin: 20px 10px;
+        }
+        .Model{
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .GroupNotMsg1{
+        font-size: 10px !important;
+        }
+        .GroupNotMsg{
+            text-align: center;
+            margin: 0 auto;
+            background: #e0e0e0;
+            color: #fff;
+            padding: 5px;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        
+        main /deep/  .el-drawer__wrapper{
+                position: unset;
+                /* right: 6px; */
+        }
+        main /deep/ .el-drawer__container{
+            position: absolute;
+            background: #fff;
+            left: unset;
+            right: 0;
+            top: 40px;
+            width: 270px;
+            height: calc(100% - 30%);
+            padding: 0 10px;
+        }
+        main  /deep/  .el-drawer__body::-webkit-scrollbar {
+            /*滚动条整体样式*/
+            width : 5px;  /*高宽分别对应横竖滚动条的尺寸*/
+            height: 1px;
+        }
+        main  /deep/  .el-drawer__body::-webkit-scrollbar-thumb {
+            /*滚动条里面小方块*/
+            border-radius   : 10px;
+            background-color:#ccc;
+            /* background-color: skyblue;
+            background-image: -webkit-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+            ); */
+        }
+        main  /deep/  .el-drawer__body::-webkit-scrollbar-track {
+            /*滚动条里面轨道*/
+            /* box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2); */
+            /* background   : #ededed; */
+            border-radius: 10px;
+        }
+        main  /deep/ .el-drawer{
+            box-shadow: 0 2px 5px -5px rgba(0,0,0,.2), 0 6px 5px -4px rgba(0,0,0,.14), 0 -8px 5px 6px rgba(0,0,0,.12);
+            -webkit-box-shadow:  0 2px 5px -5px rgba(0,0,0,.2), 0 6px 5px -4px rgba(0,0,0,.14), 0 -8px 5px 6px rgba(0,0,0,.12);
+        }
+        main  /deep/  .el-drawer__body{
+                overflow-y: auto;
+                overflow-x: none;
+        } 
+        .group_list{
+            width: 100%;
+            height: 97%;
+            padding: 0 10px;
+        }
+        .group_list>ul{
+            padding-left: 0;
+        }
+        .group_list>ul>li{
+            float: left;
+            list-style: none;
+            width: 25%;
+            min-width: 30px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .group_list>ul>li>div{
+            text-align: center;
+        }
+        .group_shortName{
+        display:inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 29px;
+        border-radius: 4px;
+        background:#3E8CF9;
+        text-align:center;
+        color:#fff;
+        font-size: 12px;
+        }
+        .group_list>ul>li>div>img{
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        }
+        .group_list>ul>li>div>span{
+        display: block;
+        font-size: 14px;
+        color: #777;
+        width: 65px;
+        overflow:hidden;  /*超过部分不显示*/
+        text-overflow:ellipsis;  /*超过部分用点点表示*/
+        white-space:nowrap;/*不换行*/
+        }
+        .reward_maili{
+        position:absolute;
+        right: 0;
+        top: 0.15rem;
+        }
+        .reward_maili>img{
+            width: 1.24rem;
+        }
+        .passwordMali{
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 100%;
+          background: rgba(0, 0, 0, .4);
+          display: none;
+        }
+        .centerCon{
+           position: absolute;
+           left: 50%;
+           top: 50%;
+           transform: translate(-50%,-65%);
+           background: #fff;
+           width:4.17rem;
+           height:2.03rem;
+           border-radius:7px;
+        }
+        .centerCon>div:first-child{
+            border-bottom:1px solid #E1E4E9;
+        }
+        .centerCon>div:first-child>p{
+            margin: 0.26rem auto;
+            width: 3.5rem;
+            font-size: 0.25rem;
+        }
+        .centerCon>div:last-child{
+            height: 0.5rem;
+            display: flex;
+            text-align: center;
+            line-height: 0.5rem;
+            color: #3478F6;  
+        }
+        .centerCon>div:last-child>span{
+            flex: 1;
+        }
+        .centerCon>div:last-child>span:first-child{
+            border-right:1px solid #E1E4E9;
+        }
+    </style>
+</head>
+<body>
+  <div class="content">
+    <div id="app">
+        <div class="friend_window">
+            <aside>
+                <main>
+                        <!-- :style="{overflowY:messageScroll? 'auto' : 'hidden',paddingRight: messageScroll ? '0': '2px' }" -->
+                        <!-- v-if="showDatas&&showDatas.length" -->
+                        <div>
+                            <div
+                                id="chatRecord"
+                                class="message_main"
+                                ref="messagesContainer"
+                                @mouseenter="showMessageScrolls" @mouseleave="hideMessageScrolls"
+                            >
+                            <div class="reward_maili" onclick="rewardMali()">
+                                <img src="/images/jiangli.png" alt="奖励脉粒"/>
+                            </div>
+                            <div style="text-align:center;color:#0000ff;font-size:14px" v-show="isLoad"><span>查看更多</span></div>
+                                <div class="mes_box"
+                                    v-for="(item,index) in showDatas"
+                                    :class="{'me' : item.senderUserId == selfObj.id} "
+                                    v-if="allMsgType[item.messageType] && allMsgType[item.messageType].isMsgBox"
+                                    :key='index'
+                                    :ref="'sortMenu_'+index"
+                                >
+                                <div class="avatar"  v-if="item.messageType != 'GroupNotificationMessage'">
+                                        <!-- <img :src="item.content.user.portrait" alt="" v-if="item.content.user.portrait&&item.content.user.portrait!=''"> -->
+                                        <img src="/images/404.png" alt="">
+                                        <!-- <span v-else class="imgName">{{item.content.user.imgName}}</span> -->
+                                </div>
+                                <div  :class="{'cont' : item.messageType != 'GroupNotificationMessage'}" class="cont_all" >
+                                    <div  style="margin-bottom:6px" v-if="item.messageType != 'GroupNotificationMessage' && item.senderUserId != selfObj.id" >
+                                        <span>{{item.content.user.name}}</span>
+                                    </div>
+                                    <div class="message_box"
+                                        v-if="item.messageType == 'TextMessage'"
+                                        :class="{'message_box' : item.messageType == 'TextMessage'}"
+                                        @mousedown="msgBoxEnter($event,item.index,index)"
+                                        @mouseleave="msgBoxLeave()" :id="'msg_'+index">
+                                            <span v-if="item.messageType == 'TextMessage'" :id="'msg_'+index+'_'+item.index+'_sp'">
+                                                {{item.content.content }}
+                                            </span>
+                                    </div>
+                                    <div class="" v-else-if="item.messageType == 'ImageMessage'  "
+                                        @mousedown="msgBoxEnter($event,item.index,index)"
+                                        :id="'msg_'+index+'_'+item.index" >
+                                        <span  class="imgMsg" style="background:#fff">
+                                            <img :src="'data:image/png;base64,'+item.content.content" >
+                                        </span>
+                                                <!-- @click="openImg(item.index)"  -->
+                                    </div>
+                                    <div v-else-if="item.messageType == 'GIFMessage'&&item.objectName=='RC:GIFMsg'"
+                                    :id="'msg_'+index+'_'+item.index"
+                                    @mousedown="msgBoxEnter($event,item.index,index)" >
+                                        <span  class="imgMsg" style="background:#fff">
+                                            <img :src="item.content.remoteUrl" >
+                                        </span>
+                                        <!-- @click="openImg(item.index)" -->
+                                    </div>
+                                    <div v-else-if="item.messageType == 'VoiceMessage' ||item.messageType == 'VoiceMessage' ">
+                                        <div v-if="item.senderUserId == selfObj.id">
+                                            <div style="display:none">
+                                                <audio controls="controls" ref="audio">
+                                                    <source :src="'data:audio/x-wav;base64,'+item.content.content  || ''" type="audio/mpeg" />
+                                                </audio>
+                                            </div>
+                                            <div class="voice-bg bg"
+                                                @click="handlePlay(index,item.content.duration,item.index)">
+                                                <span>{{ item.content.duration || 0 }}"</span>
+                                                <img :src="item.VoiceImg" style="transform:rotate(180deg);-ms-transform:rotate(180deg);-moz-transform:rotate(180deg); -webkit-transform:rotate(180deg);-o-transform:rotate(180deg);"/>
+                                                <!-- ../assets/aplayer.gif -->
+                                                <!-- <img  src="../assets/apy.png"/> -->
+                                            </div>
+                                        </div>
+                                        <div v-else>
+                                            <div style="display:none">
+                                                    <audio controls="controls" ref="audio">
+                                                        <source :src="'data:audio/x-wav;base64,'+item.content.content  || ''" type="audio/mpeg" />
+                                                    </audio>
+                                            </div>
+                                            <div class="voice-bg"
+                                            @click="handlePlay(index,item.content.duration,item.index)">
+                                                <img :src="item.VoiceImg" />
+                                                <!-- ../assets/aplayer.gif -->
+                                                <!-- <img  src="../assets/apy.png"/> -->
+                                                <span>{{ item.content.duration || 0 }}"</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else-if="item.messageType == 'RichContentMessage' ">
+                                        <span>
+                                            图文消息,暂无处理
+                                        </span>
+                                    </div>
+                                    <div v-else-if="item.messageType == 'FileMessage'">
+                                        <!-- class="fileMsg"  @click="dowmLoadFile(item.content.fileUrl)" -->
+                                                <!-- <div>
+                                                    <span>
+                                                        <p>{{item.content.name}}</p>
+                                                        <p>{{item.content.size}}</p>
+                                                    </span>
+                                                    <span>
+                                                        <img src="../assets/text.svg"/>
+                                                    </span>
+                                            </div> -->
+                                            文件消息,暂无处理
+                                    </div>
+
+                                    <span v-else-if="item.messageType == 'LocationMessage' ">
+                                        位置消息,暂无处理
+                                    </span>
+                                    <span v-else-if="item.messageType == 'SightMessage' ">
+                                        小视频消息,渲染一个视频播放器(base64),暂无处理
+                                    </span>
+                                    <span v-else-if="item.messageType == 'CombineMessage' ">
+                                        合并转发消息,暂无处理
+                                    </span>
+                                    <span v-else-if="item.messageType == 'PublicServiceRichContentMessage' ">
+                                        公众服务单图文消息,暂无处理
+                                    </span>
+                                    <span v-else-if="item.messageType == 'PublicServiceMultiRichContentMessage' ">
+                                        公众服务 多图文消息,暂无处理
+                                    </span>
+                                    <span v-else-if="item.messageType == 'ContactNotificationMessage' ">
+                                        加好友通知消息,暂无处理
+                                    </span>
+                                    <span v-else-if="item.messageType == 'InformationNotificationMessage' ">
+                                        加好友通知消息,暂无处理
+                                    </span>
+                                    <div v-else-if="item.messageType == 'GroupNotificationMessage'" style="width: 100%;text-align: center;">
+                                        <p style="margin-bottom: 10px;"><span class="GroupNotMsg1 GroupNotMsg">{{item.sendTimeFomat}}</span></p>
+                                        <p><span class="GroupNotMsg">{{item.content.content}}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <span>{{backStatus}}</span>
+                        </div>
+                    </main>
+                </aside>
+        </div>
+        <div class="passwordMali">
+            <div class="centerCon">
+                <div>
+                    <p>脉粒领取口令已复制，下载群脉APP并登录后立即到账。不要耽搁哦，否则口令可能会失效哦~</p>
+                </div>
+                <div>
+                    <span onclick="closeConfirm()">再看看</span>
+                    <span onclick="onDownload()">下载群脉APP</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pageColsed">
+        <header class="header">
+            <p>
+                <img src="/images/pageClosed.png" alt="联系管理员打开此功能">
+            </p>
+            <p>真不巧，您访问的社群广场已关闭~</p>
+        </header>
+        <footer class="footer">
+            <div>
+                <p class="enterOrgan" onclick="ejavascript:history.back(-1);">进入社群主页</p>
+            </div>
+        </footer>
+    </div>
+  </div>
+  <div class="input_box">
+    <div class="input" id="input" ref="input" contenteditable="true" @keydown="sendTextMsg($event)" @change="inputMsg"
+       @input="inputMsg"  @focus="changeBlur" @mousedown="sendMsgEnter($event)"  style="-webkit-user-select: auto"></div>
+       <img src="/images/biaoqing.png"/>
+   </div>
+<script src="/javascripts/RongIMLib-2.5.1.js"></script>
+<script src="/javascripts/protobuf-2.3.6.min.js"></script>
+<script src="/javascripts/qiniu.js"></script>
+<script src="/javascripts/upload.js"></script>
+<script src="/dataBase/RongEmo.js"></script>
+<script src="/javascripts/jquery.min.js"></script>
+<script src="/javascripts/jquery-confirm.min.js"></script>
+ <script>
+     
+    function rewardMali(){
+        $('.passwordMali').css("display",'block');
+    }
+    function closeConfirm(){
+        $('.passwordMali').css("display",'none');
+    }
+    function onDownload(){
+        window.location.href = "https://www.qunmai.com/downloadPage.html"
+    }
+ </script>
+<script>
+//    const {remote,ipcRenderer} = require('electron');
+//    const {Menu,MenuItem} = remote;
+   // const menu = new Menu();
+   // menu.append(new MenuItem({
+   //     label: '菜单一',
+   //     click:function (e)  {
+   //         console.log('菜单一,点击: ',e)
+   //     }
+   // }));
+   // menu.append(new MenuItem({type: 'separator'}));//分割线
+   // menu.append(new MenuItem({label: '菜单[可选]', type: 'checkbox', checked: true}));//选中
+//    require('../../../static/js/RongIMVoice-2.2.6.js')
+//    require('../../../static/js/Libamr-2.2.5.min.js')
+//    require('../../../static/js/voice-amr-base64.json')
+   var RongIMLib = window.RongIMLib;
+   var RongIMClient = RongIMLib.RongIMClient;
+   var emojiConf = {
+       size:24,
+       lang:'zh'
+   }
+   RongIMLib.RongIMEmoji.init(emojiConf);
+   function gif() {
+    var messageName = 'GIFMessage';
+    var objectName = "RC:GIFMsg";
+    var isCounted = true;
+    var isPersited = true;     
+    var mesasgeTag = new RongIMLib.MessageTag(isCounted, isPersited);
+    var prototypes = ['remoteUrl','localPath','width','height','gifDataSize','user'];
+    RongIMClient.registerMessageType(messageName, objectName, mesasgeTag, prototypes);
+    }
+   function init (params, cb) {
+       console.log("%%%%       ",cb);
+       var appkey = params.appkey;
+       // var token = params.token;
+       var navi = params.navi;
+       var config = {};
+       if (navi) {
+           config.navi = navi
+       }
+       RongIMClient.init(appkey, null, config);
+       RongIMClient.setConnectionStatusListener({
+           onChanged: function (status) {
+               console.log("onChanged:  ",status);
+               let cbObj = {
+                   type:'ConnectionStatusListener',
+                   message:''
+               };
+               switch (status) {
+                   case RongIMLib.ConnectionStatus['CONNECTED']:
+                   case 0:
+                       cbObj.message = '连接成功';
+                       cbObj.status = 0;
+                       gif();
+                       cb(cbObj);
+                       console.log(cbObj);
+                       break;
+
+                   case RongIMLib.ConnectionStatus['CONNECTING']:
+                   case 1:
+                       cbObj.message ='连接中';
+                       cbObj.status = 1;
+                       cb(cbObj);
+                       break;
+
+                   case RongIMLib.ConnectionStatus['DISCONNECTED']:
+                   case 2:
+                       cbObj.message ='当前用户主动断开链接';
+                       cbObj.status = 2;
+                       cb(cbObj);
+                       break
+
+                   case RongIMLib.ConnectionStatus['NETWORK_UNAVAILABLE']:
+                   case 3:
+                       cbObj.message ='网络不可用';
+                       cbObj.status = 3;
+                       cb(cbObj);
+                       break;
+
+                   case RongIMLib.ConnectionStatus['CONNECTION_CLOSED']:
+                   case 4:
+                       cbObj.message ='未知原因，连接关闭';
+                       cbObj.status = 4;
+                       cb(cbObj);
+                       break;
+
+                   case RongIMLib.ConnectionStatus['KICKED_OFFLINE_BY_OTHER_CLIENT']:
+                   case 6:
+                       cbObj.message ='用户账户在其他设备登录，本机会被踢掉线';
+                       cbObj.status = 6;
+                       cb(cbObj);
+                       break;
+
+                   case RongIMLib.ConnectionStatus['DOMAIN_INCORRECT']:
+                   case 12:
+                       cbObj.message ='当前运行域名错误，请检查安全域名配置';
+                       cbObj.status = 12;
+                       cb(cbObj);
+                       break
+               }
+           }
+       });
+       console.log("等待链接到 RongIM ,初始化完成");
+	  // RongIMClient.setOnReceiveMessageListener({
+		//     onReceived: function (message) {
+		//     	// showResult(message);
+		//     }
+		// });
+       RongIMClient.connect(params.token, {
+           onSuccess: function (userId) {
+               console.log("## 链接到socketService ##");
+               cb({
+                   type:'connect',
+                   status:'success',
+                   message:userId
+               });
+           },
+           onTokenIncorrect: function () {
+               cb({
+                   type:'connect',
+                   status:'tokenIncorrect',
+                   message:'token无效'
+               });
+       
+           },
+           onError: function (errorCode) {
+               cb({
+                   type:'connect',
+                   status:'error',
+                   message:errorCode
+               });
+       
+           }
+       }, null)
+   }
+ </script>
+</body>
+ <script>
+   new Vue({
+    el:"#app",
+    name: "chatPage",
+    data() {
+      return {
+          // NeDB数据的有效期
+          dbCacheExpir:{
+            user:'3600',
+            group:'3600'
+          },
+          appkey:'',
+          token:'',
+          navi:'',
+          idx:0,
+          status:'',
+          fileUpElement:null,
+          isShowGroup:false,
+          isGroupCon:false,
+          //系统
+          connectStatus:'',  //connect链接状态 ['success','tokenIncorrect','error']
+          sysChannelInfo:{
+              id:1,
+              name:'系统消息',
+              portrait:''
+          },
+          //uploadUrl:"//v0.api.upyun.com",
+           uploadUrl:'https://jsonplaceholder.typicode.com/posts/',
+          //TODO 各种类型的消息渲染
+          /**
+           * 所有消息类型
+           *  key 对应消息体的"messageType"
+           *  @param isMsgBox Boolen 是否在聊天窗口展示
+           *  @param type Int 分类,0:状态;1:内容;2:通知;3:项目自定义web暂不处理
+           *  @param count Boolen 是否记数 (角标)
+           *  @param save  Boolen 是否有远程存储(通讯拉取)
+           *  @param name String  默认名
+           *  @param objectName String 对应消息体的"objectName"
+           */
+          allMsgType : {
+              // ### 状态
+              // 状态:对方正在输入状态消息
+              'TypingStatusMessage':{
+                  isMsgBox:false,
+                  type:0,
+                  count:false,
+                  save:false,
+                  name:'对方输入状态',
+                  objectName:'RC:TypSts'
+              },
+              // 状态:群消息已读状态回执
+              'ReadReceiptResponseMessage':{
+                  isMsgBox:false,
+                  type:0,
+                  count:false,
+                  save:false,
+                  name:'群消息已读状态回执',
+                  objectName:'RC:RRRspMsg'
+              },
+              // ### 内容
+              // 文字消息
+              'TextMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'文字消息',
+                  objectName:'RC:TxtMsg'
+              },
+              // 语音消息
+              'VoiceMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'语音消息',
+                  objectName:'RC:VcMsg'
+              },
+              // 高质量语音消息
+              'HQVoiceMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'高质量语音消息',
+                  objectName:'RC:HQVCMsg'
+              },
+              // 图片消息
+              'ImageMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'图片消息',
+                  objectName:'RC:ImgMsg'
+              },
+              // GIF图片消息
+              'GIFMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'GIF图片消息 ',
+                  objectName:'RC:GIFMsg'
+              },
+              // 图文消息
+              'RichContentMessage':{
+                  type:1,
+                  isMsgBox:true,
+                  count:true,
+                  save:true,
+                  name:'图文消息',
+                  objectName:'RC:ImgTextMsg'
+              },
+              // 文件消息
+              'FileMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'文件消息',
+                  objectName:'RC:FileMsg'
+              },
+              // 位置消息
+              'LocationMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'位置消息',
+                  objectName:'RC:LBSMsg'
+              },
+              // 小视频消息
+              'SightMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'小视频消息',
+                  objectName:'RC:SightMsg'
+              },
+              // 合并转发消息
+              'CombineMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'合并转发消息',
+                  objectName:'RC:CombineMsg'
+              },
+              //公众服务单图文消息
+              'PublicServiceRichContentMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'服务图文消息',
+                  objectName:'RC:PSImgTxtMsg'
+              },
+              // 公众服务多图文消息
+              'PublicServiceMultiRichContentMessage':{
+                  isMsgBox:true,
+                  type:1,
+                  count:true,
+                  save:true,
+                  name:'公众服务多图文消息',
+                  objectName:'RC:PSMultiImgTxtMsg'
+              },
+              // ### 通知
+              //好友通知消息
+              'ContactNotificationMessage':{
+                  isMsgBox:true,
+                  type:2,
+                  count:false,
+                  save:true,
+                  name:'好友通知',
+                  objectName:'RC:ContactNtf'
+              },
+              // 资料通知消息
+              'ProfileNotificationMessage':{
+                  isMsgBox:false,
+                  type:2,
+                  count:false,
+                  save:true,
+                  name:'资料通知',
+                  objectName:'RC:ProfileNtf'
+              },
+              //通用命令通知消息
+              'CommandNotificationMessage':{
+                  isMsgBox:false,
+                  type:2,
+                  count:false,
+                  save:true,
+                  name:'命令通知',
+                  objectName:'RC:CmdNtf'
+              },
+              //  提示条通知消息
+              'InformationNotificationMessage':{
+                  isMsgBox:true,
+                  type:2,
+                  count:false,
+                  save:true,
+                  name:'提示条通知',
+                  objectName:'RC:InfoNtf'
+              },
+              //群组通知消息
+              'GroupNotificationMessage':{
+                  isMsgBox:true,
+                  type:2,
+                  count:false,
+                  save:true,
+                  name:'群组通知',
+                  objectName:'RC:GrpNtf'
+              },
+              //已读通知消息
+              'ReadReceiptMessage':{
+                  isMsgBox:false,
+                  type:2,
+                  count:false,
+                  save:false,
+                  name:'已读通知',
+                  objectName:'RC:ReadNtf'
+              },
+              //公众服务命令消息
+              'PublicServiceCommandMessage':{
+                  isMsgBox:false,
+                  type:2,
+                  count:false,
+                  save:false,
+                  name:'公众服务命令',
+                  objectName:'RC:PSCmd'
+              },
+              // 命令消息
+              'CommandMessage':{
+                  isMsgBox:false,
+                  type:2,
+                  count:false,
+                  save:false,
+                  name:'命令消息',
+                  objectName:'RC:CmdMsg'
+              },
+              //聊天室属性通知消息
+              'ChatRoomKVNotiMessage':{
+                  isMsgBox:true,
+                  type:2,
+                  count:false,
+                  save:false,
+                  name:'聊天室属性',
+                  objectName:'RC:chrmKVNotiMsg'
+              },
+          },
+          messageTypeArr : [
+              //状态
+              'TypingStatusMessage',         // 状态:对方正在输入状态消息
+              'ReadReceiptResponseMessage', // 状态:群消息已读状态回执
+              //内容
+              'TextMessage',                 // 文本
+              'VoiceMessage',                // 语音消息
+              'HQVoiceMessage',              // 高质量语音消息
+              'ImageMessage',                // 图片
+              'GIFMessage',                  // GIF 图片消息
+              'RichContentMessage',          // 图文
+              'FileMessage',                 // 文件
+              'LocationMessage',             // 位置
+              'SightMessage',                // 小视频消息
+              'CombineMessage',              // 合并转发消息
+              'PublicServiceRichContentMessage', //公众服务单图文消息
+              'PublicServiceMultiRichContentMessage',  // 公众服务多图文消息
+              //通知
+              'ContactNotificationMessage',     //好友通知消息
+              'ProfileNotificationMessage',     // 资料通知消息
+              'CommandNotificationMessage',     //通用命令通知消息
+              'InformationNotificationMessage', //  提示条通知消息
+              'GroupNotificationMessage',        //群组通知消息
+              'ReadReceiptMessage',               //已读通知消息
+              'PublicServiceCommandMessage',     //公众服务命令消息
+              'CommandMessage',                   // 命令消息
+              'ChatRoomKVNotiMessage',           //聊天室属性通知消息
+          ],
+          // 会话类型
+          ConversationType:[
+              null,
+              RongIMLib.ConversationType.PRIVATE,   //单聊
+              null,
+              RongIMLib.ConversationType.GROUP,     //群组
+              RongIMLib.ConversationType.CHATROOM,  //聊天室
+              RongIMLib.ConversationType.CUSTOMER_SERVICE,  //客服
+              RongIMLib.ConversationType.SYSTEM,     //系统
+              RongIMLib.ConversationType.APP_PUBLIC_SERVICE,   //公众账号(默认关注)
+              RongIMLib.ConversationType.PUBLIC_SERVICE         //公众账号(手动关注)
+          ],
+
+        mouseLeftMenu:false,
+        emojiConf:{
+            url:'../assets/emojis-normal.png',
+            size:24,
+            lang:'zh'
+        },      //表情包配置 可扩展
+        emojiList:false,  //表情包
+        allShowDatas:{},   // 所有通讯记录
+        showDatas : [],   //当前 通讯记录
+        selfObj:{},   //当前用户的 ID ,name ,imgUrl
+        socketStatus:'', // IM 通讯状态
+        socketToObj:{},  //  当前通讯的对象,初始化 系统
+        groupObjList:{},  //群组数据列表
+        userObjList:{},   //用户数据列表
+        isLeftListInit:false,
+        leftObjList:[],   // 左则栏 列表
+        msgListIsEnd:false,
+        textMessage:'',
+        msg: '',
+        number:8,
+        messageScroll:false,
+        uri:'',
+        base64:'',
+        fileObj:{},
+        gifObj:{},
+        imgList:[],
+        showImg:false,
+        initialIndex:null,
+        timer:null,
+        currentTime:0,
+        backStatus:'',    //消息回执状态
+        dialogVisible:false,   //控制马甲列表显示
+        adminInfo:{},
+        historyNum:null,
+        groupMemberList:[],   //群组成员列表
+        isLoad:true       //是否显示查看更多
+      }
+    },
+    components: {
+      
+    },
+    beforeMount(){
+        //TODO 这里传来UserId
+        this.$emoji.init(this.emojiConf);
+        // let userKey =  ipcRenderer.sendSync('getUserKey');
+        // let key = ipcRenderer.sendSync('getIMKey');
+        // if(key){
+        //     this.appkey = key
+        // }
+        if(this.$route&&this.$route.params&&this.$route.params.data){
+           adminInfo = this.$route.params.data;
+        }
+    },
+    mounted() {
+        window.addEventListener('scroll', this.handleScroll, true)
+        // window.addEventListener('scroll', this.handleScroll)
+        //console.log(" mounted:  ",this.appkey,this.token);
+        // ipcRenderer.sendSync('windowFun',{type:'max',w:1300,h:1300});
+        //  console.log("$$$$$路由参数:   ",this.$route.query);
+        // var id = Number(this.$route.query.u)
+        // let userKey =  ipcRenderer.sendSync('getSocketUser',{id:id});
+        // console.log(userKey)
+        //  if(userKey.errorCode==0){
+        //         this.appkey = userKey.data.key;
+        //         this.token = userKey.data.token;
+        //         this.selfObj = userKey.data.userDb;
+        //  }else{
+        //         this.$toast(userKey.message,{ duration: 1500 })
+        //  }
+        // // let selfDb = ipcRenderer.sendSync("getSocketUser");
+        // this.selfObj = selfDb.data;
+        //   if(this.selfObj.name){
+        //    this.selfObj.imgName = this.splitName(this.selfObj.name);
+        //   }
+        this.init();
+    },
+    updated(){
+        // // 聊天定位到底部
+        //  this.scrollBottom();
+    },
+    methods: {
+        add0(m) { return m < 10 ? '0' + m : m },
+         dateMoent(time) {
+            var time =time;
+            var week;
+            if (time.getDay() == 0) week = "周日";
+            if (time.getDay() == 1) week = "周一";
+            if (time.getDay() == 2) week = "周二";
+            if (time.getDay() == 3) week = "周三";
+            if (time.getDay() == 4) week = "周四";
+            if (time.getDay() == 5) week = "周五";
+            if (time.getDay() == 6) week = "周六";
+            return  week;
+             },
+          format(shijianchuo,type) {
+            // 时间戳处理
+            //shijianchuo是整数，否则要parseInt转换
+            var currentTime = new Date();
+            var currentYear = currentTime.getFullYear();
+            var currentMonth = currentTime.getMonth() + 1;
+            var currentDay = currentTime.getDate();
+            var currentHours = currentTime.getHours();
+            var currentMinutes = currentTime.getMinutes();
+            var currentSecond = currentTime.getSeconds();
+            var time = new Date(shijianchuo);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            if(currentYear==y){
+                var currentTimestamp=(new Date()).getTime();
+                var timestamp = (new Date(shijianchuo)).getTime();
+                var delta = (currentTimestamp - timestamp);
+                if(currentMonth == m && currentDay == d){
+                       // 时间相差60秒以内
+                    if(delta < 60* 1000){
+                    return '刚刚'
+                    }else{
+                    //  < 10 ? '0' + h : h +':'
+                    var timeM =this.add0(h)+':'+this.add0(mm);
+                    return timeM;
+                    }
+                }else{
+                     // 当年 && 当天之外的时间（即昨天及以前的时间）
+                          // 昨天（以“现在”的时候为基准-1天）
+                     var todayT = currentHours*60*60*1000 + currentMinutes*60*1000 + currentSecond*1000;
+                     var yestodayT = todayT + 24*60*60*1000;
+                     var week = todayT+24*60*60*1000*7;
+                    //  var  = todayT + 24*60*60*1000;
+                      if(delta >= week){
+                          if(type ==1){
+                             return  this.add0(y)+'/'+this.add0(m)+'/'+this.add0(d);
+                          }else{
+                             return  this.add0(y)+'/'+this.add0(m)+'/'+this.add0(d)+'  '+this.add0(h)+':'+this.add0(mm);
+                          }
+                      }
+                      if(delta > yestodayT && delta < week) {
+                        var weekShow = this.dateMoent(time);
+                            if(type ==1){
+                                return weekShow;
+                            }else{
+                                return weekShow +'  '+this.add0(h)+':'+this.add0(mm);
+                            }   
+                      }
+                      if(delta > todayT && delta < yestodayT) {
+                          if(type ==1){
+                               return '昨天' 
+                          }else{
+                            //  console.log('yestodayT')
+                            return '昨天' +' '+ this.add0(h)+':'+this.add0(mm);
+                          }
+                      }
+                }
+            }else{
+                if(type ==1){
+                     return   this.add0(y)+'/'+this.add0(m)+'/'+this.add0(d);
+                }else{
+                    return   this.add0(y)+'/'+this.add0(m)+'/'+this.add0(d)+'  '+this.add0(h)+':'+this.add0(mm);
+                }
+            }
+         },
+        scrollBottom(val){
+             // 聊天定位到底部
+                this.$nextTick(() => {
+                   if(val==1){
+                        this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
+                        console.log(this.$refs.messagesContainer.scrollTop)
+                        console.log(this.$refs.messagesContainer.scrollHeight)
+                   }else{
+                   var historyNum =this.historyNum;
+                        //   console.log(this.historyNum);
+                        //   console.log(1/(historyNum+1));
+                        //   console.log(this.$refs.messagesContainer.scrollHeight)
+                        this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight*parseFloat(1/(historyNum+1));
+                        console.log(this.$refs.messagesContainer.scrollHeight*parseFloat(1/(historyNum+1)));
+                   }
+                })
+            
+        },
+        splitName(realName){
+            var name='';
+              //判断中文 数字
+              var pattern = new RegExp("[\u4E00-\u9FA5]+")
+              var pattern3 = new RegExp("[0-9]+");
+            //判断英文
+            var pattern2 = new RegExp("[A-Za-z]+");
+            if(pattern.test(realName)||pattern3.test(realName)){
+                if(realName.length>2){
+                name=((realName.split("").reverse().join("")).substring(0,2)).split("").reverse().join("")
+                }else{
+                name=((realName.split("").reverse().join("")).substring(0,1)).split("").reverse().join("")
+                }
+            }else if(pattern2.test(realName)){
+            //   console.log(realName)
+                if(realName.length>2){
+                    name=realName.substring(0,2);
+                }else{
+                    name=realName.substring(0,1);
+                }
+              }
+              return name;
+        },
+        /**
+         * 表情 统一处理函数
+         * @param opt Object {type:String,isHtml:Boolen}
+         *      type:  "en" 转成表情 [默认];"de" :转成文本
+         *      isHtml: 是否是html 转换 [默认false]
+         * @param str String
+         */
+        emojiFun:function(opt,str){
+            if(str && typeof str =='string'){
+
+
+            let type = 'en';
+            if(opt.type && opt.type=='de'){
+                type = 'de';
+            }
+            let h = false;
+            if(opt.isHtml && opt.isHtml === true){
+                h = true;
+            }
+            let backStr = false;
+            try{
+                if(h){
+                    if(type === 'en'){
+                        backStr = this.$emoji.emojiToHTML(str);
+                    }else{
+                        backStr = this.$emoji.symbolToHTML(str);
+                    }
+                }else{
+                    if(type === 'en'){
+                        backStr =  this.$emoji.symbolToEmoji(str);
+                    }else{
+                        backStr = this.$emoji.emojiToSymbol(str);
+                    }
+                }
+            }catch (e) {
+                console.error("####表情处理Error:  ",str);
+                console.error("####表情处理Error:  ",e);
+                return str;
+            }
+            if(backStr){
+                return backStr
+            }else{
+                return str;
+            }
+            }else{
+                console.log("表情转换必须是String");
+                return false;
+            }
+        },
+        /**
+         * IM初始化
+         * [IM初始化==>链接接口初始化]==>会话列表初始化==>监听初始化
+         */
+        init() {
+            var appkey = this.appkey;
+            var token = this.token;
+            console.log(appkey);
+            console.log(token)
+            if (!appkey ) {
+                // alert('appkey 不能为空');
+            } else {
+                init({
+                    appkey: appkey,
+                    token: token,
+                    navi: this.navi
+                }, this.imCallBack)
+            }
+        },
+            /**
+         * 链接接口初始化
+         * IM初始化==>[链接接口初始化]==>会话列表初始化==>监听初始化
+         */
+        connectIMInit(){
+            let token = this.token;
+            let cb = this.imCallBack;
+            if(this.connectStatus == 'success'){
+                console.log("## 断开当前 connect ... ## ");
+                RongIMClient.getInstance().disconnect();
+                this.showDatas = [];
+                this.leftObjList =[];
+            }
+            RongIMClient.connect(token, {
+                onSuccess: function (userId) {
+                    console.log("## 链接到socketService ##");
+                    cb({
+                        type:'connect',
+                        status:'success',
+                        message:userId
+                    });
+                },
+                onTokenIncorrect: function () {
+                    cb({
+                        type:'connect',
+                        status:'tokenIncorrect',
+                        message:'token无效'
+                    });
+
+                },
+                onError: function (errorCode) {
+                    cb({
+                        type:'connect',
+                        status:'error',
+                        message:errorCode
+                    });
+
+                }
+            }, null)
+
+        },
+          //IM通讯 回调
+        imCallBack(obj){
+            console.log("callBack:   ",obj);
+            let cbType = [
+                'ConnectionStatusListener',   //  状态监听
+                'MessageListener',             //  收到消息
+                'connect',                      //  链接动作
+                'ConversationList',            //  会话列表
+            ];
+            if(obj.error){
+                this.callBackErr(obj)
+            }else if(obj.type && cbType.indexOf(obj.type)!= -1) {
+                switch (obj.type){
+                    case 'ConnectionStatusListener':
+                        this.socketStatus = "_"+obj.message;
+                         break;
+                    case 'connect':
+                        this.connectStatus = obj.status;
+                        if(obj.status == "error"){
+                            this.callBackErr(obj);
+                        }else  if(obj.status == "success"){
+                            this.$set(this.selfObj,'userId',obj.message);
+                            console.log('个人信息：',this.selfObj);
+                            this.conversationListInit();
+                        }else{
+                            this.socketStatus = "_"+obj.message;
+                        }
+                        break;
+                    case 'ConversationList':
+                        console.log("对象信息：",obj.message)
+                        this.imConversationList(obj.message);
+                        break;
+                    case 'MessageListener':
+                        console.log("%%%%%%%%%       ",obj);
+                        this.doMessage(obj.message,0);
+                        break;
+                }
+            }else{
+                console.log("### 这是个什么东东 ###  ",obj);
+            }
+        },
+        /**
+         *  IM通讯回调 Error 统一处理
+         */
+        callBackErr(err){
+        console.log("IM交互错误:   ",err);
+        },
+        /**
+         * 链接接口初始化
+         * IM初始化==>链接接口初始化==>会话列表初始化==>[监听初始化]
+         */
+        conversationListInit(){
+            let cb = this.imCallBack;
+            var conversationTypes = [
+                RongIMLib.ConversationType.PRIVATE,
+                RongIMLib.ConversationType.GROUP,
+                RongIMLib.ConversationType.SYSTEM];
+            var count = 150;
+            RongIMClient.getInstance().getConversationList({
+                onSuccess: function(list) {
+                    cb({
+                        type:'ConversationList',
+                        message:list
+                    });
+                },
+                onError: function(error) {
+                    console.log('获取会话列表失败', error);
+                    cb({
+                        error:true,
+                        type:'ConversationList',
+                        message:error
+                    });
+                }
+            }, conversationTypes, count);
+        },
+        /**
+         *   会话列表 的 回调
+         *  获取会话列表 动作 列表渲染到左侧栏
+         *   @param list []
+         */
+        imConversationList:async function(list){
+            // socketToObj
+                console.log("List列表：",list);
+            //左侧栏的数据初始化,及处理
+            //TODO 新用户,无列表处理
+            // console.log('获取会话列表:  ', list);
+            /*  左则栏 单条样例
+            let leftPersonality= {
+                key:'',                 //辅助标识
+                type:'',
+                id:'',
+                name:'',
+                portrait:'',
+                //MD 这个玩意,还能返回个NaN
+                messageNum:'',           //当前会话的未读消息数 unreadMessageCount
+                lastMessage:{
+                    uId:'',
+                    uName:'',
+                    uPortrait:'',
+                    messageContent:"",
+                    lastMessageSendTime:''  // latestMessage.sentTime
+                },
+            };
+            */
+            let allShowObj = {};
+            let sysChannelInfo = JSON.parse(JSON.stringify(this.sysChannelInfo));
+            let leftList = [];
+            let userList = [];
+            let groupList  = [];
+            let isSysChannal = false;
+            if(Array.isArray(list) && list.length>0){
+            // #### 1: 取出初始 的用户 群组 的 list  ####
+            for (let i= 0;i<list.length;i++){
+                if(list[i].conversationType == 1){
+                    //单聊处理
+                    userList.push(list[i].targetId || list[i].latestMessage.senderUserId);
+                }else if(list[i].conversationType == 3){
+                    //群聊处理
+                    userList.push(list[i].latestMessage.senderUserId);
+                    groupList.push(list[i].targetId);
+                }else if(list[i].conversationType == 6){
+                    //系统消息
+                }
+            }
+            // ####  同步获取,同步写库
+                let usersBack =  await this.userDatabaseFun('w',userList,{isLeft:true});
+                let userListBack = false;
+                //  console.log("############",usersBack);
+                 if(usersBack){
+                     userListBack = {data:usersBack}
+                 }else{
+                     console.error("user Message request is error");
+                     return false;
+                 }
+                 console.log("$$$$$$$$$:",userListBack);
+                // console.log("## 列表:   ",groupList);
+                let groupsBack = await this.groupDatabaseFun('w',groupList,{isLeft:true});
+                // console.log("############",groupsBack);
+                let groupListBack = false;
+                 if(groupsBack){
+                    groupListBack = {
+                         data:groupsBack
+                     }
+                 }else{
+                     console.error("group Message request is error");
+                     return false;
+                 }
+            //### 2 初始左则栏 数据 ###
+
+            for (let i= 0;i<list.length;i++){
+                let messageContent = false;
+                if(list[i].latestMessage.messageType == 'ImageMessage'){
+                    messageContent = '图片'
+                }else if(list[i].latestMessage.messageType == 'TextMessage'){
+                    list[i].latestMessage.content.content = this.emojiFun({type:'en'},list[i].latestMessage.content.content);
+                }else{
+                    messageContent = ' ';
+                    if(this.allMsgType[list[i].latestMessage.messageType] && this.allMsgType[list[i].latestMessage.messageType].name){
+                        messageContent = this.allMsgType[list[i].latestMessage.messageType].name;
+                    }
+                }
+                if(list[i].conversationType == 1){
+                    //单聊处理
+                    let userId = list[i].targetId ? list[i].targetId : list[i].latestMessage.senderUserId,
+                        userName='无名英雄',
+                        userPortrait='';
+                    if(userListBack.data && userListBack.data[userId] && userListBack.data[userId].name ){
+                        userName = userListBack.data[userId].name;
+                    }
+                    if(userListBack.data && userListBack.data[userId] && userListBack.data[userId].portrait ){
+                        userPortrait = userListBack.data[userId].portrait;
+                    }
+                    let messageNum = parseInt(list[i].unreadMessageCount)>0?parseInt(list[i].unreadMessageCount):0;
+                    leftList.push({
+                        key:'u:'+userId,                 //辅助标识
+                        type:list[i].conversationType,
+                        id:userId,
+                        name:userName,
+                        portrait:userPortrait,
+                        messageNum:messageNum,           //当前会话的未读消息数 unreadMessageCount
+                        lastMessage:{
+                            uId:userId,
+                            uName:userName,
+                            uPortrait:userPortrait,
+                            messageContent:messageContent ||list[i].latestMessage.content.content,
+                            lastMessageSendTime:list[i].latestMessage.sentTime  // latestMessage.sentTime
+                        },
+                    });
+                }else if(list[i].conversationType == 3){
+                    //群聊处理
+                    let groupId = list[i].targetId,groupName = "无名群组",groupPortrait = '';
+                    if(groupListBack.data && groupListBack.data[groupId]  && groupListBack.data[groupId].name){
+                        groupName = groupListBack.data[groupId].name;
+                    }
+                    if(groupListBack.data && groupListBack.data[groupId]  && groupListBack.data[groupId].portrait){
+                        groupPortrait = groupListBack.data[groupId].portrait;
+                    }
+                    let userId = list[i].latestMessage.senderUserId,
+                        userName='无名英雄',
+                        userPortrait='';
+                    if(userListBack.data && userListBack.data[userId] && userListBack.data[userId].name ){
+                        userName = userListBack.data[userId].name;
+                    }
+                    if(userListBack.data && userListBack.data[userId] && userListBack.data[userId].portrait ){
+                        userPortrait = userListBack.data[userId].portrait;
+                    }
+                    let messageNum = parseInt(list[i].unreadMessageCount)>0?parseInt(list[i].unreadMessageCount):0;
+                    leftList.push({
+                        key:"g:"+groupId,                 //辅助标识
+                        type:list[i].conversationType,
+                        id:groupId,
+                        name:groupName,
+                        portrait:groupPortrait,
+                        messageNum:messageNum,           //当前会话的未读消息数 unreadMessageCount
+                        lastMessage:{
+                            uId:userId,
+                            uName:userName,
+                            uPortrait:userPortrait,
+                            messageContent:messageContent || list[i].latestMessage.content.content,
+                            lastMessageSendTime:list[i].latestMessage.sentTime // latestMessage.sentTime
+                        },
+                    });
+                }else if(list[i].conversationType == 6){
+                    //系统消息
+                    isSysChannal = true;
+                    let messageNum = parseInt(list[i].unreadMessageCount)>0?parseInt(list[i].unreadMessageCount):0;
+                    leftList.push({
+                        key:'s:'+sysChannelInfo.id,                 //辅助标识
+                        type:6,
+                        id:String(sysChannelInfo.id),
+                        name:sysChannelInfo.name,
+                        portrait:sysChannelInfo.portrait,
+                        messageNum:messageNum,           //当前会话的未读消息数 unreadMessageCount
+                        lastMessage:{
+                            uId:sysChannelInfo.id,
+                            uName:sysChannelInfo.name,
+                            uPortrait:sysChannelInfo.portrait,
+                            messageContent:list[i].latestMessage.content.content ||"",
+                            lastMessageSendTime:list[i].latestMessage.sentTime // latestMessage.sentTime
+                        },
+                    });
+                }
+            }
+
+      }
+           //做个 防空处理
+            // if(leftList.length<1){
+            //     leftList.push({
+            //         key:'s:'+sysChannelInfo.id,                 //辅助标识
+            //         type:6,
+            //         id:sysChannelInfo.id,
+            //         name:sysChannelInfo.name,
+            //         portrait:sysChannelInfo.portrait,
+            //         messageNum:0,           //当前会话的未读消息数 unreadMessageCount
+            //         lastMessage:{
+            //             uId:sysChannelInfo.id,
+            //             uName:sysChannelInfo.name,
+            //             uPortrait:sysChannelInfo.portrait,
+            //             messageContent:"",
+            //             lastMessageSendTime: Date.now()// latestMessage.sentTime
+            //         },
+            //     });
+            //     // sObj['s:'+sysChannelInfo.id] = [];
+            //     // this.allShowDatas = allShowObj;
+            // }
+            // console.log('leftList:   ',leftList);
+            // this.leftObjList = leftList;
+            // ## 3 通讯列表 初始化 ##
+             console.log("左侧左侧：",leftList);
+            this.doLeftList({
+                type:'init',
+                data:{list:leftList}
+            });
+        },
+        /**
+         *  收到,发送消息的处理动作
+         * @param obj Object 收到消息通知
+         * @param type number 1:发送
+         */
+        doMessage:async function (obj,type){
+         if(type == 1){
+
+         }else{
+             //处理接收信息
+             console.log("处理接收信息: ",obj);
+             let messageTypeArr = Object.keys(this.allMsgType);
+             if(obj.content
+                 && obj.messageType
+                 && typeof obj.messageType == 'string'
+                 && messageTypeArr.indexOf(obj.messageType) != -1){
+                 // ### 加一个扩展标志 ###
+                 obj.messageType_extraObject = this.allMsgType[obj.messageType];
+                switch (obj.messageType_extraObject.type){
+                    // 状态
+                    case 0:
+                        if(obj.messageType == 'TypingStatusMessage'){
+                          //对方正在输入状态消息
+                            if(obj.senderUserId
+                                && this.socketToObj.type == 1
+                                && obj.senderUserId == this.socketToObj.id){
+                                //TODO 当前通讯用户的状态
+                                    var _this = this;
+                                    if(obj.messageType_extraObject.objectName=='RC:TypSts'){
+                                        this.status='(对方正在输入...)'
+                                    }
+                                    setTimeout(function(){
+                                        _this.status=''
+                                    },1000)
+
+                                console.log("当前通讯用户的状态:  ",obj);
+                            }
+                        }else{
+                          //群消息已读状态回执
+                            console.log("群消息已读状态回执_##TODO##: ",obj);
+                            if(obj.targetId
+                                && this.socketToObj.type == 3
+                                && obj.targetId == this.socketToObj.id){
+                                //TODO
+
+                            }
+
+                        }
+                        break;
+                        //内容类
+                    case 1:
+                        if(obj.targetId == this.socketToObj.id){
+                            if(!obj.content.user){
+                                await this.userDatabaseFun('r',[obj.senderUserId]).then(function (res) {
+                                    if(res && res[obj.senderUserId]){
+                                        obj.content.user = {
+                                            id:res[obj.senderUserId].id,
+                                            name:res[obj.senderUserId].name,
+                                            portrait:res[obj.senderUserId].portrait,
+                                        }
+                                    }
+                                }).catch()
+                            }
+                            this.showDatas.push(obj);
+                            // TODO 页面 根据类型 渲染
+                            //TODO 通信记录列表移动到底部
+
+                        }
+                        this.doLeftList({
+                            type:'message',
+                            data:obj
+                        })
+                        break;
+                        // 通知类
+                    case 2:
+                        break;
+                        //自定义类,web暂不做处理
+                    case 3:
+                        break;
+                }
+             }else{
+                 console.error("末知的消息类型");
+                 return false;
+             }
+         }
+        },
+        /**
+         *  左则 通讯列表处理动作
+         * @param obj {type:[],data:}
+         * @param obj.type String  'init':初始数据,'add':加入,"del":删除,'message':收到消息动作
+         */
+        doLeftList: async function (obj){
+            let typeArr = [
+                'init',      //初始化
+                // 'add',       //增加 先遍历,没有就增加
+                'del',       //删除
+                'message'    //收到信息,增加角标
+            ];
+            console.log("## 消息处理:  ",obj);
+            if(obj.type && typeof obj.type == 'string' && typeArr.indexOf(obj.type) != -1){
+
+                switch (obj.type){
+                    case 'init':
+                        this.leftObjList = obj.data.list;
+                        var dataList = obj.data.list;
+                        this.leftObjList = obj.data.list;
+                        for(let i=0;i<dataList.length;i++){
+                             if(dataList[i].portrait==''||typeof dataList[i].portrait=='undefined'){
+                                this.leftObjList[i].imgName = this.splitName(dataList[i].name)
+                             }
+                           this.leftObjList[i].lastMessage.time =  this.format(dataList[i].lastMessage.lastMessageSendTime,1);
+                        }
+                        console.log('左侧类表列表:',this.leftObjList);
+                        this.isLeftListInit = true;
+                        let objData = obj.data.list
+                        if(objData&&objData.length){
+                            this.isGroupCon =  objData[0].type;
+                            this.changeChannel(objData[0]);
+                        }
+                        this.messageListenerInit();
+                    break;
+                    // case 'add':
+                    //     break;
+                    case 'del':
+                        break;
+                    case 'message':
+                        // [新增] ,角标,排序
+                        let leftObj  = JSON.parse(JSON.stringify(this.leftObjList));
+                        let keyStr  = "s:"+obj.data.targetId;
+                        if(obj.data.conversationType == 1){
+                             keyStr  = "u:"+obj.data.targetId;
+                        }else if(obj.data.conversationType == 3){
+                             keyStr  = "g:"+obj.data.targetId;
+                         }
+                         console.log(obj.data.id);
+                         console.log(this.socketToObj.id);
+                         console.log(keyStr);
+                         console.log(this.socketToObj.key);
+                        if(obj.data.id ==  this.socketToObj.id && keyStr == this.socketToObj.key){
+                            console.log("## 消息处理: 直接渲染到当前通讯对话框 ",obj);
+                            // 直接渲染到当前通讯对话框
+                        }else{
+                            let messageContent = false;
+                            if(obj.data.messageType == 'ImageMessage'){
+                                messageContent = '图片'
+                            }else if (obj.data.messageType == 'TextMessage'){
+                                messageContent = this.emojiFun({type:'en'},obj.data.content.content)
+                            }
+                            let isExist = true;
+                            for(let i = 0;i<leftObj.length;i++ ){
+                            if(obj.data.targetId == leftObj[i].id && keyStr == leftObj[i].key){
+                                isExist = false;
+                                leftObj[i].messageNum++;
+                                if(obj.data.conversationType ==3){
+                                    let  userDb = {
+                                        id :obj.data.senderUserId,
+                                        name:'无名英雄',
+                                        portrait:''
+                                    }
+                                    let  userDbBack = await this.userDatabaseFun('r',[obj.data.senderUserId]);
+                                    if(userDbBack && userDbBack[obj.data.senderUserId]){
+                                        userDb = userDbBack[obj.data.senderUserId];
+                                    }
+
+                                    leftObj[i].lastMessage={
+                                        uId:userDb.id,
+                                        uName:userDb.name,
+                                        uPortrait:userDb.portrait,
+                                        messageContent:messageContent ||obj.data.content.content,
+                                        lastMessageSendTime:obj.data.receivedTime  || Date.now()// latestMessage.sentTime
+                                    };
+                                }else{
+                                    leftObj[i].lastMessage.messageContent =messageContent || obj.data.content.content;
+                                    leftObj[i].lastMessage.lastMessageSendTime = obj.data.receivedTime  || Date.now();
+                                    }
+                            }
+                            }
+                            if(isExist){
+                                console.log("## 消息处理: 新增通道 ",obj);
+                              let newChannel = await this.makeNewChannel(obj.data);
+                              if(newChannel){
+                              leftObj.push(newChannel)
+                              }else{
+                                  console.log("## 消息处理: 新增通道失败 ",newChannel);
+                              }
+                            }
+                        }
+                            //排序  按时间
+                            this.leftObjList =  leftObj.sort(function (a,b) {
+                                return parseInt(b.lastMessage.lastMessageSendTime) - parseInt(a.lastMessage.lastMessageSendTime);
+                            });
+
+                        break;
+                }
+
+            }
+
+        },
+        /**
+         * 鼠标移出会话
+         */
+        channelBoxLeave(){
+            //暂不使用此功能
+            return false;
+            // console.log("会话移出");
+            if(this.mouseLeftMenu){
+                window.addEventListener('contextmenu',()=>{
+                    this.mouseLeftMenu.closePopup(remote.getCurrentWindow())
+                });
+                this.mouseLeftMenu = false;
+            }
+        },
+        /**
+         * 鼠标覆盖会话
+         */
+        channelBoxEnter(channel){
+            //暂不使用此功能
+            return false;
+                // console.log("会话移入",channel);
+            if(channel.id && channel.type){
+            let cb = this.removeConversationCallBack;
+                this.mouseLeftMenu = false;
+                this.mouseLeftMenu = new Menu();
+                this.mouseLeftMenu.append(new MenuItem({
+                    label: '删除会话',
+                    click:function () {
+                        RongIMClient.getInstance().removeConversation(parseInt(channel.type),String(channel.id ), {
+                            onSuccess: function (message) {
+                                console.log('删除成功', message);
+                                cb(message,channel)
+                            },
+                            onError: function (errorCode) {
+                                console.log('删除失败', errorCode);
+                            }
+                        });
+                    }
+                }));
+
+                window.addEventListener('contextmenu', (e) => {
+                    // console.log("## e　##: ",e);
+                    // e.preventDefault();
+                    this.mouseLeftMenu.popup({window: remote.getCurrentWindow()})
+                }, false)
+
+
+            }else{
+               console.error("channel id is error...");
+               return false;
+            }
+        },
+        /**
+         *  再次获取通讯历史记录
+         */
+        nextGetHistoryMessage(){
+            console.log("执行")
+            let opt = {
+                id:this.socketToObj.id,
+                type:this.socketToObj.type,
+                timestap:Date.now()
+            }
+            if(this.showDatas[0] && this.showDatas[0].sentTime){
+                opt.timestap =  this.showDatas[0].sentTime;
+            }
+            if(this.msgListIsEnd){
+                this.getHistoryMessages(opt)
+            }else{
+                this.isLoad = false;
+            }
+        },
+         handleScroll() {
+             var that = this;
+            //变量scrollTop是滚动条滚动时，距离顶部的距离
+            var htmlScroll = this.$refs.messagesContainer.scrollTop;
+            if(htmlScroll==0){
+                // var scrollTop = htmlScroll.scrollTop;
+                that.nextGetHistoryMessage();
+            }
+        },
+        /**
+         * 通讯历史记录 回调
+         *  @param  list Array 获取的历史消息列表
+         *  @param  hasMsg Boolen 是否还有历史消息可以获取
+         */
+        historyMessageCallBack: async function(list,isEnd,opt){
+            console.log("历史记录: ",this.socketToObj);
+            // console.log("历史记录回调: ",isEnd,list.length,list,opt);
+            if(isEnd){
+                this.msgListIsEnd = true;
+            }else{
+                this.msgListIsEnd = false;
+            }
+            list = JSON.parse(JSON.stringify(list));
+            let rList = [];
+            for(let i=0; i<list.length; i++){
+                if(!this.allMsgType[list[i].messageType] ){
+                    // console.log("*****: ",list[i]);
+                    continue;
+                }
+                if(list[i].content){
+                    if(list[i].content.content && list[i].messageType == 'TextMessage'){
+                    list[i].content.content = this.emojiFun({type:'en'},list[i].content.content);
+                    }
+                 if(list[i].content.user == undefined||list[i].content.user.id||list[i].content.user.name||list[i].content.user.portrait){
+                   if(list[i].conversationType == 1){
+                       await this.userDatabaseFun('r',[list[i].senderUserId]).then(function (res) {
+                           if(res && res[list[i].senderUserId]){
+                               list[i].content.user = {
+                                   id:list[i].senderUserId,
+                                   name:res[list[i].senderUserId].name,
+                                   portrait:res[list[i].senderUserId].portrait
+                               }
+                           }else{
+                               list[i].content.user = {
+                                   id:list[i].senderUserId,
+                                   name:"无名英雄",
+                                   portrait:''
+                               }
+                           }
+                       }).catch(function (err) {
+                           list[i].content.user = {
+                               id:list[i].senderUserId,
+                               name:"无名英雄",
+                               portrait:''
+                           }
+                       })
+
+                 }else if(list[i].conversationType == 3){
+
+                       if(list[i].messageType == 'GroupNotificationMessage'){
+                           // console.log("####: ",i);
+                           // console.log("####: ",list[i]);
+                           list[i].content.user = this.sysChannelInfo;
+                           list[i].content.content =this.emojiFun({type:'en'},list[i].content.message);
+                       }else{
+                            await this.userDatabaseFun('r',[list[i].senderUserId]).then(function (res) {
+                            // console.log("groupSendUser: ",i);
+                            if(res && res[list[i].senderUserId]){
+                                list[i].content.user = {
+                                    id:list[i].senderUserId,
+                                    name:res[list[i].senderUserId].name,
+                                    portrait:res[list[i].senderUserId].portrait
+                                }
+                            }else{
+                                list[i].content.user = {
+                                    id:list[i].senderUserId,
+                                    name:"无名英雄",
+                                    portrait:''
+                                }
+                            }
+                            }).catch(function (err) {
+                                list[i].content.user = {
+                                    id:list[i].senderUserId,
+                                    name:"无名英雄",
+                                    portrait:''
+                                }
+                            })
+                         }
+                        }else if(list[i].conversationType == 6){
+                            list[i].content.user = this.sysChannelInfo;
+                            if(!list[i].content.content){
+
+                            }
+                        }
+                }
+                   rList.push(list[i]);
+                }
+
+            }
+            var byteConvert = function(bytes) {
+                    if (isNaN(bytes)) {
+                        return '';
+                    }
+                    var symbols = ['b', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+                    var exp = Math.floor(Math.log(bytes)/Math.log(2));
+                    if (exp < 1) {
+                        exp = 0;
+                    }
+                    var i = Math.floor(exp / 10);
+                    bytes = bytes / Math.pow(2, 10 * i);
+
+                    if (bytes.toString().length > bytes.toFixed(2).toString().length) {
+                        bytes = bytes.toFixed(2);
+                    }
+                    return bytes + ' ' + symbols[i];
+             };
+
+            // console.log("历史记录: ",rList);
+            for(let i=0;i<=rList.length;i++){
+                if(rList[i]&&rList[i].messageType&&rList[i].messageType=='FileMessage'){
+                      rList[i].content.size = byteConvert(rList[i].content.size);
+                      if(!rList[i].content.size&&!rList[i].content.name){
+                          rList[i].content.name = ' '
+                          rList[i].content.size = '0 k'
+                      }
+                }
+            }
+             var _this = this;
+            if(opt.callBackStatus == 'init') {
+                this.showDatas = rList;
+                 setTimeout(function(){
+                      _this.scrollBottom(1);
+                  }, 200);
+            }else{
+                this.isLoad = false;
+                 if(rList&&rList.length>0){
+                    this.showDatas = rList.concat(this.showDatas);
+                    this.historyNum++;
+                    setTimeout(function(){
+                        _this.scrollBottom();
+                        _this.isLoad = true;
+                    },200);
+                 }
+                
+                //  console.log("##再次:  ",rList.concat(this.showDatas));
+            }
+            this.imgList = [];
+            // this.$refs.msgBox.scrollTop = this.$refs.msgBox.scrollHeight;
+            // console.log(this.$refs.msgBox);
+             var datalist = JSON.parse(JSON.stringify(this.showDatas));
+             this.showDatas = datalist.sort(function(a,b){
+                      return a.sentTime-b.sentTime;
+              });
+
+            var j=0;
+            var n =0;
+            var img = false;
+
+             for(let i=0;i<datalist.length;i++){
+               if(datalist[i].content.user.portrait==''||typeof datalist[i].content.user.portrait=='undefined'){
+                     datalist[i].content.user.imgName = this.splitName(datalist[i].content.user.name)
+               }
+               if(datalist[i].messageType=="ImageMessage"||datalist[i].messageType=="GIFMessage"){
+                   img = false;
+                   img = new Image();
+                    datalist[i].index = j;
+                    // var imgUri={}
+                    if(datalist[i].messageType=="ImageMessage"){
+                          img.src = "data:image/png;base64,"+datalist[i].content.content;//（图片的base64编码字符串）
+                          img.imageUri = datalist[i].content.imageUri;
+                    }else{
+                         img.src = "data:image/png;base64,"+datalist[i].content.localPath;//（图片的base64编码字符串）
+                           img.imageUri = datalist[i].content.remoteUrl;
+                    }
+                    img.timeStrapE = datalist[i].sentTime;
+
+                    // imgUri.imageUri = datalist[i].content.imageUri;
+                    img.onload = this.imgOnloadFun;
+                    j++;
+                    // console.log("图片对象：",imgUri);
+               }
+                if(datalist[i].messageType=="VoiceMessage"){
+                    datalist[i].isPlaying = false;
+                    this.$set(datalist[i],"VoiceImg","/src/renderer/assets/apy.png")
+                    // datalist[i].VoiceImg = "/src/renderer/assets/apy.png"
+                    datalist[i].index = n;
+                    n++;
+                }
+                datalist[i].sendTimeFomat=this.format(datalist[i].sentTime);
+             }
+             this.showDatas = datalist;
+            //   setTimeout(function(){
+            //         _this.scrollBottom();
+            //     },200);
+            //  console.log(this.showDatas);
+
+        },
+        imgOnloadFun(imgE){
+            var imgList = JSON.parse(JSON.stringify(this.imgList));
+            imgList.push({
+                height:imgE.path[0].height,
+                width:imgE.path[0].width,
+                timeStrapE:imgE.path[0].timeStrapE,
+                imageUri:imgE.path[0].imageUri
+            });
+            this.imgList = imgList.sort(function(a,b){
+                return a.timeStrapE-b.timeStrapE;
+            })
+            // console.log("图片list:",this.imgList);
+            // console.log("### timeStrap:   ",imgE.path[0].timeStrapE);
+            // console.log("### H:   ",imgE.path[0].height);
+            // console.log("### W:   ",imgE.path[0].width);
+            //  return {height:imgE.path[0].height,width:imgE.path[0].width};
+        },
+        /**
+         * 通讯历史记录
+         *  @param opt Object {id:'通讯ID',type:'int 通讯类型'}
+         */
+        getHistoryMessages(opt){
+            var targetId = false;
+            if(opt.id){
+                targetId = opt.id;
+            }else{
+                console.error("通讯历史: 参数(id)错误");
+                return false;
+            }
+            var conversationType = false;
+            if(opt.type == 1) {
+                conversationType = RongIMLib.ConversationType.PRIVATE;
+            }else if(opt.type == 3){
+                conversationType = RongIMLib.ConversationType.GROUP
+            }else if(opt.type == 6){
+                conversationType = RongIMLib.ConversationType.SYSTEM
+            }else{
+                console.error("通讯历史: 参数(type)错误");
+                return false;
+            }
+            var timestrap = null;
+            if(opt.timestrap != undefined){
+                timestrap =  opt.timestrap
+            }
+            var count = 20;
+            var cbFun = this.historyMessageCallBack;
+            RongIMLib.RongIMClient.getInstance().getHistoryMessages(conversationType, targetId, timestrap, count, {
+                onSuccess: function(list, hasMsg) {
+                     cbFun(list,hasMsg,opt);
+                     console.log("记录：",list)
+                },
+                onError: function(error) {
+                    // 请排查：单群聊消息云存储是否开通
+                    console.error('获取历史消息失败', error);
+                }
+            });
+        },
+       /**
+        *  获取指定会话
+        *  在这获取,就是没有和个频道的会话记录
+        *  获取后,写入总的会话记录,然后切换
+        * @param type String 会话类型 this.ConversationType
+        * @param id int | String 目标ID
+        */
+        getConversationList(type,id){
+            // console.log(type ,id);
+            var conversationType = RongIMLib.ConversationType.PRIVATE;
+            if(type == 3){
+                conversationType = RongIMLib.ConversationType.GROUP
+            }else if(type == 6){
+                conversationType = RongIMLib.ConversationType.SYSTEM
+            }
+            var targetId = id;
+            RongIMClient.getInstance().getConversation(conversationType, targetId, {
+                onSuccess: function(conversation) {
+                    if (conversation) {
+                        // console.log('获取指定会话成功', conversation);
+                    }
+                },
+                onError: function(error) {
+                    console.log('获取会话失败', error);
+                }
+            });
+        },
+        /**
+         *    点击IM通信频道
+         *    @param obj Object 左则栏里的一个元素数据
+         */
+        selectChannel(obj,idx){
+             this.idx=idx;
+             this.imgList=[];
+            console.log("点击会话:  ",obj);
+            this.isGroupCon=obj.type;
+            this.changeChannel(obj);
+        },
+        /**
+         *    切换IM通信频道
+         *    @param data 左则栏里的一个元素数据
+         */
+        changeChannel(data){
+            console.log(data)
+            if(data){
+                if(data.id == 1){
+                //TODO 暂不处理系统消息
+                alert("暂不支持系统消息处理");
+                return false;
+                }else if(data.id ==  this.socketToObj.id && data.key == this.socketToObj.key){
+                    return false;
+                }
+                else{
+                    console.log("切换IM通信频道:   ",data);
+                    data.messageNum = 0;
+                    this.socketToObj = data;
+                    console.log(this.socketToObj);
+                }
+            }
+            //获取指定会话
+             // 查询 connectDatabase 得到列表 如:有未读会话,先获取会话
+            this.getConversationList(data.type,data.id);
+             let opt = {
+                type:data.type,
+                 id:data.id,
+                 timestrap:0,
+                 callBackStatus:'init'
+            };
+            this.getHistoryMessages(opt);
+
+       },
+        /**
+         *  收到新消息,创建一个新会话体
+         *  @param data object 会话消息
+         */
+        makeNewChannel:async function(data){
+            let groupDb = false,userDb = false,channelObj = false;
+            let messageContent = false;
+            if(data.messageType == 'ImageMessage'){
+                messageContent = '图片'
+            }else if (data.messageType == 'TextMessage'){
+                messageContent = this.emojiFun({type:'en'},data.content.content)
+            }
+            if(data.conversationType == 1){
+
+                // console.log("## 用户列表:   ",userListBack);
+               let  userDbBack = await this.userDatabaseFun('w',[data.senderUserId]);
+                if(userDbBack && userDbBack[data.senderUserId]){
+                    userDb = userDbBack[data.senderUserId];
+                }else{
+                    console.error('新增用户会话错误');
+                    return false;
+                }
+
+                channelObj =  {
+                    type:data.conversationType,
+                    id:data.targetId,
+                    name:userDb.name,
+                    portrait:userDb.portrait,
+                    messageNum:1,           //当前会话的未读消息数 unreadMessageCount
+                    lastMessage:{
+                        uId:userDb.id,
+                        uName:userDb.name,
+                        uPortrait:userDb.portrait,
+                        messageContent:messageContent ||data.content.content,
+                        lastMessageSendTime:data.receivedTime || Date.now() // latestMessage.sentTime
+                    }
+                };
+                channelObj.key='u:'+data.targetId;
+            }else if(data.conversationType == 3){
+                let  userDbBack = await this.userDatabaseFun('w',[data.senderUserId]);
+                if(userDbBack && userDbBack[data.senderUserId]){
+                    userDb = userDbBack[data.senderUserId];
+                }else{
+                    console.error('新增群组会话错误(user)');
+                    return false;
+                }
+                let groupListBack =  await this.groupDatabaseFun('w',[data.targetId]);
+                if(groupListBack && groupListBack[data.targetId]){
+                    groupDb = groupListBack[data.targetId];
+                }else{
+                    console.error('新增群组会话错误(group)');
+                    return false;
+                }
+                channelObj =  {
+                    type:data.conversationType,
+                    id:data.targetId,
+                    name:groupDb.name,
+                    portrait:groupDb.portrait,
+                    messageNum:1,           //当前会话的未读消息数 unreadMessageCount
+                    lastMessage:{
+                        uId:userDb.id,
+                        uName:userDb.name,
+                        uPortrait:userDb.portrait,
+                        messageContent:messageContent ||data.content.content,
+                        lastMessageSendTime:data.receivedTime  || Date.now()// latestMessage.sentTime
+                    }
+                };
+                channelObj.key='g:'+data.targetId;
+            }
+            // else{
+            //     channelObj.key = 's:'+data.targetId;
+            // }
+            return channelObj;
+        },
+        /**
+         *  通讯记录操作
+         */
+        doPromptInfo(prompt) {
+            console.log("## addPromptInfo:   ",prompt);
+            this.showDatas.push({msg:prompt})
+        },
+        messageListenerInit(){
+            let cb = this.imCallBack;
+            RongIMClient.setOnReceiveMessageListener({
+                // 接收到的消息
+                onReceived: function (message) {
+                    // console.log("message:  ",JSON.stringify(message));
+                    // cb('新消息 ' + message.targetId + ':' + JSON.stringify(message))
+                    cb({
+                        type:'MessageListener',
+                        message:message
+                    });
+                }
+            })
+        },
+        
+        myTestFunS:async function(){
+            let testId = 4642472226904947;
+            let inSertBack = false;
+             this.userDatabaseFun('',[testId]).then(function (res) {
+                 console.log("ok:  ",res);
+                 inSertBack = res
+             }).catch(function (err) {
+                 console.log("err",err)
+             })
+            // inSertBack = await this.userDatabaseFun('r',[testId])
+            console.log("***** test *****   ",inSertBack);
+        },
+        myTestFun: async function (){
+          console.log("#### test ###");
+          //   this.$emoji.init();
+          //   console.log(this.$emoji );
+          //   let str = '';
+          //   let emSrt = this.$emoji.symbolToEmoji(str,function (eStr) {
+          //       console.log('emojiCallBack:  ',eStr);
+          //   });
+          //   return false;
+          //  this.emojiListFun();
+
+          return false;
+          console.log(this.showDatas);
+          console.log(this.msgListIsEnd ,this.socketToObj);
+          let opt = {
+               id:this.socketToObj.id,
+               type:this.socketToObj.type,
+               timestap:Date.now()
+          }
+          if(this.showDatas[0] && this.showDatas[0].sentTime){
+              opt.timestap =  this.showDatas[0].sentTime;
+          }
+          if(this.msgListIsEnd){
+               this.getHistoryMessages(opt)
+          }
+          return false;
+          let userList = ['4642472226904947','4660370668228603'];
+          let groupList = [6];
+          // let testId = 4660370668228603+Date.now();
+            let testId = 4661947752018241;
+          console.log(String(testId));
+
+          // return false;
+           let  testDb = {
+               id:String(testId),
+               name:"测试",
+               portrait:'',
+               create_time:Date.now()
+           }
+            let inSertBack = await this.$userDatabase.update({id:String(testId)},testDb,{ upsert: true });
+            console.log("***** test *****   ",inSertBack);
+            return false
+            this.$userDatabase.find(obj).then((re)=>{
+                console.log("ok:  ",re);
+            }).catch((err)=>{
+                console.log("err:  ",err);
+            });
+        },
+           /**
+         *  channel用户处理
+         * @param t String 'r':读(没有记录时,写入); 'w':写(强制写入); 其它:  按有效时间
+         * @param l array
+         * @param opt Object 配置参数
+         * @returns {boolean|| number}
+         */
+        userDatabaseFun:async function (t,l,opt) {
+            // console.log("channel用户  ",t,l,opt);
+            if(!l || !Array.isArray(l) || l.length<1){
+                console.error("channel用户处理: 列表错误");
+                return false;
+            }
+                    // #####   取数据  如果没取到,更新货插入
+                    let inDatabaseUserObj = {},dbVilatIds = [];  // 在DB中有效的数据 ,有效的id 列表
+                    let needRequestUserIds = [];                 //需请求刷新的用户ID列表
+                    let userIdList = [];                         // 本次处理有效用户id 列表
+                    let backUsersObj = {};                       // 最后返回给用户的 数据
+                    let pList = [];                              //Promise  并发处理 数据刷新
+                    for (let i in l) {
+                        if(l[i])
+                        userIdList.push(String(l[i]));
+                    }
+                    let inDbwhere = {
+                        id: {$in: userIdList},
+                    };
+                    if(t !== 'r'){
+                        inDbwhere.create_time={$gte:(Date.now() - parseInt(this.dbCacheExpir.user))};
+                    }
+                    // console.log("where: ",inDbwhere);
+                    // ### 根据 ID 取回数据里现有的 来判断 更新 还是 插入
+                    if(t !== 'w'){
+                   await this.$userDatabase.find(inDbwhere).then((res) => {
+                        // console.log("********  ok: ",res);
+                        if (res.length > 0) {
+                            for (let item of res) {
+                                inDatabaseUserObj[item.id] = item;
+                            }
+                            for(let i of userIdList){
+                                if(!inDatabaseUserObj[i]){
+                                    userIdList.push(i);
+                                }
+                            }
+                        }else{
+                            needRequestUserIds = JSON.parse(JSON.stringify(userIdList));
+                        }
+                    }).catch((e)=>{
+                        // console.log("********   error: ",e);
+                        needRequestUserIds = JSON.parse(JSON.stringify(userIdList));
+                    });
+                    }else{
+                        console.log("******** ref : ",userIdList);
+                        needRequestUserIds = JSON.parse(JSON.stringify(userIdList));
+                    }
+                    // console.log("needRequestUserIds",needRequestUserIds);
+                    if(needRequestUserIds.length == 0){
+                        backUsersObj = inDatabaseUserObj;
+                    }else{
+                        let requestUserDb =  ipcRenderer.sendSync('getChannelUser',{uIdList:needRequestUserIds});
+                        // console.log("requestUserDb",requestUserDb);
+                        backUsersObj = Object.assign(inDatabaseUserObj,requestUserDb.data);
+                        console.log("返回数据：%%%%%%%%%%%%",requestUserDb)
+                        for(let i in requestUserDb.data){
+                            if(requestUserDb.data[i] && typeof requestUserDb.data[i] == 'object'){
+                                pList.push(this.$userDatabase.update({id:String(i)},Object.assign(requestUserDb.data[i],{create_time:Date.now()}),{ upsert: true }))
+                            }
+                        }
+                       
+                       if(pList.length>0){
+                          await  Promise.all(pList);
+                       }
+                    }
+                  console.log("***************：",backUsersObj);
+                return backUsersObj;
+        },
+        /**
+         *  channel群组处理
+         * @param t String 'r':读; 'w':写
+         * @param l array
+         * @param opt Object 配置参数
+         *        {isLeft:"是否刷新左侧通讯栏"}
+         * @returns {boolean|| number}
+         */
+        groupDatabaseFun: async function(t,l,opt){
+            // console.log("group:  ",t,l,opt);
+            if(!l || !Array.isArray(l) || l.length<1){
+                // console.error("channel群组处理: 列表错误");
+                return false;
+            }
+            // #####   取数据  如果没取到,更新货插入
+            let inDatabaseUserObj = {},dbVilatIds = [];  // 在DB中有效的数据 ,有效的id 列表
+            let needRequestUserIds = [];                 //需请求刷新的用户ID列表
+            let userIdList = [];                         // 本次处理有效用户id 列表
+            let backUsersObj = {};                       // 最后返回给用户的 数据
+            let pList = [];                              //Promise  并发处理 数据刷新
+            for (let i in l) {
+                if(l[i])
+                    userIdList.push(String(l[i]));
+            }
+            let inDbwhere = {
+                id: {$in: userIdList},
+            };
+            if(t !== 'r'){
+                inDbwhere.create_time={$gte:(Date.now() - parseInt(this.dbCacheExpir.group))};
+            }
+            // ### 根据 ID 取回数据里现有的 来判断 更新 还是 插入
+            if(t !== 'w'){
+               await this.$groupDatabase.find(inDbwhere).then((res) => {
+                    // console.log("********  ok: ",res);
+                    if (res.length > 0) {
+                        for (let item of res) {
+                            inDatabaseUserObj[item.id] = item;
+                        }
+                        for(let i of userIdList){
+                            if(!inDatabaseUserObj[i]){
+                                userIdList.push(i);
+                            }
+                        }
+                    }else{
+                        needRequestUserIds = JSON.parse(JSON.stringify(userIdList));
+                    }
+                }).catch((e)=>{
+                    // console.log("********   error: ",e);
+                    needRequestUserIds = JSON.parse(JSON.stringify(userIdList));
+                });
+            }else{
+                // console.log("******** ref : ",userIdList);
+                needRequestUserIds = JSON.parse(JSON.stringify(userIdList));
+            }
+            // console.log("needRequestUserIds",needRequestUserIds);
+            if(needRequestUserIds.length == 0){
+                backUsersObj = inDatabaseUserObj;
+            }else{
+                let requestUserDb =  ipcRenderer.sendSync('getChannelGroup',{uIdList:needRequestUserIds});
+                backUsersObj = Object.assign(inDatabaseUserObj,requestUserDb.data);
+                for(let i in requestUserDb.data){
+                    if(requestUserDb.data[i] && typeof requestUserDb.data[i] == 'object'){
+                        pList.push(this.$groupDatabase.update({id:String(i)},Object.assign(requestUserDb.data[i],{create_time:Date.now()}),{ upsert: true }))
+                    }
+                }
+                if(pList.length>0){
+                    await  Promise.all(pList);
+                }
+            }
+
+            return backUsersObj;
+        },
+
+         /**
+         * 会话删除回调
+         */
+        removeConversationCallBack(msg,channel){
+           //  console.log(this.leftObjList);
+           // console.log("会话删除成功:  ",msg,channel);
+           if(msg === true ){
+               let index = false;
+               for(var i= 0;i<this.leftObjList.length;i++){
+                   if(channel.id == this.leftObjList[i].id && channel.type ==this.leftObjList[i].type &&  channel.key ==this.leftObjList[i].key ){
+                       index = i;
+                       break;
+                   }
+               }
+               console.log("index:  ",index);
+               if(index !== false){
+                   this.leftObjList.splice(index,1)
+               }
+           }
+        },
+        /**
+         * 鼠标移出自己发送的消息
+         */
+        msgBoxLeave(){
+            //暂不使用此功能
+            return false;
+            // console.log("消息移出");
+            // this.mouseLeftMenu = false;
+            if(this.mouseLeftMenu){
+                window.addEventListener('contextmenu',()=>{
+                    this.mouseLeftMenu.closePopup(remote.getCurrentWindow())
+                })
+            }
+        },
+        msgBoxEnter(e,itemIndex,idx){
+            //暂不使用此功能
+            var isRecallMsg = false;
+            if(e.button === 2){
+                let index = false;
+                if(isRecallMsg){
+                    if(e.path && Array.isArray(e.path) && e.path.length>0){
+                        console.log(e.path)
+                        for(let i = 0;i<e.path.length ;i++){
+                            if(e.path[i+1]&&e.path[i+1].className){
+                                if(e.path[i+1].className == 'mes_box me'&&e.path[i].id && e.path[i].id.substr(0,4) == 'msg_'){
+                                    console.log("index: ",e.path[i].id);
+                                    let arrId = e.path[i].id.split('_');
+                                        index = arrId[1];
+                                        // index = e.path[i].id.substr(4,e.path[i].id.length);
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+                let cb = this.sendRecallMessageCallBack;
+                let win  = remote.getCurrentWindow();
+                let msg = this.showDatas[index];
+                this.mouseLeftMenu = false;
+                if(typeof itemIndex=='undefined'|| index !== false){
+                      this.mouseLeftMenu = new Menu();
+                }
+                var id = document.getElementById('msg_'+idx+'_'+itemIndex+'_sp');
+              
+                var that = this;
+                if(id){
+                        this.mouseLeftMenu.append(new MenuItem({
+                        label: '复制',
+                        click:function () {
+                            console.log(id);
+                            var textCon = id.innerText;
+                             that.$copy(textCon,"已复制");
+                            // let range = document.createRange();
+                            //     // 传入需要选中的元素节点
+                            //     range.selectNodeContents(id);
+                            //     var selection = document.getSelection();
+                            //     console.log(id);
+                            //     console.log(range);
+                            //     console.log(range.selectNodeContents(id))
+                            //     // 清空选中的区域
+                            //     selection.removeAllRanges();
+                            //     // 添加选中区域
+                            //     selection.addRange(range);
+                            //      console.log( selection.addRange(range));
+                            //     document.execCommand('Copy');
+                        }
+                    }));
+                }
+                // if(index === false){
+                //     console.error("Event 里没有合法元素");
+                //     return false;
+                // }
+                if(index !== false){
+                    this.mouseLeftMenu.append(new MenuItem({
+                        label: '撤回并删除',
+                        click:function () {
+                            RongIMClient.getInstance().sendRecallMessage(msg, {
+                                onSuccess: function (message) {
+                                    // console.log('撤回成功', message);
+                                    cb(message)
+                                },
+                                onError: function (errorCode) {
+                                    console.log('撤回失败', errorCode);
+                                }
+                            });
+                        }
+                    }));
+                }else{
+                     console.error("Event 里没有合法元素");
+                }
+               
+                // win.removeMenu();
+                // win.setMenu(this.mouseLeftMenu)
+                if(typeof itemIndex=='undefined'|| index !== false){
+                      this.mouseLeftMenu.popup();
+                }
+            }else if(e.button === 0){
+                 //  TODO tupian
+                //接收的图片点击放大
+                if(typeof itemIndex!='undefined'){
+                    this.showImg = true;
+                    this.initialIndex = itemIndex;
+                }
+            }else{
+                return false;
+            }
+                        //暂不使用此功能
+                        return false;
+                        if(msg.senderUserId == this.selfObj.id){
+                        // console.log("消息移入",msg);
+                        let cb = this.sendRecallMessageCallBack;
+                        this.mouseLeftMenu = false;
+                        this.mouseLeftMenu = new Menu();
+                            this.mouseLeftMenu.append(new MenuItem({
+                                label: '撤回并删除',
+                                click:function () {
+                                    RongIMClient.getInstance().sendRecallMessage(msg, {
+                                        onSuccess: function (message) {
+                                            // console.log('撤回成功', message);
+                                            cb(message)
+                                        },
+                                        onError: function (errorCode) {
+                                            console.log('撤回失败', errorCode);
+                                        }
+                                    });
+                                }
+                            }));
+
+                            window.addEventListener('contextmenu', (e) => {
+                                // console.log("## e　##: ",e);
+                                // e.preventDefault();
+                                this.mouseLeftMenu.popup({window: remote.getCurrentWindow()})
+                            }, false)
+                        }
+        },
+        //关闭图片
+        closeDialog(){
+             this.initialIndex = null;
+              this.showImg = false;
+        },
+        /**
+         *  撤回历史记录
+         */
+        sendRecallMessage(msg){
+            // console.log("撤回并删除: ",msg);
+            let cb = this.sendRecallMessageCallBack;
+            RongIMClient.getInstance().sendRecallMessage(msg, {
+                onSuccess: function (message) {
+                    // console.log('撤回成功', message);
+                    cb(message);
+                },
+                onError: function (errorCode) {
+                    console.log('撤回失败', errorCode);
+
+                }
+            });
+        },
+        /**
+         *  撤回历史记录回调
+         */
+        sendRecallMessageCallBack(msg){
+            // console.log('撤回历史记录回调:  ',msg);
+            let index = false;
+            for(var i=0;i<this.showDatas.length;i++){
+                // console.log('撤回历史记录回调:  ',(msg.content.messageUId == this.showDatas[i].messageUId));
+                // console.log('撤回历史记录回调:  ',msg.content.messageUId);
+                // console.log('撤回历史记录回调:  ',this.showDatas[i].messageUId);
+                if(msg.content.messageUId == this.showDatas[i].messageUId ){
+                    index = i;
+                    break;
+                }
+            }
+            // console.log('撤回历史记录回调:  ',index);
+            if(index!==false){
+                this.showDatas.splice(index,1)
+            }
+        },
+        /**
+         *  表情包列表
+         */
+       emojiListFun(){
+        let list = this.emojiList;
+        if(!list){
+            // console.log('%%%');
+            list = this.$emoji.list;
+            this.emojiList = list;
+        }
+      },
+      showMessageScrolls(){
+        // this.messageScroll = true;
+      },
+      hideMessageScrolls(){
+        // this.messageScroll = false;
+      },
+      sendMsgEnter(e){
+        //右键粘贴
+        var that = this;
+            if(e.button === 2){
+                this.mouseLeftMenu = false;
+                this.mouseLeftMenu = new Menu();
+                this.mouseLeftMenu.append(new MenuItem({
+                        label: '复制',
+                        click:function () {
+                            var id = document.getElementById('input');
+                             console.log(id);
+                            //  var textCon = id.innerText;
+                            //  that.$copy(textCon,"已复制");
+                            if (document.body.createTextRange) {
+                                let range = document.body.createTextRange();
+                                range.moveToElementText(id);
+                                range.select();
+                            } else if (window.getSelection) {
+                                let selection = window.getSelection();
+                                let range = document.createRange();
+                                 range.selectNodeContents(id);
+                                selection.removeAllRanges();
+                                selection.addRange(range);
+                            } else {
+                                alert('none');
+                            }
+                            try {
+                                document.execCommand('copy');
+                            } catch (err) {
+                                console.log('该浏览器不支持点击复制到剪贴板');
+                            }
+                            //   console.log(document.execCommand('Paste'))
+                        }
+                    })
+                )
+                this.mouseLeftMenu.append(new MenuItem({
+                        label: '粘贴',
+                        click:function () {
+                            document.execCommand('Paste')
+                            //   console.log(document.execCommand('Paste'))
+                        }
+                    })
+                )
+                this.mouseLeftMenu.popup();
+            }
+        },
+        //发送消息
+        sendTextMsg(event){
+            // console.log(event)
+            if (typeof event=='undefined'||event.keyCode === 13) {
+                console.log(event);
+                if(event&&event.keyCode === 13){
+                    event.preventDefault();
+                }
+                // 阻止浏览器默认换行操作
+                let ct = 1;
+                if(this.socketToObj.type == 3){
+                    ct = 3;
+                }
+                console.log("图片路径：",this.uri,this.base64)
+                 if(this.msg){
+                    let text = this.msg;
+                    console.log("文本:  ",text,this.msg);
+                    console.log("文本:  ",this.socketToObj);
+                    if(!text){
+                        return false;
+                    }
+                  this.sendMsg(ct,{
+                        // 发送的时候,不用 de
+                        content:text,
+                        targetId:this.socketToObj.id
+                    },'TextMessage');
+                 }
+                 if(this.uri&&this.base64){
+                     let base64Str = this.base64;
+                     let uri =this.uri;
+                    this.sendMsg(ct,{
+                        // 发送的时候,不用 de
+                        content:base64Str,  //base64
+                        imageUri:uri,   //uri
+                        targetId:this.socketToObj.id
+                    },'ImageMessage');
+                 }
+                if(this.gifObj.gifDataSize&&this.gifObj.height&&this.gifObj.localPath&&this.gifObj.remoteUrl&&this.gifObj.width){
+                    let gifObj = this.gifObj;
+                    gifObj.targetId = this.socketToObj.id;
+                    this.sendMsg(ct,gifObj,'GIFMessage');
+                 }
+                //  if(this.fileObj){
+                //      let fileObj = this.fileObj;
+                //      fileObj.targetId = this.socketToObj.id;
+                //     this.sendMsg(ct,fileObj,'FileMessage');
+                //  }
+             }
+
+        },
+        /**
+         *  发送
+         *  @param cType int 会话类型
+         *  @param mType String 消息类型 this.messageTypeArr
+         *  @param cObj  Object {content:'',targetId:''}  消息休
+         */
+      sendMsg(cType,cObj,mType) {
+            console.log("## 发送 ## ",cType,cObj,mType);
+          // return false;
+            if(cType == 1) {
+                var conversationType = RongIMLib.ConversationType.PRIVATE;
+                }else if(cType == 3){
+                conversationType = RongIMLib.ConversationType.GROUP
+            }else {
+                console.error("会话类型错误");
+                return false;
+            }
+            var msg = false;
+          if(mType==='TextMessage'){
+           msg = new RongIMLib.TextMessage({ content: cObj.content,user:this.selfObj });
+          }else if(mType==='ImageMessage'){
+              //TODO 图片锁略base64
+            //   let base64Str = '',imageUri='';
+              msg = new RongIMLib.ImageMessage({content: cObj.content, imageUri: cObj.imageUri,user:this.selfObj});
+          }else if(mType === 'GIFMessage'){
+              msg =new RongIMClient.RegisterMessage.GIFMessage({
+                  gifDataSize:cObj.gifDataSize,
+                  height:cObj.height,
+                  localPath:cObj.localPath,
+                  remoteUrl:cObj.remoteUrl,
+                  width:cObj.width,
+                  user:this.selfObj});
+          }else if(mType==='FileMessage'){
+              msg = new RongIMLib.FileMessage({
+                  name: cObj.name,
+                  size: cObj.size,
+                  type: cObj.type,
+                  fileUrl: cObj.fileUrl,
+                  user:this.selfObj
+              });
+          }else if(mType==='RichContentMessage'){
+              var title = '融云';  // 图文标题
+              var content = '为用户提供 IM 即时通讯和音视频通讯云服务';  // 图文内容
+              var imageUri = '';  // 上传到自己服务器的 url
+              var url = 'https://www.rongcloud.cn';  // 富文本消息点击后打开的 URL
+              msg = new RongIMLib.RichContentMessage({
+                  title: title,
+                  content: content,
+                  imageUri: imageUri,
+                  url: url,
+                  user:this.selfObj
+              });
+          }else{
+              console.error("不支持的消息类型");
+              return false;
+          }
+          let targetId =cObj.targetId;  // 目标 Id
+          let cb =this.sendMsgCallBack;
+          RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
+              onSuccess: function (message) {
+                  // message 为发送的消息对象并且包含服务器返回的消息唯一 id 和发送消息时间戳
+                  // console.log('发送文本消息成功', message);
+                  cb(message)
+              },
+              onError: function (errorCode) {
+                  console.log('发送文本消息失败', errorCode);
+              }
+          });
+      },
+        sendMsgCallBack(msg){
+            console.log("发送消息:  ",msg);
+            console.log("发消息:  ",msg.senderUserId);
+            console.log("发送消息:  ",this.selfObj.id);
+            if(msg.messageType == 'TextMessage'){
+              this.textMessage = '';
+                msg.content.content = this.emojiFun({type:'en'},msg.content.content)
+            }
+            // else if(msg.messageType == 'GIFMessage'){
+            // }
+            this.showDatas.push(msg)
+            var _this = this;
+            setTimeout(function(){
+                _this.scrollBottom(1);
+            }, 100);
+            this.msg = '';
+            let doc = document.getElementById('input') // 获取对象
+            doc.innerHTML ='';
+        },
+        /**
+         * 时间格式
+         */
+      timestampFormat:function(timestamp,type){
+          //TODO 处理时间格式
+          let tStr = timestamp;
+          return tStr
+        },
+        changeFace(obj){
+            //添加表情
+             let msg = document.getElementById('input') // 获取对象
+              msg.innerHTML += obj.emoji;
+               this.msg +=obj.emoji;
+        },
+        //上传文件
+        handleRemove(file, fileList) {
+             console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
+        beforeUpload(){
+
+        },
+        changeHandle(){
+
+        },
+        changeBlur(){
+            let u = navigator.userAgent, app = navigator.appVersion;
+            let isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&:",isIOS);
+            if(isIOS){
+                setTimeout(() => {
+                const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0
+                 window.scrollTo(0, Math.max(scrollHeight - 1, 0))
+                //  alert("高度："+scrollHeight)
+                }, 200)
+      }
+        },
+        // 监听发送内容变化
+        inputMsg(e) {
+            let msgCon = e.target.innerText;
+             console.log("输入信息：",msgCon);
+            this.msg = msgCon.replace(/^\s*|\s*$/g,'');
+        //    setTimeout(function(){
+        //     var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;
+        //     window.scrollTo(0, Math.max(scrollHeight - 1, 0));
+        //      }, 100);
+         },
+        configType(){
+             var fileType = RongIMLib.FileType.IMAGE; // 图片类型
+             var config = {
+                domain: 'https://upload.qiniu.com',
+                fileType: fileType,
+                getToken: function(callback) {
+                    RongIMClient.getInstance().getFileToken(fileType, {
+                    onSuccess: function(data){
+                        callback(data.token);
+                    },
+                    onError: function(){
+                        console.error('get file token error', error);
+                    }
+                    });
+                }
+            };
+            return config;
+        },
+        //选择图片
+        changeFile:function(event){
+            console.log(event)
+            console.log(event.srcElement.files)
+            var _file = event.srcElement.files[0];
+            this.initType(_file);
+           return false;
+           RongIMClient.getInstance().getFileToken(tokenFileType, {
+                onSuccess: function(data){
+                    cb(_file,data.token);
+                },
+                onError: function(){
+                    console.error('get Upfile token error', error);
+                }
+            });
+			return false;
+        },
+        getFileType(filename){
+			// 默认支持两种图片格式，可自行扩展
+			var imageType = {
+				'jpg': 1,
+				'png': 2
+			};
+			var index = filename.lastIndexOf('.') + 1,
+                type = filename.substring(index);
+			return type in imageType ? 'image': 'file';
+        },
+        initType(_file){
+            var _this = this;
+            _this.uri = '';
+             _this.base64 = '';
+            _this.gifObj={};
+            console.log("文件类型：",_file);
+            let fileTypeObj = {
+                1: "IMAGE",
+                2: "AUDIO",
+                3: "VIDEO",
+                4: "FILE",
+                IMAGE: 1,
+                AUDIO: 2,
+                VIDEO: 3,
+                FILE: 4,
+            };
+            var index = _file.type.lastIndexOf('/');
+            var typeFile = _file.type.substring(0,index).toUpperCase();
+
+            if(typeFile!="IMAGE"||typeFile==''||typeof typeFile == 'undefined'){
+               typeFile='FILE';
+            }
+            var  tokenFileType=null;
+             console.log(fileTypeObj[fileTypeObj[typeFile]])
+             if(typeFile==fileTypeObj[fileTypeObj[typeFile]]){
+                 tokenFileType = fileTypeObj[typeFile];
+                 console.log(typeFile);
+
+             }
+              console.log(tokenFileType);
+            // TODO 根据file.type 生成 tokenFileType
+
+            let config = {
+                domain: 'http://upload.qiniu.com',
+                fileType: tokenFileType,
+                getToken: function(callback) {
+                    RongIMClient.getInstance().getFileToken(tokenFileType, {
+                        onSuccess: function(data){
+                            callback(data.token);
+                        },
+                        onError: function(){
+                            console.error('get file token error', error);
+                        }
+                    });
+                }
+            };
+            let uploadCallbacks = {
+                onProgress: function(loaded, total) {
+                    var percent = Math.floor(loaded / total * 100);
+                    console.log('已上传: ', percent);
+                },
+                onCompleted: function(data) {
+                    // 上传完成, 调用 getFileUrl 获取文件下载 url
+                    console.log("上传完成:  ",data);
+                    RongIMClient.getInstance().getFileUrl(tokenFileType, data.filename, data.name, {
+                        onSuccess: function(backData) {
+                           let msg = document.getElementById('input') // 获取对象
+                            if(tokenFileType==1){
+                             var index = data.name.lastIndexOf('.') + 1;
+                            var type = data.name.substring(index);
+                              console.log(type)
+                                if(type=='gif'){
+                                  msg.innerHTML += '<img src="data:image/png;base64,'+data.thumbnail+'" />';
+                                  _this.gifObj={
+                                        gifDataSize:data.size,
+                                        height:data.h,
+                                        localPath:data.thumbnail,
+                                        remoteUrl:backData.downloadUrl,
+                                        width:data.w,
+                                    }
+                                }else{
+                                    msg.innerHTML += '<img src="data:image/png;base64,'+data.thumbnail+'" />';
+                                    _this.uri = backData.downloadUrl;
+                                    _this.base64 = data.thumbnail;
+                                }
+                                //  console.log( '图片路径：', _this.base64, _this.uri)
+                            }else if(tokenFileType==2){
+
+                            }else if(tokenFileType==3){
+
+                            }else if(tokenFileType==4){
+                                // console.log('文件返回数据:',backData);
+                                // console.log('文件数据:',data);
+                                // msg.innerHTML += '<div><p><img src="../assets/text.svg"/></p><p><span>'+data.name+'</span><span>'+data.size+'</span></p></div>';
+                                // // _this.uri = backData.downloadUrl;
+                                // console.log( msg.innerHTML);
+                                // var index = data.name.lastIndexOf('.') + 1;
+                                // var type = data.name.substring(index);
+                                // console.log(index);
+                                // console.log(type);
+                                // _this.fileObj ={
+                                //     name:data.name,   // 文件名
+                                //     size:data.size,    // 文件大小
+                                //     type:type,         // 文件类型
+                                //     fileUrl:backData.downloadUrl     // 文件地址
+                                // }
+                            }
+                            console.log('文件 url 为: ', backData.downloadUrl);
+                            console.log('图片缩略图: ', data.thumbnail);
+                            //TODO  展示缩略图 清空input
+                            console.log(backData)
+                            console.log(tokenFileType)
+                            //   this.msg =
+                            //TODO 发送
+                        },
+                        onError: function(error) {
+                            console.log('get file url error', error);
+                        }
+                    })
+                },
+                onError: function(error) {
+                    console.error('上传失败', error);
+                }
+            };
+            // UploadClient.initImage(config, function(uploadFile) { // 上传文件为: UploadClient.initFile
+            //     uploadFile.upload(_file, uploadCallbacks);
+            // });
+            // return false;
+            // var type = this.getFileType(_file.name);
+            var _this =this;
+            console.log("类型：",typeFile)
+            // if(typeFile=='FILE'){
+            //    this.configType.fileType = RongIMLib.FileType.FILE;
+			// 	UploadClient.initFile(config, function(uploadFile){
+			// 		uploadFile.upload(_file, uploadCallbacks);
+			// 	});
+            // }else
+            if(typeFile=='IMAGE'){
+	            UploadClient.initImage(config, function(uploadFile){
+					uploadFile.upload(_file, uploadCallbacks);
+				});
+            }
+        },
+        // dowmLoadFile(fileUrl){
+        //     //点击文件下载
+        //     window.location.href=fileUrl;
+        // },
+        callback(){
+             var  data = {
+                onError	: function (errorCode) {
+			          	showResult(errorCode);
+			     },
+                // onProgress : function (loaded, total) {
+                //     var percent = Math.floor(loaded/total*100);
+                //     var progressBar 	= document.getElementById('progressBar'),
+                //         progressContent = document.getElementById('progressContent');
+                //         progressBar.style.width = percent + '%';
+                //         progressContent.innerHTML = percent + "%";
+                // },
+                 onCompleted (data) {
+                     console.log("文件上传完成：",data);
+                    // showLogs("文件上传完成：", data);
+                    // data.fileType = getFileType(data.name);
+                    // getFileUrl(data);
+                }
+             }
+			return data;
+		},
+        //点击播放语音条
+        handlePlay(idx,duration,VoiceIndex){
+            console.log(idx);
+            console.log(VoiceIndex);
+            // console.log(duration);
+            let audio = this.$refs.audio[VoiceIndex];
+            // console.log(this.$refs.audio.play());
+                if (!this.showDatas[idx].isPlaying) {
+                // audio.play();
+                this.$set(this.showDatas[idx],'VoiceImg','/src/renderer/assets/aplayer.gif')
+                this.showDatas[idx].isPlaying = true;
+                // console.log(this.showDatas[idx])
+                this.watchEnd(idx,duration);
+                } else {
+                  audio.pause();
+                   this.$set(this.showDatas[idx],'VoiceImg','/src/renderer/assets/apy.png')
+                 clearTimeout(this.timer);
+                 this.showDatas[idx].isPlaying = false;
+                 audio.currentTime = 0;
+                }
+        },
+        watchEnd(idx,duration) {
+            let that = this;
+            this.timer = setTimeout(() => {
+            that.showDatas[idx].isPlaying = false;
+            that.$set(this.showDatas[idx],'VoiceImg','/src/renderer/assets/apy.png')
+            // that.showDatas[idx].VoiceImg = '/src/renderer/assets/apy.png'
+            }, (duration + 1) * 1000);
+        },
+        //获取群聊中的列表
+        getGroupMemberList(){
+            // @click.stop="isShowGroup=true"
+             var _this = this;
+             _this.isShowGroup = true;
+            console.log(parseInt(_this.socketToObj.id));
+            let groupMemberList = ipcRenderer.sendSync('getGroupMemberList',{groupId:parseInt(_this.socketToObj.id),pageSize:100 ,pageIndex:1});
+            console.log(groupMemberList);
+            if(groupMemberList.errorCode==0){
+                this.groupMemberList=groupMemberList.data.list;
+                 var dataList = groupMemberList.data.list;
+                  for(let i=0;i<dataList.length;i++){
+                    this.groupMemberList[i].shortName = this.splitName(dataList[i].name);
+                  }
+                 
+            }else{
+               this.$toast(groupMemberList.message,{ duration: 1500 })
+            }
+               
+        }
+      }
+   })
+ </script>
+
+</html>

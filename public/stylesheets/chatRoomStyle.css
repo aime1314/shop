@@ -1,0 +1,427 @@
+* {
+    margin: 0;
+    padding: 0;
+}  
+html,body{
+    background: none;
+    height: 100%;
+}
+.content {
+    /* position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0; */
+    /* overflow-y: auto; */
+    -webkit-overflow-scrolling: touch;
+    /* //解决ios下滚动不流畅的问题 */
+    /* height: calc(100%); */
+    background: #f5f7f9;
+}
+.pageColsed {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    /* z-index: 101; */
+}
+.header {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%);
+}
+
+.header p:nth-child(1) {
+    width: 1.46rem;
+    margin: 0 auto;
+}
+
+.header p img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.header p:nth-child(2) {
+    text-align: center;
+    padding-top: 0.29rem;
+    color: #989EAB;
+    height: 0.59rem;
+    width: 2.14rem;
+    margin: 0 auto;
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+    font-weight: bold;
+    font-family: normal 100% Helvetica, Arial, sans-serif;
+}
+
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0.71rem;
+}
+
+.footer>div {}
+
+.footer>div>p {
+    margin: 0 auto;
+    width: 2.25rem;
+    height: 0.65rem;
+    line-height: 0.65rem;
+    color: #fff;
+    background: rgba(62, 140, 249, 1);
+    border-radius: 4px;
+    font-size: 0.3rem;
+    text-align: center;
+}
+#app{
+    /* position:relative; */
+    height:100%;
+    min-height:100%;
+    /* position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0; */
+    /* overflow-y: auto; */
+    -webkit-overflow-scrolling: touch;
+    /* //解决ios下滚动不流畅的问题 */
+    /* height: calc(100%); */
+    background: #f5f7f9;
+}
+.friend_window{
+    max-height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #f5f7f9;
+}
+
+aside{
+    max-height: 100%;
+    background-color: #fff;
+}
+main {
+    width: 100%;
+    height: 100%;
+    background: #f5f7f9;
+    /* padding-bottom:0.3rem; */
+}
+
+main .message_main {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0.8rem;
+    max-height:calc(100%-0.8rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #f5f7f9;
+    /* margin-bottom: 0.5rem; */
+}
+.heightIOS{
+    height: 6rem;
+}
+.mes_times{
+    text-align: center;
+    font-size: 0.21rem;
+    color: #BBC1CE;
+}
+.mes_box {
+    margin-bottom: 0.1rem;
+    margin-top: 0.1rem;
+    padding: 0.1rem 0.1rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mes_box .avatar {
+    width: 0.61rem;
+   height: 0.61rem;
+    align-self: unset;
+    margin-right: 0.12rem;
+}
+
+.mes_box .avatar img {
+    width: 0.61rem;
+    height: 0.61rem;
+    border-radius: 50%;
+}
+.imgName{
+    display: inline-block;
+    width: 0.61rem;
+    height: 0.61rem;
+    line-height: 0.61rem;
+    border-radius: 50%;
+    text-align: center;
+    background-color: #3e9ff9;
+    color: #fff;
+}
+
+
+.message_box {
+    background-color: #FFFFFF;
+    position: relative;
+    border: 1px solid rgba(210, 212, 215, 1);
+    text-align: left;
+    border-radius: 5px;
+    font-size: 0.27rem;
+    padding: 0.18rem;
+    
+}
+.cont_all{
+    max-width: 80%;
+}
+.me {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.me .message_box {
+    width: auto;
+    height: auto;
+    background-color: #D2EEFF;
+    border: 1px solid rgba(186, 207, 220, 1);
+    border-radius: 5px;
+    font-size: 0.27rem;
+    padding: 0.18rem;
+    float: right;
+}
+
+.me .message_box>span {
+    width: 400px;
+    /* overflow: hidden; */
+    word-break: break-all;
+}
+
+.me .message_box::before {
+    display: none;
+}
+.message_box>span>span>a:hover{
+    cursor: pointer;
+}
+/* .me .message_box::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #77BF41;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 3px;
+    background-color: #A0E759;
+    transform: rotate(45deg);
+    right: -6px;
+    top: 10px;
+} */
+
+.me .avatar {
+    order: 2;
+    margin-left: 0.12rem;
+    margin-right: 0rem;
+}
+.imgMsg>img {
+    width: 1.5rem;
+    -moz-box-shadow: 2px 2px 5px #ccc;
+    -webkit-box-shadow: 2px 2px 5px #ccc;
+    box-shadow: 2px 2px 5px #ccc;
+}
+
+
+.input_box {
+    background: rgba(249, 250, 252, 1);
+    box-shadow: 0px 1px 0px 0px rgba(206, 211, 216, 1), 0px 1px 0px 0px rgba(206, 211, 216, 1);
+    -moz-box-shadow: 0px 1px 0px 0px rgba(206, 211, 216, 1), 0px 1px 0px 0px rgba(206, 211, 216, 1);
+    /*firefox*/
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(206, 211, 216, 1), 0px 1px 0px 0px rgba(206, 211, 216, 1);
+    /*safari或chrome*/
+    border-radius: 1px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    /* height:0.853rem; */
+    /* z-index: 20; */
+    border-top: 1px solid rgba(206, 211, 216, 1);
+    z-index: 100;
+}
+.location{
+    /* bottom:4rem; */
+}
+ .input_box>div{
+   display: flex;
+   justify-content: center; /* 水平居中 */
+    align-items: center;     /* 垂直居中 */
+}
+.input_box>div>img {
+    width: 0.48rem;
+    height: 0.48rem;
+    /* margin-left: 0.1rem; */
+}
+
+.input {
+    font-size: 0.28rem;
+    margin: 0.13rem;
+    overflow-y: auto;
+    height: auto;
+    padding: 0.15rem 0.1rem;
+    width: 3.92rem;
+    background-color: #fff;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(205, 208, 212, 1);
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    /* -webkit-user-select: text; */
+}
+
+.input * {
+    /* -webkit-user-select: text */
+}
+
+.input:focus {
+    /* height: auto; */
+    outline: none !important;
+    -webkit-focus-ring-color: none;
+}
+
+.sendBtn {
+    display: inline-block;
+    background: #3E8CF9;
+    width: 1.39rem;
+    height: 0.54rem;
+    line-height: 0.54rem;
+    border-radius: 0.27rem;
+    font-size: 0.3rem;
+    color: #fff;
+    text-align: center;
+}
+  .passwordMali /deep/ .el-carousel--horizontal .el-carousel__container {
+    height:100% !important;
+}
+.passwordMali /deep/ .swiper-wrapper .swiper-slide{
+    height: 100%;
+}
+.voice-bg {
+    min-width: 1rem;
+    /* height: 0.61rem; */
+    /* line-height: 0.61rem; */
+    padding: 0.18rem;
+    background: #D2EEFF;
+    min-width: 1rem;
+    border-radius: 5px;
+    /* text-align: center; */
+    vertical-align: middle;
+}
+
+.bg {
+    /*语音*/
+    background: #fff !important;
+}
+
+.voice-bg>img {
+    width: 0.3rem;
+    vertical-align: middle;
+    margin-top: -1px;
+}
+
+.voice-bg>span {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.el-tag--medium {
+    width: 100px;
+    height: 40px !important;
+    line-height: 37px !important;
+    margin: 20px 10px;
+}
+
+.Model {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.reward_maili {
+    position: fixed;
+    right: 0;
+    top: 1rem;
+    z-index: 2;
+}
+
+.reward_maili>img {
+    width: 1.24rem;
+}
+
+.passwordMali {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, .4);
+    z-index: 101;
+}
+
+.centerCon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -65%);
+    background: #fff;
+    width: 4.17rem;
+    height: 2.03rem;
+    border-radius: 7px;
+}
+/* @media screen and (min-width: 320px) {
+    html {
+        font-size: 50px;
+    }
+} */
+.centerCon>div:first-child {
+    border-bottom: 0.01rem solid #E1E4E9;
+}
+/* .tabHg{
+       height: 1.28rem;
+} */
+
+.centerCon>div:first-child>p {
+    margin: 0.14rem auto;
+    margin-top: 0.17rem;
+    width: 3.5rem;
+    font-size: 0.2486rem;
+}
+
+.centerCon>div:last-child {
+    height: 0.63rem;
+    display: flex;
+    text-align: center;
+    line-height: 0.63rem;
+    color: #3478F6;
+    font-size: 0.2667rem;
+}
+
+.centerCon>div:last-child>span {
+    flex: 1;
+}
+
+.centerCon>div:last-child>span:first-child {
+    border-right: 0.01rem solid #E1E4E9;
+}
+.faceList{
+    float: left;
+    padding: 0.1rem;
+}

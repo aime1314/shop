@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <!-- <script src="https://webapi.amap.com/maps?v=1.4.14&key=afb988cf75aad978ec269d82f922ddee"></script> -->
+    <style>
+        .page {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f7f6f9;
+}
+.page .header {
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 1px 0px 0px #F5F7F9;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    z-index: 5;
+}
+.page .header h1 {
+    font-size: 16px;
+    font-weight: 700;
+}
+.page .header .page-back {
+    display: inline-block;
+    top: 12px;
+    left: 10px;
+    position: absolute;
+    width: 8px;
+    height: 16px;
+    text-align: center;
+    padding: 5px 10px;
+}
+.page .header .page-back::before {
+    content: "";
+    width: 8px;
+    height: 16px;
+    background: url(/images/back.png) no-repeat;
+    background-size: cover;
+    background-position: center center;
+    display: inline-block;
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+.page>.wrapper {
+    height: calc(100% - 50px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+        .content {
+            width: 100%;
+            height: 100%;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                        <iframe id="map" src="https://m.amap.com/picker/?center=<%= location %>&key=d0f34f27323cbb0de4a573ea3d3d5627" >
+                      </iframe>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        let id = `<%- id %>`;
+        let name = `<%- name %>`;
+        (function(){
+            var iframe = document.getElementById('map').contentWindow;
+            document.getElementById('map').onload = function(){
+                iframe.postMessage('','https://m.amap.com/picker/');
+            };
+            window.addEventListener("message", function(e){
+                let location = e.data.location.split(",");
+                let shelfLng = location[0];
+                let shelfLat = location[1];
+                sessionStorage.setItem("detailAddress", e.data.address);
+                sessionStorage.setItem("shelfLng", shelfLng);
+                sessionStorage.setItem("shelfLat", shelfLat);
+                window.location.href = "/applyShop/regform/?id="+ id+"&shopname="+name;
+            }, false)
+        }())
+        
+    </script>
+</body>
+</html>

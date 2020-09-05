@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>卡券领取</title>
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body,html{
+            background:#fff;
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .getCoupon-box{
+            display: block;
+        }
+        .getCoupon-box .header{
+            width:100%;
+        }
+        .getCoupon-box .headerBox{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            width:100%;
+            padding:0 0.37rem;
+        }
+        .getCoupon-box .header-box{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            margin-top: 0.45rem;
+            clear: both;
+            overflow: hidden;
+            width: 100%;
+            font-size: 0.21rem;
+            color:#000;
+        }
+        .getCoupon-box .header-box span{
+            color:#526BB4;
+        }
+        .getCoupon-box .section{
+            width:100%;
+        }
+        .getCoupon-box .couponBox{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            margin-top: 0.46rem;
+            clear: both;
+            overflow: hidden;
+            width:100%;
+            height:1.5rem;
+            padding:0 0.37rem;
+            
+        }
+        .getCoupon-box .coupon-box{
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            height:1.5rem;
+            display: flex;
+            background: url(/images/bg.png) no-repeat;
+            background-size: 100% 1.5rem;
+        }
+        .getCoupon-box .Ml-box{
+            width: 32%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .getCoupon-box .Ml-box .Ml{
+            text-align: center;
+            height: 0.43rem;
+            line-height:0.43rem;
+            font-size: 0.16rem;
+            color: #fff; 
+        }
+        .getCoupon-box .Ml span{
+            font-size: 0.56rem;
+        }
+        
+        .getCoupon-box .createOrgan-box{
+            width: 68%;
+        }
+        .getCoupon-box .createOrgan-box p{
+            padding-left: 0.15rem;
+        }
+        .getCoupon-box .createOrgan-box p:nth-child(1){
+            margin-top: 0.27rem;
+            clear: both;
+            overflow: hidden;
+            font-size: 0.33rem;
+            line-height: 0.33rem;
+            color:#000;
+        }
+        .getCoupon-box .createOrgan-box p:nth-child(2){
+            padding-top: 0.21rem;
+            font-size: 0.17rem;
+            line-height: 0.17rem;
+            color:#4B5059;
+        }
+        .getCoupon-box .line{
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding:0 0.37rem;
+        }
+        .getCoupon-box .line p{
+            margin-top: 0.33rem;
+            clear: both;
+            overflow: hidden;
+            width:100%;
+            height: 1px;
+            background: #F4F6F8;
+        }
+        .getCoupon-box .qmBind{
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding:0 0.37rem;
+        }
+        .getCoupon-box .qmBind p{
+            padding-top: 0.3rem;
+            color: #989EAB;
+            font-size: 0.18rem;
+            line-height: 0.18rem;
+        }
+        .getCoupon-box .footer{
+            width: 100%;
+            margin-top: 0.5rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .getCoupon-box .footer .ljGet{
+            margin: 0 auto;
+            width:5.33rem;
+            height:0.74rem;
+            background:rgba(62,140,249,1);
+            border-radius:7px;
+            color: #fff;
+            font-size: 0.32rem;
+            text-align: center;
+            line-height: 0.74rem;
+        }
+        /* 领取成功 */
+        .successGet-box {
+            display: none;
+        }
+        .successGet-box .header{
+            width: 1.35rem;
+            height: 1.35rem;
+            margin: 0 auto;
+            margin-top: 2.46rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .successGet-box .header img{
+            display: block;
+            width: 100%;
+            height:100%;
+        }
+        .successGet-box .section{
+            width: 100%;
+            text-align: center;
+        }
+        .successGet-box .section p:nth-child(1){
+            padding-top: 0.36rem;
+            height:0.33rem;
+            font-size:0.35rem;
+            color:rgba(0,0,0,1);
+            line-height:0.36rem;
+        }
+        .successGet-box .section p:nth-child(2){
+            padding-top: 0.5rem;
+            height:0.24rem;
+            font-size:0.24rem;
+            color:rgba(152,158,171,1);
+            line-height:0.36rem;
+        }
+        .successGet-box .footer{
+            width: 100%;
+            position: fixed;
+            bottom:0.59rem;
+        }
+        .successGet-box .footer .noApp p:nth-child(1){
+            padding-bottom: 0.43rem;
+            text-align: center;
+            height:0.23rem;
+            font-size:0.24rem;
+            color:rgba(62,140,249,1);
+            line-height:0.43rem;
+        }
+        .successGet-box .footer .noApp p:nth-child(2){
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.49rem;
+            height: 0.71rem;
+            background:rgba(62,140,249,1);
+            border-radius:36px;
+
+        }
+        .successGet-box .footer .noApp p:nth-child(2) span:nth-child(1){
+            /* display: inline-block; */
+            width: 0.26rem;
+            height: 0.3rem;
+        }
+        .successGet-box .footer .noApp p:nth-child(2) span:nth-child(1) img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .successGet-box .footer .noApp p:nth-child(2) span:nth-child(2){
+            display: inline-block;
+            height: 0.29rem;
+            font-size: 0.29rem;
+            color: #fff;
+            line-height: 0.33rem;
+        }
+        .successGet-box .footer .goback{
+            width:2.25rem;
+            height:0.65rem;
+            background:rgba(62,140,249,1);
+            border-radius:5px;
+            color:#fff;
+            font-size: 0.3rem;
+            text-align:center;
+            line-height: 0.65rem;
+            margin: 0 auto;
+            display: none;
+        }
+        .dialog{
+            position: fixed;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+            display: none;
+        }
+        .dialog.active{
+            display: block;
+        }
+        .dialog .bg{
+            display: block;
+            content: '';
+            position: absolute;
+            width:100%;
+            height:100%;
+            background: rgba(0,0,0,0.3);
+        }
+        .dialogcontent{
+            position: absolute;
+            left:50%;
+            top:50%;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            -o-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            z-index:1;
+            width:5.6rem;
+            height:7.6rem;
+            padding:0 0.5rem;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        .top-box{
+            margin-bottom: 0.41rem;
+            display: flex;
+            justify-content: space-between;
+            padding:0 0 0 0rem!important;
+        }
+        .dialogcontent .btn{
+            margin-top:0.41rem;
+            width:100%;
+            background: #3e8cf9;
+            color:#fff;
+            height:0.74rem;
+            line-height: 0.74rem;
+            text-align: center;
+            -webkit-border-radius: 0.07rem;
+            -moz-border-radius:0.07rem;
+            border-radius: 0.07rem;
+            font-size: 0.32rem;
+        }
+        .title{
+            display: inline-block;
+            font-size: 0.33rem;
+            line-height: 0.33rem;
+            color:#000;
+            padding-top:0.31rem;
+            font-family:Noto Sans S Chinese;
+            font-weight:bold;
+        }
+        .title span{
+            color:#3E8CF9;
+        }
+        .close{
+            position: absolute;
+            right: 0.36rem;
+            top:0.42rem;
+        }
+        .close>img{
+            display: block;
+            width:0.30rem;
+        }
+        .dialogcontent .common{
+            margin-top:0.31rem;
+            border-bottom:0.01rem solid #B8BEC9;
+            height:0.76rem;
+            display: flex;
+            align-items: center;
+            clear: both;
+            overflow: hidden;
+        }
+        .dialogcontent .common:nth-child(1){
+            margin-top: 0.38rem;
+        }
+        .dialogcontent .phone{
+            display: block;
+            width:0.27rem;
+            height:0.3rem;
+        }
+        .dialogcontent .phone img{
+            display: block;
+            width:100%;
+            height:100%;
+        }
+        .dialogcontent .common span{
+            display: inline-block;
+            color:#7F8592;
+            font-size:0.3rem;
+        }
+        .dialogcontent input{
+            border:none;
+            font-size: 0.3rem;
+        }
+        input::-webkit-input-placeholder {
+            color: #d0d6df;
+        }
+        input::-moz-input-placeholder {
+            color: #d0d6df;
+        }
+        input::-ms-input-placeholder {
+            color: #d0d6df;
+        }
+        .dialogcontent .phoneNum{
+            margin-left: 0.24rem;
+            width: 3.5rem;
+        }
+        #YZC{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .yzCode{
+            width:3.2rem;
+        }
+        #yzCode{
+            width:1.42rem;
+            height:0.47rem;
+            border:0.01rem solid #b5bac5;
+            border-radius:0.04rem;
+            -webkit-border-radius:0.04rem;
+            -moz-border-radius:0.04rem;
+            font-size: 0.22rem;
+            line-height: 0.47rem;
+            text-align: center;
+        }
+        .agree{
+            text-align: center;
+            margin-top: 0.32rem;
+            clear: both;
+            overflow: hidden;
+        }
+        .agree span{
+            font-size: 0.21rem;
+        }
+        .zj-box{
+            margin-top: 0.65rem;
+            clear: both;
+            overflow: hidden;
+            text-align: center;
+        }
+        .zj-box span{
+            font-size: 0.28rem;
+        }
+        .jconfirm .jconfirm-box{
+            width: 4.17rem;
+            height: 1.96rem;
+            background:#f7f7f7;
+            border-radius: 12px;
+            -webkit-border-radius:12px;
+            -moz-border-radius:12px;
+        }
+        .jconfirm-content div:first-child{
+            color:#000;
+            font-size: 0.29rem;
+        }
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons{
+            float: inherit;
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: flex!important;
+            /* justify-content: center; */
+            justify-content: space-around;
+            border-top: 1px solid #E1E4E9;
+            align-items: center;
+        }
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button{
+            width: 100%;
+            height:0.68rem;
+            line-height: 0.68rem;
+            border-radius: 0;
+            -webkit-border-radius:0;
+            -moz-border-radius:0;
+            color: #3478F6;
+            font-size: 0.28rem!important;
+            background: #f7f7f7;
+        }
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button:first-child{
+            border-right:1px solid #E1E4E9;
+        }
+    </style>
+</head>
+<body>
+    <div class="getCoupon-box">
+        <header class="header">
+            <div class="headerBox">
+                <p class="header-box">
+                    亲爱的
+                    
+                        <span id="realName"></span>
+        
+                    ，您现在可领取以下卡券：
+                </p>
+            </div>
+        </header>
+        <section class="section">
+            <div class="couponBox">
+                <div class="coupon-box">
+                    <div class="Ml-box">
+                        <p class="Ml">
+                            <% if(roll.ticketType == 0 || roll.ticketType == 1){ %>
+                                <span><%= roll.disAccountPer %></span>
+                                元
+                            <% } %>
+                        </p>
+                    </div>
+                    <div class="createOrgan-box">
+                        <p><%= roll.ticketName %></p>
+                        <p><%= roll.ticketDesc %></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="line">
+            <p></p>
+        </div>
+        <div class="qmBind">
+            <!-- <p>卡券领取成功后将与您当前群脉账号绑定</p> -->
+        </div>
+        <footer class="footer">
+            <div class="ljGet" onclick="ljGet()">立即领取</div>
+        </footer>
+        <div class="dialog" id="dialog">
+            <div class="dialogcontent">
+                <div class="top-box">
+                    <p class="title">
+                        使用此功能请先<span>绑定手机号</span>
+                    </p>
+                    <p class="close">
+                        <img src="/images/close.png"  class="right" alt="" onclick="closeDialog()">
+                    </p>
+                </div>
+                <div class="common">
+                    <p class="phone"><img src="/images/ico-phone.png" alt="手机号"></p>
+                    <span>+</span><span>86</span>
+                    <input type="number" class="phoneNum" id="phone" placeholder="请输入手机号">
+                </div>
+                <div class="common" id="YZC">
+                    <input type="text" id="yzCodeNum" class="yzCode" placeholder="输入验证码">
+                    <span id="yzCode" onclick="getCode(this)" style="color: #b5bac5;">获取验证码</span>
+                </div>
+                <div class="btn" onclick="bindPhone()">绑定手机号</div>
+                <p class="agree">
+                    <span style="color: #B5BAC5;">点击以上按钮即表示同意</span>
+                    <span style="color: #89B3FB;" onclick="privacyZC()">《隐私权声明》</span>
+                </p>
+                <p class="zj-box">
+                    <span style="color: #7F8592;">已有账号？</span>
+                    <span style="color: #3E8CF9;text-decoration:underline;" onclick="openAPP()">打开APP</span>
+                </p>
+            </div>
+            <div class="bg" onclick="closeDialog()"></div>
+        </div>
+    </div>
+    <div class="successGet-box">
+        <header class="header">
+            <img src="/images/ico-ok.png" alt="">
+        </header>
+        <section class="section">
+            <p>领取成功！</p>
+            <p>请打开群脉APP进入“我的卡券”查看并使用</p>
+        </section>
+        <footer class="footer">
+            <div class="noApp">
+                <P>没有安装群脉APP?</P>
+                <p onclick="download()">
+                    <span>
+                        <img src="/images/ico-download.png" alt="">
+                    </span>
+                    <span>&nbsp;&nbsp;立即下载</span>
+                </p>
+            </div>
+            <p class="goback" onclick="goback()">返回</p>
+        </footer>
+    </div>
+    <script src="/javascripts/wxcommon.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script>
+        window.onload = function(){
+            var system = `<%- sysType %>`
+            var name = document.getElementById("realName");
+            var obj = {"methodType":"getData","nativeFlag":"getUserInfo","encryptParams":["memberId","realName"],"callBackFunc":"getParams"}
+            try{
+                var version = JSON.parse(system)
+                if(version.app == "IOS"){
+                    try{
+                        window.webkit.messageHandlers.getAppMethod.postMessage(obj)
+                    }catch(e){
+                       
+                    }
+                }else if(version.app == "ANDROID"){
+                    try{
+                        qmWebViewListener.getAppMethod(JSON.stringify(obj));
+                    }catch(e){
+                        
+                    }
+                }else{
+                    name.innerText = "<%= userInfo.realName %>"
+                }
+            }catch(error){
+
+            }
+            
+            // var system = `<%- sysType %>`
+            // var version = JSON.parse(system)
+            if(version.app){
+                $(".goback").css("display", "block");
+                $(".noApp").css("display", "none")
+            }else{
+                $(".goback").css("display", "none");
+                $(".noApp").css("display", "block")
+            }
+        }
+        var realName = null
+        function getParams(userInfo){
+            if(!userInfo ||typeof userInfo !='string'){
+                return false;
+            }
+            userInfo+= "&isLogin=1";
+            var WxSin = new XMLHttpRequest();
+            WxSin.open("POST", '/login/getDeData?isLogin=1',false);
+            WxSin.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+            WxSin.onreadystatechange = function () {
+                if (WxSin.readyState == 4 && WxSin.status == 200) {
+                    var reqBack = JSON.parse(WxSin.responseText);
+                    if(!reqBack || ! reqBack.data){
+                        return false;
+                    }else{
+                       
+                        if(reqBack.data.realName){
+                            var name = document.getElementById("realName");
+                            name.innerText = reqBack.data.realName;
+                        }
+                        
+                    }
+                }
+            }
+
+            WxSin.send(userInfo);
+        }
+    
+    </script>
+    <script>
+        var wxWebshareDb = {
+            "title":'卡券领取',                                  // 分享标题
+            "link":window.location.href,                // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            "desc": "<%= roll.ticketName %>/<%= roll.ticketDesc %>",             // 分享描述
+            "imgUrl" : '',         //分享图标
+            // "type": '',                                        // 分享类型,music、video或link，不填默认为link
+            // "dataUrl": ''                                    // 如果type是music或video，则要提供数据链接，默认为空
+        };
+    </script>
+    <script>
+        var u = navigator.userAgent;
+        var timer =0;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        function ljGet(){
+            var userInfo = JSON.parse('<%- userInfoStr %>')
+            var isApp = JSON.parse('<%- sysType %>')
+            // console.log("用户信息:",userInfo.memberId)
+            // console.log("是否在app",)
+            var ua = navigator.userAgent.toLowerCase();
+            var isWeixin = ua.indexOf('micromessenger') != -1;
+            if(isApp.app == "IOS" || isApp.app == "ANDROID"){
+                // alert(isApp.app)
+                
+                var ticketCode = "<%= roll.ticketCode %>";
+                $.ajax({
+                    type:"POST",
+                    url:"/api/activate/ticketCode",
+                    contentType:"application/x-www-form-urlencoded",
+                    data:{
+                        ticketCode:ticketCode
+                    },
+                    success:function(res){
+                        if(res.errorCode==0){
+                            // window.location.href = "/login/successGet";
+                            $(".getCoupon-box").css("display", "none");
+                            $(".successGet-box").css("display", "block")
+                        }else{
+                            poper(res.message)
+                        }
+                    },
+                    error:function(err){
+                        poper("网络连接错误，请稍后再试")
+                    }
+
+                })
+            }
+            if(isWeixin){
+                // alert("微信打开")
+                if(userInfo.telephone){
+                    var ticketCode = "<%= roll.ticketCode %>";
+                    $.ajax({
+                        type:"POST",
+                        url:"/api/activate/ticketCode",
+                        contentType:"application/x-www-form-urlencoded",
+                        data:{
+                            ticketCode:ticketCode
+                        },
+                        success:function(res){
+                            if(res.errorCode==0){
+                                // window.location.href = "/login/successGet";
+                                $(".getCoupon-box").css("display", "none");
+                                $(".successGet-box").css("display", "block")
+                            }else{
+                                poper(res.message)
+                            }
+                        },
+                        error:function(err){
+                            poper("网络连接错误，请稍后再试")
+                        }
+
+                    })
+                }else{
+                    if(isiOS){
+                        $(".dialogcontent .phone").css("padding-top", "0.1rem");
+                        $(".dialogcontent .common:eq(0) span:eq(0)").css("padding-top", "0.05rem")
+                        $(".dialogcontent .common:eq(0) span:eq(1)").css("padding-top", "0.1rem")
+                    }
+                    var ele=document.getElementById("dialog")
+                    ele.classList.add("active")
+                }
+            }
+            
+            
+        }
+        function closeDialog(){
+            var ele=document.getElementById("dialog")
+            ele.classList.remove("active")
+            var yzCode=document.getElementById("yzCode")
+            //关闭弹窗，清除计时器
+            var inputs=document.getElementsByTagName("input")
+            for(var i =0 ;i<inputs.length;i++){
+                inputs[i].value=""
+            }
+            clearInterval(timer)
+            yzCode.innerText="发送验证码"
+            yzCode.classList.remove("active")
+        }
+        function privacyZC(){
+            window.location.href = "/appCorrelation/correlationPage/privacy";
+        }
+        function openAPP(){
+            window.location.href = "https://www.qunmai.com/downloadPage.html"       //TODO
+        }
+        function getCode(el){ 
+            // console.log(el)
+            if(timer){
+                //已经在计时了
+                return;
+            }else{
+                el.classList.remove("active")
+            }
+            var phoneNum=document.getElementById("phone").value
+            if(!(/^1[3456789]\d{9}$/.test(phoneNum) &&  phoneNum.length == 11)){
+                poper("请输入正确的电话号")
+                return;
+            }else{
+                $.ajax({
+                    type:"get",
+                    url:"/api/getyzCode"+location.search+"&type=2&phoneNum="+phoneNum,
+                    success:function(res){
+                        // console.log(res)
+                        if(res.errorCode==0){
+                            el.classList.add("active")
+                            var count=120;
+                            el.innerText=count+"s"
+                            timer=setInterval(function(){
+                                if(count>1){
+                                    count--;
+                                    el.innerText=count+"s"
+                                }else{  
+                                    el.innerText="发送验证码"
+                                    el.classList.remove("active")
+                                    clearInterval(timer)
+                                }
+                            },1000)
+                        }else{
+                            poper(res.message)
+                        }
+
+                    },
+                    error:function(err){
+
+                    }
+
+                })
+            }
+
+        }
+        function bindPhone(){
+            var phoneNum=$("#phone").val();
+            var yzCode=$("#yzCodeNum").val();
+            // console.log("打印",phoneNum, yzCode);
+            if(phoneNum && yzCode){
+                $.ajax({
+                    type:"GET",
+                    url:"/api/bindPhone?phoneNum=" + phoneNum + "&getyzCode="+yzCode,
+                    contentType:"application/x-www-form-urlencoded",
+                    
+                    success:function(res){
+                        // console.log(res)
+                        if(res.errorCode==0){
+                            // window.location.href = "https://www.qunmai.com"
+                            poper("绑定成功");
+                            var search = location.search;
+                            search = search.split("=")[1];
+                            window.location.href = "/cRoll?id="+search;
+                        }else{
+                            poper(res.message)
+                        }
+                    },
+                    error:function(err){
+                        poper("网络连接错误，请稍后再试")
+                    }
+
+                })
+            }else{
+                poper("信息填写不完整")
+            }
+        }
+   </script>
+
+    <script>
+
+        function download(){
+            window.location.href = "https://www.qunmai.com/downloadPage.html"
+        }
+        function goback(){
+            var obj = {"methodType":"invoke","nativeFlag":"closeWebView"}
+            try {
+                var u = navigator.userAgent;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                if(isiOS){
+                    try{
+                        window.webkit.messageHandlers.getAppMethod.postMessage(obj)
+                    }catch(e){
+                    }
+                }else if(isAndroid){
+                    try{
+                        qmWebViewListener.getAppMethod(JSON.stringify(obj));
+                    }catch(e){
+                    }
+                }
+            } catch (error) {
+                
+            }
+        }
+    </script>
+</body>
+</html>

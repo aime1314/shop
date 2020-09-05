@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>社群主页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <script src='https://res2.wx.qq.com/open/js/jweixin-1.4.0.js'></script>
+    <link rel='stylesheet' href='/stylesheets/mescroll.min.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/jquery-confirm.min.css">
+    <script src="/javascripts/mescroll.min.js"></script>
+    <style>
+        body,
+        html {
+            background: #fff;
+        }
+        
+        .bodystyle {
+            /* padding-bottom: 1.58rem; */
+        }
+        
+        .organ-box {
+            display: block;
+        }
+        
+        .organ-box .header {
+            width: 100%;
+            /* height: 3.958rem; */
+            height: 100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding: 0 0.25rem;
+            clear: both;
+            overflow: hidden;
+        }
+        
+        .organ-box .inviter_box {
+            width: 100%;
+            height: 0.35rem;
+            margin-top: 0.183rem;
+        }
+        
+        .organ-box .inviter_box .imageUrl {
+            width: 0.35rem;
+            height: 0.35rem;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            float: left;
+        }
+        
+        .organ-box .inviter_box #share-people {
+            width: 0.35rem;
+            height: 0.35rem;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            float: left;
+            font-size: 0.14rem;
+            background: #3e8cf9;
+            color: #fff;
+            text-align: center;
+            line-height: 0.35rem;
+        }
+        
+        .organ-box .inviter_box .inviter_title {
+            float: left;
+            height: 0.35rem;
+            font-size: 0.22rem;
+            font-weight: normal;
+            line-height: 0.35rem;
+        }
+        
+        .organ-box .inviter_box .inviter_title span:first-child {
+            float: left;
+            padding-left: 0.1rem;
+            color: #000000;
+        }
+        
+        .organ-box .inviter_box .inviter_title span:last-child {
+            padding-left: 0.07rem;
+            color: #7f8592;
+        }
+        
+        .organ-box .organization {
+            width: 100%;
+            clear: both;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.43rem;
+        }
+        
+        .organ-box .organImg_box {
+            width: 1.1rem;
+            height: 1.1rem;
+            margin-top: 0.26rem;
+        }
+        
+        .organ-box .organImg_box .organImage {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+        }
+        
+        .organ-box .organ_title {
+            display: flex;
+            margin-top: 0.17rem;
+        }
+        
+        .organ-box .organName {
+            height: 0.26rem;
+            font-size: 0.28rem;
+            font-family: Noto Sans S Chinese;
+            font-weight: 500;
+            line-height: 0.26rem;
+            color: #000000;
+        }
+        
+        .organ-box .certificate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 0.27rem;
+            height: 0.28rem;
+            line-height: 0.25rem;
+            font-size: 0.23rem;
+            color: #ffffff;
+            background: #f29549;
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            margin-top: -0.02rem;
+            margin-left: 0.08rem;
+        }
+        
+        .organ-box .intro_box {
+            height: 0.94rem;
+            font-size: 0.23rem;
+            color: #7f8592;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+        }
+        
+        .organ-box .intro_box .intro {
+            font-weight: bold;
+        }
+        
+        .organ-box .line {
+            margin: 0 auto;
+        }
+        
+        .organ-box .section {
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding: 0 0.25rem;
+        }
+        
+        .organ-box .member_list li {
+            display: flex;
+            justify-content: space-between;
+            height: 0.54rem;
+            margin-top: 0.33rem;
+        }
+        
+        .organ-box .member_list li:nth-child(1) {
+            margin-top: 0.28rem;
+        }
+        
+        .organ-box .member .memberInfo {
+            display: flex;
+            width: 2.2rem;
+        }
+        
+        .organ-box .memberInfo .memberImg {
+            width: 0.53rem;
+            height: 0.53rem;
+            margin-right: 0.14rem;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+        }
+        
+        .organ-box .memberInfo #memberImg {
+            width: 0.53rem;
+            height: 0.53rem;
+            margin-right: 0.14rem;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            background: #3e8cf9;
+            color: #fff;
+            font-size: 0.21rem;
+            text-align: center;
+            line-height: 0.53rem;
+        }
+        
+        .organ-box .memberInfo .memberName {
+            font-size: 0.24rem;
+            line-height: 0.54rem;
+            color: #000;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            -moz-text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .organ-box .member_right {
+            display: flex;
+            width: 3.5rem;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .organ-box .vocation {
+            font-size: 0.21rem;
+            line-height: 0.54rem;
+            color: #bbc1ce;
+            width: 2.5rem;
+            text-align: right;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        
+        .organ-box .homepage_btn {
+            width: 1.29rem;
+            height: 0.43rem;
+            line-height: 0.43rem;
+            background: #EBF3FF;
+            border-radius: 0.30rem;
+            -webkit-border-radius: 0.30rem;
+            -moz-border-radius: 0.30rem;
+            font-size: 0.20rem;
+            color: #3e8cf9;
+            text-align: center;
+            margin-left: 0.225rem;
+        }
+        
+        .organ-box .section .morePeople_box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 1.06rem;
+            margin: 0 auto;
+        }
+        
+        .organ-box .morePeople_box .morePeople_btn {
+            width: 1.83rem;
+            height: 0.53rem;
+            border: solid 0.01rem #CCD0D8;
+            font-size: 0.22rem;
+            border-radius: 0.26rem;
+            -webkit-border-radius: 0.26rem;
+            -moz-border-radius: 0.26rem;
+            text-align: center;
+            line-height: 0.53rem;
+        }
+        
+        .organ-box .article {
+            position: fixed;
+            left: 0.29rem;
+            bottom: 0;
+            width: 5.8rem;
+            height: 1.58rem;
+            border-top: 0.01rem solid #f1f4f7;
+            display: flex;
+        }
+        
+        .organ-box .accept_box {
+            position: fixed;
+            left: 0;
+            right: 0;
+            margin: auto;
+            bottom: 0.61rem;
+            width: 5.19rem;
+            height: 0.74rem;
+            background: #3e8cf9;
+            border-radius: 0.36rem;
+            -webkit-border-radius: 0.36rem;
+            -moz-border-radius: 0.36rem;
+            /* z-index: 999; */
+        }
+        
+        .organ-box .accept_box_two_color {
+            background: #FFBC18 !important;
+        }
+        
+        .organ-box .accept_box_two_dep {
+            margin-left: 0.34rem !important;
+        }
+        
+        .organ-box .accept_box_two {
+            margin: auto;
+            bottom: 0.61rem;
+            flex: 1;
+            height: 0.74rem;
+            background: #3e8cf9;
+            border-radius: 0.36rem;
+            -webkit-border-radius: 0.36rem;
+            -moz-border-radius: 0.36rem;
+        }
+        
+        .organ-box .accept_box,
+        .accept_box_two .accept_btn {
+            font-size: 0.29rem;
+            color: #fff;
+            text-align: center;
+            line-height: 0.74rem;
+            /* z-index: 1000; */
+        }
+        
+        .accept_btn>img {
+            width: 0.38rem;
+            vertical-align: middle;
+            margin-right: 0.1rem;
+        }
+        
+        .accept_btn>span {
+            vertical-align: middle;
+        }
+        
+        .organ-box .dialog {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: none;
+        }
+        
+        .organ-box .dialog.active {
+            display: block;
+        }
+        
+        .organ-box .dialog .bg {
+            display: block;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .organ-box .dialogcontent {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 5.6rem;
+            /* height:7.6rem; */
+            padding: 0 0.5rem;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        
+        .organ-box .top-box {
+            margin-bottom: 0.41rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0 0 0rem!important;
+        }
+        
+        .organ-box .dialogcontent .btn {
+            margin-top: 0.41rem;
+            width: 100%;
+            background: #3e8cf9;
+            color: #fff;
+            height: 0.74rem;
+            line-height: 0.74rem;
+            text-align: center;
+            -webkit-border-radius: 0.07rem;
+            -moz-border-radius: 0.07rem;
+            border-radius: 0.07rem;
+            font-size: 0.32rem;
+        }
+        
+        .organ-box .title {
+            display: inline-block;
+            font-size: 0.33rem;
+            line-height: 0.33rem;
+            color: #000;
+            padding-top: 0.58rem;
+            font-family: Noto Sans S Chinese;
+            font-weight: bold;
+        }
+        
+        .organ-box .title span {
+            color: #3E8CF9;
+        }
+        
+        .organ-box .close {
+            position: absolute;
+            right: 0.36rem;
+            top: 0.42rem;
+        }
+        
+        .organ-box .close>img {
+            display: block;
+            width: 0.30rem;
+        }
+        
+        .organ-box .dialogcontent .common {
+            margin-top: 0.31rem;
+            border-bottom: 0.01rem solid #B8BEC9;
+            height: 0.76rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            clear: both;
+            overflow: hidden;
+        }
+        
+        .organ-box .dialogcontent .common:nth-child(1) {
+            margin-top: 0.38rem;
+        }
+        
+        .organ-box .dialogcontent .phone {
+            display: inline-block;
+            width: 0.27rem;
+            height: 0.3rem;
+        }
+        
+        .organ-box .dialogcontent .phone img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .organ-box .dialogcontent .common span {
+            display: inline-block;
+            color: #7F8592;
+            font-size: 0.3rem;
+        }
+        
+        .organ-box .dialogcontent input {
+            border: none;
+            font-size: 0.3rem;
+        }
+        
+        input::-webkit-input-placeholder {
+            color: #d0d6df;
+            font-size: 0.3rem;
+        }
+        
+        input::-moz-input-placeholder {
+            color: #d0d6df;
+            font-size: 0.3rem;
+        }
+        
+        input::-ms-input-placeholder {
+            color: #d0d6df;
+            font-size: 0.3rem;
+        }
+        
+        .organ-box .dialogcontent .phoneNum {
+            margin-left: 0.24rem;
+            width: 3.5rem;
+            height: 0.34rem;
+            line-height: 0.34rem;
+        }
+        
+        .organ-box #YZC {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .organ-box .yzCode {
+            width: 3.2rem;
+        }
+        
+        .organ-box #yzCode {
+            width: 1.42rem;
+            height: 0.47rem;
+            border: 0.01rem solid #b5bac5;
+            border-radius: 0.04rem;
+            -webkit-border-radius: 0.04rem;
+            -moz-border-radius: 0.04rem;
+            font-size: 0.22rem;
+            line-height: 0.47rem;
+            text-align: center;
+        }
+        
+        .organ-box .agree {
+            text-align: center;
+            margin-top: 0.32rem;
+            clear: both;
+            overflow: hidden;
+            padding-bottom: 0.91rem;
+        }
+        
+        .organ-box .agree span {
+            font-size: 0.21rem;
+        }
+        
+        .organ-box .zj-box {
+            margin-top: 0.65rem;
+            clear: both;
+            overflow: hidden;
+            /* text-align: center; */
+        }
+        
+        .organ-box .zj-box span {
+            font-size: 0.28rem;
+        }
+        
+        .jconfirm .jconfirm-box {
+            width: 4.17rem;
+            height: 1.96rem;
+            background: #f7f7f7;
+            border-radius: 12px;
+            -webkit-border-radius: 12px;
+            -moz-border-radius: 12px;
+        }
+        
+        .jconfirm-content div:first-child {
+            color: #000;
+            font-size: 0.29rem;
+        }
+        
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons {
+            float: inherit;
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: flex!important;
+            /* justify-content: center; */
+            justify-content: space-around;
+            border-top: 1px solid #E1E4E9;
+            align-items: center;
+        }
+        
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button {
+            width: 100%;
+            height: 0.68rem;
+            line-height: 0.68rem;
+            border-radius: 0;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            color: #3478F6;
+            font-size: 0.28rem!important;
+            background: #f7f7f7;
+        }
+        
+        .jconfirm.jconfirm-light .jconfirm-box .jconfirm-buttons button:first-child {
+            border-right: 1px solid #E1E4E9;
+        }
+        /* 查看更多成员 */
+        
+        .searchMore-box {
+            display: none;
+        }
+        
+        .searchMore-box .header {
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        
+        .searchMore-box .organManage_box {
+            width: 100%;
+            height: 0.44rem;
+            background: #f5f7f9;
+            line-height: 0.44rem;
+            padding-left: 0.29rem;
+        }
+        
+        .searchMore-box .custodian {
+            color: #7f8592;
+            font-size: 0.21rem;
+        }
+        
+        .searchMore-box .custodian_list {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            width: 100%;
+            padding: 0 0.29rem;
+            clear: both;
+            overflow: hidden;
+        }
+        
+        .searchMore-box .custodian_list li {
+            height: 0.53rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.17rem 0;
+            margin-bottom: 0.01rem;
+        }
+        
+        .searchMore-box .member_right {
+            display: flex;
+            flex: 3;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .searchMore-box .member .memberInfo {
+            display: flex;
+            align-items: center;
+            color: #898f9b;
+            font-size: 0.24rem;
+            /* line-height: 0.54rem; */
+            width: 2.6rem;
+        }
+        
+        .searchMore-box .memberInfo .memberImg {
+            width: 0.53rem;
+            height: 0.53rem;
+            margin-right: 0.14rem;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+        }
+        
+        .searchMore-box .memberInfo #memberImg {
+            width: 0.53rem;
+            height: 0.53rem;
+            margin-right: 0.14rem;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            background: #3e8cf9;
+            color: #fff;
+            font-size: 0.21rem;
+            text-align: center;
+            line-height: 0.53rem;
+        }
+        
+        .searchMore-box .memberInfo .memberName {
+            display: block;
+            font-size: 0.24rem;
+            /* line-height: 0.54rem; */
+            color: #000;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            -webkit-text-overflow: ellipsis;
+            -moz-text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 1.9rem;
+        }
+        
+        .searchMore-box .memberInfo>div>span:nth-child(2) {
+            font-size: 0.18rem;
+        }
+        
+        .searchMore-box .member .vocation {
+            font-size: 0.21rem;
+            line-height: 0.54rem;
+            color: #bbc1ce;
+            width: 1.85rem;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        
+        .searchMore-box .member .homepage_btn {
+            width: 1.29rem;
+            height: 0.43rem;
+            line-height: 0.43rem;
+            background: #ebf3ff;
+            border-radius: 0.30rem;
+            -webkit-border-radius: 0.30rem;
+            -moz-border-radius: 0.30rem;
+            font-size: 0.20rem;
+            color: #3e8cf9;
+            text-align: center;
+        }
+        
+        .searchMore-box .custodian_list .line {
+            width: 5.42rem;
+            height: 0.01rem;
+            background: #f3f5f7;
+            margin-left: 0.37rem;
+        }
+        
+        .searchMore-box .section {
+            width: 100%;
+        }
+        
+        .searchMore-box .otherMembers_box {
+            width: 100%;
+            height: 0.44rem;
+            background: #f5f7f9;
+            line-height: 0.44rem;
+            padding-left: 0.29rem;
+        }
+        
+        .searchMore-box .otherMembers {
+            color: #7f8592;
+            font-size: 0.21rem;
+        }
+        
+        .searchMore-box .otherMembers_list {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            width: 100%;
+            padding: 0 0.29rem;
+            clear: both;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .searchMore-box .otherMembers_list li {
+            height: 0.53rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.17rem 0;
+        }
+        
+        .searchMore-box .otherMembers_list .line {
+            width: 5.42rem;
+            height: 1px;
+            background: #f3f5f7;
+            margin-left: 0.37rem;
+        }
+        
+        .searchMore-box .article {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 1.06rem;
+            background: rgba(255, 255, 255, .7);
+            z-index: 1000;
+        }
+        
+        .searchMore-box .joinNow_btn {
+            position: fixed;
+            left: 0;
+            margin: auto;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            bottom: 0.31rem;
+            width: 4.74rem;
+            height: 0.768rem;
+            font-size: 0.32rem;
+            color: #fff;
+            background: #3e8cf9;
+            border-radius: 0.37rem;
+            -webkit-border-radius: 0.37rem;
+            -moz-border-radius: 0.37rem;
+        }
+        
+        .searchMore-box .dialog {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: none;
+        }
+        
+        .searchMore-box .dialog.active {
+            display: block;
+        }
+        
+        .searchMore-box .dialog .bg {
+            display: block;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .searchMore-box .dialogcontent {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 5.6rem;
+            height: 7.6rem;
+            padding: 0 0.5rem;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        
+        .searchMore-box .top-box {
+            margin-bottom: 0.41rem;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0 0 0rem!important;
+        }
+        
+        .searchMore-box .dialogcontent .btn {
+            margin-top: 0.41rem;
+            width: 100%;
+            background: #3e8cf9;
+            color: #fff;
+            height: 0.74rem;
+            line-height: 0.74rem;
+            text-align: center;
+            -webkit-border-radius: 0.07rem;
+            -moz-border-radius: 0.07rem;
+            border-radius: 0.07rem;
+            font-size: 0.32rem;
+        }
+        
+        .searchMore-box .title {
+            display: inline-block;
+            font-size: 0.33rem;
+            line-height: 0.33rem;
+            color: #000;
+            padding-top: 0.58rem;
+            font-family: Noto Sans S Chinese;
+            font-weight: bold;
+        }
+        
+        .searchMore-box .title span {
+            color: #3E8CF9;
+        }
+        
+        .searchMore-box .close {
+            position: absolute;
+            right: 0.36rem;
+            top: 0.42rem;
+        }
+        
+        .searchMore-box .close>img {
+            display: block;
+            width: 0.30rem;
+        }
+        
+        .searchMore-box .dialogcontent .common {
+            margin-top: 0.31rem;
+            border-bottom: 0.01rem solid #B8BEC9;
+            height: 0.76rem;
+            display: flex;
+            align-items: center;
+            clear: both;
+            overflow: hidden;
+        }
+        
+        .searchMore-box .dialogcontent .common:nth-child(1) {
+            margin-top: 0.38rem;
+        }
+        
+        .searchMore-box .dialogcontent .phone {
+            display: inline-block;
+            width: 0.27rem;
+            height: 0.3rem;
+        }
+        
+        .searchMore-box .dialogcontent .phone img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .searchMore-box .dialogcontent .common span {
+            display: inline-block;
+            color: #7F8592;
+            font-size: 0.3rem;
+        }
+        
+        .searchMore-box .dialogcontent input {
+            border: none;
+            font-size: 0.3rem;
+        }
+        
+        .searchMore-box .dialogcontent .phoneNum {
+            margin-left: 0.24rem;
+            width: 3.5rem;
+            height: 0.34rem;
+            line-height: 0.34rem;
+        }
+        
+        .searchMore-box #YZC {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .searchMore-box .yzCode {
+            width: 3.2rem;
+        }
+        
+        .searchMore-box #YZCode {
+            width: 1.42rem;
+            height: 0.47rem;
+            border: 0.01rem solid #b5bac5;
+            border-radius: 0.04rem;
+            -webkit-border-radius: 0.04rem;
+            -moz-border-radius: 0.04rem;
+            font-size: 0.22rem;
+            line-height: 0.47rem;
+            text-align: center;
+        }
+        
+        .searchMore-box .agree {
+            text-align: center;
+            margin-top: 0.32rem;
+            clear: both;
+            overflow: hidden;
+        }
+        
+        .searchMore-box .agree span {
+            font-size: 0.21rem;
+        }
+        
+        .searchMore-box .zj-box {
+            margin-top: 0.65rem;
+            clear: both;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .searchMore-box .zj-box span {
+            font-size: 0.28rem;
+        }
+        
+        .mescroll {
+            overflow-x: hidden;
+            position: fixed;
+            top: 0;
+            bottom: 1.06rem;
+            height: auto;
+            /*如设置bottom:50px,则需height:auto才能生效*/
+        }
+        .pageColsed {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            /* z-index: 101; */
+        }
+        .pageColsed .header {
+            width: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -60%);
+        }
+
+        .pageColsed .header p:nth-child(1) {
+            width: 1.46rem;
+            margin: 0 auto;
+        }
+
+        .pageColsed .header p img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .pageColsed .header p:nth-child(2) {
+            text-align: center;
+            padding-top: 0.29rem;
+            color: #989EAB;
+            height: 0.59rem;
+            width: 3.9rem;
+            margin: 0 auto;
+            font-size: 0.24rem;
+            line-height: 0.4rem;
+            font-weight: bold;
+            font-family: normal 100% Helvetica, Arial, sans-serif;
+        }
+
+    </style>
+</head>
+
+<body class="bodystyle">
+    <% if(information.organization.isOpenOrgan){ %>
+    <div class="organ-box">
+        <header class="header">
+            <div class="inviter_box">
+                <% if(information.sharedMemberName){ %>
+                    <% if(information.sharedImage){ %>
+                        <% if(information.sharedImage.indexOf("!") == -1){ %>
+                            <img class="imageUrl" src="<%= information.sharedImage %>!/both/53x53" alt="">
+                            <% }else{ %>
+                                <img class="imageUrl" src="<%= information.sharedImage %>" alt="">
+                                <% } %>
+                                    <% }else{ %>
+                                        <% if(new RegExp("[\u4E00-\u9FA5]+").test(information.sharedMemberName) || new RegExp("[0-9]+").test(information.sharedMemberName)){ %>
+                                            <% if(information.sharedMemberName.length > 2){ %>
+                                                <span id="share-people"><%= ((information.sharedMemberName.split("").reverse().join("")).substring(0,2)).split("").reverse().join("") %></span>
+                                                <% }else{ %>
+                                                    <span id="share-people"><%= ((information.sharedMemberName.split("").reverse().join("")).substring(0,1)).split("").reverse().join("") %></span>
+                                                    <% } %>
+                                                        <% }else if(new RegExp("[A-Za-z]+").test(information.sharedMemberName)){ %>
+                                                            <% if(information.sharedMemberName.length > 2){ %>
+                                                                <span id="share-people"><%= information.sharedMemberName.substring(0,2) %></span>
+                                                                <% }else{ %>
+                                                                    <span id="share-people"><%= information.sharedMemberName.substring(0,1) %></span>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <!-- <span id="share-people"><%= ((information.sharedMemberName.split("").reverse().join("")).substring(0,2)).split("").reverse().join("") %></span> -->
+                                                                            <% } %>
+                                                                                <div class="inviter_title">
+                                                                                    <span><%= information.sharedMemberName %></span>
+                                                                                    <span>邀请你加入</span>
+                                                                                </div>
+                                                                                <% }else{ %>
+
+                                                                                    <% } %>
+            </div>
+            <div class="organization">
+                <div class="organImg_box">
+                    <% if(information.organization.organizationImg.indexOf("!") == -1){ %>
+                        <img class="organImage" src="<%= information.organization.organizationImg %>!/both/165x165" alt="">
+                        <% }else{ %>
+                            <img class="organImage" src="<%= information.organization.organizationImg %>" alt="">
+                            <% } %>
+                </div>
+                <div class="organ_title">
+                    <p class="organName">
+                        <%= information.organization.organizationName %>
+                    </p>
+                    <% if(information.organization.certificateStatus == 1){ %>
+                        <img src="/images/icoz.png" style="width: 0.24rem;height: 0.24rem;" />
+                        <% } %>
+                </div>
+            </div>
+            <div class="intro_box">
+                <span class="intro">简介：</span>
+                <% if(information.organization.organizationDesc){ %>
+                    <%= information.organization.organizationDesc %>
+                        <% }else{ %>
+                            该社群简介暂未填写
+                            <% } %>
+
+            </div>
+        </header>
+        <div class="line" style="width: 5.8rem;height:0.01rem;background:#F1F4F7;"></div>
+        <section class="section">
+            <ul class="member_list">
+                <% information.list.forEach(function(item){ %>
+                    <li class="member">
+                        <p class="memberInfo">
+                            <% if(item.imageUrl){ %>
+                                <% if(item.imageUrl.indexOf("!") == -1){ %>
+                                    <img src="<%= item.imageUrl %>!/both/80x80" alt="" class="memberImg">
+                                    <% }else{ %>
+                                        <img src="<%= item.imageUrl %>" alt="" class="memberImg">
+                                        <% } %>
+                                            <% }else{ %>
+                                                <% if(new RegExp("[\u4E00-\u9FA5]+").test(item.realName) || new RegExp("[0-9]+").test(item.realName)){ %>
+                                                    <% if(item.realName.length > 2){ %>
+                                                        <span id="memberImg"><%= ((item.realName.split("").reverse().join("")).substring(0,2)).split("").reverse().join("") %></span>
+                                                        <% }else{ %>
+                                                            <span id="memberImg"><%= ((item.realName.split("").reverse().join("")).substring(0,1)).split("").reverse().join("") %></span>
+                                                            <% } %>
+                                                                <% }else if(new RegExp("[A-Za-z]+").test(item.realName)){ %>
+                                                                    <% if(item.realName.length > 2){ %>
+                                                                        <span id="memberImg"><%= item.realName.substring(0,2) %></span>
+                                                                        <% }else{ %>
+                                                                            <span id="memberImg"><%= item.realName.substring(0,1) %></span>
+                                                                            <% } %>
+                                                                                <% } %>
+                                                                                    <!-- <span id="memberImg"><%= ((item.realName.split("").reverse().join("")).substring(0,2)).split("").reverse().join("") %></span> -->
+                                                                                    <% } %>
+                                                                                        <span class="memberName"><%= item.realName %></span>
+                        </p>
+                        <div class="member_right">
+                            <p class="vocation">
+                                <%= item.businessNameList %>
+                            </p>
+                            <p class="homepage_btn" id="<%= item.memberId %>" onclick="homepage_btn('<%= item.memberId %>','<%= information.organization.isOpenMember%>','<%= information.organization.isInOrgan%>')">查看主页</p>
+                        </div>
+                    </li>
+                    <% }) %>
+            </ul>
+            <div class="morePeople_box">
+                <div class="morePeople_btn" id="morePeople_btn" onclick="searchMore(1,15)">查看更多成员</div>
+                <!-- '<%= information.organization.isOpenMember%>','<%= information.organization.isInOrgan%>' -->
+            </div>
+        </section>
+        <article class="article">
+            <!-- 判断是否显示进入社群按钮 -->
+            <% if(information.organization.isOpenMsgSquare){ %>
+                <div class="accept_box_two accept_box_two_color" onclick="jumpCommunity()">
+                    <div class="accept_btn" id=""><img src="/images/community.png" /><span>进入广场</span></div>
+                </div>
+                <% if(information.sharedMemberName){ %>
+                    <div class="accept_box_two organ-box accept_box_two_dep" onclick="showDialog()">
+                        <div class="accept_btn" id="">接受邀请</div>
+                    </div>
+                    <% }else{ %>
+                        <div class="accept_box_two organ-box accept_box_two_dep" onclick="showDialog()">
+                            <div class="accept_btn" id="">加入社群</div>
+                        </div>
+                        <% } %>
+                            <% }else{ %>
+                                <% if(information.sharedMemberName){ %>
+                                    <div class="accept_box" onclick="showDialog()">
+                                        <div class="accept_btn" id="">接受邀请</div>
+                                    </div>
+                                    <% }else{ %>
+                                        <div class="accept_box" onclick="showDialog()">
+                                            <div class="accept_btn" id="">加入社群</div>
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+        </article>
+        <div class="dialog" id="dialog">
+            <div class="dialogcontent">
+                <div class="top-box">
+                    <p class="title">
+                        群脉APP提醒您：
+                    </p>
+                    <p class="close">
+                        <img src="/images/close.png" class="right" alt="" onclick="closeDialog()">
+                    </p>
+                </div>
+                <p class="zj-box">
+                    <span style="color: #7F8592;">已有群脉账号？直接</span>
+                    <span style="color: #3E8CF9;text-decoration:underline;" onclick="openAPP()">打开群脉APP</span>
+                </p>
+                <p class="zj-box">
+                    <span style="color: #7F8592;">
+                        没有账号，请先
+                        <% if(userInfo.memberId && !userInfo.telephone){ %>绑定手机号：<% }else{ %>注册群脉：
+                        <% } %>
+                    </span>
+                </p>
+                <div class="common">
+                    <p class="phone"><img src="/images/ico-phone.png" alt="手机号"></p>
+                    <span>+</span><span>86</span>
+                    <input type="number" class="phoneNum" id="phone" placeholder="请输入手机号">
+                </div>
+                <div class="common" id="YZC">
+                    <input type="text" id="yzCodeNum" class="yzCode" placeholder="输入验证码">
+                    <span id="yzCode" onclick="getCode(this)" style="color:#b5bac5;">获取验证码</span>
+                </div>
+                <% if(userInfo.memberId && !userInfo.telephone){ %>
+
+                    <% }else{ %>
+                        <div class="common">
+                            <input type="text" id="name" placeholder="输入姓名" ">
+                    </div>
+                <% } %>
+                <% if(userInfo.memberId && !userInfo.telephone){ %>
+                    <div class="btn" onclick="bindPhone()">绑定手机号</div>
+                <% }else{ %>
+                    <div class="btn" onclick="register()">立即注册</div>
+                <% } %>
+                
+                <p class="agree">
+                    <span style="color: #B5BAC5; ">点击以上按钮即表示同意</span>
+                    <span style="color: #89B3FB; " onclick="privacyZC()">《隐私权声明》</span>
+                </p>
+              
+            </div>
+            <div class="bg" onclick="closeDialog()"></div>
+        </div>
+        <% information.list.forEach(function(item){ %>
+            <div style="display: none;" id="organid">
+                <%= item.organizationId %>
+            </div>
+            <div style="display: none;" id="memberId">
+                <%= item.memberId %>
+            </div>
+        <% }) %>
+    </div>
+    <% }else{ %>
+    <div class="pageColsed">
+        <header class="header">
+            <p>
+                <img src="/images/pageClosed.png" alt="联系管理员打开此功能">
+            </p>
+            <p>
+                该社群已关闭了公开社群主页功能，暂无法查看哦~
+            </p>
+        </header>
+    </div>
+    <% } %>
+    <div class="searchMore-box">
+       <div id="mescroll" class="mescroll">
+        <header class="header">
+            <div class="organManage_box">
+                <div class="custodian"></div>
+            </div>
+            <ul class="custodian_list">
+                
+            </ul>
+        </header>
+        <section class="section">
+            <div class="otherMembers_box"> 
+                <div class="otherMembers"></div>
+            </div>
+            <ul class="otherMembers_list">
+                
+            </ul>
+        </section>
+       </div>
+       <article class="article">
+            <div class="joinNow_btn" onclick="openDialog()">立即加入</div>
+         </article>
+        <div class="dialog" id="opendialog">
+            <div class="dialogcontent">
+                <div class="top-box">
+                    <p class="title">
+                        
+                        <% if(userInfo.memberId && !userInfo.telephone){ %>
+                            <!-- <span>注册群脉</span> -->
+                            使用此功能请先<span>绑定手机号</span>
+                        <% }else{ %>
+                            注册群脉<span></span>
+                        <% } %>
+                    </p>
+                    <p class="close"></p>
+                        <img src="/images/close.png "  class="right" alt=" " onclick="killDialog()">
+                    </p>
+                </div>
+                <div class="common">
+                    <p class="phone "><img src="/images/ico-phone.png" alt="手机号"></p>
+                    <span>+</span><span>86</span>
+                    <input type="number" class="phoneNum" id="phoneNum" placeholder="请输入手机号">
+                </div>
+                <div class="common" id="YZC">
+                    <input type="text" id="yzCodeNumber" class="yzCode" placeholder="输入验证码">
+                    <span id="YZCode" onclick="getcode(this)" style="color:#b5bac5;">获取验证码</span>
+                </div>
+                <% if(userInfo.memberId && !userInfo.telephone){ %>
+                    
+                <% }else{ %>
+                    <div class="common">
+                        <input type="text" id="Name" placeholder="输入姓名 "">
+                        </div>
+                        <% } %>
+                            <% if(userInfo.memberId && !userInfo.telephone){ %>
+                                <div class="btn" onclick="BindPhone()">绑定手机号</div>
+                                <% }else{ %>
+                                    <div class="btn" onclick="Register()">立即注册</div>
+                                    <% } %>
+
+                                        <p class="agree">
+                                            <span style="color: #B5BAC5;">点击以上按钮即表示同意</span>
+                                            <span style="color: #89B3FB;" onclick="privacyZC()">《隐私权声明》</span>
+                                        </p>
+                                        <p class="zj-box">
+                                            <span style="color: #7F8592;">已有账号？</span>
+                                            <span style="color: #3E8CF9;text-decoration:underline;" onclick="openAPP()">打开APP</span>
+                                        </p>
+            </div>
+            <div class="bg" onclick="killDialog()"></div>
+        </div>
+    </div>
+    <script>
+        var wxWebshareDb = {
+            "title": '我在【<%= information.organization.organizationName %>】,快加入我们吧！', // 分享标题
+            "link": window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            "desc": "玩社群，用群脉！上qunmai.com找人脉！", // 分享描述
+            "imgUrl": '<%= information.organization.organizationImg %>', //分享图标
+            // "type": '',                                        // 分享类型,music、video或link，不填默认为link
+            // "dataUrl": ''                                    // 如果type是music或video，则要提供数据链接，默认为空
+        };
+    </script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/wxcommon.js"></script>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/jquery-confirm.min.js"></script>
+    <script>
+        var information = null;
+        var isFirstLoad = true;
+        var isKong = true;
+        $(document).ready(function() {
+            // JSON.parse(`<%- userInfoStr %>`)
+            var informationStr = <%- informationStr %>;
+            if (informationStr) {
+                // let info = JSON.parse(informationStr);
+                if (informationStr.organization.isOpenOrgan || typeof informationStr.organization.isOpenOrgan == 'undefined' || informationStr.organization.isInOrgan) {
+                    $('.organ-box').css('display', 'block');
+                } else {
+                    $('.organ-box').css('display', 'none');
+                    poper('本社群已关闭查看社群主页功能');
+                }
+            }
+        });
+
+        function homepage_btn(memberId, isOpenMember, isInOrgan) {
+            console.log(isOpenMember, isInOrgan);
+            if (Number(isInOrgan) || Number(isOpenMember) || isOpenMember == '' || typeof isOpenMember == 'undefined') {
+                window.location.href = "/share/personalPage?memberId=" + memberId;
+            } else {
+                poper('本社群已关闭查看主页功能');
+            }
+        }
+        var pageIndex = 1;
+        // 上拉刷新 下拉刷新
+        var mescroll = new MeScroll("mescroll", {
+            //第一个参数"mescroll"对应上面布局结构div的id (1.3.5版本支持传入dom对象)
+            //如果您的下拉刷新是重置列表数据,那么down完全可以不用配置,具体用法参考第一个基础案例
+            //解析: down.callback默认调用mescroll.resetUpScroll(),而resetUpScroll会将page.num=1,再触发up.callback
+            down: {
+                auto: false,
+                callback: downCallback
+                    //下拉刷新的回调,别写成downCallback(),多了括号就自动执行方法了
+            },
+            up: {
+                auto: false,
+                isBoth: true,
+                isBounce: false,
+                noMoreSize: 4,
+                empty: {
+                    tip: "暂无相关数据~",
+                },
+                lazyLoad: {
+                    use: true,
+                },
+                callback: upCallback,
+                //上拉加载的回调
+                page: {
+                    num: 0,
+                    size: 15
+                },
+                htmlNodata: '<p class="upwarp-nodata">没有更多了...</p>',
+            }
+        });
+        //下拉刷新的回调
+        function downCallback() {
+            isFirstLoad = true;
+            $('.custodian_list').empty();
+            $('.otherMembers_list').empty();
+            searchMore(1, 15);
+            mescroll.endSuccess();
+
+        }
+        //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
+        function upCallback(page) {
+            if (isKong == true) {
+                var pageNum = ++page.num; // 页码, 默认从1开始 如何修改从0开始 ?
+                var pageSize = page.size; // 页长, 默认每页10条
+                // alert(pageSize)
+                setTimeout(function() {
+                    searchMore(pageNum, pageSize);
+                }, 1000)
+            }
+        }
+
+        function searchMore(pageIndex, pageSize) {
+                var organid = document.getElementById("organid");
+                organId = organid.innerText;
+                organId = organId.replace(/\s*/g, "");
+                $.ajax({
+                    type: "get",
+                    url: "/api/userList?organId=" + organId + '&pageIndex=' + pageIndex + '&pageSize=' + pageSize,
+                    success: function(res) {
+                        if (res.errorCode == 0) {
+                            $("title").text("社群成员")
+                                // console.log("打印返回数据：",res.data)
+                            information = res.data;
+                            // console.log("绑定的："+information.managerCount)
+                            $(".organManage_box .custodian").text('社群管理层（' + information.managerCount + '人）');
+                            $(".otherMembers_box .otherMembers").text('社群其他成员（' + information.joinedMemberCount + '人）')
+                            if (information.managerMemberList && information.managerMemberList.length != 0) {
+                                information.managerMemberList.forEach(function(item) {
+                                    // console.log("打印url",item.imageUrl)
+                                    var manageLi;
+                                    if (isFirstLoad == true) {
+                                        if (item.imageUrl) {
+                                            if (item.imageUrl.indexOf("!") == -1) {
+                                                if (item.organPos == 1) {
+                                                    if (item.businessNameList == undefined) {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg"> 
+                                                        <div>
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>群主</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>`;
+                                                    } else {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg">  
+                                                        <div>  
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>群主</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    }
+                                                } else if (item.organPos == 2) {
+                                                    if (item.businessNameList == undefined) {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg">  
+                                                        <div>  
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>管理</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    } else {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg">  
+                                                        <div>  
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>管理</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    }
+
+                                                } else if (item.organPos == 3) {
+                                                    if (item.businessNameList == undefined) {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg"> 
+                                                        <div>   
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>参与者</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    } else {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg">  
+                                                        <div>  
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>参与者</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    }
+
+                                                }
+
+                                            } else {
+
+                                                if (item.organPos == 1) {
+                                                    if (item.businessNameList == undefined) {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + `" alt="" class="memberImg">  
+                                                        <div>  
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>群主</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    } else {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + `" alt="" class="memberImg">  
+                                                        <div>  
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>群主</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    }
+
+                                                } else if (item.organPos == 2) {
+                                                    if (item.businessNameList == undefined) {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + `" alt="" class="memberImg">  
+                                                        <div>  
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>管理</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    } else {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + `" alt="" class="memberImg">    
+                                                        <div>
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>管理</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    }
+
+                                                } else if (item.organPos == 3) {
+                                                    if (item.businessNameList == undefined) {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + `" alt="" class="memberImg">
+                                                        <div>    
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>参与者</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    } else {
+                                                        manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <img src="` + item.imageUrl + `" alt="" class="memberImg"> 
+                                                        <div>   
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>参与者</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                    }
+
+                                                }
+
+                                            }
+                                        } else {
+                                            // imgUrl = item.realName
+                                            // console.log("处理后的",imgUrl)
+                                            var  pattern  =  new  RegExp("[\u4E00-\u9FA5]+");                
+                                            var  pattern3  =  new  RegExp("[0-9]+");                 //判断英文
+                                                            
+                                            var  pattern2  =  new  RegExp("[A-Za-z]+");
+                                            var name = item.realName;
+                                            if (pattern.test(name) || pattern3.test(name)) {
+                                                if (name.length > 2) {
+                                                    name = ((name.split("").reverse().join("")).substring(0, 2)).split("").reverse().join("")
+                                                } else {
+                                                    name = ((name.split("").reverse().join("")).substring(0, 1)).split("").reverse().join("")
+                                                }
+                                            } else if (pattern2.test(name)) {
+                                                if (name.length > 2) {
+                                                    name = name.substring(0, 2)
+                                                } else {
+                                                    name = name.substring(0, 1)
+                                                }
+                                            }
+                                            // name = ((name.split("").reverse().join("")).substring(0,2)).split("").reverse().join("")
+                                            if (item.organPos == 1) {
+                                                if (item.businessNameList == undefined) {
+                                                    manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <span id="memberImg">` + name + `</span> 
+                                                        <div>
+                                                            <span class="memberName">` + item.realName + `</span>
+                                                            <span>群主</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                } else {
+                                                    manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <span id="memberImg">` + name + `</span>   
+                                                        <div>
+                                                            <span class="memberName">` + item.realName + `</span>
+                                                            <span>群主</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                }
+
+                                            } else if (item.organPos == 2) {
+                                                if (item.businessNameList == undefined) {
+                                                    manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                            <span id="memberImg">` + name + `</span>  
+                                                            <div>
+                                                            <span class="memberName">` + item.realName + `</span>
+                                                            <span>管理</span>
+                                                            </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                } else {
+                                                    manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                            <span id="memberImg">` + name + `</span> 
+                                                            <div> 
+                                                            <span class="memberName">` + item.realName + `</span>
+                                                            <span>管理</span>
+                                                            </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                }
+
+                                            } else if (item.organPos == 3) {
+                                                if (item.businessNameList == undefined) {
+                                                    manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <span id="memberImg">` + name + `</span> 
+                                                        <div>   
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>参与者</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                } else {
+                                                    manageLi = `<li class="member">
+                                                    <div class="memberInfo">
+                                                        <span id="memberImg">` + name + `</span> 
+                                                        <div>   
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                        <span>参与者</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class='homepage_btn' id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `','` + information.isOpenMember + `','` + information.isInOrgan + `')">
+查看主页</p>
+                                                    </div>
+                                                    </li>
+                                                    <p class="line"></p>
+                                                    `;
+                                                }
+
+                                            }
+                                        }
+                                        $(".custodian_list").append(manageLi)
+
+                                    }
+                                });
+                                isFirstLoad = false;
+                            }
+                            if (information.joinedMemberList && information.joinedMemberList.length != 0) {
+                                information.joinedMemberList.forEach(function(item) {
+                                    var memberLi;
+                                    // console.log(item.realName)
+                                    // console.log("打印名字：",typeof item.realName)
+                                    var  pattern  =  new  RegExp("[\u4E00-\u9FA5]+");                
+                                    var  pattern3  =  new  RegExp("[0-9]+");                  
+                                    var  pattern2  =  new  RegExp("[A-Za-z]+");
+                                    var name = item.realName;
+                                    if (pattern.test(name) || pattern3.test(name)) {
+                                        if (name.length > 2) {
+                                            name = ((name.split("").reverse().join("")).substring(0, 2)).split("").reverse().join("")
+                                        } else {
+                                            name = ((name.split("").reverse().join("")).substring(0, 1)).split("").reverse().join("")
+                                        }
+                                    } else if (pattern2.test(name)) {
+                                        if (name.length > 2) {
+                                            name = name.substring(0, 2)
+                                        } else {
+                                            name = name.substring(0, 1)
+                                        }
+                                    }
+                                    // name = ((name.split("").reverse().join("")).substring(0,2)).split("").reverse().join("")
+                                    // console.log("再次打印：",name)
+                                    if (item.imageUrl) {
+                                        if (item.imageUrl.indexOf("!") == -1) {
+                                            if (item.businessNameList == undefined) {
+                                                memberLi = `<li class="member">
+                                                    <p class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg">
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                    </p>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class="homepage_btn" id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `,` + information.isOpenMember + `,` + information.isInOrgan + `')">查看主页</p>
+                                                    </div>
+                                                </li><p class="line"></p>`
+                                            } else {
+                                                memberLi = `<li class="member">
+                                                    <p class="memberInfo">
+                                                        <img src="` + item.imageUrl + '!/both/80x80' + `" alt="" class="memberImg">
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                    </p>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class="homepage_btn" id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `,` + information.isOpenMember + `,` + information.isInOrgan + `')">查看主页</p>
+                                                    </div>
+                                                </li><p class="line"></p>`
+                                            }
+
+                                        } else {
+                                            if (item.businessNameList == undefined) {
+                                                memberLi = `<li class="member">
+                                                    <p class="memberInfo">
+                                                            <img src="` + item.imageUrl + `" alt="" class="memberImg">
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                    </p>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class="homepage_btn" id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `,` + information.isOpenMember + `,` + information.isInOrgan + `')">查看主页</p>
+                                                    </div>
+                                                </li><p class="line"></p>`
+                                            } else {
+                                                memberLi = `<li class="member">
+                                                    <p class="memberInfo">
+                                                            <img src="` + item.imageUrl + `" alt="" class="memberImg">
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                    </p>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class="homepage_btn" id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `,` + information.isOpenMember + `,` + information.isInOrgan + `')">查看主页</p>
+                                                    </div>
+                                                </li><p class="line"></p>`
+                                            }
+
+                                        }
+                                    } else {
+                                        if (item.businessNameList == undefined) {
+                                            memberLi = `<li class="member">
+                                                    <p class="memberInfo">
+                                                        <span id="memberImg">` + name + `</span>
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                    </p>
+                                                    <div class="member_right">
+                                                        <p class="vocation"></p>
+                                                        <p class="homepage_btn" id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `,` + information.isOpenMember + `,` + information.isInOrgan + `')">查看主页</p>
+                                                    </div>
+                                                </li><p class="line"></p>`
+                                        } else {
+                                            memberLi = `<li class="member">
+                                                    <p class="memberInfo">
+                                                        <span id="memberImg">` + name + `</span>
+                                                        <span class="memberName">` + item.realName + `</span>
+                                                    </p>
+                                                    <div class="member_right">
+                                                        <p class="vocation">` + item.businessNameList[0] + `</p>
+                                                        <p class="homepage_btn" id="` + item.memberId + `" onclick="homepage_btn('` + item.memberId + `,` + information.isOpenMember + `,` + information.isInOrgan + `')">查看主页</p>
+                                                    </div>
+                                                </li><p class="line"></p>`
+                                        }
+
+                                    }
+                                    $(".otherMembers_list").append(memberLi)
+                                    mescroll.endSuccess(information.joinedMemberList.length);
+                                });
+                            } else {
+                                mescroll.endSuccess(information.joinedMemberList.length, false);
+                                isKong = false;
+                            }
+                        } else {
+                            poper(res.message)
+                        }
+
+                    },
+                    error: function(err) {
+                        poper(res.message)
+                    }
+                })
+                $(".organ-box").css("display", "none");
+                $(".searchMore-box").css("display", "block");
+            // } else {
+            //     poper('加入社群后查看更多成员');
+            // }
+        }
+        var timer;
+        var time;
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var userInfo = JSON.parse(`<%- userInfoStr %>`)
+        var ua = navigator.userAgent.toLowerCase();
+        var isWeixin = ua.indexOf('micromessenger') != -1;
+        // console.log("用户信息：",userInfo)
+        //登录弹框
+        function showDialog() {
+            var userInfo = JSON.parse(`<%- userInfoStr %>`)
+            if (isiOS) {
+                $(".organ-box .dialogcontent .phone").css("padding-top", "0.05rem");
+                $(".organ-box .dialogcontent .common:eq(0) span:eq(0)").css("margin-top", "0rem")
+                $(".organ-box .dialogcontent .common:eq(0) span:eq(1)").css("padding-top", "0.05rem")
+            }
+            if (isWeixin) {
+                // console.log("微信中打开开");
+                // console.log("###:",userInfo)
+                if (userInfo.memberId && userInfo.telephone) {
+                    // var ele=document.getElementById("dialog")
+                    // ele.classList.add("active")
+                    window.location.href = "https://www.qunmai.com/downloadPage.html" //跳转下载TODO
+                } else if (!userInfo.memberId && !userInfo.telephone) {
+                    var ele = document.getElementById("dialog")
+                    ele.classList.add("active")
+                } else if (userInfo.memberId && !userInfo.telephone) {
+                    var ele = document.getElementById("dialog")
+                    ele.classList.add("active")
+                }
+            } else {
+                var ele = document.getElementById("dialog")
+                ele.classList.add("active")
+            }
+        }
+        //进入社群广场
+        function jumpCommunity() {
+            // var shareInfo = <%- shareInfo %>;
+            let organIdHref=null;
+            sharedMemberIdHref = null;
+            // console.log(shareInfo); 
+            var url = location.search; //获取url中"?"符后的字串 
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    // theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]); 
+                    theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
+                }
+            }
+            if(theRequest.shareInfo){
+                var shareInfo =`<%= shareInfo.memberId %>`;
+                var organId =`<%= shareInfo.itemId %>`;
+                var sharedMemberId = `<%= shareInfo.sharedMemberId %>`;
+                if(organId&&typeof organId!='undefined'){
+                    organIdHref = Number(organId);
+                }
+                if(sharedMemberId&&typeof sharedMemberId!='undefined'){
+                    sharedMemberId = sharedMemberId;
+                }
+                 window.location.href = "/share/communitySquare?roomId=" + organIdHref+'&sharedMemberId='+sharedMemberIdHref;
+            }else{
+                var organId = theRequest.organId;
+                console.log(theRequest.organId);
+                window.location.href = "/share/communitySquare?roomId=" + organId;
+            }
+         
+        }
+
+        function openDialog() {
+            if (isiOS) {
+                $(".searchMore-box .dialogcontent .phone").css("padding-top", "0.05rem");
+                $(".searchMore-box .dialogcontent .common:eq(0) span:eq(0)").css("margin-top", "0rem")
+                $(".searchMore-box .dialogcontent .common:eq(0) span:eq(1)").css("padding-top", "0.05rem")
+            }
+            var userInfo = JSON.parse(`<%- userInfoStr %>`)
+                // console.log("打印###",userInfo)
+            if (isWeixin) {
+                // console.log("微信中打开开");
+                // console.log("###:",userInfo)
+                if (userInfo.memberId && userInfo.telephone) {
+                    // $(".searchMore-box .dialog").css("display", "block")
+                    window.location.href = "https://www.qunmai.com/downloadPage.html" //跳转下载TODO
+                } else if (!userInfo.memberId && !userInfo.telephone) {
+                    $(".searchMore-box .dialog").css("display", "block")
+                } else if (userInfo.memberId && !userInfo.telephone) {
+                    $(".searchMore-box .dialog").css("display", "block")
+                }
+            } else {
+                $(".searchMore-box .dialog").css("display", "block")
+            }
+        }
+
+        function killDialog() {
+            // var ele=document.getElementById("opendialog")
+            // ele.classList.remove("active")
+            $(".searchMore-box .dialog").css("display", "none")
+            var yzCode = document.getElementById("YZCode")
+                //关闭弹窗，清除计时器
+            var inputs = document.getElementsByTagName("input")
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].value = ""
+            }
+            clearInterval(time)
+            yzCode.innerText = "发送验证码"
+            yzCode.classList.remove("active")
+        }
+
+        function closeDialog() {
+            var ele = document.getElementById("dialog")
+            ele.classList.remove("active")
+            var yzCode = document.getElementById("yzCode")
+                //关闭弹窗，清除计时器
+            var inputs = document.getElementsByTagName("input")
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].value = ""
+            }
+            clearInterval(timer)
+            yzCode.innerText = "发送验证码"
+            yzCode.classList.remove("active")
+        }
+
+        function privacyZC() {
+            window.location.href = "/appCorrelation/correlationPage/privacy";
+        }
+
+        function openAPP() {
+            window.location.href = "https://www.qunmai.com/downloadPage.html" //TODO
+        }
+
+        function getCode(el) {
+            // console.log(el)
+            if (timer) {
+                //已经在计时了
+                return;
+            } else {
+                el.classList.remove("active")
+            }
+            var phoneNum = document.getElementById("phone").value
+            if (!(/^1[3456789]\d{9}$/.test(phoneNum) && phoneNum.length == 11)) {
+                poper("请输入正确的电话号")
+                return;
+            } else {
+                if (userInfo.memberId && !userInfo.telephone) {
+                    $.ajax({
+                        type: "get",
+                        url: "/api/getyzCode" + location.search + "&type=2&phoneNum=" + phoneNum,
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                el.classList.add("active")
+                                var count = 120;
+                                el.innerText = count + "s"
+                                timer = setInterval(function() {
+                                    if (count > 1) {
+                                        count--;
+                                        el.innerText = count + "s"
+                                    } else {
+                                        el.innerText = "发送验证码"
+                                        el.classList.remove("active")
+                                        clearInterval(timer)
+                                    }
+                                }, 1000)
+                            } else {
+                                poper(res.message)
+                            }
+
+                        },
+                        error: function(err) {
+
+                        }
+
+                    })
+                } else {
+                    $.ajax({
+                        type: "get",
+                        url: "/api/getyzCode" + location.search + "&phoneNum=" + phoneNum,
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                el.classList.add("active")
+                                var count = 120;
+                                el.innerText = count + "s"
+                                timer = setInterval(function() {
+                                    if (count > 1) {
+                                        count--;
+                                        el.innerText = count + "s"
+                                    } else {
+                                        el.innerText = "发送验证码"
+                                        el.classList.remove("active")
+                                        clearInterval(timer)
+                                    }
+                                }, 1000)
+                            } else if (res.errorCode == 04 || res.message == "用户已注册") {
+                                var ele = document.getElementById("dialog")
+                                ele.classList.remove("active");
+                                $.confirm({
+                                    title: '',
+                                    content: '该手机号码已被注册，是否立即打开群脉APP?',
+                                    animation: 'top',
+                                    buttons: {
+                                        ok: {
+                                            text: "取消",
+                                            btnClass: 'btn-primary',
+                                            keys: ['enter'],
+                                            action: function() {}
+                                        },
+                                        cancel: {
+                                            text: "立即打开",
+                                            btnClass: 'btn-primary',
+                                            keys: ['esc'],
+                                            action: function() {
+                                                window.location.href = "https://www.qunmai.com/downloadPage.html" //TODO
+
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                poper(res.message)
+                            }
+
+                        },
+                        error: function(err) {
+
+                        }
+
+                    })
+                }
+
+            }
+
+        }
+
+        function getcode(el) {
+            // console.log(el)
+            if (time) {
+                //已经在计时了
+                return;
+            } else {
+                el.classList.remove("active")
+            }
+            var phoneNum = document.getElementById("phoneNum").value
+                // console.log("手机号",phoneNum)
+            if (!(/^1[3456789]\d{9}$/.test(phoneNum) && phoneNum.length == 11)) {
+                poper("请输入正确的电话号")
+                return;
+            } else {
+                if (userInfo.memberId && !userInfo.telephone) {
+                    // console.log("啪啪啪")
+                    $.ajax({
+                        type: "get",
+                        url: "/api/getyzCode" + location.search + "&type=2&phoneNum=" + phoneNum,
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                el.classList.add("active")
+                                var count = 120;
+                                el.innerText = count + "s"
+                                timer = setInterval(function() {
+                                    if (count > 1) {
+                                        count--;
+                                        el.innerText = count + "s"
+                                    } else {
+                                        el.innerText = "发送验证码"
+                                        el.classList.remove("active")
+                                        clearInterval(timer)
+                                    }
+                                }, 1000)
+                            } else {
+                                poper(res.message)
+                            }
+
+                        },
+                        error: function(err) {
+
+                        }
+
+                    })
+                } else {
+                    $.ajax({
+                        type: "get",
+                        url: "/api/getyzCode" + location.search + "&phoneNum=" + phoneNum,
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                el.classList.add("active")
+                                var count = 120;
+                                el.innerText = count + "s"
+                                timer = setInterval(function() {
+                                    if (count > 1) {
+                                        count--;
+                                        el.innerText = count + "s"
+                                    } else {
+                                        el.innerText = "发送验证码"
+                                        el.classList.remove("active")
+                                        clearInterval(timer)
+                                    }
+                                }, 1000)
+                            } else if (res.errorCode == 04 || res.message == "用户已注册") {
+                                var ele = document.getElementById("dialog")
+                                ele.classList.remove("active");
+                                $.confirm({
+                                    title: '',
+                                    content: '该手机号码已被注册，是否立即打开群脉APP?',
+                                    animation: 'top',
+                                    buttons: {
+                                        ok: {
+                                            text: "取消",
+                                            btnClass: 'btn-primary',
+                                            keys: ['enter'],
+                                            action: function() {}
+                                        },
+                                        cancel: {
+                                            text: "立即打开",
+                                            btnClass: 'btn-primary',
+                                            keys: ['esc'],
+                                            action: function() {
+                                                window.location.href = "https://www.qunmai.com/downloadPage.html" //TODO
+
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                poper(res.message)
+                            }
+
+                        },
+                        error: function(err) {
+
+                        }
+
+                    })
+                }
+
+            }
+        }
+
+        function register() {
+            var phoneNum = $("#phone").val();
+            var yzCode = $("#yzCodeNum").val();
+            var name = $("#name").val();
+            var url = location.search; //获取url中"?"符后的字串 
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+
+            // alert("打印来源:"+source)
+            if (phoneNum && yzCode && name) {
+                // alert("是否有邀请码："+ theRequest.invitedCode );
+                if (theRequest.invitedCode == undefined) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/register" + location.search,
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            phoneNum: phoneNum,
+                            yzCode: yzCode,
+                            name: name,
+                            from: "organPage" //TODO
+                        },
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                window.location.href = "/login/regSuccess"
+                            } else {
+                                poper(res.message)
+                            }
+                        },
+                        error: function(err) {
+                            poper("网络连接错误，请稍后再试")
+                        }
+
+                    })
+                } else if (theRequest.invitedCode) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/register" + location.search,
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            phoneNum: phoneNum,
+                            yzCode: yzCode,
+                            name: name,
+                            from: "organPage", //TODO
+                            invitedCode: theRequest.invitedCode
+                        },
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                window.location.href = "/login/regSuccess"
+                            } else {
+                                poper(res.message)
+                            }
+                        },
+                        error: function(err) {
+                            poper("网络连接错误，请稍后再试")
+                        }
+
+                    })
+                }
+
+            } else {
+                poper("注册信息填写不完整")
+            }
+
+        }
+
+        function Register() {
+            var phoneNum = $("#phoneNum").val();
+            var yzCode = $("#yzCodeNumber").val();
+            var name = $("#Name").val();
+            var url = location.search; //获取url中"?"符后的字串 
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+            // console.log("打印注册信息：",phoneNum,yzCode,name)
+            // alert("打印来源:"+source)
+            if (phoneNum && yzCode && name) {
+                // alert("是否有邀请码："+ theRequest.invitedCode );
+                if (theRequest.invitedCode == undefined) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/register" + location.search,
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            phoneNum: phoneNum,
+                            yzCode: yzCode,
+                            name: name,
+                            from: "organPage"
+                        },
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                window.location.href = "/login/regSuccess"
+                            } else {
+                                poper(res.message)
+                            }
+                        },
+                        error: function(err) {
+                            poper("网络连接错误，请稍后再试")
+                        }
+
+                    })
+                } else if (theRequest.invitedCode) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/register" + location.search,
+                        contentType: "application/x-www-form-urlencoded",
+                        data: {
+                            phoneNum: phoneNum,
+                            yzCode: yzCode,
+                            name: name,
+                            from: "organPage", //TODO
+                            invitedCode: theRequest.invitedCode
+                        },
+                        success: function(res) {
+                            // console.log(res)
+                            if (res.errorCode == 0) {
+                                window.location.href = "/login/regSuccess"
+                            } else {
+                                poper(res.message)
+                            }
+                        },
+                        error: function(err) {
+                            poper("网络连接错误，请稍后再试")
+                        }
+
+                    })
+                }
+
+            } else {
+                poper("注册信息填写不完整")
+            }
+        }
+
+        function bindPhone() {
+            var phoneNum = $("#phone").val();
+            var yzCode = $("#yzCodeNum").val();
+            // console.log("打印",phoneNum, yzCode);
+            if (phoneNum && yzCode) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/bindPhone?phoneNum=" + phoneNum + "&getyzCode=" + yzCode,
+                    contentType: "application/x-www-form-urlencoded",
+
+                    success: function(res) {
+                        // console.log("绑定返回：",res)
+                        if (res.errorCode == 0) {
+                            window.location.href = "https://www.qunmai.com/downloadPage.html"
+                        } else {
+                            poper(res.message)
+                        }
+                    },
+                    error: function(err) {
+                        poper("网络连接错误，请稍后再试")
+                    }
+
+                })
+            } else {
+                poper("信息填写不完整")
+            }
+        }
+
+        function BindPhone() {
+            var phoneNum = $("#phoneNum").val();
+            var yzCode = $("#yzCodeNumber").val();
+            // console.log("绑定",phoneNum, yzCode);
+            if (phoneNum && yzCode) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/bindPhone?phoneNum=" + phoneNum + "&getyzCode=" + yzCode,
+                    contentType: "application/x-www-form-urlencoded",
+
+                    success: function(res) {
+                        // console.log("绑定返回：",res)
+                        if (res.errorCode == 0) {
+                            window.location.href = "https://www.qunmai.com/downloadPage.html"
+                        } else {
+                            poper(res.message)
+                        }
+                    },
+                    error: function(err) {
+                        poper("网络连接错误，请稍后再试")
+                    }
+
+                })
+            } else {
+                poper("信息填写不完整")
+            }
+        }
+
+        function changePage() {
+            // 上拉刷新 下拉刷新
+            var mescroll = new MeScroll("mescroll", {
+                //第一个参数"mescroll"对应上面布局结构div的id (1.3.5版本支持传入dom对象)
+                //如果您的下拉刷新是重置列表数据,那么down完全可以不用配置,具体用法参考第一个基础案例
+                //解析: down.callback默认调用mescroll.resetUpScroll(),而resetUpScroll会将page.num=1,再触发up.callback
+                down: {
+                    auto: false,
+                    callback: downCallback
+                        //下拉刷新的回调,别写成downCallback(),多了括号就自动执行方法了
+                },
+                up: {
+                    auto: false,
+                    isBoth: true,
+                    sBounce: false,
+                    noMoreSize: 4,
+                    empty: {
+                        tip: "暂无相关数据~",
+                    },
+                    lazyLoad: {
+                        use: true,
+                    },
+                    callback: upCallback,
+                    //上拉加载的回调
+                    page: {
+                        num: 0,
+                        size: 15
+                    },
+                    htmlNodata: '<p class="upwarp-nodata">没有更多了...</p>',
+                }
+            });
+            //下拉刷新的回调
+            function downCallback() {
+                window.location.reload();
+            }
+            //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
+            function upCallback(page) {
+                var pageNum = page.num; // 页码, 默认从1开始 如何修改从0开始 ?
+                var pageSize = page.size; // 页长, 默认每页10条
+                // alert(pageSize)
+                setTimeout(function() {
+                    searchMore(pageNum, pageSize);
+                }, 1000)
+            }
+        }
+    </script>
+</body>
+
+</html>

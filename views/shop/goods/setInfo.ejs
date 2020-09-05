@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	::-webkit-input-placeholder{
+            color:#C8CACD;
+        }
+        ::-moz-placeholder{   /* Mozilla Firefox 19+ */
+            color:#C8CACD;
+        }
+        :-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+            color:#C8CACD;
+        }
+        :-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+            color:#C8CACD;
+        }
+    	.top{
+        	margin-top: 14px;
+        }
+        .bottom{
+        	margin-bottom: 133px;
+        }
+        .bor{
+        	border: 1px solid #ECEDED;
+        }
+		.content {
+			margin-bottom: 110px;
+		}
+    	.create_category{
+        	padding: 0px 25px;
+            height: 96px;
+            line-height: 96px;
+            background: #ffffff;
+            display: flex;
+            justify-content:space-between;
+        }
+        .category{
+        	font-size: 30px;
+        	color: #2C2C2C;
+        	flex-grow:1;
+        	flex-shrink:0;
+        }
+        .category_tit{
+        	text-align: right;
+        	min-width: 62%;
+        	padding:0px 5px;
+        	color: #2C2C2C;
+        	font-size: 30px;
+        	overflow: hidden;
+        	text-overflow:ellipsis;
+			white-space: nowrap;
+        	flex-grow:2;
+        	flex-shrink:1;
+        }
+        .category_img{
+        	padding: 32px 0;
+        	flex-grow:0.3;
+        	flex-shrink:0;
+        }
+        .create_category img{
+        	float: right;
+        	width: 32px;
+        	height: 32px;	
+        }
+        .create_info{
+        	padding: 26px 25px 26px 25px;
+            background: #ffffff;
+        }
+        .info_color{
+        	position: relative;
+			min-width: 215px;
+			height: 64px;
+			line-height: 64px;
+			text-align: center;
+			border: 1px solid #ECEDED;
+			margin: 15px 11px 0px 5.3px;
+			display: flex;
+			justify-content: center;
+			padding: 0 10px;
+			box-sizing: border-box;
+        }
+        .custom{
+        	margin-top: 30px;
+        	background: #ECEDED;
+        	font-size: 26px;
+        	color: #97989D;
+		}
+		.info_content_before{
+        	display: flex;
+        	flex-wrap: wrap;
+        }
+        .info_content{
+        	display: flex;
+        	flex-wrap: wrap;
+        	height: auto;
+        	overflow: hidden;
+		}
+		.info_content.limit {
+			height: 162px;
+		}
+        .blue{
+        	border: 1px solid #3086DE;
+        	color: #3086DE;
+        }
+        .color{
+        	float: left;
+        	width: 28px;
+        	height: 28px;
+        	border-radius: 50%;
+        	margin-top: 18px;
+        	margin-right: 8px ;
+        }
+        .info_btn{
+        	margin-top: 22px;
+        	text-align: center;
+        	line-height: 44px;
+        	font-size: 26px;
+        	color: #c6c8cd;
+        }
+        .info_btn img{
+        	width: 44px;
+        }
+        /*规格信息设置*/
+        .create_tit{
+            padding-bottom: 26px;
+            border-bottom: 1px solid #f7f6f9;
+        }
+        .info_set{
+        	padding-top: 10px;
+        }
+        .info_p{
+        	font-size: 24px;
+        	color: #97989D;
+        }
+        .category img{
+        	width: 34px;
+        	padding-left: 10px;
+        	margin-bottom: 6px;
+        }
+        .category span{
+        	 float: right;
+        	 color: #3086DE;
+        }
+        .set_box{
+        	padding-bottom: 26px;
+            border-bottom: 1px solid #f7f6f9;
+        }
+        .set_top{
+        	height: 102px;
+			margin-bottom: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.set_top span {
+			font-size: 26px;
+			color: #6A6C72;
+		}
+        .set_cus{
+        	line-height: 76px;
+        	font-size: 26px;
+        	color: #6A6C72;
+        }
+        .set_r{
+        	float: right;
+			display: flex;
+			align-items: center;
+        	flex-direction:row-reverse;
+        }
+        .ser_bor{
+        	width: 130px;
+        	height: 50px;
+        	line-height: 50px;
+        	text-align: center;
+        	font-size: 22px;
+        	color: #6A6C72;
+        	border: 1px solid #A4A7AB;
+        	border-radius: 25px;
+        }
+        .uploadpic{
+        	margin-right: 12px;
+        }
+        .set_con{
+        	display: flex;
+        	flex-wrap: nowrap;
+        }
+        .set_input{
+        	width: 166px;
+        	height: 64px;
+        	line-height: 64px;
+        	font-size: 24px;
+        	text-align: center;
+        	background: #ECEDED;
+        	border: none;
+        	margin-right: 12px;
+        }
+        .set_font{
+        	font-size: 26px;
+        	color: #2C2C2C;
+        }
+        .red{
+        	color: #FD4C4C;
+        }
+        .pic_box{
+        	margin-right: 60px;
+			width: 76px;
+			height: 76px;
+			position: relative;
+		}
+		.pic_img{
+			width: 100%;
+		}
+		.pic_tit{
+			width: 65%;
+		}
+		.pic_close{
+			position: absolute;
+			top: -15px;
+			right: -13px;
+			width: 40px;
+			cursor: pointer;
+		}
+		.set_annot{
+			text-align: right;
+			margin-top: 22px;
+			margin-right: 10px;
+			font-size: 24px;
+			color: #FF5640;
+		}
+        /*保存*/
+        .create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+        /*选择弹框*/
+       .weui-mask {
+		    position: fixed;
+		    z-index: 1000;
+		    top: 0;
+		    right: 0;
+		    left: 0;
+		    bottom: 0;
+		    background: rgba(0,0,0,0.6);
+		}
+		.weui-actionsheet {
+		    position: fixed;
+		    left: 0;
+		    bottom: 0;
+		    z-index: 5000;
+		    width: 100%;
+		    background-color: #f7f7f7;
+		    -webkit-transition: -webkit-transform 0.3s;
+		    transition: -webkit-transform 0.3s;
+		    transition: transform 0.3s;
+		    transition: transform 0.3s,-webkit-transform 0.3s;
+		    overflow: hidden;
+		}
+		.weui-actionsheet__menu {
+		    color: rgba(0,0,0,0.9);
+		    background-color: #fff;
+		}
+		.weui-actionsheet__cell {
+		    position: relative;
+		    padding:0 16px;
+		    text-align: center;
+		    font-size: 36px;
+		    color: #2C2C2C;
+		    line-height: 114px;
+		}
+		.weui-actionsheet__action {
+		    margin-top: 8px;
+		    background-color: #fff;
+		    padding-bottom: constant(safe-area-inset-bottom);
+		    padding-bottom: env(safe-area-inset-bottom);
+		}
+		/*选择商品属性*/
+		.weui-dialog{
+			width: 680px;
+			left: 35px;
+		    right: 35px;    
+		}
+		.weui-dialog__con{
+			position: relative;
+			padding: 36px;
+		}
+		.weui_close{
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			width: 30px;
+		}
+		.top_tit{
+			text-align: left;
+			font-size: 32px;
+			color: #2C2C2C;
+		}
+		.top_hint{
+			padding-top: 20px;
+			text-align: left;
+			font-size: 22px;
+			color: #B0B1B6;
+		}
+		.weui_con{
+			display: flex;
+			flex-wrap:wrap;
+			margin-top: 30px;
+		}
+		.weui_pro{
+			float: left;
+			max-width: 200px;
+			display: flex;
+    		align-items: center;
+		}
+		.weui_pro:nth-child(2){
+			text-align: center;
+		}
+		.weui_pro:nth-child(5){
+			text-align: center;
+		}
+		.weui_pro:nth-child(8){
+			text-align: center;
+		}
+		.weui_pro:nth-child(3n){
+			text-align: right;
+		}
+		.weui_pro .num {
+			width: 34px;
+			height: 34px;
+			font-size: 24px;
+			color: #fff;
+			border:2px solid #C5C6C7;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+		}
+		.weui_pro .num.active {
+			width: 34px;
+			height: 34px;
+			border: none;
+			background: #3086DE;
+		}
+		.weui_pro .txt {
+			padding-left: 13px;
+			font-size: 28px;
+			color: #6A6C72;
+		}
+		.weui-dialog__btn {
+		    line-height: 100px;
+		    font-size: 34px;
+		    font-weight: 700;
+		    color: #3086DE;
+		}
+		.weui_set_input{
+        	width: 240px;
+        	height: 64px;
+        	line-height: 64px;
+        	font-size: 24px;
+        	text-align: center;
+        	background: #ECEDED;
+        	border: none;
+        	margin: 20px 28px 0px 28px;
+        }
+        .weui_set_annot{
+        	text-align: right;
+			margin-top: 22px;
+			margin-right: 42px;
+			font-size: 24px;
+			color: #FF5640;
+        }
+        .weui_spe{
+        	margin-top: 45px;
+        	width: 100%;
+        	text-align: center;
+        	font-size: 26px;
+        	color: #6A6C72;
+        }
+        .weui_edit{
+        	margin-bottom: 46px;
+        	width: 100%;
+        	text-align: center;
+		}
+		.weui-dialog__bds{
+	       	padding:70px 24px 70px 41px;
+	       	line-height: 46px;
+	       	font-size: 28px;
+	       	text-align: left;
+	    }
+	   .weui-dialog__bds p{
+	   		font-size: 26px;
+	   		color: #2C2C2C;
+	   }
+		.gray{
+			color: #6A6C72;
+		}
+       .weui-dialog__btn {
+		    color: #3086DE;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                    <div class="create_category top" @click="changeAttrDialog">
+				        <div class="category">选择商品属性</div> 
+				        <div class="category_tit" v-if="newAttrList.length != 0">已选：{{setStr}}</div>
+				        <div class="category_img"><img src="/images/arrows.png"></div>
+					</div>
+					<template v-if="isNewAttrList">
+						<div class="create_info top" v-for="(item, index) in newAttrList" :key="index">
+							<p class="category">{{item.attrName}}</p> 
+							<div class="info_box top">
+								<div class="info_content_before">
+									<template v-for="(citem, cindex) in item.cateAttributeValueList" :key="cindex">
+										<template v-if="citem.isSelf == 1">
+										<div class="info_color" :class="{blue : citem.isActive}" @click="chooseAttr(citem, cindex, item, index)">{{citem.goodsAttrValue}}<img class="pic_close" @click.stop="delCustomAttr(citem, index, item)" src="/images/icon_img_delb.png" /></div>
+										</template>
+									</template>
+								</div>
+								<form action="javascript:void 0">
+									<input class="info_color custom" type="text" v-model="item.searchVal" @keyup.13="tapToSearch(item, newAttrList[index])" :placeholder="'自定义'+item.attrName" />
+								</form>
+								<div class="info_content" :class="{limit: item.unfold && !item.isActive}">
+									<template v-for="(citem, cindex) in item.cateAttributeValueList" :key="cindex">
+										<template v-if="citem.isSelf == 0">
+											<div class="info_color" :class="{blue : citem.isActive}" @click="chooseAttr(citem, cindex, item, index)"><i v-if="citem.color" class="color" :style="{background: citem.color}"></i>{{citem.attrValue}}</div>
+										</template>
+									</template>
+								</div>
+								<p class="info_btn" v-if="item.unfold && item.isActive"  @click="switchLimit(item)"><img src="/images/up_icon.png"/>展开</p>
+								<p class="info_btn" v-if="item.unfold && !item.isActive" @click="switchLimit(item)"><img src="/images/under_icon.png"/>展开</p>
+							</div>
+						</div>
+					</template>
+
+					<template v-if="isGoodsSkuAddDtoList">
+						<div class="create_info top bottom">
+							<div class="create_tit">
+								<p class="category">规格信息设置<img @click="changeIntroDialog" src="/images/question.png"><span @click="changeBatchSetDialog">批量设置</span></p> 
+							</div>
+							<div class="info_box">
+								<div class="info_set">
+									<p class="info_p" style="display: none;">请选择具体的销售属性，以便组成完整的规格信息。</p>
+									<div class="set_box" v-for="(item, index) in goodsSkuAddDtoList" :key="index">
+										<div class="set_top">
+											<span>{{setVal(item.goodsAttributeDtoList)}}</span>
+											<div class="set_r">
+												<div class="ser_bor" >排序：{{item.rank}}</div><!-- @click.stop="changeRankDialog(item)" 排序方法 -->
+												<div class="ser_bor uploadpic" v-if="item.pic == ''" @click="chooseImage(item, index)">上传图片</div>
+												<div class="pic_box"  v-if="item.pic != ''">
+													<img class="pic_img" :src="item.pic">
+													<img class="pic_close" @click="delItemImg(item)" src="/images/icon_img_delb.png" />
+												</div>
+											</div>
+										</div>
+										<div class="set_con">
+											<input class="set_input" type="number" v-model="item.goodsPrice" placeholder="输入价格" />
+											<input class="set_input" type="number" v-model="item.skuStockNum" placeholder="输入库存" />
+											<input class="set_input" :class="{red: Number(item.maiLiCount) > Number(item.goodsPrice)}" type="number" v-model="item.maiLiCount" placeholder="输入脉粒抵扣" />
+											<input class="set_input" :class="{red: Number(item.rebateMoney) > Number(item.goodsPrice)}" type="number" v-model="item.rebateMoney" placeholder="输入推广佣金" />
+										</div>
+										<p class="set_annot" v-if="Number(item.maiLiCount) > Number(item.goodsPrice)">脉粒抵扣数不可高于商品价格</p>
+										<p class="set_annot" v-if="Number(item.rebateMoney) > Number(item.goodsPrice)">推广佣金数不可高于商品价格</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input type="file" @change="changeImage($event)" id="upload_img" style="display: none;">
+					</template>
+                    <div class="create_btn">
+                    	<div class="btn_blun" @click="submit">保存</div>
+                    </div>
+                </main>
+            </div>
+		</div>
+		<!--选择商品属性-->
+		<template v-if="isAttrListDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__con">
+						<img class="weui_close" @click="changeAttrDialog" src="/images/close.png">
+						<div class="weui_top">
+							<p class="top_tit">选择商品属性（最多选择3个）</p>
+							<p class="top_hint">提示：属性名称前的数字代表在实际商品规格中的展示顺序。</p>
+						</div>
+						<div class="weui_con">
+							<div class="weui_pro" v-for="(item, index) in attrList" :key="index">
+								<span class="num" :class="{active: item.rank !=0}" @click="selectAttr(item)">{{item.rank != 0 && item.rank || item.rank == 0 && ""}}</span>
+								<span class="txt">{{item.attrName}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" @click="submitAttr" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!--批量设置-->
+		<template v-if="isBatchSetDialog">
+			<div class="js_dialog" id="iosDialog1">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__con">
+						<img class="weui_close" @click="changeBatchSetDialog" src="/images/close.png">
+						<div class="weui_top">
+							<p class="top_tit">批量设置</p>
+							<p class="top_hint">提示：可以只批量设置一项，也可以批量设置多项。</p>
+						</div>
+						<div class="weui_con">
+							<input class="weui_set_input" type="number" v-model="goodsPrice" @input="handleGoodsPrice" placeholder="输入统一价格" />
+							<input class="weui_set_input" type="number" v-model="skuStockNum" placeholder="输入统一库存" />
+							<input class="weui_set_input" :class="{red: errorMaiLiCount}" type="number" v-model="maiLiCount" @input="handleMaiLiCount" placeholder="输入统一脉粒抵扣" />
+							<input class="weui_set_input" :class="{red: errorRebateMoney}" type="number" v-model="rebateMoney" @input="handleRebateMoney" placeholder="输入统一推广佣金" />
+						</div>
+						<p class="weui_set_annot">{{errorHint}}</p>
+					</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" @click="batchSet" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!--规格排序-->
+		<template v-if="isRankDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__con">
+						<img class="weui_close" @click="changeRankDialog" src="/images/close.png">
+						<div class="weui_top">
+							<p class="top_tit">规格排序</p>
+							<p class="top_hint">提示：序号越小，则该商品规格越靠前展示。</p>
+						</div>
+						<div class="weui_con">
+							<p class="weui_spe">{{rankStr}}</p>
+							<div class="weui_edit">
+								<input class="weui_set_input" type="text" v-model="rankReplaceNum" placeholder="1" />
+							</div>
+						</div>
+					</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" @click="handleRank" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!-- 规格信息 -->
+		<template v-if="isIntro">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bds">
+						<p>商品规格是通过选择具体商品属性 后组合产生的，其设置说明如下： </p>
+						<p class="top">·价格(<span class="red">必填</span>)：<span class="gray">该规格商品的价格。</span></p>
+						<p>·库存(<span class="red">必填</span>)：<span class="gray">该规格商品的库存。</span></p>
+						<p>·脉粒抵扣：<span class="gray">该规格商品可用脉粒抵 扣现金的数量（1脉粒=1元）</span></p>
+						<p>·推广佣金：<span class="gray">该规格商品被分享购买 后所需支付给分享者的佣金。</span></p>
+						<p>·上传图片：<span class="gray">上传该规格商品的展示图。</span></p>
+						<p>·排序：<span class="gray">设置该规格商品的排列序号。</span></p>
+					</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:"  @click="changeIntroDialog" class="weui-dialog__btn weui-dialog__btn_primary">朕知道了</a>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	
+	<script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+					attrList: JSON.parse(`<%- information %>`),
+					attrValueList: [],
+					isAttrListDialog: false,
+					isNewAttrList: false,
+					newAttrList: [],
+					txtInput: "",
+					isGoodsSkuAddDtoList: false,
+					goodsSkuAddDtoList: [],
+					isBatchSetDialog: false,
+					goodsPrice: "",
+					skuStockNum: "",
+					maiLiCount: "",
+					rebateMoney: "",
+					errorMaiLiCount: "",
+					errorRebateMoney: "",
+					errorHint: "",
+					picSign: [],
+					url: "",
+					imgIndex: "",
+					isRankDialog: false,
+					rankStr: "",
+					rankNum: "",
+					isIntro: false,
+					tempGoodsSkuAddDtoList: []
+                }
+            },
+            created() {
+				// console.log(this.attrList);
+				if(sessionStorage.getItem("newAttrList")) {
+					let newAttrList = JSON.parse(sessionStorage.getItem("newAttrList"));
+					this.newAttrList = newAttrList;
+					this.isNewAttrList = true;
+					this.handleChooseAttr();
+				}else if(this.newAttrList.length == 0) {
+					this.isAttrListDialog = true;
+				}
+				if(sessionStorage.getItem("goodsSkuAddDtoList")) {
+					let goodsSkuAddDtoList = JSON.parse(sessionStorage.getItem("goodsSkuAddDtoList"));
+					this.goodsSkuAddDtoList = goodsSkuAddDtoList;
+				}
+			},
+            mounted() {},
+			computed: {
+				setStr() {
+					let str = "";
+					if(this.newAttrList.length == 0) {return};
+					for(let i = 0; i<this.newAttrList.length; i++) {
+						str += this.newAttrList[i].attrName + "、";
+					}
+					if (str.length > 0) {
+						str = str.substr(0, str.length - 1);
+					}
+					return str;
+				},
+				setVal() {
+					return function(list) {
+						let str = "";
+						for(let i = 0; i<list.length; i++) {
+							if(list[i].goodsAttributeValue.attrValue) {
+								str += "“" + list[i].goodsAttributeValue.attrValue + "”+";
+							}
+							if(list[i].goodsAttributeValue.goodsAttrValue) {
+								str += "“" + list[i].goodsAttributeValue.goodsAttrValue + "”+";
+							}
+						}
+						if (str.length > 0) {
+							str = str.substr(0, str.length - 1);
+						}
+						return str;
+					}
+				}
+			},
+            methods: {
+				// 打开/关闭选择属性弹窗
+				changeAttrDialog() {
+					this.isAttrListDialog ? this.isAttrListDialog = false : this.isAttrListDialog = true;
+				},
+				// 选择商品属性-排序
+				selectAttr(item) {
+					if(item.rank !=0) { return item.rank = 0; }
+					if(this.attrList.some((val, index) => {return val.rank == 1})) {
+						if(this.attrList.some((val, index) => {return val.rank == 2})) {
+							if(this.attrList.some((val, index) => {return val.rank == 3})) {
+								return poper("最多选择3个商品属性");
+							}else { item.rank = 3; }
+						}else { item.rank = 2; }
+					}else { item.rank = 1; }
+				},
+
+				// 确定选择商品属性
+				submitAttr() {
+					let newAttrList = [];
+					if(this.attrList.every((val, index) => {return val.rank == 0})) {
+						return poper("请先选择商品属性");
+					}
+					this.attrList.forEach((val, index) => {
+						if(val.rank > 0) {
+							newAttrList.push(val);
+						}
+					});
+					newAttrList.sort((a, b) => {
+						if(a.rank - b.rank) { return a.rank - b.rank; }
+					});
+					this.isAttrListDialog = false;
+					this.newAttrList = newAttrList;
+					this.isNewAttrList = true;
+					this.handleChooseAttr();
+					
+				},
+
+				// 切换展开收起
+				switchLimit(item) {
+					item.isActive ? item.isActive = false : item.isActive = true;
+				},
+
+				// 选择/取消分类属性值
+				chooseAttr(citem, cindex, item, index) {
+					// console.log(citem);
+					citem.isActive ? citem.isActive = false : citem.isActive = true;
+					this.handleChooseAttr();
+				},
+
+				// 处理选择/取消的分类属性值
+				handleChooseAttr() {
+					let newAttrList = this.newAttrList;
+					let newArr = [];
+					if(newAttrList.length == 1) {
+
+						for(let i = 0; i<newAttrList.length; i++) {
+							let cateAttributeValueList = newAttrList[i].cateAttributeValueList;
+							for(let j = 0; j<cateAttributeValueList.length; j++) {
+								if(cateAttributeValueList[j].isActive == true && cateAttributeValueList[j].isSelf == 0) {
+									newArr.push({
+										cateAttrId: newAttrList[i].id,
+										attrName: newAttrList[i].attrName,
+                                        goodsAttributeValue: {
+											cateAttrValueId: cateAttributeValueList[j].id,
+											attrValue: cateAttributeValueList[j].attrValue,
+											isSelf: 0,
+										},
+										rank: newAttrList[i].rank
+									})
+								}
+								if(cateAttributeValueList[j].isActive == true && cateAttributeValueList[j].isSelf == 1) {
+									newArr.push({
+										cateAttrId: newAttrList[i].id,
+										attrName: newAttrList[i].attrName,
+                                        goodsAttributeValue: {
+											goodsAttrValue: cateAttributeValueList[j].goodsAttrValue,
+											isSelf: 1,
+										},
+										rank: newAttrList[i].rank
+									})
+								}
+							}
+						}
+						// console.log(newArr);
+						this.handleSkuList(newArr);
+					}else if(newAttrList.length > 1) {
+
+						for (let i = 0; i < newAttrList.length; i++) {
+							if(typeof newArr[i]) {
+								newArr[i] = [];
+							}
+							let cateAttributeValueList = newAttrList[i].cateAttributeValueList;
+							for (let j = 0; j < cateAttributeValueList.length; j++) {
+								if (cateAttributeValueList[j].isActive == true && cateAttributeValueList[j].isSelf == 0) {
+									newArr[i].push({
+										cateAttrId: newAttrList[i].id,
+										attrName: newAttrList[i].attrName,
+										goodsAttributeValue: {
+											cateAttrValueId: cateAttributeValueList[j].id,
+											attrValue: cateAttributeValueList[j].attrValue,
+											isSelf: 0,
+										},
+										rank: newAttrList[i].rank
+									})
+								}
+								if (cateAttributeValueList[j].isActive == true && cateAttributeValueList[j].isSelf == 1) {
+									newArr[i].push({
+										cateAttrId: newAttrList[i].id,
+										attrName: newAttrList[i].attrName,
+										goodsAttributeValue: {
+											goodsAttrValue: cateAttributeValueList[j].goodsAttrValue,
+											isSelf: 1,
+										},
+										rank: newAttrList[i].rank
+									})
+									
+								}
+							}
+						}
+						// console.log(newArr);
+						let goodsAttributeDtoList = this.packedArr(newArr);
+						var goodsSkuAddDtoList = [];
+						var map1 = new Map();
+						var map2 = new Map();
+						console.log("goodsAttributeDtoList",goodsAttributeDtoList)
+						console.log("goodsSkuAddDtoList", this.goodsSkuAddDtoList)
+						for(let i = 0; i<goodsAttributeDtoList.length; i++) {
+							var attrStr = "";
+							for(let j = 0; j<goodsAttributeDtoList[i].length; j++) {
+								attrStr += goodsAttributeDtoList[i][j].goodsAttributeValue.cateAttrValueId
+							}
+							map1.set(attrStr, goodsAttributeDtoList[i]);		
+						}
+						if (this.goodsSkuAddDtoList.length>0) {
+							for (let j = 0; j<this.goodsSkuAddDtoList.length; j++) {
+								var goodsTr = "";
+								for(let n = 0; n<this.goodsSkuAddDtoList[j].goodsAttributeDtoList.length; n++) {
+									goodsTr += this.goodsSkuAddDtoList[j].goodsAttributeDtoList[n].goodsAttributeValue.cateAttrValueId
+								}
+								map2.set(goodsTr, this.goodsSkuAddDtoList[j]);
+							}
+						}
+						var i = 0;
+						for (var x of map1) { 
+							goodsSkuAddDtoList[i] = {};
+							goodsSkuAddDtoList[i].goodsAttributeDtoList = goodsAttributeDtoList[i];
+							goodsSkuAddDtoList[i].goodsPrice = "";
+							goodsSkuAddDtoList[i].maiLiCount = "";
+							goodsSkuAddDtoList[i].marketPrice = "";
+							goodsSkuAddDtoList[i].pic = "";
+							goodsSkuAddDtoList[i].rebateMoney = "";
+							goodsSkuAddDtoList[i].skuStockNum = "";
+							goodsSkuAddDtoList[i].rank = i+1;
+							for (var y of map2) { 
+								if(x[0]==y[0]) {
+									goodsSkuAddDtoList[i].goodsPrice = y[1].goodsPrice;
+									goodsSkuAddDtoList[i].maiLiCount = y[1].maiLiCount;
+									goodsSkuAddDtoList[i].marketPrice = y[1].marketPrice;
+									goodsSkuAddDtoList[i].pic = y[1].pic;
+									goodsSkuAddDtoList[i].rebateMoney = y[1].rebateMoney;
+									goodsSkuAddDtoList[i].skuStockNum = y[1].skuStockNum;
+									goodsSkuAddDtoList[i].rank = i+1;
+								} 
+							}
+							i++;
+						}
+						// 排序 
+						// goodsSkuAddDtoList.sort(function(a,b){
+						// 	if(a.goodsPrice=="" || b.goodsPrice=="") {
+						// 		return a.goodsPrice-b.goodsPrice
+						// 	} else {
+						// 		return a.rank-b.rank
+						// 	}
+						// });
+						if(goodsSkuAddDtoList.length == 0) {
+							this.isGoodsSkuAddDtoList = false;
+							this.goodsSkuAddDtoList = [];
+						}else {
+							this.isGoodsSkuAddDtoList = true;
+							this.goodsSkuAddDtoList = goodsSkuAddDtoList;
+						}
+					}
+				},
+				// 处理选择单个属性列表
+				handleSkuList(arr) {
+					var goodsSkuAddDtoList = [];
+					for(let i = 0; i<arr.length; i++) {
+						goodsSkuAddDtoList[i] = {};
+						goodsSkuAddDtoList[i].goodsAttributeDtoList = [arr[i]];
+						goodsSkuAddDtoList[i].goodsPrice = "";	// 商品金额
+						goodsSkuAddDtoList[i].maiLiCount = "";	// 可用脉粒数
+						goodsSkuAddDtoList[i].marketPrice = "";
+						goodsSkuAddDtoList[i].pic = "";
+						goodsSkuAddDtoList[i].rebateMoney = "";	// 返还金额
+						goodsSkuAddDtoList[i].skuStockNum = "";	// 库存
+						goodsSkuAddDtoList[i].rank = i+1;
+					}
+					if(goodsSkuAddDtoList.length == 0) {
+						this.isGoodsSkuAddDtoList = false;
+						this.goodsSkuAddDtoList = [];
+					}else {
+						this.isGoodsSkuAddDtoList = true;
+						this.goodsSkuAddDtoList = goodsSkuAddDtoList;
+					}
+				},
+
+				packedArr(arr) {
+					let len =  arr.length;
+                    if(len >= 2) {
+                        var len1 = arr[0].length;
+                        var len2 = arr[1].length;
+                        var lenBoth = len1 * len2;
+                        var items = new Array(lenBoth);
+                        var index = 0;
+                        for (var i = 0; i < len1; i++) {
+                            for (var j = 0; j < len2; j++) {
+                                if(arr[0][i] instanceof Array){
+                                    items[index] = arr[0][i].concat(arr[1][j]);
+                                }else{
+                                    items[index] = [arr[0][i]].concat(arr[1][j]);
+                                }
+                                index++;
+                            }
+                        }
+                        var newArr = new Array(len - 1);
+                        for (var i = 2; i < arr.length; i++) {
+                            newArr[i - 1] = arr[i];
+                        }
+                        newArr[0] = items;
+                        return this.packedArr(newArr);
+                    }else {
+                        return arr[0];
+                    }
+				},
+
+				// 添加分类
+				tapToSearch(item, index) {
+					item.cateAttributeValueList.push({
+						goodsAttrValue: item.searchVal,
+						isSelf: 1,
+						isDel: false,
+						isActive: true
+					});
+					item.searchVal = "";
+					this.handleChooseAttr();
+				},
+
+				// 删除自定义属性
+				delCustomAttr(citem, index, item) {
+					citem.isDel = true;
+					for(let i = 0; i<item.cateAttributeValueList.length; i++) {
+						if(item.cateAttributeValueList[i].isDel == true) {
+							item.cateAttributeValueList.splice(i, 1);
+						}
+					}
+				},
+
+				// 打开/关闭批量设置弹窗
+				changeBatchSetDialog() {
+					this.isBatchSetDialog ? this.isBatchSetDialog = false : this.isBatchSetDialog = true;
+				},
+
+				// 处理价格
+				handleGoodsPrice() {
+					let goodsPrice = this.goodsPrice;
+					let maiLiCount = this.maiLiCount;
+					let rebateMoney = this.rebateMoney;
+					if(goodsPrice != "" && maiLiCount != "") {
+						if(Number(maiLiCount) > Number(goodsPrice)) {
+							this.errorMaiLiCount = true;
+							this.errorHint = "统一脉粒抵扣数不可高于商品价格";
+						}else {
+							this.errorMaiLiCount = false;
+							this.errorHint = "";
+						}
+					}
+					if(goodsPrice != "" && rebateMoney != "") {
+						if(Number(rebateMoney) > Number(goodsPrice)) {
+							this.errorRebateMoney = true;
+							this.errorHint = "统一推广佣金数不可高于商品价格";
+						}else {
+							this.errorRebateMoney = false;
+							this.errorHint = "";
+						}
+					}
+				},
+				
+				// 处理脉粒抵扣数
+				handleMaiLiCount() {
+					let goodsPrice = this.goodsPrice;
+					let maiLiCount = this.maiLiCount;
+					if(goodsPrice != "" && maiLiCount != "") {
+						if(Number(maiLiCount) > Number(goodsPrice)) {
+							this.errorMaiLiCount = true;
+							this.errorHint = "统一脉粒抵扣数不可高于商品价格";
+						}else {
+							this.errorMaiLiCount = false;
+							this.errorHint = "";
+						}
+					}
+				},
+				// 处理脉粒抵扣数
+				handleRebateMoney() {
+					let goodsPrice = this.goodsPrice;
+					let rebateMoney = this.rebateMoney;
+					if(goodsPrice != "" && rebateMoney != "") {
+						if(Number(rebateMoney) > Number(goodsPrice)) {
+							this.errorRebateMoney = true;
+							this.errorHint = "统一推广佣金数不可高于商品价格";
+						}else {
+							this.errorRebateMoney = false;
+							this.errorHint = "";
+						}
+					}
+				},
+				// 批量设置
+				batchSet() {
+					let goodsPrice = this.goodsPrice;
+					let skuStockNum = this.skuStockNum;
+					let maiLiCount = this.maiLiCount;
+					let rebateMoney = this.rebateMoney;
+					// 判断不做任何修改
+					if(goodsPrice == "" && skuStockNum == "" && maiLiCount == "" && rebateMoney == "") {
+						this.isBatchSetDialog = false;
+					}
+					// 判断价格是否为空
+					if(goodsPrice != "" && maiLiCount != "") {
+						if(Number(maiLiCount) > Number(goodsPrice)) {
+							return poper("统一脉粒抵扣数不可高于商品价格");
+						}
+					}
+					// 判断价格是否为空
+					if(goodsPrice != "" && rebateMoney != "") {
+						if(Number(rebateMoney) > Number(goodsPrice)) {
+							return poper("统一推广佣金数不可高于商品价格");
+						}
+					}
+					let goodsSkuAddDtoList = this.goodsSkuAddDtoList;
+					// console.log(goodsSkuAddDtoList);
+					for(let i = 0; i<goodsSkuAddDtoList.length; i++) {
+						// 判断价格是否为空
+						if(goodsPrice != "") {
+							goodsSkuAddDtoList[i].goodsPrice = goodsPrice;
+						}
+						// 判断库存是否为空
+						if(skuStockNum != "") {
+							goodsSkuAddDtoList[i].skuStockNum = skuStockNum;
+						}
+						// 判断脉粒抵扣是否为空
+						if(maiLiCount != "") {
+							goodsSkuAddDtoList[i].maiLiCount = maiLiCount;
+						}
+						// 判断推广佣金是否为空
+						if(rebateMoney != "") {
+							goodsSkuAddDtoList[i].rebateMoney = rebateMoney;
+						}
+					}
+					this.isBatchSetDialog = false;
+				},
+
+				// 删除照片
+				delItemImg(item) {
+					item.pic = "";
+				},
+
+				// 打开排序弹窗
+				changeRankDialog(item) {
+					this.isRankDialog = true;
+					let str = "";
+					let goodsAttributeDtoList = item.goodsAttributeDtoList;
+					for(let i = 0; i<goodsAttributeDtoList.length; i++) {
+						if(goodsAttributeDtoList[i].goodsAttributeValue.attrValue) {
+							str += "“" + goodsAttributeDtoList[i].goodsAttributeValue.attrValue + "”+";
+						}
+						if(goodsAttributeDtoList[i].goodsAttributeValue.goodsAttrValue) {
+							str += "“" + goodsAttributeDtoList[i].goodsAttributeValue.goodsAttrValue + "”+";
+						}
+					}
+					if (str.length > 0) {
+						str = str.substr(0, str.length - 1);
+					}
+					this.rankStr = str;
+					this.rankNum = item.rank;
+					this.rankReplaceNum = item.rank;
+				},
+
+				// 关闭排序弹窗
+				closeRankDialog() {
+					this.isRankDialog = false;
+				},
+				// 处理排序
+				handleRank() {
+					if(this.rankNum == this.rankReplaceNum) {
+						return this.isRankDialog = false;
+					}
+					let rankItem = "";
+					let rankReplaceItem = "";
+					for(let i = 0; i<this.goodsSkuAddDtoList.length; i++) {
+						if(this.goodsSkuAddDtoList[i].rank == this.rankNum) {
+							rankItem = i;
+						}
+						if(this.goodsSkuAddDtoList[i].rank == this.rankReplaceNum) {
+							rankReplaceItem = i;
+						}
+					}
+					this.goodsSkuAddDtoList[rankItem].rank = this.rankReplaceNum;
+					this.goodsSkuAddDtoList[rankReplaceItem].rank = this.rankNum;
+					this.isRankDialog = false;
+				},
+
+				// 打开/关闭规格信息弹窗
+				changeIntroDialog() {
+					this.isIntro ? this.isIntro = false : this.isIntro = true;
+				},
+
+				// 上传图片
+				chooseImage(item, index) {
+					this.imgIndex = index;
+					document.getElementById('upload_img').click();
+				},
+				changeImage(el) {
+					let files = el.target.files;
+					for(let i=0; i < files.length; i++) {
+                        let isImg = files[i].type == "image/jpeg" || files[i].type == "image/png" || files[i].type == "image/jpg";
+                        if(!isImg) {
+                            return poper("只能上传jpg/jpeg/png文件");
+                        }
+                        if(files[i].size > (limitNum*1024*1024)) {
+                            return poper(`请选择${limitNum}M以内的图片！`);
+                        }
+					}
+					for(let i=0; i < files.length; i++) {
+                        this.imgLen++;
+                        let size = files[i].size;
+                        let imgType = files[i].type.substring(6);
+                        let timestamp = new Date().getTime();
+                        let randomStr = randomString(10);
+                        let item = {
+                            length: size,
+                            goodsCode: 9001000,
+                            type: "/shop/goods",
+                            uri: timestamp + randomStr + "." + imgType
+                        }
+                        this.picSign.push(item);
+                    }
+                    this.getPicSign(files, this.picSign);
+				},
+				// 获取图片参数
+                getPicSign(files, picSign) {
+                    let config = picSign;
+                    axios.post("/api/getPicBatchUploadSign", config).then(res => {
+                        // console.log(res);
+                        let data = res.data.data;
+                        if(data.length == 0) return;
+                        let forbody = Promise.resolve();
+                        for(let i = 0; i<data.length; i++) {
+                            forbody = forbody.then(res=>{
+                                return this.uploadImgs(i, data, files);
+                            })
+                        }
+                    })
+				},
+				// 上传图片
+                uploadImgs(i, data, files) {
+                    let formData = new FormData();
+                    formData.append("policy", data[i].policy);
+                    formData.append("signature", data[i].signature);
+                    formData.append("file", files[i]);
+                    let config = {
+                        headers: {
+                            Authorization: data.authorization,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    }
+                    let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+                    return new Promise((resolve, reject) => {
+                        axios.post(url, formData, config).then(res => {
+							this.url = data[i].host + data[i].uri;
+							this.goodsSkuAddDtoList[this.imgIndex].pic = data[i].host + data[i].uri;
+							formData.delete("policy");
+							formData.delete("signature");
+							formData.delete("file");
+                            if(i == data.length-1) {
+                                this.picSign = [];
+                            }
+                            resolve('ok:'+i);
+                        }, err => {
+                            console.log(err);
+                        })
+                    })
+				},
+				
+				submit() {
+					let goodsSkuAddDtoList = this.goodsSkuAddDtoList;
+					// console.log(goodsSkuAddDtoList);
+					if(goodsSkuAddDtoList.length == 0) {
+						return poper("请选择商品规格");
+					}
+					let result = goodsSkuAddDtoList.every(function(element, index) {
+						return element.pic != "" && element.goodsPrice != "" && element.skuStockNum != "" && element.maiLiCount != "" && element.rebateMoney != "" && Number(element.maiLiCount) <= Number(element.goodsPrice) && Number(element.rebateMoney) <= Number(element.goodsPrice);
+					});
+					if(!result) {
+						return poper("请检查添加商品规格是否正确");
+					}
+					// console.log(this.newAttrList);
+					// console.log(goodsSkuAddDtoList);
+					sessionStorage.setItem("newAttrList", JSON.stringify(this.newAttrList));
+					sessionStorage.setItem("goodsSkuAddDtoList", JSON.stringify(goodsSkuAddDtoList));
+					// return;
+					window.history.go(-1);
+				}
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.action_box{
+    		margin: 24px 24px 0px 24px;
+    		padding: 52px 24px;
+    		background: #FFFFFF;
+    		display: flex;
+    		align-items: center;
+    		justify-content: space-between;
+    	}
+    	.action_status{
+    		display: flex;
+    		justify-content: flex-start;
+    		line-height: 36px;
+    	}
+    	.action_status img{
+    		margin-right: 17px;
+    		width: 36px;
+    		height: 36px;
+    	}
+    	.action_status h1{
+    		font-size: 36px;
+    		color: #2c2c2c;
+    	}
+    	.action_left p{
+    		margin-left: 53px;
+    		margin-top: 19px;
+    		font-size: 24px;
+    		color: #AFAFB2;
+    	}
+    	.action_arrow{
+    		width: 34px;
+    		height: 34px;
+    	}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="action_box">
+						<div class="action_left">
+							<div class="action_status">
+								<img src="/images/action_icon.png" />
+								<h1>我要退货退款</h1>
+							</div>
+							<p>已收到货，需要退还已收到的货物</p>
+						</div>
+						<img class="action_arrow" src="/images/arrows.png" />
+					</div>
+					<div class="action_box">
+						<div class="action_left">
+							<div class="action_status">
+								<img src="/images/action_icon2.png" />
+								<h1>我要退款（无需退货）</h1>
+							</div>
+							<p>未收到货(包含未签收)，或与卖家协商之后申请</p>
+						</div>
+						<img class="action_arrow" src="/images/arrows.png" />
+					</div>
+                </main>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

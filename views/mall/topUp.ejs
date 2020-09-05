@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	::-webkit-input-placeholder {
+            color: #C8CACD;
+        }
+
+        ::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #C8CACD;
+        }
+
+        :-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            color: #C8CACD;
+        }
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: #C8CACD;
+        }
+    	.content{
+    		height: 100%;
+    	}
+    	.topup_box{
+    		height: 100%;
+    		padding: 0px 24px;
+    		background: #FFFFFF;
+    	}
+    	.topup_tit{
+    		padding-top: 24px;
+    		font-size: 31px;
+    		color: #000000;
+    	}
+    	.topup_in_box{
+    		height: 125px;
+    		line-height: 125px;
+    		border-bottom: 1px solid #CCD2D9;
+    		display: flex;
+    	}
+    	.topup_in_box span{
+    		font-size: 54px;
+    		color: #000000;
+    	}
+    	.topup_in_box input{
+    		margin-left: 11px;
+    		width: 80%;
+    		height: 125px;
+    		line-height: 125px;
+    		font-size: 83px;
+    		color: #000000;
+    	}
+    	.topup_note{
+    		margin-top: 26px;
+    		font-size: 27px;
+    		color: #989EAB;
+    	}
+    	.addsave{
+        	margin-top: 49px;
+        	height: 84px;
+        	line-height: 84px;
+        	text-align: center;
+        	border-radius: 3px;
+        	background: #3086DE;
+        	font-size: 35px;
+        	color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="topup_box">
+                    	<div class="topup_tit">充值金额</div>
+                    	<div class="topup_in_box">
+                    		<span>¥</span>
+                    		<input name="" id="" placeholder="0" />
+                    	</div>
+                    	<div class="topup_note">充值后可用于app内商品消费</div>
+                    	<div class="addsave">下一步</div>
+                    </div>   
+                </main>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

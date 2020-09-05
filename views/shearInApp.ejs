@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+</head>
+<body>
+    <script>
+        var isApp = `<%- app %>`
+        var data =   JSON.parse(`<%- data %>`)
+        // alert(isApp);
+//         alert(`<%- data %>`)
+         var source = "";
+        window.onload = function(){
+            var obj ={}; 
+            if(data.shareInfoData==null){
+              if(data.organId||data.memberId||data.itemId){
+                if(data.source=='organPage'){
+                 //社群主页
+                obj = {"methodType":"jump","nativeFlag":"organizePage","itemId": data.organId}
+            
+                }else if(data.source=='personalPage'){
+                    //个人主页
+                obj = {"methodType":"jump","nativeFlag":"personalPage","itemId": data.memberId}
+                }else if(data.source=='activityPage'){
+                    //活动详情
+                obj = {"methodType":"jump","nativeFlag":"activityDetailPage" ,"itemId": data.itemId}
+                }else if(data.source=='activityDetail'){
+                    //活动状态 
+                 obj = {"methodType":"jump","nativeFlag":"activityConfirmPage" ,"itemId": data.itemId}
+                }
+                jumpApp(obj);
+             }else{
+                window.location.href='/appCorrelation/error'
+             }
+            }else{
+                if(data.shareInfoData.itemId||data.shareInfoData.memberId){
+                    if(data.source=='organPage'){
+                //社群主页
+                obj = {"methodType":"jump","nativeFlag":"organizePage","itemId": data.shareInfoData.itemId,"params":{"itemId": data.shareInfoData.itemId,"memberId":data.shareInfoData.memberId,"joinSource":3}}
+                }else if(data.source=='personalPage'){
+                    //个人主页
+                obj = {"methodType":"jump","nativeFlag":"personalPage","itemId": data.shareInfoData.memberId}
+                }else if(data.source=='activityPage'){
+                    //活动详情
+                obj = {"methodType":"jump","nativeFlag":"activityDetailPage" ,"itemId": data.shareInfoData.itemId,"params":{"itemId": data.shareInfoData.itemId,"memberId":data.shareInfoData.memberId}}
+                }
+                // else if(data.source=='/activityDetail'){
+                //     //活动状态
+                // obj = {"methodType":"jump","nativeFlag":"activityConfirmPage" ,"itemId": data.itemId}
+                // }
+                jumpApp(obj);
+                }else{
+                    window.location.href='appCorrelation/erroror'
+                }
+            }
+        }
+        function jumpApp(obj){
+            var OBJ = {"methodType":"invoke","nativeFlag":"closeWebView"}
+            if(isApp=='IOS') {
+                window.webkit.messageHandlers.getAppMethod.postMessage(OBJ)
+                window.webkit.messageHandlers.getAppMethod.postMessage(obj)
+            }else{
+                qmWebViewListener.getAppMethod(JSON.stringify(OBJ));
+                qmWebViewListener.getAppMethod(JSON.stringify(obj));
+            }
+        }
+    </script>
+</body>
+
+</html>

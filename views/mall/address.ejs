@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel='stylesheet' href="/stylesheets/mescroll.min.css" />
+    <script src="/javascripts/phone.js"></script>
+    <script src="/javascripts/mescroll.min.js"></script>
+    <style>
+    	.top{
+        	margin-top: 7px;
+        }
+        .tui-checkbox.checked {
+			background:#FF6A29
+		}
+		.tui-checkbox {
+			width:34px;
+			height:34px;
+			background-color:#ffffff;
+			border:solid 1px #dddddd;
+			-webkit-border-radius:50%;
+			border-radius:50%;
+			margin-right:25px;
+			font-size:0.8rem;
+			position:relative;
+			display:inline-block;
+			vertical-align:top;
+			cursor:default;
+			-webkit-appearance:none;
+			-webkit-user-select:none;
+			user-select:none;
+			-webkit-transition:background-color ease 0.1s;
+			transition:background-color ease 0.1s;
+		}
+		.tui-checkbox.checked::after {
+			content:'';
+			top:8px;
+			left:7px;
+			position:absolute;
+			background:transparent;
+			border:#fff solid 2px;
+			border-top:none;
+			border-right:none;
+			height:8px;
+			width:16px;
+			-moz-transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+			transform:rotate(-45deg);
+		}
+    	.create_tit{
+    		padding: 0px 24px;
+            height: 96px;
+            line-height: 96px;
+            text-align: center;
+            background: #ffffff;
+        }
+        .create_tit img{
+        	width: 36px;
+        	height: 36px;
+        }
+        .create_tit span{
+        	margin-left: 11px;
+        	font-size: 30px;
+        	color: #6A6C72;
+        }
+        .comm_box{
+            background: #ffffff;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 1px solid #f7f6f9;
+        	display: flex;
+        	align-items: center;
+        }
+        .comm_inf_box{
+        	width: 82%;
+        }
+        .comm_tit{
+        	margin-top: 18px;
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	height: 72px;
+        	line-height: 36px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .addr_name{		
+        	font-size: 30px;
+        	font-weight: 600;
+        	color: #2c2c2c;
+        }
+        .addr_tel{		
+        	font-size: 28px;
+        	color: #B3B6BA;
+        }
+        .addr_active{	
+        	padding: 5px 6px;	
+        	font-size: 23px;
+        	color: #FF6012;
+        	border: 1px solid #FF6012;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	width: 46px;
+			height: 46px;
+        }
+		.mescroll {
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			height: auto;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+					<div id="mescroll" class="mescroll">
+						<div class="create_tit top" @click="toPage('/mall/editAddress')"><img src="/images/addr_add.png" /><span>添加地址</span></div>
+						<div class="comm_box top lists">
+							<div class="comm_inf" v-for="(item, index) in dataList" :key="index" @click="checkAddress(item)">
+								<input name="checkbox" type="checkbox"  class="tui-checkbox" :class="{checked : item.id == id}">
+								<div class="comm_inf_box">
+									<div class="comm_num">
+										<span class="addr_name">{{item.receiver}}</span>
+										<span class="addr_tel">{{item.mobile}}</span>
+										<span class="addr_active" v-if="item.isDefault==1">默认</span>
+									</div>
+									<p class="comm_tit">地址：{{item.province}}{{item.city}}{{item.area}}{{item.address}}</p>	
+								</div>
+								<img class="comm_regu" @click.stop="toEditAddress(item)" src="/images/addr_edi.png">
+							</div>
+						</div>
+					</div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					id: `<%- id %>`,
+					dataList: [],
+					pageIndex: 1,
+					pageSize: 20,
+					mescroll: ""
+				}
+			},
+			created() {
+				console.log(this.id);
+				this.mescroll = new MeScroll("mescroll", {
+					down: {
+						auto:false,
+						callback: this.downCallback 
+						//下拉刷新的回调,别写成downCallback(),多了括号就自动执行方法了
+					},
+					up: {
+						auto:false,
+						isBoth: true, 
+						sBounce: false,
+						noMoreSize:4,
+						empty: {
+							// icon: "../res/img/mescroll-empty.png", //图标,默认null
+							tip: "暂无相关数据~", 
+							//提示
+						},
+						lazyLoad:{
+							use: true,
+						},
+						callback: this.upCallback(),
+						//上拉加载的回调
+						//以下是一些常用的配置,当然不写也可以的.
+						page: {
+							num: 1, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+							size: 20 //每页数据条数,默认10
+						},
+						htmlNodata: '<p class="upwarp-nodata">没有更多了...</p>',
+					}
+				});
+			},
+			methods: {
+				downCallback() {
+					window.location.reload();
+				},
+				upCallback(page) {
+					let url = "/mall/getAddressList?pageIndex="+ this.pageIndex + "&pageSize=" + this.pageSize;
+					axios.get(url).then(res => {
+						console.log(res.data);
+						if(res.data.errorCode == 0) {
+							let curPageData = res.data.data.list;
+							this.mescroll.endSuccess(curPageData.length);
+							this.dataList = this.dataList.concat(curPageData);
+						}
+					}).catch((err) => {
+						this.mescroll.endErr();
+					});
+				},
+				checkAddress(item) {
+					console.log(item);
+					sessionStorage.setItem("userAddr", JSON.stringify(item));
+					window.history.go(-1);
+				},
+				toEditAddress(item) {
+					console.log(item);
+					window.location.href = "/mall/editAddress?id=" + item.id;
+				},
+				toPage(page) {
+					window.location.href = page;
+				}
+			}
+
+		});
+
+		
+	</script>
+</body>
+</html>

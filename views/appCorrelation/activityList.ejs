@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <style>
+        body,html{
+            background: #fff;
+            width: 100%;
+            height:100%;
+        }
+        .header{
+            width: 100%;
+            height:100%;
+            padding:0 0.10rem;
+            clear: both;
+            overflow: hidden;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        .autoBox{
+            white-space: nowrap;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px;
+            height:100%;
+        }
+        .autoBox::-webkit-scrollbar{
+            display: none;
+        }
+        .activityList{
+            border-collapse: collapse;
+            border-spacing: 0px;
+            margin-top: 0.24rem;
+            border: 1px solid rgba(209, 209, 222, 1);
+        }
+        .activityList tr:first-child td{
+            background: rgba(203,255,203,1);
+        }
+        .activityList tr:first-child td:first-child {
+            background: rgba(255,255,0,1)!important;
+        }
+        .activityList tr td div{
+            min-width:1.56rem;
+            max-width: 4.5rem;
+            /* height: 0.42rem; */
+            height: auto;
+            vertical-align: middle;
+            padding:0.04rem 0.2rem;
+            font-size:0.27rem;
+            /* line-height: 0.42rem; */
+            text-align: center;
+            font-family:NotoSansHans-Regular;
+            overflow:hidden;
+            white-space: inherit;
+            font-weight:400;
+            color:rgba(0,0,0,1);
+        }
+        .activityList tr td:first-child div{
+            width: 1.56rem;
+            height: auto;
+        }
+        .footer{
+            position: fixed;
+            z-index:100;
+            bottom: 0rem;
+            width: 100%;
+            height: 0.85rem;
+            border-top: 1px solid #e8ecf0;
+        }
+        .downloadLink{
+            width: 100%;
+            background: #fff;
+            text-align: center;
+            line-height: 0.85rem;
+            font-size:0.33rem;
+            font-family:NotoSansHans-Regular;
+            font-weight:400;
+            color:rgba(62,140,249,1);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="autoBox">
+            <table  class="activityList" border="1">
+                <tr>
+                    <% for(var i in information.titles){ %>
+                        <td><div><%= information.titles[i] %></div></td>
+                    <% } %>
+                </tr>
+                    <% for(var deatH of information.data){ %>
+                        <tr>
+                            <% for(var j of information.paramNames){ %>
+                                <td><div><%= deatH[j] %></div></td>    
+                            <% } %>
+                        </tr>
+                    <% } %>
+            </table>
+        </div>
+    </header>
+    <footer class="footer">
+        <button style="border:0;" class="downloadLink" id="btn_Share">复制下载链接</button>
+    </footer>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/clipboard.min.js"></script>
+    <script>
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var token = null;
+        var clipboard = new ClipboardJS('#btn_Share', {
+            text: function () {
+                
+                var search = location.search;
+                search = search.split("=")[1];
+                $.ajax({
+                    type:"get",
+                    url:"/appCorrelation/activityList/token",
+                    async:false,
+                    success:function(res){
+                        if(res.errorCode==0){
+                            token = res.data.token;
+                        }else{
+                            poper(res.message) 
+                        }
+
+                    },
+                    error:function(err){
+                        
+                    }
+
+                })
+                var url = "https://service.qunmai.com/user/activityAttend/ordinary/getActivityAttendVosFile?activityId=" + search+"&token=" + token;
+                return url;
+            }
+        });
+        
+        clipboard.on('success', function (e) {
+            var obj = {"methodType":"invoke","nativeFlag":"toast","content":'复制下载链接成功！'}
+            if(isiOS){
+                try{
+                    window.webkit.messageHandlers.getAppMethod.postMessage(obj)
+                }catch(e){
+                    
+                }
+            }else if(isAndroid){
+                try{
+                    qmWebViewListener.getAppMethod(JSON.stringify(obj));
+                }catch(e){
+                    
+                }
+            }
+        });
+
+        clipboard.on('error', function (e) {
+           
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <link rel='stylesheet' href='/stylesheets/mescroll.min.css' />
+    <script src="/javascripts/phone.js"></script>
+    <script src="/javascripts/mescroll.min.js"></script>
+    <style>
+    	.top{
+        	margin-top: 14px;
+        }
+        .commodity{
+			margin-bottom: 114px;
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			height: auto;
+        }
+        .comm_box{
+            background: #ffffff;
+        }
+        .comm_inf{
+        	padding: 24px 24px;
+        	border-bottom: 2px solid #f7f6f9;
+        	display: flex;
+        }
+        .comm_pic{
+        	width: 110px;
+        }
+        .comm_inf_box{
+        	width: 60%;
+        	margin-left: 15px;
+        }
+        .comm_tit{
+        	font-size: 28px;
+        	color: #2C2C2C;
+        	height: 70px;
+        	line-height: 35px;
+        	display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+        }
+        .comm_num{
+        	margin-top: 14px;
+        	font-size: 24px;
+        	color: #AFAFB2;
+        }
+        .comm_num span{
+        	 color: #3086DE;
+        	 padding: 0 5px;
+        }
+        .comm_regu{
+        	margin-left: 26px;
+        	margin-top: 30px;
+        	width: 130px;
+        	height: 50px;
+        	line-height: 50px;
+        	text-align: center;
+        	background: #3086DE; 
+        	border-radius: 25px;
+        	font-size: 24px;
+        	color: #FFFFFF;
+        }
+        .comm_edi_box{
+        	padding: 11px 24px;
+        	display: flex;
+        	justify-content: space-between;
+        }
+        .fon{
+        	height: 52px;
+        	line-height: 52px;
+        	text-align: center;
+        	border: 1px solid #E6EAEE;
+        	border-radius: 3px;
+        	font-size: 24px;
+        	color: #6A6C72;
+        }
+        .comm_del{
+        	float: left;
+        	width: 130px;
+        	
+        }
+        .comm_edi{
+        	float: right;
+        	width: 150px;
+        	margin-left: 24px;
+        }
+        /*创建商品*/
+        .create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_write{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 36px;
+        	background: #ffffff;
+        	color: #4487CC;
+        }
+        .btn_write img{
+        	width: 48px;
+        	height: 48px;
+        	padding-right: 11px;
+		}
+		.weui-actionsheet {
+		    position: fixed;
+		    left: 0;
+		    bottom: 0;
+		    z-index: 5000;
+		    width: 100%;
+		    background-color: #f7f7f7;
+		    -webkit-transition: -webkit-transform 0.3s;
+		    transition: -webkit-transform 0.3s;
+		    transition: transform 0.3s;
+		    transition: transform 0.3s,-webkit-transform 0.3s;
+		    overflow: hidden;
+		}
+		.weui-actionsheet__menu {
+		    color: rgba(0,0,0,0.9);
+		    background-color: #fff;
+		}
+		.weui-actionsheet__cell {
+		    position: relative;
+		    padding:0 16px;
+		    text-align: center;
+		    font-size: 36px;
+		    color: #2C2C2C;
+		    line-height: 114px;
+		}
+		.weui-actionsheet__action {
+		    margin-top: 8px;
+		    background-color: #fff;
+		    padding-bottom: constant(safe-area-inset-bottom);
+		    padding-bottom: env(safe-area-inset-bottom);
+		}
+		.weui-dialog__bd {
+			padding: 70px 40px;
+			font-size: 28px;
+			text-align: left;
+		}
+		.weui-dialog__btn {
+			font-weight: 400;
+		}
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                	<div id="mescroll" class="commodity mescroll">
+						<div class="lists">
+							<div class="comm_box top" v-for="(item, index) in dataList" :key="index">
+								<div class="comm_inf">
+									<img class="comm_pic" :src="item.mainImageUrl + '!/both/110x110'" />
+									<div class="comm_inf_box">
+										<p class="comm_tit">{{item.goodsName}}</p>
+										<p class="comm_num">已发布<span>{{item.associateNum}}</span>个小脉部</p>
+									</div>
+									<div class="comm_regu" @click="manageGoods(item.goodsCode)">管理商品</div>
+								</div>
+								<div class="comm_edi_box">
+									<div class="comm_del fon" @click="changeDelDialog(item.goodsCode)">删除</div>
+									<div>
+										<div class="comm_edi fon" @click="changeReleaseDialog(item.goodsCode)">发布商品</div>
+										<div class="comm_edi fon" @click="changeEditDialog(item)">编辑模板</div>
+									</div>	
+								</div>
+							</div>
+						</div>
+                	</div>
+                    <div class="create_btn">
+                    	<a href="/shop/goods/createGoods" class="btn_write"><img src="/images/creat.png">创建商品</a>
+                    </div>
+                </main>
+            </div>
+		</div>
+		<!--选择弹框-->
+		<template v-if="isEditDialog">
+			<div class="weui-mask">
+				<div class="weui-actionsheet">
+					<div class="weui-actionsheet__menu">
+						<div class="weui-actionsheet__cell bor" @click="editBaseInfo">模版基础信息</div>
+						<div class="weui-actionsheet__cell" @click="editAttrInfo">模版规格</div>
+					</div>
+					<div class="weui-actionsheet__action">
+						<div class="weui-actionsheet__cell" @click="closeEditDialog">取消</div>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!-- 删除 -->
+		<template v-if="isDelDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">确定要删除该商品模板吗？它已发布到所有小脉部中的该商品也将同时被删除。</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="isDelDialog = false">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="delGoods">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+
+		<!-- 发布 -->
+		<template v-if="isReleaseDialog">
+			<div class="js_dialog">
+				<div class="weui-mask"></div>
+				<div class="weui-dialog">
+					<div class="weui-dialog__bd">确定要用此商品模板发布一个新商品吗？发布前请先编辑好模板。</div>
+					<div class="weui-dialog__ft">
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default" @click="isReleaseDialog = false">取消</a>
+						<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="releaseGoods">确定</a>
+					</div>
+				</div>
+			</div>
+		</template>
+		
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script>
+		var vm = new Vue({
+			el: "#app",
+			data() {
+				return {
+					dataList: [],
+					pageIndex: 1,
+					pageSize: 20,
+					goodsDetail: {},
+					isEditDialog: false,
+					isDelDialog: false,
+					isReleaseDialog: false,
+					goodsCode: ""
+				}
+			},
+			created() {
+				if(window.name != "bencalie"){
+					window.name = "bencalie";
+				}
+				else{
+					window.name = "";
+					location.reload();
+				}
+				sessionStorage.removeItem("goodsDetail");
+				sessionStorage.removeItem("goodsName");
+				sessionStorage.removeItem("mainImageUrlList");
+				sessionStorage.removeItem("goodsSkuAddDtoList");
+				sessionStorage.removeItem("mainImageUrl");
+				sessionStorage.removeItem("imgList");
+				sessionStorage.removeItem("shopShelfModelDtoList");
+				sessionStorage.removeItem("checkedShelf");
+				sessionStorage.removeItem("updateGoodsDetail");
+				sessionStorage.removeItem("updateGoodsName");
+				this.initData();
+			},
+			mounted() {
+				window.downCallback = this.downCallback;
+				window.upCallback = this.upCallback;
+			},
+			methods: {
+				initData() {
+					axios.get("/shop/goodsManage/getGoodList?pageIndex=" + this.pageIndex + "&pageSize=" + this.pageSize).then(res => {
+						this.dataList = res.data.data;
+					});
+				},
+
+				changeReleaseDialog(goodsCode) {
+					this.goodsCode =goodsCode;
+					this.isReleaseDialog = true;
+				},
+
+				// 发布商品
+				releaseGoods() {
+					window.location.href = "/shop/goods/selectShop/" + this.goodsCode
+				},
+				downCallback() {
+					window.location.reload();
+				},
+				upCallback(page) {
+					var pageNum = page.num; // 页码, 默认从1开始 如何修改从0开始 ?
+					var pageSize = page.size; // 页长, 默认每页10条
+					setTimeout(() => {
+						let url = "/shop/goodsManage/index?pageIndex="+ page.num + "&pageSize=" + page.size;
+						axios.get(url).then(res => {
+							if(res.data.errorCode == 0) {
+								let curPageData = res.data.data;
+								mescroll.endSuccess(curPageData.length);
+								this.dataList = this.dataList.concat(curPageData);
+							}
+						}).catch((err) => {
+							mescroll.endErr();
+						});
+					}, 1000)
+				},
+				changeEditDialog(item) {
+					this.isEditDialog = true;
+					this.goodsDetail = item;
+				},
+				closeEditDialog() {
+					this.isEditDialog = false;
+				},
+				// 管理商品 - 单品查询 查询模板单品列表
+				manageGoods(goodsCode) {
+					window.location.href = "/shop/goodsManage/list/" + goodsCode;
+				},
+				// 编辑模版基础信息
+				editBaseInfo() {
+					let goodsCode = this.goodsDetail.goodsCode;
+					let isOnline = this.goodsDetail.isOnline;
+					let isDelete = this.goodsDetail.isDelete;
+					this.isEditDialog = false;
+					window.location.href = "/shop/goodsManage/setBase?goodsCode=" + goodsCode + "&isOnline=" + isOnline + "&isDelete=" + isDelete;
+				},
+				
+				// 编辑模版规格
+				editAttrInfo() {
+					let goodsCode = this.goodsDetail.goodsCode;
+					let online = this.goodsDetail.isOnline;
+					this.isEditDialog = false;
+					window.location.href = "/shop/goodsManage/setInfo?goodsCode=" + goodsCode + "&online=" + online;
+				},
+
+				
+				changeDelDialog(goodsCode) {
+					this.goodsCode = goodsCode;
+					this.isDelDialog = true;
+				},
+				// 删除商品模版
+				delGoods() {
+					let config = {
+						goodsCode: this.goodsCode,
+						isDelete: 1
+					}
+					let opt = {
+						method: "POST",
+						url: "/shop/goodsManage/updateGoods",
+						data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+					axios(opt).then(res => {
+						window.location.reload();
+					})
+				}
+				
+			}
+		});
+
+		var mescroll = new MeScroll("mescroll", {
+			down: {
+				auto:false,
+				callback: downCallback 
+				//下拉刷新的回调,别写成downCallback(),多了括号就自动执行方法了
+			},
+			up: {
+				auto:false,
+				isBoth: true, 
+				sBounce: false,
+				noMoreSize:4,
+				empty: {
+					// icon: "../res/img/mescroll-empty.png", //图标,默认null
+					tip: "暂无相关数据~", 
+					//提示
+				},
+				lazyLoad:{
+					use: true,
+				},
+				callback: upCallback,
+				//上拉加载的回调
+				//以下是一些常用的配置,当然不写也可以的.
+				page: {
+					num: 1, //当前页 默认0,回调之前会加1; 即callback(page)会从1开始
+					size: 20 //每页数据条数,默认10
+				},
+				htmlNodata: '<p class="upwarp-nodata">没有更多了...</p>',
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+        .content {
+            height: 100%;
+            background: #fff;
+        }
+        .title {
+            padding: 40px 28px;
+            font-size: 32px;
+            color: #2C2C2C;
+        }
+        .intro {
+            font-size: 28px;
+            color: #797A7A;
+            padding: 0 28px;
+            margin-bottom: 50px;
+        }
+        .intro li {
+            margin-bottom: 28px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .intro li::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 0px;
+            background: #797A7A;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+        .area {
+            width: 694px;
+            height: 100px;
+            margin: 0 auto;
+            background: #F5F7F9;
+            font-size: 34px;
+            color: #2C2C2C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .area span {
+            position: relative;
+        }
+        .area span::before {
+            content: "";
+            width: 14px;
+            height: 24px;
+            position: absolute;
+            top: 6px;
+            right: -34px;
+            background: url(/images/icon_arrow.png) no-repeat;
+        }
+        .btn-default {
+            width: 300px;
+            height: 90px;
+            background: #3872E8;
+            border-radius: 45px;
+            font-size: 34px;
+            color: #fff;
+            position: absolute;
+            bottom: 96px;
+            left: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(-50%);
+            opacity:0.5;
+        }
+        .btn-default.active {
+            opacity:1;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                    <div class="title">开通小脉部</div>
+                    <ul class="intro">
+                        <li>这里是小脉部功能简介</li>
+                        <li>这里是小脉部功能简介</li>
+                        <li>这里是小脉部功能简介</li>
+                    </ul>
+                    <% if(information.checkingShop == 1) {%>
+                    <div class="area" onclick="window.location.href='clist?type=2'">
+                        <span>审核中的小脉部</span>
+                    </div>
+                    <% } %>
+                    <% if(information.hadOrgan == 1) {%>
+                    <div class="btn-default active" onclick="window.location.href='clist?type=0'">立即开通</div>
+                    <% } %>
+                    <% if(information.hadOrgan != 1) {%>
+                    <div class="btn-default" onclick="openTips()">立即开通</div>
+                    <% } %>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        function openTips() {
+            poper("只有群主才能开通小脉部哦");
+        }
+    </script>
+</body>
+</html>

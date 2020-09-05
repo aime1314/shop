@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <style>
+        body,html{
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            padding-bottom: 0.85rem;
+            background: #3c8df9;
+        }
+        .header{
+            width: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -40%);
+        }
+        .header p:nth-child(1){
+            width: 2.01rem;
+            height: 1.95rem;
+            margin: 0 auto;
+        }
+        .header p img{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .header p:nth-child(2){
+            text-align: center;
+            padding-top: 0.5rem;
+            color: rgba(255, 255, 255, 1);
+            height: 0.3rem;
+            font-size: 0.3rem;
+            line-height: 0.3rem;
+            font-weight: bold;
+            font-family: normal 100% Helvetica, Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <p>
+            <img src="/images/404.png" alt="<%= errMessage %>">
+        </p>
+        <p>抱歉！您要访问的页面逃跑了~</p>
+    </header>
+</body>
+</html>

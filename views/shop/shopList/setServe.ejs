@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.prompt{
+        	padding: 24px;
+        	line-height: 36px;
+        	font-size: 28px;
+        	color: #6A6C72;
+        }
+    	.create_tit{
+    		padding: 0px 24px;
+            height: 96px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+            justify-content:space-between;
+		}
+		.create_tit.top {
+			margin-top: 13px;
+		}
+		.create_cen {
+			padding: 0px 24px;
+            height: 96px;
+            background: #ffffff;
+            display: flex;
+		}
+    	.search_tit{
+    		height: 96px;
+    		line-height: 96px;
+    		font-size: 29px;
+        	color: #2C2C2C;
+    	}
+    	.tui-checkbox.checked {
+			background:#3086DE;
+			border: 1px solid #3086de;
+		}
+		.tui-checkbox {
+			width:34px;
+			height:34px;
+			background-color:#ffffff;
+			border:solid 1px #dddddd;
+			-webkit-border-radius:50%;
+			border-radius:50%;
+			margin-top: 30px;
+			font-size:0.8rem;
+			position:relative;
+			display:inline-block;
+			vertical-align:top;
+			cursor:default;
+			-webkit-appearance:none;
+			-webkit-user-select:none;
+			user-select:none;
+			-webkit-transition:background-color ease 0.1s;
+			transition:background-color ease 0.1s;
+		}
+		.tui-checkbox.checked::after {
+			content:'';
+			top:8px;
+			left:7px;
+			position:absolute;
+			background:transparent;
+			border:#fff solid 2px;
+			border-top:none;
+			border-right:none;
+			height:8px;
+			width:16px;
+			-moz-transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+			transform:rotate(-45deg);
+		}
+		.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                	<p class="prompt">是否可开发票：</p>
+					<div class="create_tit" @click="changePicked(0)">
+						<span class="search_tit">不可开发票</span>
+						<input name="radio" value="0" type="radio" v-model="picked" class="tui-checkbox" :class="{checked: picked == 0}">
+					</div>
+                    <div class="create_tit top" @click="changePicked(1)">
+						<span class="search_tit">可开发票</span>
+						<input name="radio" value="1" type="radio" v-model="picked" class="tui-checkbox" :class="{checked: picked == 1 || picked == 2}">
+					</div>
+					<template v-if="picked == 1 || picked == 2">
+						<div class="create_cen" @click="changePicked(1)">
+							<input name="radio" value="1" type="radio" v-model="picked" class="tui-checkbox" :class="{checked: picked == 1}">
+							<span class="search_tit" style="margin-left: 10px;">普通发票</span>
+						</div>
+						<div class="create_cen" @click="changePicked(2)">
+							<input name="radio" value="2" type="radio" v-model="picked" class="tui-checkbox" :class="{checked: picked == 2}">
+							<span class="search_tit" style="margin-left: 10px;">增值税专用发票</span>
+						</div>
+					</template>
+					<div class="create_btn">
+                    	<div class="btn_blun" @click="submit">确定</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+	</div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					picked: `<%- isIssuedInvoice %>`
+				}
+			},
+			created() {
+				
+			},
+			methods: {
+				changePicked(type) {
+					if(this.picked == type) return;
+					this.picked = type;
+				},
+				submit() {
+                    let shelfId = sessionStorage.getItem("shelfId");
+                    let config = {
+                        id: shelfId,
+                        isIssuedInvoice: this.picked,
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/shopList/updateShelf",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    axios(opt).then(res => {
+                        console.log(res);
+                        if (res.data.errorCode == 0) {
+							window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+                }
+			}
+		})
+	</script>
+</body>
+</html>

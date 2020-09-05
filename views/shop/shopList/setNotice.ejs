@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	::-webkit-input-placeholder {
+    		font-size: 29px;
+            color: #C8CACD;
+        }
+
+        ::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+           font-size: 29px;
+            color: #C8CACD;
+        }
+
+        :-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+           font-size: 29px;
+            color: #C8CACD;
+        }
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+           font-size: 29px;
+            color: #C8CACD;
+        }
+    	.create_tit {
+            padding: 0px 25px;
+            height: 600px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+        }
+
+        .create_tit textarea {
+        	margin-top: 14px;
+            width: 100%;
+            height: 500px;
+            line-height: 30px;
+            border: none;
+            font-size: 15px;
+            font-family: "微软雅黑";
+        }
+        .create_num {
+            float: right;
+            line-height: 96px;
+            color: #C8CACD;
+            font-size: 32px;
+        }
+    	.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+                	<div class="create_tit">
+                        <textarea id="area" name="ss" v-model="text" @input="handleInput" placeholder="请输入您要发布的公告..." maxlength="300"></textarea>
+                        <div class="create_num"><span id="text-count">{{count}}</span>/300</div>
+                    </div>
+                    <div class="create_btn">
+	                    <div class="btn_blun" @click="submit">保存</div>
+					</div>	
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    text: `<%- setNotice %>`,
+                    count: 0
+                }
+            },
+            created() {
+                this.count = this.text.length;
+            },
+            methods: {
+                handleInput(event) {
+                    var value = event.target.value;
+                    if(value.length > 10) {
+                        value.substring(0, 10);
+                    }
+                    this.count = value.length;
+                },
+                submit() {
+                    if(this.text == "") {
+                        return poper("请填写公告");
+                    }
+                    let shelfId = sessionStorage.getItem("shelfId");
+                    let config = {
+                        id: shelfId,
+                        shelfNotice: this.text
+                    }
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/shopList/updateShelf",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                    axios(opt).then(res => {
+                        console.log(res);
+                        if (res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

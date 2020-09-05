@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/mobileSelect.css" />
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	::-webkit-input-placeholder {
+            color: #C8CACD;
+        }
+
+        ::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #C8CACD;
+        }
+
+        :-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            color: #C8CACD;
+        }
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: #C8CACD;
+        }
+        .top {
+            margin-top: 14px;
+        }
+    	.create_tit {
+            padding: 0px 25px;
+            height: 96px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+        	justify-content: space-between;
+        }
+        .create_tit input {
+            width: 88%;
+            height: 96px;
+            line-height: 96px;
+            border: none;
+            font-size: 29px;
+            color: #2c2c2c;
+        }
+        .create_tit2 {
+            padding: 15px 25px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .set_address{
+        	margin-top: 13px;
+            height: 70px;
+            font-size: 29px;
+            color: #6A6C72;
+            display: flex;
+		    justify-content: flex-start;
+		    align-items: center;
+        }
+        .set_value {
+            display: flex;
+            align-items: center;
+            color: #2c2c2c;
+        }
+        .create_num {
+            float: right;
+            line-height: 96px;
+            color: #C8CACD;
+            font-size: 32px;
+        }
+        .category {
+        	line-height: 96px;
+            font-size: 29px;
+            color: #6A6C72;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+        .comm_regu2{
+		    width: 50px;
+		    height: 50px;
+        }
+    	.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+        /*地址弹框*/
+       .toolbar .toolbar-inner {
+		    height: 80px;
+		}
+       .toolbar .title {
+       		padding-left: 20px;
+		    line-height: 80px;
+		    font-size: 32px;
+		    color: #797A7A;
+		}
+       .toolbar .picker-button {
+		    height: 80px;
+		    line-height: 80px;
+		    font-size: 32px;
+		    color: #3086DE;
+		}
+		.weui-picker-modal .picker-item {
+			height: 45px;
+    		line-height: 45px;
+		    font-size: 32px;
+		}
+		.city-picker .picker-items-col {
+		    -webkit-box-flex: 1;
+		    -ms-flex: 1;
+		    flex: 1;
+		    max-width: 9rem;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                	<div class="create_tit2" id="trigger5">
+                        <div class="set_address">省、市、区</div>
+                        <div class="set_value">{{province}} {{city}} {{area}}<img class="comm_regu2" src="/images/ico_arrow.png" /></div>    
+                    </div>
+                    <div class="create_tit">
+                    	<div class="category">详细地址：</div>
+                    	<input type="text" v-model="address" placeholder="如街道、门牌号、小区、楼栋号、单元室等" />
+                    </div>
+                    <div class="create_tit top">
+                    	<div class="category">电话：</div>
+                    	<input type="number" v-model="telephone" maxlength="11" placeholder="请输入联系电话，方便客户与您沟通" />
+                    </div>
+                    <div class="create_btn">
+	                    <div class="btn_blun" @click="submit">保存</div>
+					</div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/vue.min.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+    <script src="/javascripts/mobileSelect.js"></script>
+    <script src="/javascripts/address/address.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    id: `<%- id %>`,
+                    type: `<%- type %>`,
+                    shelfId: `<%- shelfId %>`,
+                    address: `<%- address %>`,
+                    province: `<%- province %>`,
+                    provinceCode: `<%- provinceCode %>`,
+                    city: `<%- city %>`,
+                    cityCode: `<%- cityCode %>`,
+                    area: `<%- area %>`,
+                    areaCode: `<%- areaCode %>`,
+                    telephone: `<%- telephone %>`,
+                    url: `<%- url %>`
+                }
+            },
+            created() {
+            },
+            mounted() {
+                var mobileSelect5 = new MobileSelect({
+                    trigger: '#trigger5',
+                    title: '',
+                    wheels: [{data: addressData}],
+                    keyMap: {
+                        id:'id',
+                        value: 'value',
+                        childs :'children'
+                    },
+                    triggerDisplayData: false,
+                    callback:(indexArr, data)=>{
+                        this.province = addressData[indexArr[0]].value;
+                        this.provinceCode = addressData[indexArr[0]].code;
+                        this.city = addressData[indexArr[0]].children[indexArr[1]].value;
+                        this.cityCode = addressData[indexArr[0]].children[indexArr[1]].code;
+                        this.area = addressData[indexArr[0]].children[indexArr[1]].children[indexArr[2]].value;
+                        this.areaCode = addressData[indexArr[0]].children[indexArr[1]].children[indexArr[2]].code;
+                    }
+                });
+            },
+            methods: {
+                submit() {
+                    let config = {
+                        shelfId: sessionStorage.getItem("shelfId"),
+                        telephone: this.telephone,
+                        address: this.address,
+                        province: this.province,
+                        city: this.city,
+                        area: this.area,
+                        provinceCode: this.provinceCode,
+                        cityCode: this.cityCode,
+                        areaCode: this.areaCode,
+                    }
+                    if(this.type == "updatePickAddress") {
+                        config.id = this.id;
+                        config.addressType = 2;
+                    }
+                    if(this.type == "addPickAddress") {
+                        config.addressType = 2;
+                    }
+                    if(!(/^1[3456789]\d{9}$/.test(this.telephone) &&  this.telephone.length == 11)) {
+                        return poper("请输入联系电话");
+                    }
+                    if(config.province === '' || config.city === '' || config.area === '' || config.provinceCode === '' || config.cityCode === '' || config.areaCode === '' || this.detailAddress === '') {
+                        return poper("请选择联系地址");
+                    }
+                    axios.post(this.url, config).then(res => {
+                        if(res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

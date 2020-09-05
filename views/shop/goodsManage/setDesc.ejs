@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <script src="/javascripts/phone.js"></script>
+    <style>
+		#app, body, html {
+			height: 100%;
+		}
+		body {
+			font-size: 28px;
+			overflow: hidden;
+			margin: 0;
+		}
+		.page {
+			width: 100%;
+			height: 100%;
+			background: #f7f6f9;
+		}
+		.page>.wrapper {
+			height: 100%;
+			overflow-x: hidden;
+			overflow-y: auto;
+			position: relative;
+		}
+		.content {
+			height: 100%;
+		}
+		.w-e-text-container {
+			border: none !important;
+		}
+    	.desc_box{
+    		padding: 20px 29px;
+			border: none;
+			height: calc(100% - 140px);
+			font-size: 32px;
+		}
+		.flextxt {
+			position: absolute;
+			left: 30px;
+			top: 25px;
+			font-size: 32px;
+			color: #C8CACD;
+			line-height: 1.5;
+			margin: 10px 0;
+		}
+		.w-e-toolbar {
+			display: none;
+		}
+		.w-e-text {
+			padding: 0 !important;
+		}
+    	.sendInput{
+    		width: 100%;
+    		border: none;
+    		background: none;
+    		font-size: 32px;
+    		line-height: 46px;
+    		overflow-y:visible 
+    	}
+    	.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .sty{
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        }
+        .btn_write{
+        	background: #ffffff;
+        	color: #4487CC;
+			flex-grow:1;
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.btn_write input {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+		}
+        .btn_write img{
+        	width: 52px;
+        	height: 52px;
+        	padding-right: 11px;
+        }
+        .btn_blun{
+        	background: #3086DE;
+        	color: #FFFFFF;
+        	flex-grow:2;
+        }
+        /*提示*/
+       .weui-mask_transparent {
+		    position: fixed;
+		    z-index: 1000;
+		    top: 0;
+		    right: 0;
+		    left: 0;
+		    bottom: 0;
+		}
+		.weui-toast {
+		    position: fixed;
+		    z-index: 5000;
+		    height: 48px;
+		    line-height: 48px;
+		    padding: 0 15px;
+		    top: 40%;
+		    left: 50%;
+		    -webkit-transform: translate(-50%,-50%);
+		    transform: translate(-50%,-50%);
+		    text-align: center;
+		    border-radius: 5px;
+		    color: rgba(255,255,255,0.9);
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    -webkit-flex-direction: column;
+		    flex-direction: column;
+		    -webkit-box-align: center;
+		    -webkit-align-items: center;
+		    align-items: center;
+		    -webkit-box-pack: center;
+		    -webkit-justify-content: center;
+		    justify-content: center;
+		    background-color: #4c4c4c;
+		}
+		.weui-toast__content {
+			text-align: center;
+			-webkit-box-direction: normal;
+		    font-size: 26px;
+		}
+	</style>
+	
+</head>
+<body>
+    <div id="app">
+        <div class="page">
+            <div class="wrapper">
+                <main class="content">
+					<div id="editor" ref="editor" class="desc_box"></div>
+                    <div class="create_btn">
+                    	<div class="btn_write sty" id="btn1"><input type="file" accept="image/*" multiple id="imginput" onchange="handleImageUpload(this)"><img src="/images/pic_icon.png">添加图片</div>
+                    	<div class="btn_blun sty" id="showIOSDialog">完成</div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+	<script src="/javascripts/editor/wangEditor.js"></script>
+    <script src="/javascripts/axios.min.js"></script>
+    <script src="/javascripts/webcommon.js"></script>
+	<script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+		editor.customConfig.menus = [];
+		editor.create();
+		if(sessionStorage.getItem("updateGoodsDetail")) {
+			console.log(sessionStorage.getItem("updateGoodsDetail"));
+			editor.txt.html(sessionStorage.getItem("updateGoodsDetail"));
+		}
+		// 读取 html
+		document.getElementById("showIOSDialog").addEventListener('click', function () {
+			if(editor.txt.html() == "") {
+				return poper("请填写商品描述");
+			}
+			if (editor.txt.text().length > 10000) {
+				editor.txt.text(editor.txt.text().substring(0, 10000));
+			}
+			let goodsDetail = editor.txt.html().replace(/\"/g,"'");
+			sessionStorage.setItem("updateGoodsDetail", goodsDetail);
+			window.history.go(-1);
+		},false)
+		var imgLen = 0;
+		var picSign = [];
+		function handleImageUpload(event) {
+			var files = document.getElementById("imginput").files;
+			let len = files.length + imgLen;
+			if(len > 6) {
+				return poper("一次最多上传6张照片");
+			}
+			for(let i=0; i < files.length; i++) {
+				let isImg = files[i].type == "image/jpeg" || files[i].type == "image/png" || files[i].type == "image/jpg";
+				if(!isImg) {
+					return poper("只能上传jpg/jpeg/png文件");
+				}
+				if(files[i].size > (limitNum*1024*1024)) {
+					return poper(`请选择${limitNum}M以内的图片！`);
+				}
+			}
+			for(let i=0; i < files.length; i++) {
+				imgLen++;
+				let size = files[i].size;
+				let imgType = files[i].type.substring(6);
+				let timestamp = new Date().getTime();
+				let randomStr = randomString(10);
+				let item = {
+					length: size,
+					goodsCode: `<%- goodsCode %>`,
+					type: "/shop/goods",
+					uri: timestamp + randomStr + "." + imgType
+				}
+				picSign.push(item);
+			}
+			getPicSign(files, picSign);
+		}
+		// 获取图片参数
+		function getPicSign(files, _picSign) {
+			let config = _picSign;
+			axios.post("/api/getPicBatchUploadSign", config).then(res => {
+				console.log(res);
+				let data = res.data.data;
+				if(data.length == 0) return;
+				let forbody = Promise.resolve();
+				for(let i = 0; i<data.length; i++) {
+					forbody = forbody.then(res=>{
+						return uploadImgs(i, data, files);
+					})
+				}
+			})
+		}
+		// 上传图片
+		function uploadImgs(i, data, files) {
+			let formData = new FormData();
+			formData.append("policy", data[i].policy);
+			formData.append("signature", data[i].signature);
+			formData.append("file", files[i]);
+			let config = {
+				headers: {
+					Authorization: data.authorization,
+					"Content-Type": "multipart/form-data"
+				}
+			}
+			let url = "http://v0.api.upyun.com/" + data[i].bucketName;
+			return new Promise((resolve, reject) => {
+				axios.post(url, formData, config).then(res => {
+					editor.cmd.do('insertHTML', '<img src="' + data[i].host + data[i].uri + '" style="width:100%;"/><br/><br/>');
+					if(i == data.length-1) {
+						formData.delete("policy");
+						formData.delete("signature");
+						formData.delete("file");
+						picSign = [];
+						console.log("上传完毕");
+					}
+					resolve('ok:'+i);
+				}, err => {
+					console.log(err);
+				})
+			})
+		}
+		
+    </script>
+</body>
+</html>

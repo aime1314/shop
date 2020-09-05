@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="no-referrer"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/base.css">
+    <script src="/javascripts/phone.js"></script>
+    <style>
+    	.top{
+    		margin-top: 14px;
+    	}
+    	.create_tit{
+    		padding: 0px 24px;
+            height: 96px;
+            background: #ffffff;
+            border-bottom: 1px solid #f7f6f9;
+            display: flex;
+            justify-content:space-between;
+    	}
+    	.search_con{
+    		width: 100%;
+    		margin-bottom: 120px;
+    	}
+    	.search_tit{
+    		height: 96px;
+    		line-height: 96px;
+    		font-size: 29px;
+        	color: #2C2C2C;
+    	}
+		.create_tit input[type="checkbox"] {
+		text-indent:0;
+		margin:34px 0 34px 0;
+		width: 28px;
+		height: 28px;
+		line-height: 28px;
+		text-align:center;
+		display: inline-block;
+		vertical-align: middle;
+		position: relative;
+		}
+		.create_tit input[type="checkbox"]::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: #fff;
+		width: 100%;
+		height: 100%;
+		border: 1px solid #bdbfc2;
+		}
+		.create_tit input[type="checkbox"]:checked::before {
+		content: "\2713";
+		background-color: #3086DE;
+		color: #fff;
+		position: absolute;
+		top: 0px;
+		left: 0;
+		width: 100%;
+		font-size: 20px;
+		font-weight: bold;
+		outline: none;
+		border-color:#ccc;
+		border: 1px solid #bdbfc2;
+		}
+		.create_tit2{
+    		padding: 0px 24px;
+            height: 96px;
+            background: #ffffff;
+            display: flex;
+            justify-content:space-between;
+    	}
+    	.tui-checkbox.checked {
+			background:#1673ff
+		}
+		.tui-checkbox {
+			width:34px;
+			height:34px;
+			background-color:#ffffff;
+			border:solid 1px #dddddd;
+			-webkit-border-radius:50%;
+			border-radius:50%;
+			margin-top: 31px;
+			font-size:0.8rem;
+			position:relative;
+			display:inline-block;
+			vertical-align:top;
+			cursor:default;
+			-webkit-appearance:none;
+			-webkit-user-select:none;
+			user-select:none;
+			-webkit-transition:background-color ease 0.1s;
+			transition:background-color ease 0.1s;
+		}
+		.tui-checkbox.checked::after {
+			content:'';
+			top:8px;
+			left:7px;
+			position:absolute;
+			background:transparent;
+			border:#fff solid 2px;
+			border-top:none;
+			border-right:none;
+			height:8px;
+			width:16px;
+			-moz-transform:rotate(-45deg);
+			-ms-transform:rotate(-45deg);
+			-webkit-transform:rotate(-45deg);
+			transform:rotate(-45deg);
+		}
+		.delvery_tit{
+			margin-left: 10px;
+			height: 96px;
+    		line-height: 96px;
+    		font-size: 29px;
+        	color: #6A6C72;
+		}
+		.del_gray{
+			color: #C8CACD;
+		}
+		.del_red{
+			color: #FF0000;
+		}
+		.delvery_input{
+			width: 240px;
+			height: 64px;
+			border: 1px solid #C8CACD;
+			text-align: center;
+			font-size: 30px;
+		}
+		.delvery_right img{
+			width: 32px;
+			height: 32px;
+		}
+    	.create_btn{
+        	position: fixed;
+        	bottom: 0;
+        	left: 0;
+        	width: 100%;
+        	display: flex;
+        }
+        .btn_blun{
+        	width: 100%;
+        	text-align: center;
+        	height: 100px;
+        	line-height: 100px;
+        	font-size: 35px;
+        	background: #3086DE;
+        	color: #FFFFFF;
+        }
+        /*朕知道了*/
+       .weui-dialog__bd{
+       	padding:70px 24px 70px 41px;
+       	line-height: 46px;
+       	font-size: 28px;
+       	text-align: left;
+       }
+       .weui-dialog__btn {
+		    color: #3086DE;
+		}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="page" v-cloak>
+            <div class="wrapper">
+                <main class="content">
+                   <div class="search_con">
+                    	<div class="create_tit">
+                    		<span class="search_tit">快递/外送（必选）</span>
+                    		<input type="checkbox" checked  disabled>
+                    	</div>
+                    	<div class="create_tit2">
+                    		<div class="delvery_left">
+	                    		<input name="checkbox" value="" type="checkbox" @change="changeFree(0)" class="tui-checkbox " :class="{checked: ifFree == 0}">
+	                    		<span class="delvery_tit">免邮</span>   
+                    		</div>
+                    	</div>
+                    	<div class="create_tit2">
+                    		<div class="delvery_left">
+	                    		<input name="checkbox" value="" type="checkbox" @change="changeFree(1)" class="tui-checkbox " :class="{checked: ifFree == 1}">
+	                    		<span class="delvery_tit">一口价</span>   
+                    		</div>
+                    		<div class="delvery_right">
+                    			<span class="delvery_tit del_red">*</span>
+                    			<input class="delvery_input" type="number" v-model="postFee" name="" id="" />
+                    			<span class="delvery_tit del_gray">元</span>
+                    		</div>
+                    	</div>
+                    	<div class="create_tit top">
+                    		<span class="search_tit">买家自提</span>
+                    		<input type="checkbox" v-model="isSxtract" @click="checkSxtract">
+                    	</div>
+                    	<!--买家自提-->
+                    	<div class="create_tit" v-if="isSxtract">
+                    		<span class="search_tit">自提地址（{{pickAddressCount}}个）</span>
+                    		<div class="delvery_right" @click="toPage('/shop/shopList/setExtract/' + shelfId)">
+                    			<span class="delvery_tit">添加</span>
+                    			<img src="/images/arrows.png">
+                    		</div>
+                    	</div>
+                    </div>
+                    <div class="create_btn">
+                    	<div class="btn_blun" @click="submit">保存发货方式</div>
+                    </div>
+                </main>
+			</div>
+			<template v-if="isSxtractsDialog">
+				<div class="js_dialog">
+					<div class="weui-mask"></div>
+					<div class="weui-dialog">
+						<div class="weui-dialog__bd">使用“买家自提”发货方式必须至 少添加1个自提地址。</div>
+						<div class="weui-dialog__ft">
+							<a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" @click="closeDialog">朕知道了</a>
+						</div>
+					</div>
+				</div>
+			</template>
+        </div>
+    </div>
+	<script src="/javascripts/vue.min.js"></script>
+	<script src="/javascripts/axios.min.js"></script>
+	<script>
+		new Vue({
+			el: "#app",
+			data() {
+				return {
+					information: JSON.parse(`<%- information %>`),
+					shelfId: `<%- shelfId %>`,
+					deliveryType: "",
+					postFee: `<%- postFee %>`,
+					ifFree: 0,
+					pickAddressCount: 0,
+					isSxtract: false,
+					isSxtractsDialog: false
+				}
+			},
+			created() {
+				if(`<%- deliveryType %>`.split(",")[1] == "3") {
+					this.isSxtract = true;
+				}
+				if(this.postFee != 0) {
+					this.ifFree = 1;
+				}
+				if(sessionStorage.getItem("isSxtract")) {
+					this.isSxtract = sessionStorage.getItem("isSxtract");
+					sessionStorage.removeItem("isSxtract");
+				}
+				this.getPickAddressCount();
+			},
+			methods: {
+				getPickAddressCount() {
+					console.log("getPickAddressCount");
+					let shelfId = this.shelfId;
+					axios.get("/shop/shopList/getPickAddressCount?shelfId=" + shelfId).then(res => {
+						if(res.data.errorCode == 0) {
+							this.pickAddressCount = res.data.data;
+						}
+					});
+				},
+				changeFree(e) {
+					console.log(e);
+					this.ifFree = e;
+				},
+				checkSxtract() {
+					this.isSxtract = true;
+				},
+				closeDialog() {
+					this.isSxtractsDialog = false;
+				},
+				toPage(page) {
+					sessionStorage.setItem("isSxtract", this.isSxtract);
+					window.location.href = page;
+				},
+				submit() {
+					if(this.isSxtract && this.pickAddressCount == 0) {
+						return this.isSxtractsDialog = true;
+					}
+					let deliveryType = "1";
+					if(this.isSxtract) {
+						deliveryType += ",3";
+					}
+                    let config = {
+						id: this.shelfId,
+						postFee: 0,
+                        deliveryType: deliveryType,
+					}
+					if(this.ifFree == 1) {
+						config.postFee = Number(this.postFee);
+					}
+                    let opt = {
+                        method: "POST",
+                        url: "/shop/shopList/updateShelf",
+                        data: config,
+                        headers:{
+                            'Content-Type': 'application/json',
+                        }
+					}
+					console.log(opt);
+                    axios(opt).then(res => {
+                        console.log(res);
+                        if (res.data.errorCode == 0) {
+                            window.history.go(-1);
+                        }else {
+                            return poper(res.data.message);
+                        }
+                    })
+				}
+			}
+		})
+	</script>
+</body>
+</html>
